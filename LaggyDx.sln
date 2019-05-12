@@ -3,7 +3,35 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LaggyDx", "LaggyDx\LaggyDx.vcxproj", "{27FCDF2C-D499-4F8E-A388-494AB948F151}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LaggySdk", "..\LaggySdk\LaggySdk\LaggySdk.vcxproj", "{26F606C5-4239-49F0-B3D4-C358526C2325}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{27FCDF2C-D499-4F8E-A388-494AB948F151}.Debug|x64.ActiveCfg = Debug|x64
+		{27FCDF2C-D499-4F8E-A388-494AB948F151}.Debug|x64.Build.0 = Debug|x64
+		{27FCDF2C-D499-4F8E-A388-494AB948F151}.Debug|x86.ActiveCfg = Debug|Win32
+		{27FCDF2C-D499-4F8E-A388-494AB948F151}.Debug|x86.Build.0 = Debug|Win32
+		{27FCDF2C-D499-4F8E-A388-494AB948F151}.Release|x64.ActiveCfg = Release|x64
+		{27FCDF2C-D499-4F8E-A388-494AB948F151}.Release|x64.Build.0 = Release|x64
+		{27FCDF2C-D499-4F8E-A388-494AB948F151}.Release|x86.ActiveCfg = Release|Win32
+		{27FCDF2C-D499-4F8E-A388-494AB948F151}.Release|x86.Build.0 = Release|Win32
+		{26F606C5-4239-49F0-B3D4-C358526C2325}.Debug|x64.ActiveCfg = Debug|x64
+		{26F606C5-4239-49F0-B3D4-C358526C2325}.Debug|x64.Build.0 = Debug|x64
+		{26F606C5-4239-49F0-B3D4-C358526C2325}.Debug|x86.ActiveCfg = Debug|Win32
+		{26F606C5-4239-49F0-B3D4-C358526C2325}.Debug|x86.Build.0 = Debug|Win32
+		{26F606C5-4239-49F0-B3D4-C358526C2325}.Release|x64.ActiveCfg = Release|x64
+		{26F606C5-4239-49F0-B3D4-C358526C2325}.Release|x64.Build.0 = Release|x64
+		{26F606C5-4239-49F0-B3D4-C358526C2325}.Release|x86.ActiveCfg = Release|Win32
+		{26F606C5-4239-49F0-B3D4-C358526C2325}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection

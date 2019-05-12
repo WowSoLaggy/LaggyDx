@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{b47b487e-8eac-4757-b17b-29008ab5a656}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\RenderDevice">
+      <UniqueIdentifier>{8cc891c0-3378-44db-a4cc-a3ce39f9bda1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Camera">
+      <UniqueIdentifier>{17410187-afc1-4479-b6d6-10092edbd729}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Resources">
+      <UniqueIdentifier>{ddcb04d9-708b-4dbf-b638-236a1a041335}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Resources\ResourceTypes">
+      <UniqueIdentifier>{572e44ab-42dc-4f03-9084-d1c91d73c562}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Mesh">
+      <UniqueIdentifier>{c8170a72-b4dc-466c-b166-5b99e072a9cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Buffers">
+      <UniqueIdentifier>{99149c37-a63a-47ae-8b69-523f2363d42f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Animation">
+      <UniqueIdentifier>{a2329c46-c70a-46b5-b051-a056fb7da2af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Renderers">
+      <UniqueIdentifier>{802065ae-e34f-4c4d-9de4-b2422b076aa1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Renderers\Renderer2d">
+      <UniqueIdentifier>{e0711f13-e2d2-49f8-bf4c-5431a7d323dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Renderers\Renderer3d">
+      <UniqueIdentifier>{62a6fdf6-cc17-4e12-adf6-8e2582a88e7b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderDevice.h">
+      <Filter>src\RenderDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderDevice.h">
+      <Filter>src\RenderDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>src\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="ICamera.h">
+      <Filter>src\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="IResource.h">
+      <Filter>src\Resources\ResourceTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceController.h">
+      <Filter>src\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="IResourceController.h">
+      <Filter>src\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureResource.h">
+      <Filter>src\Resources\ResourceTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshLoader.h">
+      <Filter>src\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexTypes.h">
+      <Filter>src\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialSequence.h">
+      <Filter>src\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>src\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer.h">
+      <Filter>src\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexBuffer.h">
+      <Filter>src\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShaderResource.h">
+      <Filter>src\Resources\ResourceTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelShaderResource.h">
+      <Filter>src\Resources\ResourceTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderBuffers.h">
+      <Filter>src\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="FontResource.h">
+      <Filter>src\Resources\ResourceTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderer3d.h">
+      <Filter>src\Renderers\Renderer3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer3d.h">
+      <Filter>src\Renderers\Renderer3d</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderer2d.h">
+      <Filter>src\Renderers\Renderer2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer2d.h">
+      <Filter>src\Renderers\Renderer2d</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshResourceCmo.h">
+      <Filter>src\Resources\ResourceTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationController.h">
+      <Filter>src\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="IAnimationController.h">
+      <Filter>src\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderer.h">
+      <Filter>src\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="LaggyDxFwd.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderDevice.cpp">
+      <Filter>src\RenderDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="IRenderDevice.cpp">
+      <Filter>src\RenderDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>src\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="ICamera.cpp">
+      <Filter>src\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceController.cpp">
+      <Filter>src\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="IResourceController.cpp">
+      <Filter>src\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureResource.cpp">
+      <Filter>src\Resources\ResourceTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshLoader.cpp">
+      <Filter>src\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialSequence.cpp">
+      <Filter>src\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexBuffer.cpp">
+      <Filter>src\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="IndexBuffer.cpp">
+      <Filter>src\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShaderResource.cpp">
+      <Filter>src\Resources\ResourceTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelShaderResource.cpp">
+      <Filter>src\Resources\ResourceTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="FontResource.cpp">
+      <Filter>src\Resources\ResourceTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="IRenderer3d.cpp">
+      <Filter>src\Renderers\Renderer3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer3d.cpp">
+      <Filter>src\Renderers\Renderer3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer2d.cpp">
+      <Filter>src\Renderers\Renderer2d</Filter>
+    </ClCompile>
+    <ClCompile Include="IRenderer2d.cpp">
+      <Filter>src\Renderers\Renderer2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer3d_Renders.cpp">
+      <Filter>src\Renderers\Renderer3d</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshResourceCmo.cpp">
+      <Filter>src\Resources\ResourceTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationController.cpp">
+      <Filter>src\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="IAnimationController.cpp">
+      <Filter>src\Animation</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
