@@ -5,12 +5,16 @@
 #include <LaggySdk/Vector.h>
 
 
-struct Material
+namespace Dx
 {
-  std::string name;
+  struct Material
+  {
+    std::string name;
 
-  Sdk::Vector4 ambientColor;
-  Sdk::Vector4 diffuseColor;
+    Sdk::Vector4 ambientColor;
+    Sdk::Vector4 diffuseColor;
 
-  static Material getDefault() { return { "", { 1, 1, 1, 1}, {1, 1, 1, 1} }; }
-};
+    static Material getDefault() { return { "", { 1, 1, 1, 1}, {1, 1, 1, 1} }; }
+  };
+
+} // ns Dx

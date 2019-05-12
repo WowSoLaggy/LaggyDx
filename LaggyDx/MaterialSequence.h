@@ -3,24 +3,28 @@
 #include "Material.h"
 
 
-struct MaterialSpan
+namespace Dx
 {
-  Material material;
+  struct MaterialSpan
+  {
+    Material material;
 
-  int startIndex;
-  int count;
-};
+    int startIndex;
+    int count;
+  };
 
-class MaterialSequence
-{
-public:
+  class MaterialSequence
+  {
+  public:
 
-  void clear();
-  void add(const MaterialSpan& i_materialSpan);
+    void clear();
+    void add(const MaterialSpan& i_materialSpan);
 
-  const std::vector<MaterialSpan>& getMaterialSpans() const { return d_materialSpans; }
+    const std::vector<MaterialSpan>& getMaterialSpans() const { return d_materialSpans; }
 
-private:
+  private:
 
-  std::vector<MaterialSpan> d_materialSpans;
-};
+    std::vector<MaterialSpan> d_materialSpans;
+  };
+
+} // ns Dx

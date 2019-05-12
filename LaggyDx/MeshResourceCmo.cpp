@@ -6,23 +6,27 @@
 #include <LaggySdk/StringUtils.h>
 
 
-MeshResourceCmo::MeshResourceCmo(std::string i_meshFilePath)
-  : d_meshFilePath(std::move(i_meshFilePath))
+namespace Dx
 {
-}
+  MeshResourceCmo::MeshResourceCmo(std::string i_meshFilePath)
+    : d_meshFilePath(std::move(i_meshFilePath))
+  {
+  }
 
 
-void MeshResourceCmo::load(IRenderDevice& i_renderDevice)
-{
-  auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
+  void MeshResourceCmo::load(IRenderDevice& i_renderDevice)
+  {
+    auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
 
-  DGSLEffectFactory dgslEffectFactory(renderDevice.getDevicePtr());
-  dgslEffectFactory.SetDirectory(L".\\Data");
-  d_model = Model::CreateFromCMO(renderDevice.getDevicePtr(),
-                                 Sdk::getWString(d_meshFilePath).c_str(), dgslEffectFactory);
-}
+    DGSLEffectFactory dgslEffectFactory(renderDevice.getDevicePtr());
+    dgslEffectFactory.SetDirectory(L".\\Data");
+    d_model = Model::CreateFromCMO(renderDevice.getDevicePtr(),
+      Sdk::getWString(d_meshFilePath).c_str(), dgslEffectFactory);
+  }
 
-void MeshResourceCmo::unload()
-{
-  d_model.reset();
-}
+  void MeshResourceCmo::unload()
+  {
+    d_model.reset();
+  }
+
+} // ns Dx

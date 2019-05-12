@@ -4,8 +4,12 @@
 #include "AnimationController.h"
 
 
-std::shared_ptr<IAnimationController> IAnimationController::getAnimationController(
-  const IResourceController& i_resourceController, ResourceId i_resourceId)
+namespace Dx
 {
-  return std::make_shared<AnimationController>(i_resourceController, i_resourceId);
-}
+  std::shared_ptr<IAnimationController> IAnimationController::getAnimationController(
+    const IResourceController& i_resourceController, ResourceId i_resourceId)
+  {
+    return std::make_shared<AnimationController>(i_resourceController, i_resourceId);
+  }
+
+} // ns Dx

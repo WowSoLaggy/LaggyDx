@@ -3,9 +3,13 @@
 #include <LaggySdk/Vector.h>
 
 
-struct VertexTypePosTexNorm
+namespace Dx
 {
-  Sdk::Vector3 position;
-  Sdk::Vector2 texture;
-  Sdk::Vector3 normal;
-};
+  struct VertexTypePosTexNorm
+  {
+    Sdk::Vector3 position;
+    Sdk::Vector2 texture;
+    Sdk::Vector3 normal;
+  };
+
+} // ns Dx

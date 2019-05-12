@@ -4,7 +4,11 @@
 #include "RenderDevice.h"
 
 
-std::shared_ptr<IRenderDevice> IRenderDevice::create()
+namespace Dx
 {
-  return std::make_shared<RenderDevice>();
-}
+  std::shared_ptr<IRenderDevice> IRenderDevice::create()
+  {
+    return std::make_shared<RenderDevice>();
+  }
+
+} // ns Dx

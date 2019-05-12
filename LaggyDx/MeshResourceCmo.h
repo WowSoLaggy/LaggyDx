@@ -3,20 +3,24 @@
 #include "IResource.h"
 
 
-class MeshResourceCmo : public IResource
+namespace Dx
 {
-public:
+  class MeshResourceCmo : public IResource
+  {
+  public:
 
-  MeshResourceCmo(std::string i_meshFilePath);
+    MeshResourceCmo(std::string i_meshFilePath);
 
-  virtual void load(IRenderDevice& i_renderDevice) override;
-  virtual void unload() override;
+    virtual void load(IRenderDevice& i_renderDevice) override;
+    virtual void unload() override;
 
-  Model& getModel() const { return *d_model; }
+    Model& getModel() const { return *d_model; }
 
-private:
+  private:
 
-  const std::string d_meshFilePath;
-  std::shared_ptr<Model> d_model;
+    const std::string d_meshFilePath;
+    std::shared_ptr<Model> d_model;
 
-};
+  };
+
+} // ns Dx

@@ -3,21 +3,25 @@
 #include "IResource.h"
 
 
-class TextureResource : public IResource
+namespace Dx
 {
-public:
+  class TextureResource : public IResource
+  {
+  public:
 
-  TextureResource(std::string i_textureFilePath);
+    TextureResource(std::string i_textureFilePath);
 
-  virtual void load(IRenderDevice& i_renderDevice) override;
-  virtual void unload() override;
+    virtual void load(IRenderDevice& i_renderDevice) override;
+    virtual void unload() override;
 
-  ID3D11ShaderResourceView* getTexturePtr() const { return d_texture; }
+    ID3D11ShaderResourceView* getTexturePtr() const { return d_texture; }
 
-private:
+  private:
 
-  const std::string d_textureFilePath;
+    const std::string d_textureFilePath;
 
-  ID3D11ShaderResourceView* d_texture;
+    ID3D11ShaderResourceView* d_texture;
 
-};
+  };
+
+} // ns Dx

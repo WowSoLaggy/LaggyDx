@@ -1,32 +1,39 @@
 #pragma once
 
-class IRenderDevice;
-class ICamera;
-class IRenderer;
-class IRenderer2d;
-class IRenderer3d;
 
-using ResourceId = int;
-const ResourceId ResourceIdEmpty = ResourceId(-1);
+namespace Dx
+{
+  class IRenderDevice;
+  class ICamera;
+  class IRenderer;
+  class IRenderer2d;
+  class IRenderer3d;
 
-class IResourceController;
-class IResource;
-class MeshResourceCmo;
-class TextureResource;
-class PixelShaderResource;
-class VertexShaderResource;
-class FontResource;
+  using ResourceId = int;
+  const ResourceId ResourceIdEmpty = ResourceId(-1);
 
-class VertexBuffer;
-class IndexBuffer;
+  class IResourceController;
+  class IResource;
+  class MeshResourceCmo;
+  class TextureResource;
+  class PixelShaderResource;
+  class VertexShaderResource;
+  class FontResource;
 
-struct Material;
-struct MaterialSpan;
-class MaterialSequence;
+  class VertexBuffer;
+  class IndexBuffer;
 
-class IAnimationController;
+  struct Material;
+  struct MaterialSpan;
+  class MaterialSequence;
+
+  class IAnimationController;
+
+} // ns Dx
+
 
 struct ID3D11Buffer;
+
 
 namespace DirectX
 {

@@ -4,27 +4,31 @@
 #include "LaggyDxFwd.h"
 
 
-class Renderer2d : public IRenderer2d
+namespace Dx
 {
-public:
+  class Renderer2d : public IRenderer2d
+  {
+  public:
 
-  Renderer2d(
-    IRenderDevice& io_renderDevice,
-    const IResourceController& i_resourceController);
+    Renderer2d(
+      IRenderDevice& io_renderDevice,
+      const IResourceController& i_resourceController);
 
-  virtual void beginScene() override;
-  virtual void endScene() override;
+    virtual void beginScene() override;
+    virtual void endScene() override;
 
-  virtual void renderText(const std::string& i_text, ResourceId i_fontResourceId, const Sdk::Vector2& i_position) override;
-  virtual void renderTexture(ResourceId i_textureResourceId, const Sdk::Vector2& i_position) override;
-  virtual void renderTexture(ResourceId i_textureResourceId,
-                             const Sdk::Vector2& i_position, const Sdk::Vector2& i_size) override;
+    virtual void renderText(const std::string& i_text, ResourceId i_fontResourceId, const Sdk::Vector2& i_position) override;
+    virtual void renderTexture(ResourceId i_textureResourceId, const Sdk::Vector2& i_position) override;
+    virtual void renderTexture(ResourceId i_textureResourceId,
+      const Sdk::Vector2& i_position, const Sdk::Vector2& i_size) override;
 
-private:
+  private:
 
-  IRenderDevice& d_renderDevice;
-  const IResourceController& d_resourceController;
+    IRenderDevice& d_renderDevice;
+    const IResourceController& d_resourceController;
 
-  std::shared_ptr<SpriteBatch> d_spriteBatch;
+    std::shared_ptr<SpriteBatch> d_spriteBatch;
 
-};
+  };
+
+} // ns Dx

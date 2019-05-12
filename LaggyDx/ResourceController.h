@@ -4,35 +4,39 @@
 #include "LaggyDxFwd.h"
 
 
-class ResourceController: public IResourceController
+namespace Dx
 {
-public:
+  class ResourceController : public IResourceController
+  {
+  public:
 
-  virtual ResourceId getResourceId(const std::string& i_resourceName) const override;
+    virtual ResourceId getResourceId(const std::string& i_resourceName) const override;
 
-  const MeshResourceCmo& getMeshResourceCmo(ResourceId i_resourceId) const;
-  const TextureResource& getTextureResource(ResourceId i_resourceId) const;
-  const PixelShaderResource& getPixelShaderResource(ResourceId i_resourceId) const;
-  const VertexShaderResource& getVertexShaderResource(ResourceId i_resourceId) const;
-  const FontResource& getFontResource(ResourceId i_resourceId) const;
+    const MeshResourceCmo& getMeshResourceCmo(ResourceId i_resourceId) const;
+    const TextureResource& getTextureResource(ResourceId i_resourceId) const;
+    const PixelShaderResource& getPixelShaderResource(ResourceId i_resourceId) const;
+    const VertexShaderResource& getVertexShaderResource(ResourceId i_resourceId) const;
+    const FontResource& getFontResource(ResourceId i_resourceId) const;
 
-  virtual void initialize(const std::string& i_resourcesFolder) override;
-  virtual void dispose() override;
+    virtual void initialize(const std::string& i_resourcesFolder) override;
+    virtual void dispose() override;
 
-  virtual void loadResources(IRenderDevice& i_renderDevice) override;
-  virtual void unloadResources() override;
+    virtual void loadResources(IRenderDevice& i_renderDevice) override;
+    virtual void unloadResources() override;
 
-private:
+  private:
 
-  std::string d_resourceFolder;
+    std::string d_resourceFolder;
 
-  std::unordered_map<std::string, ResourceId> d_nameToIdMap;
-  std::unordered_map<ResourceId, std::shared_ptr<IResource>> d_idToResourceMap;
+    std::unordered_map<std::string, ResourceId> d_nameToIdMap;
+    std::unordered_map<ResourceId, std::shared_ptr<IResource>> d_idToResourceMap;
 
-  ResourceId d_nextResourceId;
-  ResourceId getFreeResourceId();
+    ResourceId d_nextResourceId;
+    ResourceId getFreeResourceId();
 
-  void indexResourcesInDir(const std::string& i_dirName);
-  void clearResoures();
+    void indexResourcesInDir(const std::string& i_dirName);
+    void clearResoures();
 
-};
+  };
+
+} // ns Dx

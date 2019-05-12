@@ -4,12 +4,16 @@
 #include "VertexTypes.h"
 
 
-class MeshLoader
+namespace Dx
 {
-public:
+  class MeshLoader
+  {
+  public:
 
-  static void loadInfoFromObjFile(
-    const std::string& i_modelPath,
-    std::vector<VertexTypePosTexNorm>& o_vertices, std::vector<int>& o_indices,
-    MaterialSequence& o_matSequence);
-};
+    static void loadInfoFromObjFile(
+      const std::string& i_modelPath,
+      std::vector<VertexTypePosTexNorm>& o_vertices, std::vector<int>& o_indices,
+      MaterialSequence& o_matSequence);
+  };
+
+} // ns Dx

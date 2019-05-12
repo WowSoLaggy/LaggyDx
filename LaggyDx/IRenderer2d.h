@@ -6,23 +6,27 @@
 #include <LaggySdk/SdkFwd.h>
 
 
-class IRenderer2d : public IRenderer
+namespace Dx
 {
-public:
+  class IRenderer2d : public IRenderer
+  {
+  public:
 
-  static std::shared_ptr<IRenderer2d> create(
-    IRenderDevice& io_renderDevice,
-    const IResourceController& i_resourceController);
+    static std::shared_ptr<IRenderer2d> create(
+      IRenderDevice& io_renderDevice,
+      const IResourceController& i_resourceController);
 
-public:
+  public:
 
-  virtual ~IRenderer2d() = default;
+    virtual ~IRenderer2d() = default;
 
-  virtual void beginScene() = 0;
-  virtual void endScene() = 0;
+    virtual void beginScene() = 0;
+    virtual void endScene() = 0;
 
-  virtual void renderText(const std::string& i_text, ResourceId i_fontResourceId, const Sdk::Vector2& i_position) = 0;
-  virtual void renderTexture(ResourceId i_textureResourceId, const Sdk::Vector2& i_position) = 0;
-  virtual void renderTexture(ResourceId i_textureResourceId,
-                             const Sdk::Vector2& i_position, const Sdk::Vector2& i_size) = 0;
-};
+    virtual void renderText(const std::string& i_text, ResourceId i_fontResourceId, const Sdk::Vector2& i_position) = 0;
+    virtual void renderTexture(ResourceId i_textureResourceId, const Sdk::Vector2& i_position) = 0;
+    virtual void renderTexture(ResourceId i_textureResourceId,
+      const Sdk::Vector2& i_position, const Sdk::Vector2& i_size) = 0;
+  };
+
+} // ns Dx

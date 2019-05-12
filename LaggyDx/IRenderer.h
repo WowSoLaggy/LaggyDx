@@ -1,8 +1,12 @@
 #pragma once
 
 
-class IRenderer
+namespace Dx
 {
-public:
-  virtual ~IRenderer() = default;
-};
+  class IRenderer
+  {
+  public:
+    virtual ~IRenderer() = default;
+  };
+
+} // ns Dx

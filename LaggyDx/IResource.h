@@ -3,13 +3,17 @@
 #include "LaggyDxFwd.h"
 
 
-class IResource
+namespace Dx
 {
-public:
+  class IResource
+  {
+  public:
 
-  virtual ~IResource() = default;
+    virtual ~IResource() = default;
 
-  virtual void load(IRenderDevice& i_renderDevice) = 0;
-  virtual void unload() = 0;
+    virtual void load(IRenderDevice& i_renderDevice) = 0;
+    virtual void unload() = 0;
 
-};
+  };
+
+} // ns Dx

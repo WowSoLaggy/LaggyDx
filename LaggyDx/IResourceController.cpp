@@ -4,7 +4,10 @@
 #include "ResourceController.h"
 
 
-std::shared_ptr<IResourceController> IResourceController::create()
+namespace Dx
 {
-  return std::make_shared<ResourceController>();
-}
+  std::shared_ptr<IResourceController> IResourceController::create()
+  {
+    return std::make_shared<ResourceController>();
+  }
+} // ns Dx

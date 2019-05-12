@@ -2,12 +2,16 @@
 #include "MaterialSequence.h"
 
 
-void MaterialSequence::clear()
+namespace Dx
 {
-  d_materialSpans.clear();
-}
+  void MaterialSequence::clear()
+  {
+    d_materialSpans.clear();
+  }
 
-void MaterialSequence::add(const MaterialSpan& i_materialSpan)
-{
-  d_materialSpans.push_back(i_materialSpan);
-}
+  void MaterialSequence::add(const MaterialSpan& i_materialSpan)
+  {
+    d_materialSpans.push_back(i_materialSpan);
+  }
+
+} // ns Dx
