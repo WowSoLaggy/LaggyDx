@@ -29,6 +29,8 @@ namespace Dx
 
   class IAnimationController;
 
+  class IInputDevice;
+  class KeyboardState;
 } // ns Dx
 
 

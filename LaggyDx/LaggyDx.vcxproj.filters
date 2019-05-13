@@ -34,6 +34,12 @@
     <Filter Include="src\Renderers\Renderer3d">
       <UniqueIdentifier>{62a6fdf6-cc17-4e12-adf6-8e2582a88e7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\InputDevice">
+      <UniqueIdentifier>{14207a50-f10e-4394-a948-94755c73072b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Keyboard">
+      <UniqueIdentifier>{774b64b4-2f70-4ef3-b7fc-e1df3ea52038}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -120,6 +126,18 @@
     <ClInclude Include="LaggyDxFwd.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="IInputDevice.h">
+      <Filter>src\InputDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="InputDevice.h">
+      <Filter>src\InputDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardKeys.h">
+      <Filter>src\Keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardState.h">
+      <Filter>src\Keyboard</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -190,6 +208,18 @@
     </ClCompile>
     <ClCompile Include="IAnimationController.cpp">
       <Filter>src\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="IInputDevice.cpp">
+      <Filter>src\InputDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="InputDevice.cpp">
+      <Filter>src\InputDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="InputDevice_Messages.cpp">
+      <Filter>src\InputDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardState.cpp">
+      <Filter>src\Keyboard</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

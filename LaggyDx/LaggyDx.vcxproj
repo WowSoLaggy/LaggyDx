@@ -146,10 +146,14 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="FontResource.h" />
     <ClInclude Include="IAnimationController.h" />
+    <ClInclude Include="IInputDevice.h" />
     <ClInclude Include="IndexBuffer.h" />
+    <ClInclude Include="InputDevice.h" />
     <ClInclude Include="IRenderer.h" />
     <ClInclude Include="IRenderer2d.h" />
     <ClInclude Include="IRenderer3d.h" />
+    <ClInclude Include="KeyboardKeys.h" />
+    <ClInclude Include="KeyboardState.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialSequence.h" />
     <ClInclude Include="MeshLoader.h" />
@@ -176,9 +180,13 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="FontResource.cpp" />
     <ClCompile Include="IAnimationController.cpp" />
+    <ClCompile Include="IInputDevice.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
+    <ClCompile Include="InputDevice.cpp" />
+    <ClCompile Include="InputDevice_Messages.cpp" />
     <ClCompile Include="IRenderer2d.cpp" />
     <ClCompile Include="IRenderer3d.cpp" />
+    <ClCompile Include="KeyboardState.cpp" />
     <ClCompile Include="MaterialSequence.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
     <ClCompile Include="MeshResourceCmo.cpp" />
@@ -202,6 +210,9 @@
     <ClCompile Include="VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DirectXTK\DirectXTK_Desktop_2017_Win10.vcxproj">
+      <Project>{e0b52ae7-e160-4d32-bf3f-910b785e5a8e}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\LaggySdk\LaggySdk\LaggySdk.vcxproj">
       <Project>{26f606c5-4239-49f0-b3d4-c358526c2325}</Project>
     </ProjectReference>
