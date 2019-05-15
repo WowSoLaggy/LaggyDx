@@ -7,6 +7,8 @@
 #include "TextureResource.h"
 #include "VertexShaderResource.h"
 
+#include <LaggySdk/Contracts.h>
+
 
 namespace Dx
 {
@@ -24,7 +26,9 @@ namespace Dx
 
   ResourceId ResourceController::getResourceId(const std::string& i_resourceName) const
   {
-    return d_nameToIdMap.at(d_resourceFolder + i_resourceName);
+    const auto it = d_nameToIdMap.find(d_resourceFolder + i_resourceName);
+    CONTRACT_EXPECT(it != d_nameToIdMap.cend());
+    return it->second;
   }
 
 
@@ -56,7 +60,7 @@ namespace Dx
 
   void ResourceController::initialize(const std::string& i_resourcesFolder)
   {
-    d_resourceFolder = i_resourcesFolder;
+    d_resourceFolder = ".\\" + i_resourcesFolder + "\\";
     indexResourcesInDir(d_resourceFolder);
   }
 
