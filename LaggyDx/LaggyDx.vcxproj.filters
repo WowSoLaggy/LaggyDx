@@ -40,6 +40,9 @@
     <Filter Include="src\Keyboard">
       <UniqueIdentifier>{774b64b4-2f70-4ef3-b7fc-e1df3ea52038}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Sprite">
+      <UniqueIdentifier>{075f2697-8a25-4ff8-b92b-49631bf0b5dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -137,6 +140,9 @@
     </ClInclude>
     <ClInclude Include="KeyboardState.h">
       <Filter>src\Keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>src\Sprite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
