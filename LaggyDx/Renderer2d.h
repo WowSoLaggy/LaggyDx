@@ -21,6 +21,7 @@ namespace Dx
     virtual void renderTexture(ResourceId i_textureResourceId, const Sdk::Vector2& i_position) override;
     virtual void renderTexture(ResourceId i_textureResourceId,
       const Sdk::Vector2& i_position, const Sdk::Vector2& i_size) override;
+    virtual void renderSprite(const Sprite& i_sprite) override;
 
   private:
 

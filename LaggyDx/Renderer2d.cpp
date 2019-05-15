@@ -4,6 +4,7 @@
 #include "FontResource.h"
 #include "RenderDevice.h"
 #include "ResourceController.h"
+#include "Sprite.h"
 #include "TextureResource.h"
 
 #include <LaggySdk/StringUtils.h>
@@ -62,6 +63,11 @@ namespace Dx
     RECT destinationRect{ (int)i_position.x, (int)i_position.y,
       (int)(i_position.x + i_size.x), (int)(i_position.y + i_size.y) };
     d_spriteBatch->Draw(textureResource.getTexturePtr(), destinationRect, Colors::White);
+  }
+
+  void Renderer2d::renderSprite(const Sprite& i_sprite)
+  {
+    renderTexture(i_sprite.resourceId, i_sprite.position, i_sprite.size);
   }
 
 } // ns Dx

@@ -27,6 +27,7 @@ namespace Dx
     virtual void renderTexture(ResourceId i_textureResourceId, const Sdk::Vector2& i_position) = 0;
     virtual void renderTexture(ResourceId i_textureResourceId,
       const Sdk::Vector2& i_position, const Sdk::Vector2& i_size) = 0;
+    virtual void renderSprite(const Sprite& i_sprite) = 0;
   };
 
 } // ns Dx
