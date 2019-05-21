@@ -20,6 +20,13 @@ namespace Dx
 
     CreateDDSTextureFromFile(renderDevice.getDevicePtr(),
       Sdk::getWString(d_textureFilePath).c_str(), nullptr, &d_texture);
+
+    ID3D11Texture2D* textureResource = nullptr;
+    d_texture->GetResource(reinterpret_cast<ID3D11Resource**>(&textureResource));
+    D3D11_TEXTURE2D_DESC desc;
+    textureResource->GetDesc(&desc);
+
+    d_size = { (float)desc.Width, (float)desc.Height };
   }
 
   void TextureResource::unload()
