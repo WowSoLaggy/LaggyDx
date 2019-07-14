@@ -37,11 +37,11 @@
     <Filter Include="src\InputDevice">
       <UniqueIdentifier>{14207a50-f10e-4394-a948-94755c73072b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Keyboard">
-      <UniqueIdentifier>{774b64b4-2f70-4ef3-b7fc-e1df3ea52038}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Sprite">
       <UniqueIdentifier>{075f2697-8a25-4ff8-b92b-49631bf0b5dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\InputControllers">
+      <UniqueIdentifier>{774b64b4-2f70-4ef3-b7fc-e1df3ea52038}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -136,19 +136,19 @@
       <Filter>src\InputDevice</Filter>
     </ClInclude>
     <ClInclude Include="KeyboardKeys.h">
-      <Filter>src\Keyboard</Filter>
+      <Filter>src\InputControllers</Filter>
     </ClInclude>
     <ClInclude Include="KeyboardState.h">
-      <Filter>src\Keyboard</Filter>
+      <Filter>src\InputControllers</Filter>
     </ClInclude>
     <ClInclude Include="Sprite.h">
       <Filter>src\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="MouseState.h">
-      <Filter>src\Keyboard</Filter>
+      <Filter>src\InputControllers</Filter>
     </ClInclude>
     <ClInclude Include="MouseKeys.h">
-      <Filter>src\Keyboard</Filter>
+      <Filter>src\InputControllers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -231,10 +231,10 @@
       <Filter>src\InputDevice</Filter>
     </ClCompile>
     <ClCompile Include="KeyboardState.cpp">
-      <Filter>src\Keyboard</Filter>
+      <Filter>src\InputControllers</Filter>
     </ClCompile>
     <ClCompile Include="MouseState.cpp">
-      <Filter>src\Keyboard</Filter>
+      <Filter>src\InputControllers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
