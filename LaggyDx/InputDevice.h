@@ -15,7 +15,7 @@ namespace Dx
 
     virtual void processMessage(const Sdk::Message& i_inputMessage) override;
 
-    virtual const KeyboardState& check() override;
+    virtual const KeyboardState& checkKeyboard() override;
 
   private:
 

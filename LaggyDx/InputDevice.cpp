@@ -16,14 +16,14 @@ namespace Dx
   }
 
 
-  const KeyboardState& InputDevice::check()
+  const KeyboardState& InputDevice::checkKeyboard()
   {
-    auto state = d_keyboard->GetState();
+    const auto state = d_keyboard->GetState();
 
-    KeyboardKeys keyboardKeys;
-    memcpy(&keyboardKeys, &state, sizeof(state));
+    KeyboardKeys keys;
+    memcpy(&keys, &state, sizeof(keys));
 
-    d_keyboardState.update(keyboardKeys);
+    d_keyboardState.update(keys);
 
     return d_keyboardState;
   }
