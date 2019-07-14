@@ -144,6 +144,12 @@
     <ClInclude Include="Sprite.h">
       <Filter>src\Sprite</Filter>
     </ClInclude>
+    <ClInclude Include="MouseState.h">
+      <Filter>src\Keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseKeys.h">
+      <Filter>src\Keyboard</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -225,6 +231,9 @@
       <Filter>src\InputDevice</Filter>
     </ClCompile>
     <ClCompile Include="KeyboardState.cpp">
+      <Filter>src\Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseState.cpp">
       <Filter>src\Keyboard</Filter>
     </ClCompile>
   </ItemGroup>

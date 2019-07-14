@@ -31,6 +31,7 @@ namespace Dx
 
   class IInputDevice;
   class KeyboardState;
+  class MouseState;
 
   struct Sprite;
 } // ns Dx

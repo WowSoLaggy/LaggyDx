@@ -2,6 +2,7 @@
 
 #include "IInputDevice.h"
 #include "KeyboardState.h"
+#include "MouseState.h"
 
 
 namespace Dx
@@ -15,9 +16,13 @@ namespace Dx
 
     virtual void processMessage(const Sdk::Message& i_inputMessage) override;
 
+    virtual const MouseState& checkMouse() override;
     virtual const KeyboardState& checkKeyboard() override;
 
   private:
+
+    std::unique_ptr<Mouse> d_mouse;
+    MouseState d_mouseState;
 
     std::unique_ptr<Keyboard> d_keyboard;
     KeyboardState d_keyboardState;

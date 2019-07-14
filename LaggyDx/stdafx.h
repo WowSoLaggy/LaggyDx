@@ -15,6 +15,7 @@
 #include "Effects.h"
 #include "Keyboard.h"
 #include "Model.h"
+#include "Mouse.h"
 #include "SpriteFont.h"
 
 using namespace DirectX;

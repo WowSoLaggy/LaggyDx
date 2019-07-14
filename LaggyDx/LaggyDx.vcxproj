@@ -158,6 +158,8 @@
     <ClInclude Include="MaterialSequence.h" />
     <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="MeshResourceCmo.h" />
+    <ClInclude Include="MouseKeys.h" />
+    <ClInclude Include="MouseState.h" />
     <ClInclude Include="PixelShaderResource.h" />
     <ClInclude Include="Renderer2d.h" />
     <ClInclude Include="Renderer3d.h" />
@@ -191,6 +193,7 @@
     <ClCompile Include="MaterialSequence.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
     <ClCompile Include="MeshResourceCmo.cpp" />
+    <ClCompile Include="MouseState.cpp" />
     <ClCompile Include="PixelShaderResource.cpp" />
     <ClCompile Include="Renderer2d.cpp" />
     <ClCompile Include="Renderer3d.cpp" />

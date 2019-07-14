@@ -22,6 +22,7 @@ namespace Dx
 
     virtual void processMessage(const Sdk::Message& i_inputMessage) = 0;
 
+    virtual const MouseState& checkMouse() = 0;
     virtual const KeyboardState& checkKeyboard() = 0;
 
   };
