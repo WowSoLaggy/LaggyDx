@@ -12,6 +12,13 @@ namespace Dx
     Pressed   = 3,  // Buton was just pressed
   };
 
+  struct MousePosition
+  {
+    int x;
+    int y;
+    int z;
+  };
+
   class MouseState
   {
   public:
@@ -23,9 +30,7 @@ namespace Dx
     const ButtonState& getXButton1State() const { return d_xButton1State; }
     const ButtonState& getXButton2State() const { return d_xButton2State; }
 
-    int getX() const { return d_x; }
-    int getY() const { return d_y; }
-    int getZ() const { return d_z; }
+    const MousePosition& getMousePosition() const { return d_mousePosition; }
 
     void update(const MouseKeys& i_state);
     void reset();
@@ -37,9 +42,7 @@ namespace Dx
     ButtonState d_xButton1State;
     ButtonState d_xButton2State;
 
-    int d_x;
-    int d_y;
-    int d_z;
+    MousePosition d_mousePosition;
 
     MouseKeys d_currentState;
   };
