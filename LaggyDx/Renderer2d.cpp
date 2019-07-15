@@ -22,12 +22,13 @@ namespace Dx
     auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
 
     d_spriteBatch = std::make_shared<SpriteBatch>(renderDevice.getDeviceContextPtr());
+    d_states = std::make_unique<CommonStates>(renderDevice.getDevicePtr());
   }
 
 
   void Renderer2d::beginScene()
   {
-    d_spriteBatch->Begin();
+    d_spriteBatch->Begin(SpriteSortMode_Deferred, d_states->NonPremultiplied());
   }
 
   void Renderer2d::endScene()

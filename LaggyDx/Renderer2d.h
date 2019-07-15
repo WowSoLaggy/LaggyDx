@@ -29,6 +29,7 @@ namespace Dx
     const IResourceController& d_resourceController;
 
     std::shared_ptr<SpriteBatch> d_spriteBatch;
+    std::unique_ptr<CommonStates> d_states;
 
   };
 
