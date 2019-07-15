@@ -11,7 +11,7 @@ namespace Dx
   {
   public:
 
-    virtual void initialize() override;
+    virtual void initialize(HWND i_hWnd) override;
     virtual void dispose() override;
 
     virtual void processMessage(const Sdk::Message& i_inputMessage) override;

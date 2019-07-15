@@ -4,9 +4,11 @@
 
 namespace Dx
 {
-  void InputDevice::initialize()
+  void InputDevice::initialize(HWND i_hWnd)
   {
     d_mouse = std::make_unique<Mouse>();
+    d_mouse->SetWindow(i_hWnd);
+    d_mouse->SetVisible(false);
 
     d_keyboard = std::make_unique<Keyboard>();
     d_keyboardState.reset();
@@ -14,6 +16,7 @@ namespace Dx
 
   void InputDevice::dispose()
   {
+    d_mouse->SetVisible(true);
     d_keyboard.reset();
     d_mouse.reset();
   }

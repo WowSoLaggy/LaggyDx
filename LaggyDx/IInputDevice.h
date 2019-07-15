@@ -17,7 +17,7 @@ namespace Dx
 
     virtual ~IInputDevice() = default;
 
-    virtual void initialize() = 0;
+    virtual void initialize(HWND i_hWnd) = 0;
     virtual void dispose() = 0;
 
     virtual void processMessage(const Sdk::Message& i_inputMessage) = 0;
