@@ -10,7 +10,6 @@ struct ID3D11ShaderResourceView;
 
 namespace Dx
 {
-
   class TextureResource : public IResource
   {
   public:
@@ -24,11 +23,11 @@ namespace Dx
     ID3D11ShaderResourceView* getTexturePtr() const { return d_texture; }
 
   private:
-    const std::string d_textureFilePath;
+    bool d_loaded = false;
+    const std::string d_textureFilePath = "";
+    Sdk::Vector2 d_size{ 0, 0 };
 
-    Sdk::Vector2 d_size;
-
-    ID3D11ShaderResourceView* d_texture;
+    ID3D11ShaderResourceView* d_texture = nullptr;
   };
 
 } // ns Dx
