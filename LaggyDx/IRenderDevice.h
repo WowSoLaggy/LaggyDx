@@ -18,8 +18,6 @@ namespace Dx
   public:
     virtual ~IRenderDevice() = default;
 
-    virtual void dispose() = 0;
-
     virtual void beginScene() = 0;
     virtual void endScene() = 0;
 

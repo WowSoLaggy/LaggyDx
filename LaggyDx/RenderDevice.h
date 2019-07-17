@@ -19,8 +19,7 @@ namespace Dx
   {
   public:
     RenderDevice(HWND i_hWnd, int i_resolutionX, int i_resolutionY);
-
-    virtual void dispose() override;
+    virtual ~RenderDevice() override;
 
     virtual void beginScene() override;
     virtual void endScene() override;

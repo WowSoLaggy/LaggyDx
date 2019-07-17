@@ -253,7 +253,7 @@ namespace Dx
     d_deviceContext->RSSetViewports(1, &viewport);
   }
 
-  void RenderDevice::dispose()
+  RenderDevice::~RenderDevice()
   {
     // Before shutting down set to windowed mode or when you release the swap chain it will throw an exception.
     if (d_swapChain)
