@@ -18,10 +18,8 @@ namespace Dx
   class RenderDevice : public IRenderDevice
   {
   public:
+    RenderDevice(HWND i_hWnd, int i_resolutionX, int i_resolutionY);
 
-    virtual bool isInitialized() const override { return d_isInitialized; }
-
-    virtual void initialize(HWND i_hWnd, int i_resolutionX, int i_resolutionY) override;
     virtual void dispose() override;
 
     virtual void beginScene() override;
@@ -36,7 +34,6 @@ namespace Dx
     void resetState();
 
   private:
-
     const bool c_vSyncEnabled = true;
     const bool c_fullScreen = false;
     const float c_clearColor[4] = { 0.396f, 0.612f, 0.937f, 1.0f };
@@ -49,11 +46,9 @@ namespace Dx
       Eight = 8,
     };
     const MsaaMode c_msaaMode = MsaaMode::Two;
-    bool isMsaaEnabled() const { return c_msaaMode != MsaaMode::None; }
+    const bool isMsaaEnabled() const { return c_msaaMode != MsaaMode::None; }
 
   private:
-
-    bool d_isInitialized;
     FillMode d_fillMode;
 
     HWND d_hWnd;
@@ -68,7 +63,6 @@ namespace Dx
     ID3D11DepthStencilState* d_depthStencilState;
     ID3D11DepthStencilView* d_depthStencilView;
     ID3D11RasterizerState* d_rasterState;
-
   };
 
 } // ns Dx
