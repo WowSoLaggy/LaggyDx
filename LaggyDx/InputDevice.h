@@ -10,8 +10,8 @@ namespace Dx
   class InputDevice : public IInputDevice
   {
   public:
+    InputDevice(HWND i_hWnd);
 
-    virtual void initialize(HWND i_hWnd) override;
     virtual void dispose() override;
 
     virtual void processMessage(const Sdk::Message& i_inputMessage) override;

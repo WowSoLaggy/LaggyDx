@@ -6,9 +6,9 @@
 
 namespace Dx
 {
-  std::unique_ptr<IInputDevice> IInputDevice::create()
+  std::unique_ptr<IInputDevice> IInputDevice::create(HWND i_hWnd)
   {
-    return std::make_unique<InputDevice>();
+    return std::make_unique<InputDevice>(i_hWnd);
   }
 
 } // ns Dx

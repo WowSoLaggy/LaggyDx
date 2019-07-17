@@ -4,7 +4,7 @@
 
 namespace Dx
 {
-  void InputDevice::initialize(HWND i_hWnd)
+  InputDevice::InputDevice(HWND i_hWnd)
   {
     d_mouse = std::make_unique<Mouse>();
     d_mouse->SetWindow(i_hWnd);
