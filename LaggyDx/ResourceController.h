@@ -9,6 +9,7 @@ namespace Dx
   class ResourceController : public IResourceController
   {
   public:
+    ResourceController(const std::string& i_resourcesFolder);
 
     virtual ResourceId getResourceId(const std::string& i_resourceName) const override;
 
@@ -18,14 +19,12 @@ namespace Dx
     const VertexShaderResource& getVertexShaderResource(ResourceId i_resourceId) const;
     const FontResource& getFontResource(ResourceId i_resourceId) const;
 
-    virtual void initialize(const std::string& i_resourcesFolder) override;
     virtual void dispose() override;
 
     virtual void loadResources(IRenderDevice& i_renderDevice) override;
     virtual void unloadResources() override;
 
   private:
-
     std::string d_resourceFolder;
 
     std::unordered_map<std::string, ResourceId> d_nameToIdMap;
@@ -36,7 +35,6 @@ namespace Dx
 
     void indexResourcesInDir(const std::string& i_dirName);
     void clearResoures();
-
   };
 
 } // ns Dx

@@ -6,8 +6,8 @@
 
 namespace Dx
 {
-  std::unique_ptr<IResourceController> IResourceController::create()
+  std::unique_ptr<IResourceController> IResourceController::create(const std::string& i_resourcesFolder)
   {
-    return std::make_unique<ResourceController>();
+    return std::make_unique<ResourceController>(i_resourcesFolder);
   }
 } // ns Dx

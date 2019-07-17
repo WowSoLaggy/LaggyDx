@@ -21,7 +21,14 @@ namespace Dx
         (strcmp(pEntity->d_name, ".") != 0) && (strcmp(pEntity->d_name, "..") != 0);
     }
 
-  } // anon NS
+  } // anonymous NS
+
+
+  ResourceController::ResourceController(const std::string& i_resourcesFolder)
+    : d_resourceFolder(".\\" + i_resourcesFolder + "\\")
+  {
+    indexResourcesInDir(d_resourceFolder);
+  }
 
 
   ResourceId ResourceController::getResourceId(const std::string& i_resourceName) const
@@ -57,12 +64,6 @@ namespace Dx
     return dynamic_cast<const FontResource&>(*d_idToResourceMap.at(i_resourceId));
   }
 
-
-  void ResourceController::initialize(const std::string& i_resourcesFolder)
-  {
-    d_resourceFolder = ".\\" + i_resourcesFolder + "\\";
-    indexResourcesInDir(d_resourceFolder);
-  }
 
   void ResourceController::dispose()
   {
