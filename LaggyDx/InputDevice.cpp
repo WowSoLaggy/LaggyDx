@@ -14,11 +14,9 @@ namespace Dx
     d_keyboardState.reset();
   }
 
-  void InputDevice::dispose()
+  InputDevice::~InputDevice()
   {
     d_mouse->SetVisible(true);
-    d_keyboard.reset();
-    d_mouse.reset();
   }
 
 

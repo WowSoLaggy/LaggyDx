@@ -11,8 +11,7 @@ namespace Dx
   {
   public:
     InputDevice(HWND i_hWnd);
-
-    virtual void dispose() override;
+    virtual ~InputDevice() override;
 
     virtual void processMessage(const Sdk::Message& i_inputMessage) override;
 

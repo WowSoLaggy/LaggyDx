@@ -15,8 +15,6 @@ namespace Dx
   public:
     virtual ~IInputDevice() = default;
 
-    virtual void dispose() = 0;
-
     virtual void processMessage(const Sdk::Message& i_inputMessage) = 0;
 
     virtual const MouseState& checkMouse() = 0;
