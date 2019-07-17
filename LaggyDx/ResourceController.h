@@ -10,6 +10,7 @@ namespace Dx
   {
   public:
     ResourceController(const std::string& i_resourcesFolder);
+    virtual ~ResourceController() override;
 
     virtual ResourceId getResourceId(const std::string& i_resourceName) const override;
 
@@ -18,8 +19,6 @@ namespace Dx
     const PixelShaderResource& getPixelShaderResource(ResourceId i_resourceId) const;
     const VertexShaderResource& getVertexShaderResource(ResourceId i_resourceId) const;
     const FontResource& getFontResource(ResourceId i_resourceId) const;
-
-    virtual void dispose() override;
 
     virtual void loadResources(IRenderDevice& i_renderDevice) override;
     virtual void unloadResources() override;
@@ -34,7 +33,6 @@ namespace Dx
     ResourceId getFreeResourceId();
 
     void indexResourcesInDir(const std::string& i_dirName);
-    void clearResoures();
   };
 
 } // ns Dx

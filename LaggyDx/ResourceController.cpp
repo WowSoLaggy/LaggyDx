@@ -30,6 +30,11 @@ namespace Dx
     indexResourcesInDir(d_resourceFolder);
   }
 
+  ResourceController::~ResourceController()
+  {
+    unloadResources();
+  }
+
 
   ResourceId ResourceController::getResourceId(const std::string& i_resourceName) const
   {
@@ -62,12 +67,6 @@ namespace Dx
   const FontResource& ResourceController::getFontResource(ResourceId i_resourceId) const
   {
     return dynamic_cast<const FontResource&>(*d_idToResourceMap.at(i_resourceId));
-  }
-
-
-  void ResourceController::dispose()
-  {
-    clearResoures();
   }
 
 
@@ -146,12 +145,6 @@ namespace Dx
         d_idToResourceMap.insert({ freeResourceId, std::make_shared<FontResource>(resourceName) });
       }
     }
-  }
-
-  void ResourceController::clearResoures()
-  {
-    d_nameToIdMap.clear();
-    d_idToResourceMap.clear();
   }
 
 } // ns Dx

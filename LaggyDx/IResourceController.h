@@ -15,8 +15,6 @@ namespace Dx
 
     virtual ResourceId getResourceId(const std::string& i_resourceName) const = 0;
 
-    virtual void dispose() = 0;
-
     virtual void loadResources(IRenderDevice& i_renderDevice) = 0;
     virtual void unloadResources() = 0;
   };
