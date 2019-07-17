@@ -6,9 +6,9 @@
 
 namespace Dx
 {
-  std::shared_ptr<IInputDevice> IInputDevice::create()
+  std::unique_ptr<IInputDevice> IInputDevice::create()
   {
-    return std::make_shared<InputDevice>();
+    return std::make_unique<InputDevice>();
   }
 
 } // ns Dx

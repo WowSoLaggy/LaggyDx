@@ -11,7 +11,7 @@ namespace Dx
   {
   public:
 
-    static std::shared_ptr<IInputDevice> create();
+    static std::unique_ptr<IInputDevice> create();
 
   public:
 

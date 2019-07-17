@@ -6,9 +6,9 @@
 
 namespace Dx
 {
-  std::shared_ptr<IRenderDevice> IRenderDevice::create()
+  std::unique_ptr<IRenderDevice> IRenderDevice::create()
   {
-    return std::make_shared<RenderDevice>();
+    return std::make_unique<RenderDevice>();
   }
 
 } // ns Dx

@@ -12,7 +12,7 @@ namespace Dx
   {
   public:
 
-    static std::shared_ptr<IRenderer2d> create(
+    static std::unique_ptr<IRenderer2d> create(
       IRenderDevice& io_renderDevice,
       const IResourceController& i_resourceController);
 

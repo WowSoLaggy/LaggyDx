@@ -6,8 +6,8 @@
 
 namespace Dx
 {
-  std::shared_ptr<IResourceController> IResourceController::create()
+  std::unique_ptr<IResourceController> IResourceController::create()
   {
-    return std::make_shared<ResourceController>();
+    return std::make_unique<ResourceController>();
   }
 } // ns Dx

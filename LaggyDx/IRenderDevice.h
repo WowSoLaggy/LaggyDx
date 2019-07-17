@@ -14,7 +14,7 @@ namespace Dx
   {
   public:
 
-    static std::shared_ptr<IRenderDevice> create();
+    static std::unique_ptr<IRenderDevice> create();
 
   public:
 

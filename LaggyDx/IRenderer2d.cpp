@@ -6,11 +6,11 @@
 
 namespace Dx
 {
-  std::shared_ptr<IRenderer2d> IRenderer2d::create(
+  std::unique_ptr<IRenderer2d> IRenderer2d::create(
     IRenderDevice& io_renderDevice,
     const IResourceController& i_resourceController)
   {
-    return std::make_shared<Renderer2d>(io_renderDevice, i_resourceController);
+    return std::make_unique<Renderer2d>(io_renderDevice, i_resourceController);
   }
 
 } // ns Dx

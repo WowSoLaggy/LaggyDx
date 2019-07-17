@@ -9,7 +9,7 @@ namespace Dx
   {
   public:
 
-    static std::shared_ptr<IResourceController> create();
+    static std::unique_ptr<IResourceController> create();
 
   public:
 
