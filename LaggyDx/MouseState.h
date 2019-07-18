@@ -2,6 +2,9 @@
 
 #include "MouseKeys.h"
 
+#include <LaggySdk/Vector.h>
+
+
 namespace Dx
 {
   enum class ButtonState
@@ -10,13 +13,6 @@ namespace Dx
     Held      = 1,  // Button is held down
     Released  = 2,  // Button was just released
     Pressed   = 3,  // Buton was just pressed
-  };
-
-  struct MousePosition
-  {
-    int x;
-    int y;
-    int z;
   };
 
   class MouseState
@@ -30,7 +26,8 @@ namespace Dx
     const ButtonState& getXButton1State() const { return d_xButton1State; }
     const ButtonState& getXButton2State() const { return d_xButton2State; }
 
-    const MousePosition& getMousePosition() const { return d_mousePosition; }
+    const Sdk::Vector2& getPosition() const { return d_mousePosition; }
+    int getWheelPosition() const { return d_wheelPosition; }
 
     void update(const MouseKeys& i_state);
     void reset();
@@ -42,7 +39,8 @@ namespace Dx
     ButtonState d_xButton1State;
     ButtonState d_xButton2State;
 
-    MousePosition d_mousePosition;
+    Sdk::Vector2 d_mousePosition;
+    int d_wheelPosition;
 
     MouseKeys d_currentState;
   };

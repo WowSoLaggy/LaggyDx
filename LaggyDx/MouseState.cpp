@@ -31,9 +31,8 @@ namespace Dx
 
     d_currentState = i_state;
 
-    d_mousePosition.x = i_state.x;
-    d_mousePosition.y = i_state.y;
-    d_mousePosition.z = i_state.scrollWheelValue;
+    d_mousePosition = { (float)i_state.x, (float)i_state.y };
+    d_wheelPosition = i_state.scrollWheelValue;
   }
 
   void MouseState::reset()
