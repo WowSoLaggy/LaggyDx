@@ -9,6 +9,7 @@ namespace Dx
     d_mouse = std::make_unique<Mouse>();
     d_mouse->SetWindow(i_hWnd);
     d_mouse->SetVisible(false);
+    d_mouse->SetMode(Mouse::Mode::MODE_ABSOLUTE);
 
     d_keyboard = std::make_unique<Keyboard>();
     d_keyboardState.reset();
@@ -40,6 +41,7 @@ namespace Dx
     memcpy(&keys, &state, sizeof(keys));
 
     d_mouseState.update(keys);
+    d_mouseState.setMode(static_cast<Dx::MouseMode>(state.positionMode));
 
     return d_mouseState;
   }
