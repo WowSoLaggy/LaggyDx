@@ -7,6 +7,12 @@
 
 namespace Dx
 {
+  enum class MouseMode
+  {
+    Absolute = 0,
+    Relative = 1,
+  };
+
   enum class ButtonState
   {
     Up        = 0,  // Button is up
@@ -32,6 +38,9 @@ namespace Dx
     void update(const MouseKeys& i_state);
     void reset();
 
+    void setMode(MouseMode i_mode) { d_mode = i_mode; }
+    const MouseMode getMode() const { return d_mode; }
+
   private:
     ButtonState d_leftButtonState;
     ButtonState d_middleButtonState;
@@ -40,7 +49,9 @@ namespace Dx
     ButtonState d_xButton2State;
 
     Sdk::Vector2 d_mousePosition;
-    int d_wheelPosition;
+    int d_wheelPosition = 0;
+
+    MouseMode d_mode = MouseMode::Absolute;
 
     MouseKeys d_currentState;
   };
