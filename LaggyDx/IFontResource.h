@@ -1,8 +1,11 @@
 #pragma once
 
 
-class IFontResource
+namespace Dx
 {
-public:
-  virtual ~IFontResource() = default;
-};
+  class IFontResource
+  {
+  public:
+    virtual ~IFontResource() = default;
+  };
+} // ns Dx

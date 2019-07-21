@@ -1,8 +1,11 @@
 #pragma once
 
 
-class IVertexShaderResource
+namespace Dx
 {
-public:
-  virtual ~IVertexShaderResource() = default;
-};
+  class IVertexShaderResource
+  {
+  public:
+    virtual ~IVertexShaderResource() = default;
+  };
+} // ns Dx

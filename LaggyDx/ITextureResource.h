@@ -3,10 +3,13 @@
 #include <LaggySdk/SdkFwd.h>
 
 
-class ITextureResource
+namespace Dx
 {
-public:
-  virtual ~ITextureResource() = default;
+  class ITextureResource
+  {
+  public:
+    virtual ~ITextureResource() = default;
 
-  virtual const Sdk::Vector2& getSize() const = 0;
-};
+    virtual const Sdk::Vector2& getSize() const = 0;
+  };
+} // ns Dx

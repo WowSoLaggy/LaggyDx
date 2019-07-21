@@ -1,8 +1,11 @@
 #pragma once
 
 
-class IPixelShaderResource
+namespace Dx
 {
-public:
-  virtual ~IPixelShaderResource() = default;
-};
+  class IPixelShaderResource
+  {
+  public:
+    virtual ~IPixelShaderResource() = default;
+  };
+} // ns Dx

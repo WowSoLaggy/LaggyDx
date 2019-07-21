@@ -1,8 +1,11 @@
 #pragma once
 
 
-class IMeshResourceCmo
+namespace Dx
 {
-public:
-  virtual ~IMeshResourceCmo() = default;
-};
+  class IMeshResourceCmo
+  {
+  public:
+    virtual ~IMeshResourceCmo() = default;
+  };
+} // ns Dx
