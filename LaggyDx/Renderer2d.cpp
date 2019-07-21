@@ -34,6 +34,17 @@ namespace Dx
   }
 
 
+  void Renderer2d::setTranslation(Sdk::Vector2 i_translation)
+  {
+    d_translation = std::move(i_translation);
+  }
+
+  void Renderer2d::resetTranslation()
+  {
+    d_translation = { 0, 0 };
+  }
+
+
   void Renderer2d::renderText(const std::string& i_text,
     const IFontResource& i_fontResource, const Sdk::Vector2& i_position)
   {
@@ -42,6 +53,7 @@ namespace Dx
     fontResource.getSpriteFont()->DrawString(d_spriteBatch.get(), Sdk::getWString(i_text).c_str(),
       XMFLOAT2(i_position.x, i_position.y));
   }
+
 
   void Renderer2d::renderTexture(const ITextureResource& i_textureResource, const Sdk::Vector2& i_position)
   {
@@ -53,8 +65,10 @@ namespace Dx
   {
     const auto& textureResource = dynamic_cast<const TextureResource&>(i_textureResource);
 
-    RECT destinationRect{ (int)i_position.x, (int)i_position.y,
-      (int)(i_position.x + i_size.x), (int)(i_position.y + i_size.y) };
+    const auto pos = i_position - d_translation;
+
+    RECT destinationRect{ (int)pos.x, (int)pos.y,
+      (int)(pos.x + i_size.x), (int)(pos.y + i_size.y) };
     d_spriteBatch->Draw(textureResource.getTexturePtr(), destinationRect, Colors::White);
   }
 

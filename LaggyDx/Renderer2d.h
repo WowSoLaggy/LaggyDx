@@ -14,6 +14,9 @@ namespace Dx
     virtual void beginScene() override;
     virtual void endScene() override;
 
+    virtual void setTranslation(Sdk::Vector2 i_translation) override;
+    virtual void resetTranslation() override;
+
 
     virtual void renderText(const std::string& i_text,
       const IFontResource& i_fontResource, const Sdk::Vector2& i_position) override;
@@ -30,6 +33,7 @@ namespace Dx
     std::shared_ptr<SpriteBatch> d_spriteBatch;
     std::unique_ptr<CommonStates> d_states;
 
+    Sdk::Vector2 d_translation{};
   };
 
 } // ns Dx

@@ -3,7 +3,7 @@
 #include "IRenderer.h"
 #include "LaggyDxFwd.h"
 
-#include <LaggySdk/SdkFwd.h>
+#include <LaggySdk/Vector.h>
 
 
 namespace Dx
@@ -20,6 +20,9 @@ namespace Dx
 
     virtual void beginScene() = 0;
     virtual void endScene() = 0;
+
+    virtual void setTranslation(Sdk::Vector2 i_translation) = 0;
+    virtual void resetTranslation() = 0;
 
 
     virtual void renderText(const std::string& i_text,
