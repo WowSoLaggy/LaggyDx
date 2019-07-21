@@ -12,6 +12,7 @@
 
 #include "CommonStates.h"
 #include "DDSTextureLoader.h"
+#include "WICTextureLoader.h"
 #include "Effects.h"
 #include "Keyboard.h"
 #include "Model.h"

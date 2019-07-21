@@ -129,7 +129,7 @@ namespace Dx
         continue;
       }
 
-      const std::regex texturePattern("\\w*.(dds)");
+      const std::regex texturePattern("\\w*.(dds|png|bmp|jpg|jpeg|tiff|gif)");
       const std::regex modelCmoPattern("\\w*.(cmo)");
       const std::regex vertexShaderPattern("\\w*.(vs)");
       const std::regex pixelShaderPattern("\\w*.(ps)");
