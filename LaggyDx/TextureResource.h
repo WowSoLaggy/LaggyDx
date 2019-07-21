@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IResource.h"
+#include "ILoadableResource.h"
 
 #include <LaggySdk/Vector.h>
 
@@ -10,7 +10,7 @@ struct ID3D11ShaderResourceView;
 
 namespace Dx
 {
-  class TextureResource : public IResource
+  class TextureResource : public ILoadableResource
   {
   public:
     TextureResource(std::string i_textureFilePath);

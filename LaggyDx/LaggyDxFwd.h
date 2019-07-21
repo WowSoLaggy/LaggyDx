@@ -13,7 +13,7 @@ namespace Dx
   const ResourceId ResourceIdEmpty = ResourceId(-1);
 
   class IResourceController;
-  class IResource;
+  class ILoadableResource;
   class MeshResourceCmo;
   class TextureResource;
   class PixelShaderResource;

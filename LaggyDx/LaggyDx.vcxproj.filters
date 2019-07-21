@@ -60,9 +60,6 @@
     <ClInclude Include="ICamera.h">
       <Filter>src\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="IResource.h">
-      <Filter>src\Resources\ResourceTypes</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceController.h">
       <Filter>src\Resources</Filter>
     </ClInclude>
@@ -149,6 +146,9 @@
     </ClInclude>
     <ClInclude Include="MouseKeys.h">
       <Filter>src\InputControllers</Filter>
+    </ClInclude>
+    <ClInclude Include="ILoadableResource.h">
+      <Filter>src\Resources\ResourceTypes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

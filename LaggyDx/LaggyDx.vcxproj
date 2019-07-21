@@ -165,7 +165,7 @@
     <ClInclude Include="Renderer3d.h" />
     <ClInclude Include="ICamera.h" />
     <ClInclude Include="IRenderDevice.h" />
-    <ClInclude Include="IResource.h" />
+    <ClInclude Include="ILoadableResource.h" />
     <ClInclude Include="IResourceController.h" />
     <ClInclude Include="LaggyDxFwd.h" />
     <ClInclude Include="RenderDevice.h" />

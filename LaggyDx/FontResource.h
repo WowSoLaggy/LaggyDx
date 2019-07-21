@@ -1,11 +1,11 @@
 #pragma once
 
-#include "IResource.h"
+#include "ILoadableResource.h"
 
 
 namespace Dx
 {
-  class FontResource : public IResource
+  class FontResource : public ILoadableResource
   {
   public:
 
