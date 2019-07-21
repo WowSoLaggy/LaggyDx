@@ -1,11 +1,12 @@
 #pragma once
 
 #include "ILoadableResource.h"
+#include "IVertexShaderResource.h"
 
 
 namespace Dx
 {
-  class VertexShaderResource : public ILoadableResource
+  class VertexShaderResource : public ILoadableResource, public IVertexShaderResource
   {
   public:
 

@@ -147,7 +147,22 @@
     <ClInclude Include="MouseKeys.h">
       <Filter>src\InputControllers</Filter>
     </ClInclude>
+    <ClInclude Include="ITextureResource.h">
+      <Filter>src\Resources\ResourceTypes</Filter>
+    </ClInclude>
     <ClInclude Include="ILoadableResource.h">
+      <Filter>src\Resources\ResourceTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="IFontResource.h">
+      <Filter>src\Resources\ResourceTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="IMeshResourceCmo.h">
+      <Filter>src\Resources\ResourceTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="IPixelShaderResource.h">
+      <Filter>src\Resources\ResourceTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="IVertexShaderResource.h">
       <Filter>src\Resources\ResourceTypes</Filter>
     </ClInclude>
   </ItemGroup>

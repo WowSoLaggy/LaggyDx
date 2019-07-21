@@ -1,11 +1,12 @@
 #pragma once
 
 #include "ILoadableResource.h"
+#include "IMeshResourceCmo.h"
 
 
 namespace Dx
 {
-  class MeshResourceCmo : public ILoadableResource
+  class MeshResourceCmo : public ILoadableResource, public IMeshResourceCmo
   {
   public:
 

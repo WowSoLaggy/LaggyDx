@@ -1,11 +1,12 @@
 #pragma once
 
 #include "ILoadableResource.h"
+#include "IPixelShaderResource.h"
 
 
 namespace Dx
 {
-  class PixelShaderResource : public ILoadableResource
+  class PixelShaderResource : public ILoadableResource, public IPixelShaderResource
   {
   public:
 

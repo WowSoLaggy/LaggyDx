@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ILoadableResource.h"
+#include "ITextureResource.h"
 
 #include <LaggySdk/Vector.h>
 
@@ -10,7 +11,7 @@ struct ID3D11ShaderResourceView;
 
 namespace Dx
 {
-  class TextureResource : public ILoadableResource
+  class TextureResource : public ILoadableResource, public ITextureResource
   {
   public:
     TextureResource(std::string i_textureFilePath);
@@ -18,7 +19,7 @@ namespace Dx
     virtual void load(IRenderDevice& i_renderDevice) override;
     virtual void unload() override;
 
-    const Sdk::Vector2& getSize() const { return d_size; }
+    const Sdk::Vector2& getSize() const override { return d_size; }
 
     ID3D11ShaderResourceView* getTexturePtr() const { return d_texture; }
 
