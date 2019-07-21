@@ -45,10 +45,7 @@ namespace Dx
 
   void Renderer2d::renderTexture(const ITextureResource& i_textureResource, const Sdk::Vector2& i_position)
   {
-    const auto& textureResource = dynamic_cast<const TextureResource&>(i_textureResource);
-
-    d_spriteBatch->Draw(textureResource.getTexturePtr(),
-      XMFLOAT2(std::roundf(i_position.x), std::roundf(i_position.y)), Colors::White);
+    renderTexture(i_textureResource, i_position, i_textureResource.getSize());
   }
 
   void Renderer2d::renderTexture(const ITextureResource& i_textureResource,
