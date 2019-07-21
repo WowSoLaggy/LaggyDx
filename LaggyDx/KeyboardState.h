@@ -11,6 +11,7 @@ namespace Dx
     KeyboardState();
 
     const KeyboardKeys& getPressedKeys() const { return d_pressedKeys; }
+    const KeyboardKeys& getCurrentKeys() const { return d_currentState; }
     const KeyboardKeys& getReleasedKeys() const { return d_releasedKeys; }
 
     void update(const KeyboardKeys& i_state);
