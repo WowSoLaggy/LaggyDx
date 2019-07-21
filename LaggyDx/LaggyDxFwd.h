@@ -9,15 +9,17 @@ namespace Dx
   class IRenderer2d;
   class IRenderer3d;
 
-  using ResourceId = int;
-  const ResourceId ResourceIdEmpty = ResourceId(-1);
-
   class IResourceController;
   class ILoadableResource;
+  class IMeshResourceCmo;
   class MeshResourceCmo;
+  class ITextureResource;
   class TextureResource;
+  class IPixelShaderResource;
   class PixelShaderResource;
+  class IVertexShaderResource;
   class VertexShaderResource;
+  class IFontResource;
   class FontResource;
 
   class VertexBuffer;

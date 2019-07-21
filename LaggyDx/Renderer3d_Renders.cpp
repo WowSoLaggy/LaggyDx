@@ -15,13 +15,12 @@
 namespace Dx
 {
   void Renderer3d::renderObject(
-    ResourceId i_textureResourceId,
+    const ITextureResource& i_textureResource,
     const VertexBuffer& i_vertexBuffer, const IndexBuffer& i_indexBuffer,
     const std::vector<MaterialSpan>& i_materialSpans,
     const Sdk::Vector3& i_position, const Sdk::Vector3& i_rotation)
   {
-    const auto& resourceController = dynamic_cast<const ResourceController&>(d_resourceController);
-    const auto& textureResource = resourceController.getTextureResource(i_textureResourceId);
+    const auto& textureResource = dynamic_cast<const TextureResource&>(i_textureResource);
 
     setBuffers(
       i_vertexBuffer.getPtr(), i_indexBuffer.getPtr(),
@@ -38,14 +37,13 @@ namespace Dx
 
 
   void Renderer3d::renderObject(
-    ResourceId i_meshResourceCmoId, ResourceId i_textureResourceId,
+    const IMeshResourceCmo& i_meshCmoResource, const ITextureResource* i_textureResource,
     std::shared_ptr<IAnimationController> i_animationController,
     const Sdk::Vector3& i_position, const Sdk::Vector3& i_rotation, const Sdk::Vector3& i_scale,
     bool i_useLighting)
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
-    const auto& resourceController = dynamic_cast<const ResourceController&>(d_resourceController);
-    auto& meshResourceCmo = resourceController.getMeshResourceCmo(i_meshResourceCmoId);
+    const auto& meshResourceCmo = dynamic_cast<const MeshResourceCmo&>(i_meshCmoResource);
 
     auto& camera = dynamic_cast<const Camera&>(d_camera);
 
@@ -56,8 +54,6 @@ namespace Dx
       XMMatrixScaling(i_scale.x, i_scale.y, i_scale.z) *
       XMMatrixRotationRollPitchYaw(i_rotation.x, i_rotation.y, i_rotation.z) *
       XMMatrixTranslation(i_position.x, i_position.y, i_position.z);
-
-    bool customTexture = i_textureResourceId != ResourceIdEmpty;
 
     meshResourceCmo.getModel().UpdateEffects([&](IEffect* io_pEffect)
     {
@@ -85,11 +81,12 @@ namespace Dx
         pSkinning->SetBoneTransforms(animationController->getBoneXfms(), animationController->getBoneXfmsCount());
       }
 
-      if (customTexture)
+      if (i_textureResource)
       {
         if (auto* dgslEffect = dynamic_cast<DGSLEffect*>(io_pEffect))
         {
-          auto texture = resourceController.getTextureResource(i_textureResourceId).getTexturePtr();
+          const auto& textureResource = dynamic_cast<const TextureResource&>(*i_textureResource);
+          auto texture = textureResource.getTexturePtr();
           dgslEffect->SetTexture(texture);
           dgslEffect->SetTextureEnabled(true);
         }

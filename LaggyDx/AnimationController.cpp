@@ -7,9 +7,8 @@
 
 namespace Dx
 {
-  AnimationController::AnimationController(const IResourceController& i_resourceController, ResourceId i_resourceId)
-    : d_model(
-      dynamic_cast<const ResourceController&>(i_resourceController).getMeshResourceCmo(i_resourceId).getModel())
+  AnimationController::AnimationController(const IMeshResourceCmo& i_model)
+    : d_model(dynamic_cast<const MeshResourceCmo&>(i_model).getModel())
     , d_currentAnimationName(L"")
     , d_animationTime(0)
   {

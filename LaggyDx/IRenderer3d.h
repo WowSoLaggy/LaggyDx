@@ -26,13 +26,13 @@ namespace Dx
 
 
     virtual void renderObject(
-      ResourceId i_textureResourceId,
+      const ITextureResource& i_textureResource,
       const VertexBuffer& i_vertexBuffer, const IndexBuffer& i_indexBuffer,
       const std::vector<MaterialSpan>& i_materialSpans,
       const Sdk::Vector3& i_position, const Sdk::Vector3& i_rotation) = 0;
 
     virtual void renderObject(
-      ResourceId i_meshResourceCmoId, ResourceId i_textureResourceId,
+      const IMeshResourceCmo& i_meshCmoResource, const ITextureResource* i_textureResource,
       std::shared_ptr<IAnimationController> i_animationController,
       const Sdk::Vector3& i_position, const Sdk::Vector3& i_rotation, const Sdk::Vector3& i_scale,
       bool i_useLighting) = 0;

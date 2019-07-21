@@ -60,11 +60,10 @@ namespace Dx
     auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
     const auto& resourceController = dynamic_cast<const ResourceController&>(d_resourceController);
 
-    auto pixelShaderResourceId = resourceController.getResourceId("TextureLightPS.ps");
-    auto vertexShaderResourceId = resourceController.getResourceId("TextureLightVS.vs");
-
-    const auto& pixelShaderResource = resourceController.getPixelShaderResource(pixelShaderResourceId);
-    const auto& vertexShaderResource = resourceController.getVertexShaderResource(vertexShaderResourceId);
+    const auto& pixelShaderResource = dynamic_cast<const PixelShaderResource&>(
+      resourceController.getPixelShaderResource("TextureLightPS.ps"));
+    const auto& vertexShaderResource = dynamic_cast<const VertexShaderResource&>(
+      resourceController.getVertexShaderResource("TextureLightVS.vs"));
 
     auto* samplerState = pixelShaderResource.getSampleStatePtr();
 

@@ -8,7 +8,7 @@ namespace Dx
   class AnimationController : public IAnimationController
   {
   public:
-    AnimationController(const IResourceController& i_resourceController, ResourceId i_resourceId);
+    AnimationController(const IMeshResourceCmo& i_model);
 
     virtual const std::wstring& getCurrentAnimationName() const override { return d_currentAnimationName; }
 

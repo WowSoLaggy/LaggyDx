@@ -36,56 +36,75 @@ namespace Dx
   }
 
 
-  ResourceId ResourceController::getResourceId(const std::string& i_resourceName) const
+  const IMeshResourceCmo& ResourceController::getMeshResourceCmo(const std::string& i_resourceName) const
   {
-    const auto it = d_nameToIdMap.find(d_resourceFolder + i_resourceName);
-    CONTRACT_EXPECT(it != d_nameToIdMap.cend());
-    return it->second;
+    const auto it = d_meshResourcesMap.find(d_resourceFolder + i_resourceName);
+    CONTRACT_EXPECT(it != d_meshResourcesMap.cend());
+    CONTRACT_EXPECT(it->second);
+    return *it->second;
   }
 
-
-  const MeshResourceCmo& ResourceController::getMeshResourceCmo(ResourceId i_resourceId) const
+  const ITextureResource& ResourceController::getTextureResource(const std::string& i_resourceName) const
   {
-    return dynamic_cast<const MeshResourceCmo&>(*d_idToResourceMap.at(i_resourceId));
+    const auto it = d_textureResourcesMap.find(d_resourceFolder + i_resourceName);
+    CONTRACT_EXPECT(it != d_textureResourcesMap.cend());
+    CONTRACT_EXPECT(it->second);
+    return *it->second;
   }
 
-  const TextureResource& ResourceController::getTextureResource(ResourceId i_resourceId) const
+  const IPixelShaderResource& ResourceController::getPixelShaderResource(const std::string& i_resourceName) const
   {
-    return dynamic_cast<const TextureResource&>(*d_idToResourceMap.at(i_resourceId));
+    const auto it = d_pixelShaderResourcesMap.find(d_resourceFolder + i_resourceName);
+    CONTRACT_EXPECT(it != d_pixelShaderResourcesMap.cend());
+    CONTRACT_EXPECT(it->second);
+    return *it->second;
   }
 
-  const PixelShaderResource& ResourceController::getPixelShaderResource(ResourceId i_resourceId) const
+  const IVertexShaderResource& ResourceController::getVertexShaderResource(const std::string& i_resourceName) const
   {
-    return dynamic_cast<const PixelShaderResource&>(*d_idToResourceMap.at(i_resourceId));
+    const auto it = d_vertexShaderResourcesMap.find(d_resourceFolder + i_resourceName);
+    CONTRACT_EXPECT(it != d_vertexShaderResourcesMap.cend());
+    CONTRACT_EXPECT(it->second);
+    return *it->second;
   }
 
-  const VertexShaderResource& ResourceController::getVertexShaderResource(ResourceId i_resourceId) const
+  const IFontResource& ResourceController::getFontResource(const std::string& i_resourceName) const
   {
-    return dynamic_cast<const VertexShaderResource&>(*d_idToResourceMap.at(i_resourceId));
-  }
-
-  const FontResource& ResourceController::getFontResource(ResourceId i_resourceId) const
-  {
-    return dynamic_cast<const FontResource&>(*d_idToResourceMap.at(i_resourceId));
+    const auto it = d_fontResourcesMap.find(d_resourceFolder + i_resourceName);
+    CONTRACT_EXPECT(it != d_fontResourcesMap.cend());
+    CONTRACT_EXPECT(it->second);
+    return *it->second;
   }
 
 
   void ResourceController::loadResources(IRenderDevice& i_renderDevice)
   {
-    for (auto& it : d_idToResourceMap)
-      it.second->load(i_renderDevice);
+    auto loadAll = [&](auto& i_map)
+    {
+      for (auto& it : i_map)
+        it.second->load(i_renderDevice);
+    };
+
+    loadAll(d_meshResourcesMap);
+    loadAll(d_textureResourcesMap);
+    loadAll(d_pixelShaderResourcesMap);
+    loadAll(d_vertexShaderResourcesMap);
+    loadAll(d_fontResourcesMap);
   }
 
   void ResourceController::unloadResources()
   {
-    for (auto& it : d_idToResourceMap)
-      it.second->unload();
-  }
+    auto unloadAll = [](auto& i_map)
+    {
+      for (auto& it : i_map)
+        it.second->unload();
+    };
 
-
-  ResourceId ResourceController::getFreeResourceId()
-  {
-    return d_nextResourceId++;
+    unloadAll(d_meshResourcesMap);
+    unloadAll(d_textureResourcesMap);
+    unloadAll(d_pixelShaderResourcesMap);
+    unloadAll(d_vertexShaderResourcesMap);
+    unloadAll(d_fontResourcesMap);
   }
 
 
@@ -117,33 +136,17 @@ namespace Dx
       const std::regex fontPattern("\\w*.(spritefont)");
 
       auto resourceName = i_dirName + pEntity->d_name;
-      auto freeResourceId = getFreeResourceId();
 
       if (std::regex_match(pEntity->d_name, modelCmoPattern))
-      {
-        d_nameToIdMap.insert({ resourceName, freeResourceId });
-        d_idToResourceMap.insert({ freeResourceId, std::make_shared<MeshResourceCmo>(resourceName) });
-      }
+        d_meshResourcesMap.insert({ resourceName, std::make_shared<MeshResourceCmo>(resourceName) });
       else if (std::regex_match(pEntity->d_name, texturePattern))
-      {
-        d_nameToIdMap.insert({ resourceName, freeResourceId });
-        d_idToResourceMap.insert({ freeResourceId, std::make_shared<TextureResource>(resourceName) });
-      }
+        d_textureResourcesMap.insert({ resourceName, std::make_shared<TextureResource>(resourceName) });
       else if (std::regex_match(pEntity->d_name, vertexShaderPattern))
-      {
-        d_nameToIdMap.insert({ resourceName, freeResourceId });
-        d_idToResourceMap.insert({ freeResourceId, std::make_shared<VertexShaderResource>(resourceName) });
-      }
+        d_vertexShaderResourcesMap.insert({ resourceName, std::make_shared<VertexShaderResource>(resourceName) });
       else if (std::regex_match(pEntity->d_name, pixelShaderPattern))
-      {
-        d_nameToIdMap.insert({ resourceName, freeResourceId });
-        d_idToResourceMap.insert({ freeResourceId, std::make_shared<PixelShaderResource>(resourceName) });
-      }
+        d_pixelShaderResourcesMap.insert({ resourceName, std::make_shared<PixelShaderResource>(resourceName) });
       else if (std::regex_match(pEntity->d_name, fontPattern))
-      {
-        d_nameToIdMap.insert({ resourceName, freeResourceId });
-        d_idToResourceMap.insert({ freeResourceId, std::make_shared<FontResource>(resourceName) });
-      }
+        d_fontResourcesMap.insert({ resourceName, std::make_shared<FontResource>(resourceName) });
     }
   }
 

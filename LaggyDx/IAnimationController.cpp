@@ -6,10 +6,9 @@
 
 namespace Dx
 {
-  std::shared_ptr<IAnimationController> IAnimationController::getAnimationController(
-    const IResourceController& i_resourceController, ResourceId i_resourceId)
+  std::shared_ptr<IAnimationController> IAnimationController::getAnimationController(const IMeshResourceCmo& i_model)
   {
-    return std::make_shared<AnimationController>(i_resourceController, i_resourceId);
+    return std::make_shared<AnimationController>(i_model);
   }
 
 } // ns Dx
