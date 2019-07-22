@@ -17,7 +17,7 @@ namespace Dx
   namespace
   {
 
-    XMFLOAT4 getColorFromV4(const Sdk::Vector4& i_vector)
+    XMFLOAT4 getColorFromV4(const Sdk::Vector4F& i_vector)
     {
       return { i_vector.x, i_vector.y, i_vector.z, i_vector.w };
     }
@@ -73,7 +73,7 @@ namespace Dx
     renderDevice.getDeviceContextPtr()->PSSetSamplers(0, 1, &samplerState);
   }
 
-  void Renderer3d::setShaderMatrices(const Sdk::Vector3& i_position, const Sdk::Vector3& i_rotation)
+  void Renderer3d::setShaderMatrices(const Sdk::Vector3F& i_position, const Sdk::Vector3F& i_rotation)
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
     auto& camera = dynamic_cast<const Camera&>(d_camera);

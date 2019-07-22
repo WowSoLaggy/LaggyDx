@@ -41,7 +41,7 @@ namespace Dx
     D3D11_TEXTURE2D_DESC desc;
     textureResource->GetDesc(&desc);
 
-    d_size = { (float)desc.Width, (float)desc.Height };
+    d_size = { (int)desc.Width, (int)desc.Height };
 
     d_loaded = true;
   }

@@ -9,7 +9,7 @@ namespace Dx
   namespace
   {
 
-    XMVECTOR toXmVector(const Sdk::Vector3& i_vector)
+    XMVECTOR toXmVector(const Sdk::Vector3F& i_vector)
     {
       return XMVectorSet(i_vector.x, i_vector.y, i_vector.z, 1);
     }
@@ -48,48 +48,51 @@ namespace Dx
     updateViewMatrix();
   }
 
-  void Camera::setLookAt(Sdk::Vector3 i_lookAt)
+  void Camera::setLookAt(Sdk::Vector3F i_lookAt)
   {
     d_lookAt = std::move(i_lookAt);
     updateViewMatrix();
   }
 
-  void Camera::setUp(Sdk::Vector3 i_up)
+  void Camera::setUp(Sdk::Vector3F i_up)
   {
-    i_up = Sdk::normalize(i_up);
+    i_up.normalize();
     d_up = std::move(i_up);
     updateViewMatrix();
   }
 
 
-  Sdk::Vector3 Camera::getPosition() const
+  Sdk::Vector3F Camera::getPosition() const
   {
     XMFLOAT3 unitVector{ 1, 0, 0 };
 
     auto qRotation = XMQuaternionRotationRollPitchYaw(0, d_yaw, d_pitch);
     XMStoreFloat3(&unitVector, XMVector3Rotate(XMLoadFloat3(&unitVector), qRotation));
 
-    Sdk::Vector3 relativePosition{ unitVector.x * d_distance, unitVector.y * d_distance, unitVector.z * d_distance };
+    Sdk::Vector3F relativePosition{ unitVector.x * d_distance, unitVector.y * d_distance, unitVector.z * d_distance };
     return d_lookAt + relativePosition;
   }
 
 
-  Sdk::Vector3 Camera::getLeft() const
+  Sdk::Vector3F Camera::getLeft() const
   {
-    return normalize(cross(getUp(), getForward()));
+    auto left = getUp();
+    left.cross(getForward());
+    left.normalize();
+    return left;
   }
 
-  Sdk::Vector3 Camera::getRight() const
+  Sdk::Vector3F Camera::getRight() const
   {
     return -getLeft();
   }
 
-  Sdk::Vector3 Camera::getForward() const
+  Sdk::Vector3F Camera::getForward() const
   {
     return getLookAt() - getPosition();
   }
 
-  Sdk::Vector3 Camera::getBackward() const
+  Sdk::Vector3F Camera::getBackward() const
   {
     return -getForward();
   }
@@ -108,7 +111,7 @@ namespace Dx
   }
 
 
-  Sdk::Vector2 Camera::worldToScreen(const Sdk::Vector3& i_point) const
+  Sdk::Vector2F Camera::worldToScreen(const Sdk::Vector3F& i_point) const
   {
     auto worldMatrix = XMMatrixIdentity();
 

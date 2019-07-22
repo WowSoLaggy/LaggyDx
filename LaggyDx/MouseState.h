@@ -32,7 +32,7 @@ namespace Dx
     const ButtonState& getXButton1State() const { return d_xButton1State; }
     const ButtonState& getXButton2State() const { return d_xButton2State; }
 
-    const Sdk::Vector2& getPosition() const { return d_mousePosition; }
+    const Sdk::Vector2I& getPosition() const { return d_mousePosition; }
     int getWheelPosition() const { return d_wheelPosition; }
 
     void update(const MouseKeys& i_state);
@@ -48,7 +48,7 @@ namespace Dx
     ButtonState d_xButton1State;
     ButtonState d_xButton2State;
 
-    Sdk::Vector2 d_mousePosition;
+    Sdk::Vector2I d_mousePosition;
     int d_wheelPosition = 0;
 
     MouseMode d_mode = MouseMode::Absolute;

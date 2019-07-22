@@ -31,7 +31,7 @@ namespace Dx
 
     d_currentState = i_state;
 
-    d_mousePosition = { (float)i_state.x, (float)i_state.y };
+    d_mousePosition = { i_state.x, i_state.y };
     d_wheelPosition = i_state.scrollWheelValue;
   }
 

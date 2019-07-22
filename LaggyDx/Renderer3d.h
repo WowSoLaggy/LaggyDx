@@ -23,12 +23,12 @@ namespace Dx
       const ITextureResource& i_textureResource,
       const VertexBuffer& i_vertexBuffer, const IndexBuffer& i_indexBuffer,
       const std::vector<MaterialSpan>& i_materialSpans,
-      const Sdk::Vector3& i_position, const Sdk::Vector3& i_rotation) override;
+      const Sdk::Vector3F& i_position, const Sdk::Vector3F& i_rotation) override;
 
     virtual void renderObject(
       const IMeshResourceCmo& i_meshCmoResource, const ITextureResource* i_textureResource,
       std::shared_ptr<IAnimationController> i_animationController,
-      const Sdk::Vector3& i_position, const Sdk::Vector3& i_rotation, const Sdk::Vector3& i_scale,
+      const Sdk::Vector3F& i_position, const Sdk::Vector3F& i_rotation, const Sdk::Vector3F& i_scale,
       bool i_useLighting) override;
 
   private:
@@ -47,7 +47,7 @@ namespace Dx
 
     void setBuffers(ID3D11Buffer* i_vertexBufferPtr, ID3D11Buffer* i_indexBufferPtr, unsigned int i_stride);
     void setShaders();
-    void setShaderMatrices(const Sdk::Vector3& i_position, const Sdk::Vector3& i_rotation);
+    void setShaderMatrices(const Sdk::Vector3F& i_position, const Sdk::Vector3F& i_rotation);
     void setShaderTexture(ID3D11ShaderResourceView* i_texture);
     void setShaderMaterial(const Material& i_material);
     void drawMaterial(const MaterialSpan& i_materialSpan);

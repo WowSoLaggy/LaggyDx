@@ -1,6 +1,6 @@
 #pragma once
 
-#include <LaggySdk/SdkFwd.h>
+#include <LaggySdk/Vector.h>
 
 
 namespace Dx
@@ -10,6 +10,6 @@ namespace Dx
   public:
     virtual ~ITextureResource() = default;
 
-    virtual const Sdk::Vector2& getSize() const = 0;
+    virtual const Sdk::Vector2I& getSize() const = 0;
   };
 } // ns Dx

@@ -18,7 +18,7 @@ namespace Dx
     const ITextureResource& i_textureResource,
     const VertexBuffer& i_vertexBuffer, const IndexBuffer& i_indexBuffer,
     const std::vector<MaterialSpan>& i_materialSpans,
-    const Sdk::Vector3& i_position, const Sdk::Vector3& i_rotation)
+    const Sdk::Vector3F& i_position, const Sdk::Vector3F& i_rotation)
   {
     const auto& textureResource = dynamic_cast<const TextureResource&>(i_textureResource);
 
@@ -39,7 +39,7 @@ namespace Dx
   void Renderer3d::renderObject(
     const IMeshResourceCmo& i_meshCmoResource, const ITextureResource* i_textureResource,
     std::shared_ptr<IAnimationController> i_animationController,
-    const Sdk::Vector3& i_position, const Sdk::Vector3& i_rotation, const Sdk::Vector3& i_scale,
+    const Sdk::Vector3F& i_position, const Sdk::Vector3F& i_rotation, const Sdk::Vector3F& i_scale,
     bool i_useLighting)
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);

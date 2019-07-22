@@ -7,9 +7,9 @@ namespace Dx
 {
   struct VertexTypePosTexNorm
   {
-    Sdk::Vector3 position;
-    Sdk::Vector2 texture;
-    Sdk::Vector3 normal;
+    Sdk::Vector3F position;
+    Sdk::Vector2F texture;
+    Sdk::Vector3F normal;
   };
 
 } // ns Dx

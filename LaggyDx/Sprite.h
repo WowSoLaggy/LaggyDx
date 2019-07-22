@@ -11,8 +11,8 @@ namespace Dx
   {
     const ITextureResource* texture = nullptr;
 
-    Sdk::Vector2 position = Sdk::Vector2::zero();
-    Sdk::Vector2 size = Sdk::Vector2::zero();
+    Sdk::Vector2I position = Sdk::Vector2I::zero();
+    Sdk::Vector2I size = Sdk::Vector2I::zero();
   };
 
 } // ns Dx

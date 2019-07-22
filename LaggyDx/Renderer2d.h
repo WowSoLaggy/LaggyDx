@@ -14,16 +14,16 @@ namespace Dx
     virtual void beginScene() override;
     virtual void endScene() override;
 
-    virtual void setTranslation(Sdk::Vector2 i_translation) override;
+    virtual void setTranslation(Sdk::Vector2I i_translation) override;
     virtual void resetTranslation() override;
 
 
     virtual void renderText(const std::string& i_text,
-      const IFontResource& i_fontResource, const Sdk::Vector2& i_position) override;
+      const IFontResource& i_fontResource, const Sdk::Vector2I& i_position) override;
 
-    virtual void renderTexture(const ITextureResource& i_textureResource, const Sdk::Vector2& i_position) override;
+    virtual void renderTexture(const ITextureResource& i_textureResource, const Sdk::Vector2I& i_position) override;
     virtual void renderTexture(const ITextureResource& i_textureResource,
-      const Sdk::Vector2& i_position, const Sdk::Vector2& i_size) override;
+      const Sdk::Vector2I& i_position, const Sdk::Vector2I& i_size) override;
 
     virtual void renderSprite(const Sprite& i_sprite) override;
 
@@ -33,7 +33,7 @@ namespace Dx
     std::shared_ptr<SpriteBatch> d_spriteBatch;
     std::unique_ptr<CommonStates> d_states;
 
-    Sdk::Vector2 d_translation{};
+    Sdk::Vector2I d_translation{};
   };
 
 } // ns Dx
