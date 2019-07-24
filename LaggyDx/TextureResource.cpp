@@ -16,12 +16,6 @@ namespace Dx
   }
 
 
-  Sdk::Vector2I TextureResource::getSize() const
-  {
-    return { d_annotation.description.width, d_annotation.description.height };
-  }
-
-
   void TextureResource::load(IRenderDevice& i_renderDevice)
   {
     loadTexture(i_renderDevice);

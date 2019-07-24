@@ -46,24 +46,28 @@ namespace Dx
 
 
   void Renderer2d::renderText(const std::string& i_text,
-    const IFontResource& i_fontResource, const Sdk::Vector2I& i_position)
+                              const IFontResource& i_fontResource, const Sdk::Vector2I& i_position)
   {
     const auto& fontResource = dynamic_cast<const FontResource&>(i_fontResource);
 
     fontResource.getSpriteFont()->DrawString(d_spriteBatch.get(), Sdk::getWString(i_text).c_str(),
-      XMFLOAT2((float)i_position.x, (float)i_position.y));
+                                             XMFLOAT2((float)i_position.x, (float)i_position.y));
   }
 
   void Renderer2d::renderSprite(const Sprite& i_sprite)
   {
-    if (!i_sprite.texture)
+    const auto* texture = i_sprite.getTexture();
+    if (!texture)
       return;
 
-    const auto& textureResource = dynamic_cast<const TextureResource&>(*i_sprite.texture);
+    const auto& textureResource = dynamic_cast<const TextureResource&>(*texture);
 
-    const auto pos = i_sprite.position - d_translation;
+    const auto pos = i_sprite.getPosition() - d_translation;
+    const Sdk::Vector2I size = {
+      i_sprite.getTexture()->getAnnotation().description.width,
+      i_sprite.getTexture()->getAnnotation().description.height };
 
-    RECT destinationRect{ pos.x, pos.y, pos.x + i_sprite.size.x, pos.y + i_sprite.size.y };
+    RECT destinationRect{ pos.x, pos.y, pos.x + size.x, pos.y + size.y };
     d_spriteBatch->Draw(textureResource.getTexturePtr(), destinationRect, Colors::White);
   }
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "LaggyDxFwd.h"
+
 #include <LaggySdk/Vector.h>
 
 
@@ -10,6 +12,6 @@ namespace Dx
   public:
     virtual ~ITextureResource() = default;
 
-    virtual Sdk::Vector2I getSize() const = 0;
+    virtual const ImageAnnotation& getAnnotation() const = 0;
   };
 } // ns Dx

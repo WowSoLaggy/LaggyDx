@@ -18,7 +18,7 @@ namespace Dx
     virtual void load(IRenderDevice& i_renderDevice) override;
     virtual void unload() override;
 
-    Sdk::Vector2I getSize() const override;
+    virtual const ImageAnnotation& getAnnotation() const override { return d_annotation; }
 
     ID3D11ShaderResourceView* getTexturePtr() const { return d_texture; }
 

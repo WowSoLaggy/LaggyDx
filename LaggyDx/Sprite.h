@@ -7,12 +7,18 @@
 
 namespace Dx
 {
-  struct Sprite
+  class Sprite
   {
-    const ITextureResource* texture = nullptr;
+  public:
+    void setTexture(const ITextureResource* i_texture) { d_texture = i_texture; }
+    const ITextureResource* getTexture() const { return d_texture; }
 
-    Sdk::Vector2I position = Sdk::Vector2I::zero();
-    Sdk::Vector2I size = Sdk::Vector2I::zero();
+    void setPosition(Sdk::Vector2I i_position) { d_position = std::move(i_position); }
+    const Sdk::Vector2I& getPosition() const { return d_position; }
+
+  private:
+    const ITextureResource* d_texture = nullptr;
+    Sdk::Vector2I d_position = Sdk::Vector2I::zero();
   };
 
 } // ns Dx
