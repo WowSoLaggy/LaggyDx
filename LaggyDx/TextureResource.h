@@ -27,6 +27,10 @@ namespace Dx
     Sdk::Vector2I d_size{ 0, 0 };
 
     ID3D11ShaderResourceView* d_texture = nullptr;
+
+    void loadTexture(IRenderDevice& i_renderDevice);
+    void setSize();
+    void loadAnnotation();
   };
 
 } // ns Dx
