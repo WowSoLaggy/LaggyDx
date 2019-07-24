@@ -1,9 +1,12 @@
 #pragma once
 
 
-struct ImageDescription
+namespace Dx
 {
-  int width = 0;
-  int height = 0;
-  bool alpha = false;
-};
+  struct ImageDescription
+  {
+    int width = 0;
+    int height = 0;
+    bool alpha = false;
+  };
+} // ns Dx

@@ -6,8 +6,11 @@
 #include <unordered_map>
 
 
-struct ImageAnnotation
+namespace Dx
 {
-  ImageDescription description;
-  std::unordered_map<std::string, ImageAnimation> animations;
-};
+  struct ImageAnnotation
+  {
+    ImageDescription description;
+    std::unordered_map<std::string, ImageAnimation> animations;
+  };
+} // ns Dx

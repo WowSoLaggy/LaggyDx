@@ -37,6 +37,7 @@ namespace Dx
   struct MousePosition;
 
   struct Sprite;
+  struct ImageAnnotation;
 } // ns Dx
 
 

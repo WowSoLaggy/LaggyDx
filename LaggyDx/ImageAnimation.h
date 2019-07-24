@@ -1,9 +1,12 @@
 #pragma once
 
 
-struct ImageAnimation
+namespace Dx
 {
-  int start = 0;
-  int end = 0;
-  double frameTime = 0;
-};
+  struct ImageAnimation
+  {
+    int start = 0;
+    int end = 0;
+    double frameTime = 0;
+  };
+} // ns Dx
