@@ -12,7 +12,7 @@ namespace Dx
   class TextureResource : public ILoadableResource, public ITextureResource
   {
   public:
-    TextureResource(std::string i_textureFilePath);
+    TextureResource(fs::path i_textureFilePath);
 
     virtual void load(IRenderDevice& i_renderDevice) override;
     virtual void unload() override;
@@ -23,7 +23,7 @@ namespace Dx
 
   private:
     bool d_loaded = false;
-    const std::string d_textureFilePath = "";
+    const fs::path d_textureFilePath = "";
     Sdk::Vector2I d_size{ 0, 0 };
 
     ID3D11ShaderResourceView* d_texture = nullptr;

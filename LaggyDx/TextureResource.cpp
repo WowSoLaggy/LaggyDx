@@ -4,13 +4,11 @@
 #include "RenderDevice.h"
 
 #include <LaggySdk/Contracts.h>
-#include <LaggySdk/FileSystemUtils.h>
-#include <LaggySdk/StringUtils.h>
 
 
 namespace Dx
 {
-  TextureResource::TextureResource(std::string i_textureFilePath)
+  TextureResource::TextureResource(fs::path i_textureFilePath)
     : d_textureFilePath(std::move(i_textureFilePath))
     , d_loaded(false)
   {
@@ -40,15 +38,15 @@ namespace Dx
     auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
 
     auto hresult = 1;
-    if (Sdk::getExtension(d_textureFilePath) == ".dds")
+    if (d_textureFilePath.extension() == ".dds")
     {
       hresult = CreateDDSTextureFromFile(renderDevice.getDevicePtr(),
-        Sdk::getWString(d_textureFilePath).c_str(), nullptr, &d_texture);
+        d_textureFilePath.wstring().c_str(), nullptr, &d_texture);
     }
     else
     {
       hresult = CreateWICTextureFromFile(renderDevice.getDevicePtr(),
-        Sdk::getWString(d_textureFilePath).c_str(), nullptr, &d_texture);
+        d_textureFilePath.wstring().c_str(), nullptr, &d_texture);
     }
 
     CONTRACT_EXPECT(hresult == 0);

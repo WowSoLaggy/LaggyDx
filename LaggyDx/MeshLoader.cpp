@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "MeshLoader.h"
 
-#include <LaggySdk/FileSystemUtils.h>
 #include <LaggySdk/StringUtils.h>
 #include <LaggySdk/Vector.h>
 
@@ -150,7 +149,7 @@ namespace Dx
 
     } // while (std::getline(file, line))
 
-    mtllibFileName = Sdk::getParentFolder(i_modelPath) + "\\" + mtllibFileName;
+    mtllibFileName = fs::path(i_modelPath).parent_path().string() + "\\" + mtllibFileName;
     auto materials = loadMaterials(mtllibFileName);
 
     for (auto it = materialNamesMap.begin(); it != materialNamesMap.end(); ++it)
