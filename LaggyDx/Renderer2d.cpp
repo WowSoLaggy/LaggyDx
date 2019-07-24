@@ -54,27 +54,17 @@ namespace Dx
       XMFLOAT2((float)i_position.x, (float)i_position.y));
   }
 
-
-  void Renderer2d::renderTexture(const ITextureResource& i_textureResource, const Sdk::Vector2I& i_position)
-  {
-    renderTexture(i_textureResource, i_position, i_textureResource.getSize());
-  }
-
-  void Renderer2d::renderTexture(const ITextureResource& i_textureResource,
-    const Sdk::Vector2I& i_position, const Sdk::Vector2I& i_size)
-  {
-    const auto& textureResource = dynamic_cast<const TextureResource&>(i_textureResource);
-
-    const auto pos = i_position - d_translation;
-
-    RECT destinationRect{ pos.x, pos.y, pos.x + i_size.x, pos.y + i_size.y };
-    d_spriteBatch->Draw(textureResource.getTexturePtr(), destinationRect, Colors::White);
-  }
-
   void Renderer2d::renderSprite(const Sprite& i_sprite)
   {
-    if (i_sprite.texture)
-      renderTexture(*i_sprite.texture, i_sprite.position, i_sprite.size);
+    if (!i_sprite.texture)
+      return;
+
+    const auto& textureResource = dynamic_cast<const TextureResource&>(*i_sprite.texture);
+
+    const auto pos = i_sprite.position - d_translation;
+
+    RECT destinationRect{ pos.x, pos.y, pos.x + i_sprite.size.x, pos.y + i_sprite.size.y };
+    d_spriteBatch->Draw(textureResource.getTexturePtr(), destinationRect, Colors::White);
   }
 
 } // ns Dx

@@ -20,11 +20,7 @@ namespace Dx
 
     virtual void renderText(const std::string& i_text,
       const IFontResource& i_fontResource, const Sdk::Vector2I& i_position) override;
-
-    virtual void renderTexture(const ITextureResource& i_textureResource, const Sdk::Vector2I& i_position) override;
-    virtual void renderTexture(const ITextureResource& i_textureResource,
-      const Sdk::Vector2I& i_position, const Sdk::Vector2I& i_size) override;
-
+    
     virtual void renderSprite(const Sprite& i_sprite) override;
 
   private:
