@@ -5,10 +5,10 @@
 
 namespace Dx
 {
-  class IAnimationController
+  class IAnimationController3d
   {
   public:
-    static std::shared_ptr<IAnimationController> getAnimationController(const IMeshResourceCmo& i_model);
+    static std::shared_ptr<IAnimationController3d> getAnimationController(const IMeshResourceCmo& i_model);
 
   public:
     virtual const std::wstring& getCurrentAnimationName() const = 0;

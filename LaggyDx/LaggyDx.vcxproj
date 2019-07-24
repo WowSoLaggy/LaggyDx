@@ -149,10 +149,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AnimationController.h" />
+    <ClInclude Include="AnimationController3d.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="FontResource.h" />
-    <ClInclude Include="IAnimationController.h" />
+    <ClInclude Include="IAnimationController3d.h" />
     <ClInclude Include="IFontResource.h" />
     <ClInclude Include="IInputDevice.h" />
     <ClInclude Include="IMeshResourceCmo.h" />
@@ -191,10 +191,10 @@
     <ClInclude Include="VertexTypes.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AnimationController.cpp" />
+    <ClCompile Include="AnimationController3d.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="FontResource.cpp" />
-    <ClCompile Include="IAnimationController.cpp" />
+    <ClCompile Include="IAnimationController3d.cpp" />
     <ClCompile Include="IInputDevice.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="InputDevice.cpp" />

@@ -29,7 +29,7 @@ namespace Dx
   struct MaterialSpan;
   class MaterialSequence;
 
-  class IAnimationController;
+  class IAnimationController3d;
 
   class IInputDevice;
   class KeyboardState;

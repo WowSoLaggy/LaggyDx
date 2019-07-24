@@ -33,7 +33,7 @@ namespace Dx
 
     virtual void renderObject(
       const IMeshResourceCmo& i_meshCmoResource, const ITextureResource* i_textureResource,
-      std::shared_ptr<IAnimationController> i_animationController,
+      std::shared_ptr<IAnimationController3d> i_animationController,
       const Sdk::Vector3F& i_position, const Sdk::Vector3F& i_rotation, const Sdk::Vector3F& i_scale,
       bool i_useLighting) = 0;
   };

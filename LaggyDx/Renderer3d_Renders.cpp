@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Renderer3d.h"
 
-#include "AnimationController.h"
+#include "AnimationController3d.h"
 #include "Camera.h"
 #include "IndexBuffer.h"
 #include "MaterialSequence.h"
@@ -38,7 +38,7 @@ namespace Dx
 
   void Renderer3d::renderObject(
     const IMeshResourceCmo& i_meshCmoResource, const ITextureResource* i_textureResource,
-    std::shared_ptr<IAnimationController> i_animationController,
+    std::shared_ptr<IAnimationController3d> i_animationController,
     const Sdk::Vector3F& i_position, const Sdk::Vector3F& i_rotation, const Sdk::Vector3F& i_scale,
     bool i_useLighting)
   {
@@ -48,7 +48,7 @@ namespace Dx
     auto& camera = dynamic_cast<const Camera&>(d_camera);
 
     auto animationTransform = XMMatrixIdentity();
-    auto animationController = std::dynamic_pointer_cast<AnimationController>(i_animationController);
+    auto animationController = std::dynamic_pointer_cast<AnimationController3d>(i_animationController);
 
     auto worldMatrix =
       XMMatrixScaling(i_scale.x, i_scale.y, i_scale.z) *
