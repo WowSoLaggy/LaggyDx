@@ -10,6 +10,6 @@ namespace Dx
   public:
     virtual ~ITextureResource() = default;
 
-    virtual const Sdk::Vector2I& getSize() const = 0;
+    virtual Sdk::Vector2I getSize() const = 0;
   };
 } // ns Dx

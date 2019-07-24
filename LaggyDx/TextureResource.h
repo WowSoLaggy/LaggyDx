@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ILoadableResource.h"
+#include "ImageAnnotation.h"
 #include "ITextureResource.h"
 
 
@@ -17,16 +18,16 @@ namespace Dx
     virtual void load(IRenderDevice& i_renderDevice) override;
     virtual void unload() override;
 
-    const Sdk::Vector2I& getSize() const override { return d_size; }
+    Sdk::Vector2I getSize() const override;
 
     ID3D11ShaderResourceView* getTexturePtr() const { return d_texture; }
 
   private:
     bool d_loaded = false;
     const fs::path d_textureFilePath = "";
-    Sdk::Vector2I d_size{ 0, 0 };
 
     ID3D11ShaderResourceView* d_texture = nullptr;
+    ImageAnnotation d_annotation;
 
     void loadTexture(IRenderDevice& i_renderDevice);
     void setSize();

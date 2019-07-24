@@ -149,12 +149,14 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ImageAnimation.h" />
     <ClInclude Include="AnimationController3d.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="FontResource.h" />
     <ClInclude Include="IAnimationController3d.h" />
     <ClInclude Include="IFontResource.h" />
     <ClInclude Include="IInputDevice.h" />
+    <ClInclude Include="ImageDescription.h" />
     <ClInclude Include="IMeshResourceCmo.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="InputDevice.h" />
@@ -184,6 +186,7 @@
     <ClInclude Include="ResourceController.h" />
     <ClInclude Include="ShaderBuffers.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="ImageAnnotation.h" />
     <ClInclude Include="VertexShaderResource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextureResource.h" />
