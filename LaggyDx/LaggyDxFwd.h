@@ -39,6 +39,7 @@ namespace Dx
   struct MousePosition;
 
   class Sprite;
+  class AnimatedSprite;
   struct ImageDescription;
   struct ImageAnimation;
   using AnimationsMap = std::unordered_map<std::string, ImageAnimation>;
