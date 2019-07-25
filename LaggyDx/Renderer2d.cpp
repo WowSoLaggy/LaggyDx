@@ -67,9 +67,11 @@ namespace Dx
       i_sprite.getTexture()->getDescription().width,
       i_sprite.getTexture()->getDescription().height };
 
-    RECT sourceRect = i_sprite.getSourceRect();
-    RECT destinationRect{ pos.x, pos.y, pos.x + size.x, pos.y + size.y };
-    d_spriteBatch->Draw(textureResource.getTexturePtr(), destinationRect, &sourceRect, Colors::White);
+    const RECT sourceRect = i_sprite.getSourceRect();
+    const RECT destinationRect{ pos.x, pos.y, pos.x + size.x, pos.y + size.y };
+    const auto& color = i_sprite.getColor();
+    const XMVECTORF32 colorVector = { { { color.x, color.y, color.z, color.w } } };
+    d_spriteBatch->Draw(textureResource.getTexturePtr(), destinationRect, &sourceRect, colorVector);
   }
 
 } // ns Dx
