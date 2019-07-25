@@ -26,11 +26,11 @@ namespace Dx
   public:
     MouseState();
 
-    const ButtonState& getLeftButtonState() const { return d_leftButtonState; }
-    const ButtonState& getMiddleButtonState() const { return d_middleButtonState; }
-    const ButtonState& getRightButtonState() const { return d_rightButtonState; }
-    const ButtonState& getXButton1State() const { return d_xButton1State; }
-    const ButtonState& getXButton2State() const { return d_xButton2State; }
+    ButtonState getLeftButtonState() const { return d_leftButtonState; }
+    ButtonState getMiddleButtonState() const { return d_middleButtonState; }
+    ButtonState getRightButtonState() const { return d_rightButtonState; }
+    ButtonState getXButton1State() const { return d_xButton1State; }
+    ButtonState getXButton2State() const { return d_xButton2State; }
 
     const Sdk::Vector2I& getPosition() const { return d_mousePosition; }
     int getWheelPosition() const { return d_wheelPosition; }
