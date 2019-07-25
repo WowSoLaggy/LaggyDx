@@ -149,6 +149,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="ImageAnimation.h" />
     <ClInclude Include="AnimationController3d.h" />
     <ClInclude Include="Camera.h" />
@@ -193,6 +194,7 @@
     <ClInclude Include="VertexTypes.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="AnimationController3d.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="FontResource.cpp" />
