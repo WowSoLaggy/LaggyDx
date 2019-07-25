@@ -9,7 +9,7 @@ namespace Dx
 {
   RECT Sprite::getSourceRect() const
   {
-    return { 0, 0, d_texture->getDescription().width, d_texture->getDescription().height };
+    return { 0, 0, d_texture->getDescription().width - 1, d_texture->getDescription().height - 1 };
   }
 
   const Sdk::Vector4F& Sprite::getColor() const
