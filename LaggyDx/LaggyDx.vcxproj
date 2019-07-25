@@ -186,7 +186,6 @@
     <ClInclude Include="ResourceController.h" />
     <ClInclude Include="ShaderBuffers.h" />
     <ClInclude Include="Sprite.h" />
-    <ClInclude Include="ImageAnnotation.h" />
     <ClInclude Include="VertexShaderResource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextureResource.h" />

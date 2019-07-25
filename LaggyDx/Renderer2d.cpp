@@ -64,8 +64,8 @@ namespace Dx
 
     const auto pos = i_sprite.getPosition() - d_translation;
     const Sdk::Vector2I size = {
-      i_sprite.getTexture()->getAnnotation().description.width,
-      i_sprite.getTexture()->getAnnotation().description.height };
+      i_sprite.getTexture()->getDescription().width,
+      i_sprite.getTexture()->getDescription().height };
 
     RECT destinationRect{ pos.x, pos.y, pos.x + size.x, pos.y + size.y };
     d_spriteBatch->Draw(textureResource.getTexturePtr(), destinationRect, Colors::White);

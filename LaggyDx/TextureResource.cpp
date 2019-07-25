@@ -61,8 +61,8 @@ namespace Dx
     D3D11_TEXTURE2D_DESC desc;
     textureResource->GetDesc(&desc);
 
-    d_annotation.description.width = (int)desc.Width;
-    d_annotation.description.height = (int)desc.Height;
+    d_description.width = (int)desc.Width;
+    d_description.height = (int)desc.Height;
   }
 
   void TextureResource::loadAnnotation()
@@ -79,9 +79,9 @@ namespace Dx
     CONTRACT_ASSERT(reader.parse(test, root, false));
 
     const auto& descriptionNode = root["Description"];
-    d_annotation.description.width = descriptionNode["Width"].asInt();
-    d_annotation.description.height = descriptionNode["Height"].asInt();
-    d_annotation.description.alpha = descriptionNode["Alpha"].asBool();
+    d_description.width = descriptionNode["Width"].asInt();
+    d_description.height = descriptionNode["Height"].asInt();
+    d_description.alpha = descriptionNode["Alpha"].asBool();
 
     const auto& animationsNode = root["Animations"];
     for (const auto& animationNode : animationsNode)
@@ -90,7 +90,7 @@ namespace Dx
       animation.start = animationNode["Start"].asInt();
       animation.end = animationNode["End"].asInt();
       animation.frameTime = animationNode["FrameTime"].asDouble();
-      d_annotation.animations[animationNode["Name"].asString()] = animation;
+      d_animations[animationNode["Name"].asString()] = animation;
     }
   }
 

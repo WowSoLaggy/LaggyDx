@@ -1,5 +1,7 @@
 #pragma once
 
+#include <unordered_map>
+
 
 namespace Dx
 {
@@ -37,7 +39,9 @@ namespace Dx
   struct MousePosition;
 
   class Sprite;
-  struct ImageAnnotation;
+  struct ImageDescription;
+  struct ImageAnimation;
+  using AnimationsMap = std::unordered_map<std::string, ImageAnimation>;
 } // ns Dx
 
 

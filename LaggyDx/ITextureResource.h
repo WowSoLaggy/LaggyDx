@@ -12,6 +12,7 @@ namespace Dx
   public:
     virtual ~ITextureResource() = default;
 
-    virtual const ImageAnnotation& getAnnotation() const = 0;
+    virtual const ImageDescription& getDescription() const = 0;
+    virtual const AnimationsMap& getAnimationsMap() const = 0;
   };
 } // ns Dx

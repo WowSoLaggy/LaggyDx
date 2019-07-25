@@ -171,9 +171,6 @@
     <ClInclude Include="ImageDescription.h">
       <Filter>src\Animation2d</Filter>
     </ClInclude>
-    <ClInclude Include="ImageAnnotation.h">
-      <Filter>src\Animation2d</Filter>
-    </ClInclude>
     <ClInclude Include="ImageAnimation.h">
       <Filter>src\Animation2d</Filter>
     </ClInclude>
