@@ -67,8 +67,9 @@ namespace Dx
       i_sprite.getTexture()->getDescription().width,
       i_sprite.getTexture()->getDescription().height };
 
+    RECT sourceRect = i_sprite.getSourceRect();
     RECT destinationRect{ pos.x, pos.y, pos.x + size.x, pos.y + size.y };
-    d_spriteBatch->Draw(textureResource.getTexturePtr(), destinationRect, Colors::White);
+    d_spriteBatch->Draw(textureResource.getTexturePtr(), destinationRect, &sourceRect, Colors::White);
   }
 
 } // ns Dx

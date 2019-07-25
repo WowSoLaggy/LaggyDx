@@ -260,5 +260,8 @@
     <ClCompile Include="AnimationController3d.cpp">
       <Filter>src\Animation3d</Filter>
     </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>src\Sprite</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

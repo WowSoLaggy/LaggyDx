@@ -217,6 +217,7 @@
     <ClCompile Include="RenderDevice.cpp" />
     <ClCompile Include="Renderer3d_Renders.cpp" />
     <ClCompile Include="ResourceController.cpp" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="VertexShaderResource.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
