@@ -72,11 +72,11 @@ namespace Dx
     if (!fs::exists(annotationFile))
       return;
 
-    std::ifstream test(annotationFile.string(), std::ifstream::binary);
+    std::ifstream file(annotationFile.string(), std::ifstream::binary);
 
     Json::Reader reader;
     Json::Value root;
-    CONTRACT_ASSERT(reader.parse(test, root, false));
+    CONTRACT_ASSERT(reader.parse(file, root, false));
 
     const auto& descriptionNode = root["Description"];
     d_description.width = descriptionNode["Width"].asInt();
