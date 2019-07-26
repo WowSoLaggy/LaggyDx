@@ -45,6 +45,11 @@ namespace Dx
     d_curAnimation.reset();
   }
 
+  bool AnimatedSprite::isPlaying() const
+  {
+    return d_curAnimation.has_value();
+  }
+
 
   void AnimatedSprite::advanceFrame()
   {
