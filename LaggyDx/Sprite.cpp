@@ -10,9 +10,7 @@ namespace Dx
   void Sprite::setTexture(const ITextureResource* i_texture)
   {
     d_texture = i_texture;
-    d_size = {
-      d_texture->getDescription().width,
-      d_texture->getDescription().height };
+    d_size = d_texture->getDescription().size();
   }
 
 

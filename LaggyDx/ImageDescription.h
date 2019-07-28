@@ -1,5 +1,7 @@
 #pragma once
 
+#include <LaggySdk/Vector.h>
+
 
 namespace Dx
 {
@@ -8,5 +10,7 @@ namespace Dx
     int width = 0;
     int height = 0;
     bool alpha = false;
+
+    Sdk::Vector2I size() const { return { width, height }; }
   };
 } // ns Dx
