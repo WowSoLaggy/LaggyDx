@@ -63,9 +63,7 @@ namespace Dx
     const auto& textureResource = dynamic_cast<const TextureResource&>(*texture);
 
     const auto pos = i_sprite.getPosition() - d_translation;
-    const Sdk::Vector2I size = {
-      i_sprite.getTexture()->getDescription().width,
-      i_sprite.getTexture()->getDescription().height };
+    const auto& size = i_sprite.getSize();
 
     const RECT sourceRect = i_sprite.getSourceRect();
     const RECT destinationRect{ pos.x, pos.y, pos.x + size.x, pos.y + size.y };
