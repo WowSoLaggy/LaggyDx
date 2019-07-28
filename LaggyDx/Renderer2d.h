@@ -17,6 +17,8 @@ namespace Dx
     virtual void setTranslation(Sdk::Vector2I i_translation) override;
     virtual void resetTranslation() override;
 
+    virtual int resetRenderedSprites() override;
+
 
     virtual void renderText(const std::string& i_text,
       const IFontResource& i_fontResource, const Sdk::Vector2I& i_position) override;
@@ -30,6 +32,8 @@ namespace Dx
     std::unique_ptr<CommonStates> d_states;
 
     Sdk::Vector2I d_translation{};
+
+    int d_renderedSprites = 0;
   };
 
 } // ns Dx

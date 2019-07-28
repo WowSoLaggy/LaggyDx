@@ -11,11 +11,9 @@ namespace Dx
   class IRenderer2d : public IRenderer
   {
   public:
-
     static std::unique_ptr<IRenderer2d> create(IRenderDevice& io_renderDevice);
 
   public:
-
     virtual ~IRenderer2d() = default;
 
     virtual void beginScene() = 0;
@@ -23,6 +21,8 @@ namespace Dx
 
     virtual void setTranslation(Sdk::Vector2I i_translation) = 0;
     virtual void resetTranslation() = 0;
+
+    virtual int resetRenderedSprites() = 0;
 
 
     virtual void renderText(const std::string& i_text,

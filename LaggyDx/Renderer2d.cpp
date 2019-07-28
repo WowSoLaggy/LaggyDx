@@ -45,6 +45,14 @@ namespace Dx
   }
 
 
+  int Renderer2d::resetRenderedSprites()
+  {
+    int toReturn = d_renderedSprites;
+    d_renderedSprites = 0;
+    return toReturn;
+  }
+
+
   void Renderer2d::renderText(const std::string& i_text,
                               const IFontResource& i_fontResource, const Sdk::Vector2I& i_position)
   {
@@ -70,6 +78,8 @@ namespace Dx
     const auto& color = i_sprite.getColor();
     const XMVECTORF32 colorVector = { { { color.x, color.y, color.z, color.w } } };
     d_spriteBatch->Draw(textureResource.getTexturePtr(), destinationRect, &sourceRect, colorVector);
+
+    ++d_renderedSprites;
   }
 
 } // ns Dx
