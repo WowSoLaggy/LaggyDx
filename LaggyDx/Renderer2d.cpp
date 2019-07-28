@@ -34,6 +34,11 @@ namespace Dx
   }
 
 
+  const Sdk::Vector2I& Renderer2d::getTranslation() const
+  {
+    return d_translation;
+  }
+
   void Renderer2d::setTranslation(Sdk::Vector2I i_translation)
   {
     d_translation = std::move(i_translation);

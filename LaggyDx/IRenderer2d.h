@@ -19,6 +19,7 @@ namespace Dx
     virtual void beginScene() = 0;
     virtual void endScene() = 0;
 
+    virtual const Sdk::Vector2I& getTranslation() const = 0;
     virtual void setTranslation(Sdk::Vector2I i_translation) = 0;
     virtual void resetTranslation() = 0;
 

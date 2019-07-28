@@ -14,6 +14,7 @@ namespace Dx
     virtual void beginScene() override;
     virtual void endScene() override;
 
+    virtual const Sdk::Vector2I& getTranslation() const override;
     virtual void setTranslation(Sdk::Vector2I i_translation) override;
     virtual void resetTranslation() override;
 
