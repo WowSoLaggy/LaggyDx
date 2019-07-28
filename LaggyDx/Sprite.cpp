@@ -11,9 +11,4 @@ namespace Dx
   {
     return { 0, 0, d_texture->getDescription().width - 1, d_texture->getDescription().height - 1 };
   }
-
-  const Sdk::Vector4F& Sprite::getColor() const
-  {
-    return d_color;
-  }
 } // ns Dx

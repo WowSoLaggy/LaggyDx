@@ -17,7 +17,7 @@ namespace Dx
     const Sdk::Vector2I& getPosition() const { return d_position; }
 
     virtual RECT getSourceRect() const;
-    const Sdk::Vector4F& getColor() const;
+    const Sdk::Vector4F& getColor() const { return d_color; }
 
   protected:
     const ITextureResource* d_texture = nullptr;
