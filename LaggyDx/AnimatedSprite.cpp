@@ -25,7 +25,7 @@ namespace Dx
     const int width = d_texture->getDescription().width;
     const int height = d_texture->getDescription().height;
 
-    return { d_curFrame * width, 0, (d_curFrame + 1) * width - 1, height - 1 };
+    return { d_curFrame * width, 0, (d_curFrame + 1) * width, height };
   }
 
 
