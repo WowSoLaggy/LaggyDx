@@ -177,6 +177,9 @@
     <ClInclude Include="AnimatedSprite.h">
       <Filter>src\Sprite</Filter>
     </ClInclude>
+    <ClInclude Include="MouseKey.h">
+      <Filter>src\InputControllers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

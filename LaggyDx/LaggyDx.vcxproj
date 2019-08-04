@@ -173,6 +173,7 @@
     <ClInclude Include="MaterialSequence.h" />
     <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="MeshResourceCmo.h" />
+    <ClInclude Include="MouseKey.h" />
     <ClInclude Include="MouseKeys.h" />
     <ClInclude Include="MouseState.h" />
     <ClInclude Include="PixelShaderResource.h" />
