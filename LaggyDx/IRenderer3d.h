@@ -14,7 +14,7 @@ namespace Dx
 
     static std::shared_ptr<IRenderer3d> create(
       IRenderDevice& io_renderDevice,
-      const IResourceController& i_resourceController,
+      IResourceController& i_resourceController,
       const ICamera& i_camera);
 
   public:

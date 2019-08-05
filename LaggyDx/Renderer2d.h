@@ -18,7 +18,7 @@ namespace Dx
     virtual void setTranslation(Sdk::Vector2I i_translation) override;
     virtual void resetTranslation() override;
 
-    virtual int resetRenderedSprites() override;
+    virtual int getRenderedSprites() override;
 
 
     virtual void renderText(const std::string& i_text,

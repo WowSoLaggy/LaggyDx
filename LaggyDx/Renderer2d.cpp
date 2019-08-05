@@ -25,6 +25,7 @@ namespace Dx
 
   void Renderer2d::beginScene()
   {
+    d_renderedSprites = 0;
     d_spriteBatch->Begin(SpriteSortMode_Deferred, d_states->NonPremultiplied());
   }
 
@@ -50,11 +51,9 @@ namespace Dx
   }
 
 
-  int Renderer2d::resetRenderedSprites()
+  int Renderer2d::getRenderedSprites()
   {
-    int toReturn = d_renderedSprites;
-    d_renderedSprites = 0;
-    return toReturn;
+    return d_renderedSprites;
   }
 
 

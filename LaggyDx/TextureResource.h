@@ -21,6 +21,8 @@ namespace Dx
     virtual void load(IRenderDevice& i_renderDevice) override;
     virtual void unload() override;
 
+    virtual bool isLoaded() const override { return d_loaded; }
+
     virtual const ImageDescription& getDescription() const override { return d_description; }
     virtual const AnimationsMap& getAnimationsMap() const override { return d_animations; }
 
@@ -38,5 +40,4 @@ namespace Dx
     void setSize();
     void loadAnnotation();
   };
-
 } // ns Dx

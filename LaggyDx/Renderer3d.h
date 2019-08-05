@@ -12,7 +12,7 @@ namespace Dx
 
     Renderer3d(
       IRenderDevice& io_renderDevice,
-      const IResourceController& i_resourceController,
+      IResourceController& i_resourceController,
       const ICamera& i_camera);
     ~Renderer3d();
 
@@ -34,7 +34,7 @@ namespace Dx
   private:
 
     IRenderDevice& d_renderDevice;
-    const IResourceController& d_resourceController;
+    IResourceController& d_resourceController;
     const ICamera& d_camera;
 
     std::shared_ptr<CommonStates> d_commonStates;

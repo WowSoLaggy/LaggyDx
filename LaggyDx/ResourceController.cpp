@@ -24,8 +24,9 @@ namespace Dx
   } // anonymous NS
 
 
-  ResourceController::ResourceController(const std::string& i_resourcesFolder)
-    : d_resourceFolder(".\\" + i_resourcesFolder + "\\")
+  ResourceController::ResourceController(IRenderDevice& i_renderDevice, const std::string& i_resourcesFolder)
+    : d_renderDevice(i_renderDevice)
+    , d_resourceFolder(".\\" + i_resourcesFolder + "\\")
   {
     indexResourcesInDir(d_resourceFolder);
   }
@@ -36,53 +37,69 @@ namespace Dx
   }
 
 
-  const IMeshResourceCmo& ResourceController::getMeshResourceCmo(const std::string& i_resourceName) const
+  const IMeshResourceCmo& ResourceController::getMeshResourceCmo(const std::string& i_resourceName)
   {
     const auto it = d_meshResourcesMap.find(d_resourceFolder + i_resourceName);
     CONTRACT_EXPECT(it != d_meshResourcesMap.cend());
     CONTRACT_EXPECT(it->second);
+
+    loadResource(*it->second);
     return *it->second;
   }
 
-  const ITextureResource& ResourceController::getTextureResource(const std::string& i_resourceName) const
+  const ITextureResource& ResourceController::getTextureResource(const std::string& i_resourceName)
   {
     const auto it = d_textureResourcesMap.find(d_resourceFolder + i_resourceName);
     CONTRACT_EXPECT(it != d_textureResourcesMap.cend());
     CONTRACT_EXPECT(it->second);
+
+    loadResource(*it->second);
     return *it->second;
   }
 
-  const IPixelShaderResource& ResourceController::getPixelShaderResource(const std::string& i_resourceName) const
+  const IPixelShaderResource& ResourceController::getPixelShaderResource(const std::string& i_resourceName)
   {
     const auto it = d_pixelShaderResourcesMap.find(d_resourceFolder + i_resourceName);
     CONTRACT_EXPECT(it != d_pixelShaderResourcesMap.cend());
     CONTRACT_EXPECT(it->second);
+
+    loadResource(*it->second);
     return *it->second;
   }
 
-  const IVertexShaderResource& ResourceController::getVertexShaderResource(const std::string& i_resourceName) const
+  const IVertexShaderResource& ResourceController::getVertexShaderResource(const std::string& i_resourceName)
   {
     const auto it = d_vertexShaderResourcesMap.find(d_resourceFolder + i_resourceName);
     CONTRACT_EXPECT(it != d_vertexShaderResourcesMap.cend());
     CONTRACT_EXPECT(it->second);
+
+    loadResource(*it->second);
     return *it->second;
   }
 
-  const IFontResource& ResourceController::getFontResource(const std::string& i_resourceName) const
+  const IFontResource& ResourceController::getFontResource(const std::string& i_resourceName)
   {
     const auto it = d_fontResourcesMap.find(d_resourceFolder + i_resourceName);
     CONTRACT_EXPECT(it != d_fontResourcesMap.cend());
     CONTRACT_EXPECT(it->second);
+
+    loadResource(*it->second);
     return *it->second;
   }
 
 
-  void ResourceController::loadResources(IRenderDevice& i_renderDevice)
+  void ResourceController::loadResource(ILoadableResource& i_resource)
+  {
+    if (!i_resource.isLoaded())
+      i_resource.load(d_renderDevice);
+  }
+
+  void ResourceController::loadResources()
   {
     auto loadAll = [&](auto& i_map)
     {
       for (auto& it : i_map)
-        it.second->load(i_renderDevice);
+        loadResource(*it.second);
     };
 
     loadAll(d_meshResourcesMap);

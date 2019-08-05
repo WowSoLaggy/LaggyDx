@@ -27,7 +27,7 @@ namespace Dx
 
   Renderer3d::Renderer3d(
     IRenderDevice& io_renderDevice,
-    const IResourceController& i_resourceController,
+    IResourceController& i_resourceController,
     const ICamera& i_camera)
     : d_renderDevice(io_renderDevice)
     , d_resourceController(i_resourceController)
@@ -58,7 +58,7 @@ namespace Dx
   void Renderer3d::setShaders()
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
-    const auto& resourceController = dynamic_cast<const ResourceController&>(d_resourceController);
+    auto& resourceController = dynamic_cast<ResourceController&>(d_resourceController);
 
     const auto& pixelShaderResource = dynamic_cast<const PixelShaderResource&>(
       resourceController.getPixelShaderResource("TextureLightPS.ps"));
