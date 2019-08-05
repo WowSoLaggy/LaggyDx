@@ -27,10 +27,10 @@ namespace Dx
 
   void TextureResource::unload()
   {
+    d_loaded = false;
+
     if (d_texture && d_loaded)
       d_texture->Release();
-
-    d_loaded = false;
   }
 
 
