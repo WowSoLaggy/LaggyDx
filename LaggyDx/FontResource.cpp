@@ -3,6 +3,7 @@
 
 #include "RenderDevice.h"
 
+#include <LaggySdk/Contracts.h>
 #include <LaggySdk/StringUtils.h>
 
 
@@ -26,4 +27,12 @@ namespace Dx
     d_spriteFont.reset();
   }
 
+
+  Sdk::RectI FontResource::getStringRect(const std::string& i_string) const
+  {
+    CONTRACT_EXPECT(d_spriteFont);
+
+    const auto stringSize = d_spriteFont->MeasureString(Sdk::getWString(i_string).c_str());
+    return { Sdk::Vector2I::zero(), { (int)XMVectorGetX(stringSize), (int)XMVectorGetY(stringSize) } };
+  }
 } // ns Dx

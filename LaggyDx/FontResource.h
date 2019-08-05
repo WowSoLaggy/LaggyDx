@@ -15,6 +15,8 @@ namespace Dx
     virtual void load(IRenderDevice& i_renderDevice) override;
     virtual void unload() override;
 
+    virtual Sdk::RectI getStringRect(const std::string& i_string) const override;
+
     std::shared_ptr<SpriteFont> getSpriteFont() const { return d_spriteFont; }
 
   private:
