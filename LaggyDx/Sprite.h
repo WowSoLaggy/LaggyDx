@@ -4,6 +4,8 @@
 
 #include <LaggySdk/Vector.h>
 
+#include <iostream>
+
 
 namespace Dx
 {
@@ -32,6 +34,8 @@ namespace Dx
     Sdk::Vector2I d_position = Sdk::Vector2I::zero();
     Sdk::Vector2I d_size = Sdk::Vector2I::zero();
     Sdk::Vector4F d_color = Sdk::Vector4F::identity();
-  };
 
+
+    friend std::ostream& operator<<(std::ostream& io_stream, const Sprite& i_sprite);
+  };
 } // ns Dx
