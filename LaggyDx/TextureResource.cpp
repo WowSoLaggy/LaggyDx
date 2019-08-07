@@ -94,4 +94,9 @@ namespace Dx
     }
   }
 
+
+  fs::path TextureResource::getFilename() const
+  {
+    return d_textureFilePath.filename();
+  }
 } // ns Dx

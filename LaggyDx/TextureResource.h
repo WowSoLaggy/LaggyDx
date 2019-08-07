@@ -23,6 +23,8 @@ namespace Dx
 
     virtual bool isLoaded() const override { return d_loaded; }
 
+    virtual fs::path getFilename() const override;
+
     virtual const ImageDescription& getDescription() const override { return d_description; }
     virtual const AnimationsMap& getAnimationsMap() const override { return d_animations; }
 
