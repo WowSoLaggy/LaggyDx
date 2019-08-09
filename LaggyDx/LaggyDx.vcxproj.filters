@@ -275,5 +275,8 @@
     <ClCompile Include="Sprite_save.cpp">
       <Filter>src\Sprite</Filter>
     </ClCompile>
+    <ClCompile Include="AnimatedSprite_save.cpp">
+      <Filter>src\Sprite</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -196,6 +196,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp" />
+    <ClCompile Include="AnimatedSprite_save.cpp" />
     <ClCompile Include="AnimationController3d.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="FontResource.cpp" />

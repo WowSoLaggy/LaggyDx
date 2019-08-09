@@ -24,5 +24,9 @@ namespace Dx
 
     void advanceFrame();
     int getAnimationDirectionSign();
+
+  public:
+    virtual void writeTo(std::ostream& io_stream) const override;
+    virtual void readFrom(std::istream& io_stream, IResourceController& i_resourceController) override;
   };
 } // ns Dx
