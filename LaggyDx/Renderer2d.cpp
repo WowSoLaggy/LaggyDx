@@ -62,8 +62,10 @@ namespace Dx
   {
     const auto& fontResource = dynamic_cast<const FontResource&>(i_fontResource);
 
+    const auto pos = i_position - d_translation;
+
     fontResource.getSpriteFont()->DrawString(d_spriteBatch.get(), Sdk::getWString(i_text).c_str(),
-                                             XMFLOAT2((float)i_position.x, (float)i_position.y));
+                                             XMFLOAT2((float)pos.x, (float)pos.y));
   }
 
   void Renderer2d::renderSprite(const Sprite& i_sprite)
