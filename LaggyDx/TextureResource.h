@@ -28,6 +28,8 @@ namespace Dx
     virtual const ImageDescription& getDescription() const override { return d_description; }
     virtual const AnimationsMap& getAnimationsMap() const override { return d_animations; }
 
+    virtual bool checkAlpha(Sdk::Vector2I i_coords, int i_frame = 0) const override;
+
     ID3D11ShaderResourceView* getTexturePtr() const { return d_texture; }
 
   private:

@@ -146,6 +146,17 @@ namespace Dx
     }
   }
 
+  bool TextureResource::checkAlpha(Sdk::Vector2I i_coords, int i_frame /*= 0*/) const
+  {
+    if (d_solidAlpha)
+      return true;
+
+    if (i_frame != 0)
+      i_coords.x += i_frame * d_description.width;
+
+    return d_alphaMask.at(i_coords.x + i_coords.y * d_textureDesc.Width);
+  }
+
 
   fs::path TextureResource::getFilename() const
   {
