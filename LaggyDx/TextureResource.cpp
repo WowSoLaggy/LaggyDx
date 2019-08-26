@@ -120,19 +120,29 @@ namespace Dx
     D3D11_MAPPED_SUBRESOURCE subres;
     auto res = renderDevice.getDeviceContextPtr()->Map(stagingTex, 0, D3D11_MAP::D3D11_MAP_READ, 0, &subres);
 
+    const int stride = subres.RowPitch;
     unsigned char* data = (unsigned char*)subres.pData;
-    std::vector<unsigned char> tempArray(readTexDesc.Width * readTexDesc.Height, 0);
-    memcpy(tempArray.data(), data, readTexDesc.Width * readTexDesc.Height);
+    const int bytesCount = readTexDesc.Width * readTexDesc.Height * 4;
+    std::vector<unsigned char> tempArray(bytesCount, 0);
+    memcpy(tempArray.data(), data, bytesCount);
 
     renderDevice.getDeviceContextPtr()->Unmap(stagingTex, 0);
     stagingTex->Release();
 
 
+    d_solidAlpha = true;
     data = tempArray.data();
     for (int y = 0; y < (int)readTexDesc.Height; ++y)
     {
-      for (int x = 0; x < (int)readTexDesc.Width; ++x, data += 4)
-        d_alphaMask.at(x + y * readTexDesc.Width) = *(data + 3) != 0;
+      data += stride;
+      auto rowStart = data;
+      for (int x = 0; x < (int)readTexDesc.Width; ++x, rowStart += 4)
+      {
+        bool val = *(rowStart + 3) != 0;
+        d_alphaMask.at(x + y * readTexDesc.Width) = val;
+        if (!val)
+          d_solidAlpha = false;
+      }
     }
   }
 
