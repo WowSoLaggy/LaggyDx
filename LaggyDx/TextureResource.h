@@ -35,11 +35,16 @@ namespace Dx
     const fs::path d_textureFilePath = "";
 
     ID3D11ShaderResourceView* d_texture = nullptr;
+    D3D11_TEXTURE2D_DESC d_textureDesc;
     ImageDescription d_description;
     AnimationsMap d_animations;
 
+    bool d_solidAlpha = true;
+    std::vector<bool> d_alphaMask;
+
     void loadTexture(IRenderDevice& i_renderDevice);
-    void setSize();
+    void setSizeFromTexture();
     void loadAnnotation();
+    void fillAlphaMask(IRenderDevice& i_renderDevice);
   };
 } // ns Dx

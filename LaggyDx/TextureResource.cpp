@@ -19,8 +19,9 @@ namespace Dx
   void TextureResource::load(IRenderDevice& i_renderDevice)
   {
     loadTexture(i_renderDevice);
-    setSize();
+    setSizeFromTexture();
     loadAnnotation();
+    fillAlphaMask(i_renderDevice);
 
     d_loaded = true;
   }
@@ -54,15 +55,17 @@ namespace Dx
     CONTRACT_EXPECT(d_texture);
   }
 
-  void TextureResource::setSize()
+  void TextureResource::setSizeFromTexture()
   {
     ID3D11Texture2D* textureResource = nullptr;
     d_texture->GetResource(reinterpret_cast<ID3D11Resource**>(&textureResource));
-    D3D11_TEXTURE2D_DESC desc;
-    textureResource->GetDesc(&desc);
+    textureResource->GetDesc(&d_textureDesc);
 
-    d_description.width = (int)desc.Width;
-    d_description.height = (int)desc.Height;
+    d_description.width = (int)d_textureDesc.Width;
+    d_description.height = (int)d_textureDesc.Height;
+
+    d_alphaMask.resize(d_description.width * d_description.height, true);
+    d_solidAlpha = true;
   }
 
   void TextureResource::loadAnnotation()
@@ -91,6 +94,45 @@ namespace Dx
       animation.end = animationNode["End"].asInt();
       animation.frameTime = animationNode["FrameTime"].asDouble();
       d_animations[animationNode["Name"].asString()] = animation;
+    }
+  }
+
+  void TextureResource::fillAlphaMask(IRenderDevice& i_renderDevice)
+  {
+    if (!d_description.alpha)
+      return;
+
+    auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
+
+    D3D11_TEXTURE2D_DESC readTexDesc = d_textureDesc;
+    readTexDesc.BindFlags = 0; //No bind flags allowed for staging
+    readTexDesc.Usage = D3D11_USAGE_STAGING; //need staging flag for read
+    readTexDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+
+    ID3D11Texture2D* stagingTex = nullptr;
+    HRESULT hres = renderDevice.getDevicePtr()->CreateTexture2D(&readTexDesc, 0, &stagingTex);
+
+    ID3D11Texture2D* sourceTex = nullptr;
+    d_texture->GetResource(reinterpret_cast<ID3D11Resource**>(&sourceTex));
+
+    renderDevice.getDeviceContextPtr()->CopyResource(stagingTex, sourceTex);
+    
+    D3D11_MAPPED_SUBRESOURCE subres;
+    auto res = renderDevice.getDeviceContextPtr()->Map(stagingTex, 0, D3D11_MAP::D3D11_MAP_READ, 0, &subres);
+
+    unsigned char* data = (unsigned char*)subres.pData;
+    std::vector<unsigned char> tempArray(readTexDesc.Width * readTexDesc.Height, 0);
+    memcpy(tempArray.data(), data, readTexDesc.Width * readTexDesc.Height);
+
+    renderDevice.getDeviceContextPtr()->Unmap(stagingTex, 0);
+    stagingTex->Release();
+
+
+    data = tempArray.data();
+    for (int y = 0; y < (int)readTexDesc.Height; ++y)
+    {
+      for (int x = 0; x < (int)readTexDesc.Width; ++x, data += 4)
+        d_alphaMask.at(x + y * readTexDesc.Width) = *(data + 3) != 0;
     }
   }
 
