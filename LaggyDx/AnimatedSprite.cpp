@@ -50,6 +50,11 @@ namespace Dx
     return d_curAnimation.has_value();
   }
 
+  int AnimatedSprite::getFrame() const
+  {
+    return d_curFrame;
+  }
+
 
   void AnimatedSprite::advanceFrame()
   {
