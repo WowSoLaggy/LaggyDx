@@ -16,7 +16,9 @@ namespace Dx
     void playAnimation(const std::string& i_animation);
     void stopAnimation();
     bool isPlaying() const;
+
     int getFrame() const;
+    void setFrameEnd();
 
   private:
     int d_curFrame = 0;

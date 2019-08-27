@@ -55,6 +55,14 @@ namespace Dx
     return d_curFrame;
   }
 
+  void AnimatedSprite::setFrameEnd()
+  {
+    if (!d_curAnimation)
+      return;
+    d_curFrame = d_curAnimation->end;
+    stopAnimation();
+  }
+
 
   void AnimatedSprite::advanceFrame()
   {
