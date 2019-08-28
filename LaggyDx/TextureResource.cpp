@@ -120,11 +120,9 @@ namespace Dx
     D3D11_MAPPED_SUBRESOURCE subres;
     auto res = renderDevice.getDeviceContextPtr()->Map(stagingTex, 0, D3D11_MAP::D3D11_MAP_READ, 0, &subres);
 
-    const int stride = subres.RowPitch;
     unsigned char* data = (unsigned char*)subres.pData;
-    const int bytesCount = readTexDesc.Width * readTexDesc.Height * 4;
-    std::vector<unsigned char> tempArray(bytesCount, 0);
-    memcpy(tempArray.data(), data, bytesCount);
+    std::vector<unsigned char> tempArray(subres.DepthPitch, 0);
+    memcpy(tempArray.data(), data, subres.DepthPitch);
 
     renderDevice.getDeviceContextPtr()->Unmap(stagingTex, 0);
     stagingTex->Release();
@@ -134,7 +132,7 @@ namespace Dx
     data = tempArray.data();
     for (int y = 0; y < (int)readTexDesc.Height; ++y)
     {
-      data += stride;
+      data += subres.RowPitch;
       auto rowStart = data;
       for (int x = 0; x < (int)readTexDesc.Width; ++x, rowStart += 4)
       {
