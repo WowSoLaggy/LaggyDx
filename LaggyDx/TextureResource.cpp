@@ -129,11 +129,9 @@ namespace Dx
 
 
     d_solidAlpha = true;
-    data = tempArray.data();
     for (int y = 0; y < (int)readTexDesc.Height; ++y)
     {
-      data += subres.RowPitch;
-      auto rowStart = data;
+      auto* rowStart = tempArray.data() + subres.RowPitch * y;
       for (int x = 0; x < (int)readTexDesc.Width; ++x, rowStart += 4)
       {
         bool val = *(rowStart + 3) != 0;
