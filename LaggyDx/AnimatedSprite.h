@@ -18,6 +18,7 @@ namespace Dx
     bool isPlaying() const;
 
     int getFrame() const;
+    void setFrame(int i_frame);
     void setFrameEnd();
 
   private:

@@ -55,6 +55,11 @@ namespace Dx
     return d_curFrame;
   }
 
+  void AnimatedSprite::setFrame(int i_frame)
+  {
+    d_curFrame = i_frame;
+  }
+
   void AnimatedSprite::setFrameEnd()
   {
     if (!d_curAnimation)
