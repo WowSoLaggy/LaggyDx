@@ -2,6 +2,7 @@
 
 #include "LaggyDxFwd.h"
 
+#include <LaggySdk/Rect.h>
 #include <LaggySdk/Vector.h>
 
 #include <iostream>
@@ -20,6 +21,8 @@ namespace Dx
 
     void setPosition(Sdk::Vector2I i_position) { d_position = std::move(i_position); }
     const Sdk::Vector2I& getPosition() const { return d_position; }
+
+    Sdk::RectI getRect() const;
 
     void setColor(Sdk::Vector4F i_color) { d_color = std::move(i_color); }
     const Sdk::Vector4F& getColor() const { return d_color; }

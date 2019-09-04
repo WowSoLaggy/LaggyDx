@@ -26,6 +26,12 @@ namespace Dx
 
   RECT Sprite::getSourceRect() const
   {
-    return { 0, 0, d_texture->getDescription().width, d_texture->getDescription().height };
+    return { 0, 0, d_size.x, d_size.y };
+  }
+
+
+  Sdk::RectI Sprite::getRect() const
+  {
+    return { d_position, d_position + d_size };
   }
 } // ns Dx
