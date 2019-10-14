@@ -1,27 +1,52 @@
 #pragma once
 
-#include "IResource.h"
+#include "ILoadableResource.h"
+#include "ImageAnimation.h"
+#include "ImageDescription.h"
+#include "ITextureResource.h"
+
+#include <unordered_map>
+
+
+struct ID3D11ShaderResourceView;
 
 
 namespace Dx
 {
-  class TextureResource : public IResource
+  class TextureResource : public ILoadableResource, public ITextureResource
   {
   public:
-
-    TextureResource(std::string i_textureFilePath);
+    TextureResource(fs::path i_textureFilePath);
 
     virtual void load(IRenderDevice& i_renderDevice) override;
     virtual void unload() override;
 
+    virtual bool isLoaded() const override { return d_loaded; }
+
+    virtual fs::path getFilename() const override;
+
+    virtual const ImageDescription& getDescription() const override { return d_description; }
+    virtual const AnimationsMap& getAnimationsMap() const override { return d_animations; }
+
+    virtual bool checkAlpha(Sdk::Vector2I i_coords, int i_frame = 0) const override;
+
     ID3D11ShaderResourceView* getTexturePtr() const { return d_texture; }
 
   private:
+    bool d_loaded = false;
+    const fs::path d_textureFilePath = "";
 
-    const std::string d_textureFilePath;
+    ID3D11ShaderResourceView* d_texture = nullptr;
+    D3D11_TEXTURE2D_DESC d_textureDesc;
+    ImageDescription d_description;
+    AnimationsMap d_animations;
 
-    ID3D11ShaderResourceView* d_texture;
+    bool d_solidAlpha = true;
+    std::vector<bool> d_alphaMask;
 
+    void loadTexture(IRenderDevice& i_renderDevice);
+    void setSizeFromTexture();
+    void loadAnnotation();
+    void fillAlphaMask(IRenderDevice& i_renderDevice);
   };
-
 } // ns Dx

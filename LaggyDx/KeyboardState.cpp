@@ -13,9 +13,9 @@ namespace Dx
   void KeyboardState::update(const KeyboardKeys& i_state)
   {
     auto currPtr = reinterpret_cast<const uint32_t*>(&i_state);
-    auto prevPtr = reinterpret_cast<const uint32_t*>(&currentState);
-    auto releasedPtr = reinterpret_cast<uint32_t*>(&released);
-    auto pressedPtr = reinterpret_cast<uint32_t*>(&pressed);
+    auto prevPtr = reinterpret_cast<const uint32_t*>(&d_currentState);
+    auto releasedPtr = reinterpret_cast<uint32_t*>(&d_releasedKeys);
+    auto pressedPtr = reinterpret_cast<uint32_t*>(&d_pressedKeys);
     for (size_t j = 0; j < (256 / 32); ++j)
     {
       *pressedPtr = *currPtr & ~(*prevPtr);
@@ -27,7 +27,7 @@ namespace Dx
       ++pressedPtr;
     }
 
-    currentState = i_state;
+    d_currentState = i_state;
   }
 
   void KeyboardState::reset()

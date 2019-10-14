@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "MeshLoader.h"
 
-#include <LaggySdk/FileSystemUtils.h>
 #include <LaggySdk/StringUtils.h>
 #include <LaggySdk/Vector.h>
 
@@ -79,9 +78,9 @@ namespace Dx
     if (!file)
       return;
 
-    std::vector<Sdk::Vector3> positions;
-    std::vector<Sdk::Vector2> texCoords;
-    std::vector<Sdk::Vector3> normals;
+    std::vector<Sdk::Vector3F> positions;
+    std::vector<Sdk::Vector2F> texCoords;
+    std::vector<Sdk::Vector3F> normals;
 
     std::map<std::tuple<int, int, int>, int> trioMap;
     int nextIndex = 0;
@@ -133,7 +132,7 @@ namespace Dx
           auto it = trioMap.find(trio);
           if (it == trioMap.end())
           {
-            Sdk::Vector2 uv = (texCoordIndex == -1) ? Sdk::Vector2{ 0.0f, 0.0f } : texCoords[texCoordIndex];
+            Sdk::Vector2F uv = (texCoordIndex == -1) ? Sdk::Vector2F{ 0.0f, 0.0f } : texCoords[texCoordIndex];
             o_vertices.push_back({ positions[posIndex], uv, normals[normIndex] });
             trioMap[trio] = nextIndex;
             o_indices.push_back(nextIndex);
@@ -150,7 +149,7 @@ namespace Dx
 
     } // while (std::getline(file, line))
 
-    mtllibFileName = Sdk::getParentFolder(i_modelPath) + "\\" + mtllibFileName;
+    mtllibFileName = fs::path(i_modelPath).parent_path().string() + "\\" + mtllibFileName;
     auto materials = loadMaterials(mtllibFileName);
 
     for (auto it = materialNamesMap.begin(); it != materialNamesMap.end(); ++it)

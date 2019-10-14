@@ -60,10 +60,14 @@ namespace Dx
       vertexShaderBuffer->GetBufferPointer(), vertexShaderBuffer->GetBufferSize(), &d_layout);
 
     vertexShaderBuffer->Release();
+
+    d_loaded = true;
   }
 
   void VertexShaderResource::unload()
   {
+    d_loaded = false;
+
     d_layout->Release();
     d_vertexShader->Release();
   }

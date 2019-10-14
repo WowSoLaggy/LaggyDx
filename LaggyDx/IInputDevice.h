@@ -10,20 +10,15 @@ namespace Dx
   class IInputDevice
   {
   public:
-
-    static std::shared_ptr<IInputDevice> create();
+    static std::unique_ptr<IInputDevice> create(HWND i_hWnd);
 
   public:
-
     virtual ~IInputDevice() = default;
-
-    virtual void initialize() = 0;
-    virtual void dispose() = 0;
 
     virtual void processMessage(const Sdk::Message& i_inputMessage) = 0;
 
-    virtual const KeyboardState& check() = 0;
-
+    virtual const MouseState& checkMouse() = 0;
+    virtual const KeyboardState& checkKeyboard() = 0;
   };
 
 } // ns Dx

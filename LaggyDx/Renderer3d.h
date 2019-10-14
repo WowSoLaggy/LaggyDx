@@ -12,7 +12,7 @@ namespace Dx
 
     Renderer3d(
       IRenderDevice& io_renderDevice,
-      const IResourceController& i_resourceController,
+      IResourceController& i_resourceController,
       const ICamera& i_camera);
     ~Renderer3d();
 
@@ -20,21 +20,21 @@ namespace Dx
     virtual void endScene() override;
 
     virtual void renderObject(
-      ResourceId i_textureResourceId,
+      const ITextureResource& i_textureResource,
       const VertexBuffer& i_vertexBuffer, const IndexBuffer& i_indexBuffer,
       const std::vector<MaterialSpan>& i_materialSpans,
-      const Sdk::Vector3& i_position, const Sdk::Vector3& i_rotation) override;
+      const Sdk::Vector3F& i_position, const Sdk::Vector3F& i_rotation) override;
 
     virtual void renderObject(
-      ResourceId i_meshResourceCmoId, ResourceId i_textureResourceId,
-      std::shared_ptr<IAnimationController> i_animationController,
-      const Sdk::Vector3& i_position, const Sdk::Vector3& i_rotation, const Sdk::Vector3& i_scale,
+      const IMeshResourceCmo& i_meshCmoResource, const ITextureResource* i_textureResource,
+      std::shared_ptr<IAnimationController3d> i_animationController,
+      const Sdk::Vector3F& i_position, const Sdk::Vector3F& i_rotation, const Sdk::Vector3F& i_scale,
       bool i_useLighting) override;
 
   private:
 
     IRenderDevice& d_renderDevice;
-    const IResourceController& d_resourceController;
+    IResourceController& d_resourceController;
     const ICamera& d_camera;
 
     std::shared_ptr<CommonStates> d_commonStates;
@@ -47,7 +47,7 @@ namespace Dx
 
     void setBuffers(ID3D11Buffer* i_vertexBufferPtr, ID3D11Buffer* i_indexBufferPtr, unsigned int i_stride);
     void setShaders();
-    void setShaderMatrices(const Sdk::Vector3& i_position, const Sdk::Vector3& i_rotation);
+    void setShaderMatrices(const Sdk::Vector3F& i_position, const Sdk::Vector3F& i_rotation);
     void setShaderTexture(ID3D11ShaderResourceView* i_texture);
     void setShaderMaterial(const Material& i_material);
     void drawMaterial(const MaterialSpan& i_materialSpan);

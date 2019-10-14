@@ -22,18 +22,18 @@ namespace Dx
     virtual float getDistance() const override { return d_distance; }
     virtual void setDistance(float i_distance) override;
 
-    virtual Sdk::Vector3 getLookAt() const override { return d_lookAt; }
-    virtual void setLookAt(Sdk::Vector3 i_lookAt) override;
+    virtual Sdk::Vector3F getLookAt() const override { return d_lookAt; }
+    virtual void setLookAt(Sdk::Vector3F i_lookAt) override;
 
-    virtual Sdk::Vector3 getUp() const override { return d_up; }
-    virtual void setUp(Sdk::Vector3 i_up) override;
+    virtual Sdk::Vector3F getUp() const override { return d_up; }
+    virtual void setUp(Sdk::Vector3F i_up) override;
 
-    virtual Sdk::Vector3 getLeft() const override;
-    virtual Sdk::Vector3 getRight() const override;
-    virtual Sdk::Vector3 getForward() const override;
-    virtual Sdk::Vector3 getBackward() const override;
+    virtual Sdk::Vector3F getLeft() const override;
+    virtual Sdk::Vector3F getRight() const override;
+    virtual Sdk::Vector3F getForward() const override;
+    virtual Sdk::Vector3F getBackward() const override;
 
-    virtual Sdk::Vector2 worldToScreen(const Sdk::Vector3& i_point) const override;
+    virtual Sdk::Vector2F worldToScreen(const Sdk::Vector3F& i_point) const override;
 
     const XMMATRIX& getProjectionMatrix() const { return d_projectionMatrix; }
     const XMMATRIX& getViewMatrix() const { return d_viewMatrix; }
@@ -50,8 +50,8 @@ namespace Dx
     float d_yaw;
     float d_pitch;
     float d_distance;
-    Sdk::Vector3 d_lookAt;
-    Sdk::Vector3 d_up;
+    Sdk::Vector3F d_lookAt;
+    Sdk::Vector3F d_up;
 
     XMMATRIX d_projectionMatrix;
     XMMATRIX d_viewMatrix;
@@ -59,7 +59,7 @@ namespace Dx
     void updateProjectionMatrix();
     void updateViewMatrix();
 
-    Sdk::Vector3 getPosition() const;
+    Sdk::Vector3F getPosition() const;
 
   };
 

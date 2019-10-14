@@ -9,34 +9,31 @@ namespace Dx
   class ResourceController : public IResourceController
   {
   public:
+    ResourceController(IRenderDevice& i_renderDevice, const std::string& i_resourcesFolder);
+    virtual ~ResourceController() override;
 
-    virtual ResourceId getResourceId(const std::string& i_resourceName) const override;
+    virtual const IMeshResourceCmo& getMeshResourceCmo(const std::string& i_resourceName) override;
+    virtual const ITextureResource& getTextureResource(const std::string& i_resourceName) override;
+    virtual const IPixelShaderResource& getPixelShaderResource(const std::string& i_resourceName) override;
+    virtual const IVertexShaderResource& getVertexShaderResource(const std::string& i_resourceName) override;
+    virtual const IFontResource& getFontResource(const std::string& i_resourceName) override;
 
-    const MeshResourceCmo& getMeshResourceCmo(ResourceId i_resourceId) const;
-    const TextureResource& getTextureResource(ResourceId i_resourceId) const;
-    const PixelShaderResource& getPixelShaderResource(ResourceId i_resourceId) const;
-    const VertexShaderResource& getVertexShaderResource(ResourceId i_resourceId) const;
-    const FontResource& getFontResource(ResourceId i_resourceId) const;
-
-    virtual void initialize(const std::string& i_resourcesFolder) override;
-    virtual void dispose() override;
-
-    virtual void loadResources(IRenderDevice& i_renderDevice) override;
+    virtual void loadResources() override;
     virtual void unloadResources() override;
 
   private:
+    IRenderDevice& d_renderDevice;
 
     std::string d_resourceFolder;
 
-    std::unordered_map<std::string, ResourceId> d_nameToIdMap;
-    std::unordered_map<ResourceId, std::shared_ptr<IResource>> d_idToResourceMap;
+    std::unordered_map<std::string, std::shared_ptr<MeshResourceCmo>> d_meshResourcesMap;
+    std::unordered_map<std::string, std::shared_ptr<TextureResource>> d_textureResourcesMap;
+    std::unordered_map<std::string, std::shared_ptr<PixelShaderResource>> d_pixelShaderResourcesMap;
+    std::unordered_map<std::string, std::shared_ptr<VertexShaderResource>> d_vertexShaderResourcesMap;
+    std::unordered_map<std::string, std::shared_ptr<FontResource>> d_fontResourcesMap;
 
-    ResourceId d_nextResourceId;
-    ResourceId getFreeResourceId();
-
+    void loadResource(ILoadableResource& i_resource);
     void indexResourcesInDir(const std::string& i_dirName);
-    void clearResoures();
-
   };
 
 } // ns Dx

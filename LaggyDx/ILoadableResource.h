@@ -5,15 +5,14 @@
 
 namespace Dx
 {
-  class IResource
+  class ILoadableResource
   {
   public:
-
-    virtual ~IResource() = default;
+    virtual ~ILoadableResource() = default;
 
     virtual void load(IRenderDevice& i_renderDevice) = 0;
     virtual void unload() = 0;
 
+    virtual bool isLoaded() const = 0;
   };
-
 } // ns Dx

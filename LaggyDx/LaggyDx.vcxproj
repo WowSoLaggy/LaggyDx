@@ -84,7 +84,8 @@
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>d3d11.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -96,9 +97,11 @@
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)../DirectXTK/Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>d3d11.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -112,13 +115,15 @@
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)../DirectXTK/Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>d3d11.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -132,43 +137,57 @@
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)../DirectXTK/Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>d3d11.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AnimationController.h" />
+    <ClInclude Include="AnimatedSprite.h" />
+    <ClInclude Include="ImageAnimation.h" />
+    <ClInclude Include="AnimationController3d.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="FontResource.h" />
-    <ClInclude Include="IAnimationController.h" />
+    <ClInclude Include="IAnimationController3d.h" />
+    <ClInclude Include="IFontResource.h" />
     <ClInclude Include="IInputDevice.h" />
+    <ClInclude Include="ImageDescription.h" />
+    <ClInclude Include="IMeshResourceCmo.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="InputDevice.h" />
+    <ClInclude Include="IPixelShaderResource.h" />
     <ClInclude Include="IRenderer.h" />
     <ClInclude Include="IRenderer2d.h" />
     <ClInclude Include="IRenderer3d.h" />
+    <ClInclude Include="ITextureResource.h" />
+    <ClInclude Include="IVertexShaderResource.h" />
     <ClInclude Include="KeyboardKeys.h" />
     <ClInclude Include="KeyboardState.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialSequence.h" />
     <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="MeshResourceCmo.h" />
+    <ClInclude Include="MouseKey.h" />
+    <ClInclude Include="MouseKeys.h" />
+    <ClInclude Include="MouseState.h" />
     <ClInclude Include="PixelShaderResource.h" />
     <ClInclude Include="Renderer2d.h" />
     <ClInclude Include="Renderer3d.h" />
     <ClInclude Include="ICamera.h" />
     <ClInclude Include="IRenderDevice.h" />
-    <ClInclude Include="IResource.h" />
+    <ClInclude Include="ILoadableResource.h" />
     <ClInclude Include="IResourceController.h" />
     <ClInclude Include="LaggyDxFwd.h" />
     <ClInclude Include="RenderDevice.h" />
     <ClInclude Include="ResourceController.h" />
     <ClInclude Include="ShaderBuffers.h" />
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="VertexShaderResource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextureResource.h" />
@@ -176,10 +195,12 @@
     <ClInclude Include="VertexTypes.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AnimationController.cpp" />
+    <ClCompile Include="AnimatedSprite.cpp" />
+    <ClCompile Include="AnimatedSprite_save.cpp" />
+    <ClCompile Include="AnimationController3d.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="FontResource.cpp" />
-    <ClCompile Include="IAnimationController.cpp" />
+    <ClCompile Include="IAnimationController3d.cpp" />
     <ClCompile Include="IInputDevice.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="InputDevice.cpp" />
@@ -190,6 +211,7 @@
     <ClCompile Include="MaterialSequence.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
     <ClCompile Include="MeshResourceCmo.cpp" />
+    <ClCompile Include="MouseState.cpp" />
     <ClCompile Include="PixelShaderResource.cpp" />
     <ClCompile Include="Renderer2d.cpp" />
     <ClCompile Include="Renderer3d.cpp" />
@@ -199,6 +221,8 @@
     <ClCompile Include="RenderDevice.cpp" />
     <ClCompile Include="Renderer3d_Renders.cpp" />
     <ClCompile Include="ResourceController.cpp" />
+    <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="Sprite_save.cpp" />
     <ClCompile Include="VertexShaderResource.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

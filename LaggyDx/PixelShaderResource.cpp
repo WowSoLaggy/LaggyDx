@@ -46,10 +46,14 @@ namespace Dx
     samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
     renderDevice.getDevicePtr()->CreateSamplerState(&samplerDesc, &d_sampleState);
+
+    d_loaded = true;
   }
 
   void PixelShaderResource::unload()
   {
+    d_loaded = false;
+
     d_sampleState->Release();
     d_pixelShader->Release();
   }

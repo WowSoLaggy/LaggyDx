@@ -1,5 +1,7 @@
 #pragma once
 
+#include <unordered_map>
+
 
 namespace Dx
 {
@@ -9,15 +11,17 @@ namespace Dx
   class IRenderer2d;
   class IRenderer3d;
 
-  using ResourceId = int;
-  const ResourceId ResourceIdEmpty = ResourceId(-1);
-
   class IResourceController;
-  class IResource;
+  class ILoadableResource;
+  class IMeshResourceCmo;
   class MeshResourceCmo;
+  class ITextureResource;
   class TextureResource;
+  class IPixelShaderResource;
   class PixelShaderResource;
+  class IVertexShaderResource;
   class VertexShaderResource;
+  class IFontResource;
   class FontResource;
 
   class VertexBuffer;
@@ -27,10 +31,18 @@ namespace Dx
   struct MaterialSpan;
   class MaterialSequence;
 
-  class IAnimationController;
+  class IAnimationController3d;
 
   class IInputDevice;
   class KeyboardState;
+  class MouseState;
+  struct MousePosition;
+
+  class Sprite;
+  class AnimatedSprite;
+  struct ImageDescription;
+  struct ImageAnimation;
+  using AnimationsMap = std::unordered_map<std::string, ImageAnimation>;
 } // ns Dx
 
 

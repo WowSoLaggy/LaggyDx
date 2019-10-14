@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "AnimationController.h"
+#include "AnimationController3d.h"
 
 #include "MeshResourceCmo.h"
 #include "ResourceController.h"
@@ -7,9 +7,8 @@
 
 namespace Dx
 {
-  AnimationController::AnimationController(const IResourceController& i_resourceController, ResourceId i_resourceId)
-    : d_model(
-      dynamic_cast<const ResourceController&>(i_resourceController).getMeshResourceCmo(i_resourceId).getModel())
+  AnimationController3d::AnimationController3d(const IMeshResourceCmo& i_model)
+    : d_model(dynamic_cast<const MeshResourceCmo&>(i_model).getModel())
     , d_currentAnimationName(L"")
     , d_animationTime(0)
   {
@@ -24,7 +23,7 @@ namespace Dx
   }
 
 
-  void AnimationController::setAnimation(std::wstring i_animationName)
+  void AnimationController3d::setAnimation(std::wstring i_animationName)
   {
     d_currentAnimationName = std::move(i_animationName);
     d_animationTime = 0;
@@ -33,18 +32,18 @@ namespace Dx
   }
 
 
-  int AnimationController::getBoneXfmsCount() const
+  int AnimationController3d::getBoneXfmsCount() const
   {
     return (int)d_meshesBoneCombinedXfms.front().size();
   }
 
-  const XMMATRIX* AnimationController::getBoneXfms() const
+  const XMMATRIX* AnimationController3d::getBoneXfms() const
   {
     return d_meshesBoneCombinedXfms.front().data();
   }
 
 
-  void AnimationController::update(double i_dt)
+  void AnimationController3d::update(double i_dt)
   {
     d_animationTime += i_dt;
 
@@ -53,7 +52,7 @@ namespace Dx
   }
 
 
-  void AnimationController::resetAnimationXfms()
+  void AnimationController3d::resetAnimationXfms()
   {
     for (int meshIndex = 0; meshIndex < d_model.meshes.size(); ++meshIndex)
     {
@@ -64,7 +63,7 @@ namespace Dx
   }
 
 
-  void AnimationController::updateAnimationXfms()
+  void AnimationController3d::updateAnimationXfms()
   {
     resetAnimationXfms();
 
@@ -91,7 +90,7 @@ namespace Dx
     }
   }
 
-  void AnimationController::updateCombinedXfms()
+  void AnimationController3d::updateCombinedXfms()
   {
     for (int meshIndex = 0; meshIndex < d_model.meshes.size(); ++meshIndex)
     {

@@ -17,7 +17,7 @@ namespace Dx
   namespace
   {
 
-    XMFLOAT4 getColorFromV4(const Sdk::Vector4& i_vector)
+    XMFLOAT4 getColorFromV4(const Sdk::Vector4F& i_vector)
     {
       return { i_vector.x, i_vector.y, i_vector.z, i_vector.w };
     }
@@ -27,7 +27,7 @@ namespace Dx
 
   Renderer3d::Renderer3d(
     IRenderDevice& io_renderDevice,
-    const IResourceController& i_resourceController,
+    IResourceController& i_resourceController,
     const ICamera& i_camera)
     : d_renderDevice(io_renderDevice)
     , d_resourceController(i_resourceController)
@@ -58,13 +58,12 @@ namespace Dx
   void Renderer3d::setShaders()
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
-    const auto& resourceController = dynamic_cast<const ResourceController&>(d_resourceController);
+    auto& resourceController = dynamic_cast<ResourceController&>(d_resourceController);
 
-    auto pixelShaderResourceId = resourceController.getResourceId("TextureLightPS.ps");
-    auto vertexShaderResourceId = resourceController.getResourceId("TextureLightVS.vs");
-
-    const auto& pixelShaderResource = resourceController.getPixelShaderResource(pixelShaderResourceId);
-    const auto& vertexShaderResource = resourceController.getVertexShaderResource(vertexShaderResourceId);
+    const auto& pixelShaderResource = dynamic_cast<const PixelShaderResource&>(
+      resourceController.getPixelShaderResource("TextureLightPS.ps"));
+    const auto& vertexShaderResource = dynamic_cast<const VertexShaderResource&>(
+      resourceController.getVertexShaderResource("TextureLightVS.vs"));
 
     auto* samplerState = pixelShaderResource.getSampleStatePtr();
 
@@ -74,7 +73,7 @@ namespace Dx
     renderDevice.getDeviceContextPtr()->PSSetSamplers(0, 1, &samplerState);
   }
 
-  void Renderer3d::setShaderMatrices(const Sdk::Vector3& i_position, const Sdk::Vector3& i_rotation)
+  void Renderer3d::setShaderMatrices(const Sdk::Vector3F& i_position, const Sdk::Vector3F& i_rotation)
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
     auto& camera = dynamic_cast<const Camera&>(d_camera);

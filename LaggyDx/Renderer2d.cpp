@@ -4,6 +4,7 @@
 #include "FontResource.h"
 #include "RenderDevice.h"
 #include "ResourceController.h"
+#include "Sprite.h"
 #include "TextureResource.h"
 
 #include <LaggySdk/StringUtils.h>
@@ -12,21 +13,20 @@
 
 namespace Dx
 {
-  Renderer2d::Renderer2d(
-    IRenderDevice& io_renderDevice,
-    const IResourceController& i_resourceController)
+  Renderer2d::Renderer2d(IRenderDevice& io_renderDevice)
     : d_renderDevice(io_renderDevice)
-    , d_resourceController(i_resourceController)
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
 
     d_spriteBatch = std::make_shared<SpriteBatch>(renderDevice.getDeviceContextPtr());
+    d_states = std::make_unique<CommonStates>(renderDevice.getDevicePtr());
   }
 
 
   void Renderer2d::beginScene()
   {
-    d_spriteBatch->Begin();
+    d_renderedSprites = 0;
+    d_spriteBatch->Begin(SpriteSortMode_Deferred, d_states->NonPremultiplied());
   }
 
   void Renderer2d::endScene()
@@ -35,33 +35,57 @@ namespace Dx
   }
 
 
-  void Renderer2d::renderText(const std::string& i_text, ResourceId i_fontResourceId, const Sdk::Vector2& i_position)
+  const Sdk::Vector2I& Renderer2d::getTranslation() const
   {
-    const auto& resourceController = dynamic_cast<const ResourceController&>(d_resourceController);
-    const auto& fontResource = resourceController.getFontResource(i_fontResourceId);
+    return d_translation;
+  }
+
+  void Renderer2d::setTranslation(Sdk::Vector2I i_translation)
+  {
+    d_translation = std::move(i_translation);
+  }
+
+  void Renderer2d::resetTranslation()
+  {
+    d_translation = { 0, 0 };
+  }
+
+
+  int Renderer2d::getRenderedSprites()
+  {
+    return d_renderedSprites;
+  }
+
+
+  void Renderer2d::renderText(const std::string& i_text,
+                              const IFontResource& i_fontResource, const Sdk::Vector2I& i_position)
+  {
+    const auto& fontResource = dynamic_cast<const FontResource&>(i_fontResource);
+
+    const auto pos = i_position - d_translation;
 
     fontResource.getSpriteFont()->DrawString(d_spriteBatch.get(), Sdk::getWString(i_text).c_str(),
-      XMFLOAT2(i_position.x, i_position.y));
+                                             XMFLOAT2((float)pos.x, (float)pos.y));
   }
 
-  void Renderer2d::renderTexture(ResourceId i_textureResourceId, const Sdk::Vector2& i_position)
+  void Renderer2d::renderSprite(const Sprite& i_sprite)
   {
-    const auto& resourceController = dynamic_cast<const ResourceController&>(d_resourceController);
-    const auto& textureResource = resourceController.getTextureResource(i_textureResourceId);
+    const auto* texture = i_sprite.getTexture();
+    if (!texture)
+      return;
 
-    d_spriteBatch->Draw(textureResource.getTexturePtr(),
-      XMFLOAT2(std::roundf(i_position.x), std::roundf(i_position.y)), Colors::White);
-  }
+    const auto& textureResource = dynamic_cast<const TextureResource&>(*texture);
 
-  void Renderer2d::renderTexture(ResourceId i_textureResourceId,
-    const Sdk::Vector2& i_position, const Sdk::Vector2& i_size)
-  {
-    const auto& resourceController = dynamic_cast<const ResourceController&>(d_resourceController);
-    const auto& textureResource = resourceController.getTextureResource(i_textureResourceId);
+    const auto pos = i_sprite.getPosition() - d_translation;
+    const auto& size = i_sprite.getSize();
 
-    RECT destinationRect{ (int)i_position.x, (int)i_position.y,
-      (int)(i_position.x + i_size.x), (int)(i_position.y + i_size.y) };
-    d_spriteBatch->Draw(textureResource.getTexturePtr(), destinationRect, Colors::White);
+    const RECT sourceRect = i_sprite.getSourceRect();
+    const RECT destinationRect{ pos.x, pos.y, pos.x + size.x, pos.y + size.y };
+    const auto& color = i_sprite.getColor();
+    const XMVECTORF32 colorVector = { { { color.x, color.y, color.z, color.w } } };
+    d_spriteBatch->Draw(textureResource.getTexturePtr(), destinationRect, &sourceRect, colorVector);
+
+    ++d_renderedSprites;
   }
 
 } // ns Dx

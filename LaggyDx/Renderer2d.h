@@ -9,26 +9,32 @@ namespace Dx
   class Renderer2d : public IRenderer2d
   {
   public:
-
-    Renderer2d(
-      IRenderDevice& io_renderDevice,
-      const IResourceController& i_resourceController);
+    Renderer2d(IRenderDevice& io_renderDevice);
 
     virtual void beginScene() override;
     virtual void endScene() override;
 
-    virtual void renderText(const std::string& i_text, ResourceId i_fontResourceId, const Sdk::Vector2& i_position) override;
-    virtual void renderTexture(ResourceId i_textureResourceId, const Sdk::Vector2& i_position) override;
-    virtual void renderTexture(ResourceId i_textureResourceId,
-      const Sdk::Vector2& i_position, const Sdk::Vector2& i_size) override;
+    virtual const Sdk::Vector2I& getTranslation() const override;
+    virtual void setTranslation(Sdk::Vector2I i_translation) override;
+    virtual void resetTranslation() override;
+
+    virtual int getRenderedSprites() override;
+
+
+    virtual void renderText(const std::string& i_text,
+      const IFontResource& i_fontResource, const Sdk::Vector2I& i_position) override;
+    
+    virtual void renderSprite(const Sprite& i_sprite) override;
 
   private:
-
     IRenderDevice& d_renderDevice;
-    const IResourceController& d_resourceController;
 
     std::shared_ptr<SpriteBatch> d_spriteBatch;
+    std::unique_ptr<CommonStates> d_states;
 
+    Sdk::Vector2I d_translation{};
+
+    int d_renderedSprites = 0;
   };
 
 } // ns Dx

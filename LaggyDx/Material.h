@@ -11,8 +11,8 @@ namespace Dx
   {
     std::string name;
 
-    Sdk::Vector4 ambientColor;
-    Sdk::Vector4 diffuseColor;
+    Sdk::Vector4F ambientColor;
+    Sdk::Vector4F diffuseColor;
 
     static Material getDefault() { return { "", { 1, 1, 1, 1}, {1, 1, 1, 1} }; }
   };

@@ -22,9 +22,6 @@
     <Filter Include="src\Buffers">
       <UniqueIdentifier>{99149c37-a63a-47ae-8b69-523f2363d42f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Animation">
-      <UniqueIdentifier>{a2329c46-c70a-46b5-b051-a056fb7da2af}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Renderers">
       <UniqueIdentifier>{802065ae-e34f-4c4d-9de4-b2422b076aa1}</UniqueIdentifier>
     </Filter>
@@ -37,8 +34,17 @@
     <Filter Include="src\InputDevice">
       <UniqueIdentifier>{14207a50-f10e-4394-a948-94755c73072b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Keyboard">
+    <Filter Include="src\Sprite">
+      <UniqueIdentifier>{075f2697-8a25-4ff8-b92b-49631bf0b5dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\InputControllers">
       <UniqueIdentifier>{774b64b4-2f70-4ef3-b7fc-e1df3ea52038}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Animation3d">
+      <UniqueIdentifier>{a2329c46-c70a-46b5-b051-a056fb7da2af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Animation2d">
+      <UniqueIdentifier>{6c31fb6b-366b-4ff5-8667-b0241d849fd8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -56,9 +62,6 @@
     </ClInclude>
     <ClInclude Include="ICamera.h">
       <Filter>src\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="IResource.h">
-      <Filter>src\Resources\ResourceTypes</Filter>
     </ClInclude>
     <ClInclude Include="ResourceController.h">
       <Filter>src\Resources</Filter>
@@ -114,12 +117,6 @@
     <ClInclude Include="MeshResourceCmo.h">
       <Filter>src\Resources\ResourceTypes</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationController.h">
-      <Filter>src\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="IAnimationController.h">
-      <Filter>src\Animation</Filter>
-    </ClInclude>
     <ClInclude Include="IRenderer.h">
       <Filter>src\Renderers</Filter>
     </ClInclude>
@@ -133,10 +130,55 @@
       <Filter>src\InputDevice</Filter>
     </ClInclude>
     <ClInclude Include="KeyboardKeys.h">
-      <Filter>src\Keyboard</Filter>
+      <Filter>src\InputControllers</Filter>
     </ClInclude>
     <ClInclude Include="KeyboardState.h">
-      <Filter>src\Keyboard</Filter>
+      <Filter>src\InputControllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>src\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseState.h">
+      <Filter>src\InputControllers</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseKeys.h">
+      <Filter>src\InputControllers</Filter>
+    </ClInclude>
+    <ClInclude Include="ITextureResource.h">
+      <Filter>src\Resources\ResourceTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="ILoadableResource.h">
+      <Filter>src\Resources\ResourceTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="IFontResource.h">
+      <Filter>src\Resources\ResourceTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="IMeshResourceCmo.h">
+      <Filter>src\Resources\ResourceTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="IPixelShaderResource.h">
+      <Filter>src\Resources\ResourceTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="IVertexShaderResource.h">
+      <Filter>src\Resources\ResourceTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="IAnimationController3d.h">
+      <Filter>src\Animation3d</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationController3d.h">
+      <Filter>src\Animation3d</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageDescription.h">
+      <Filter>src\Animation2d</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageAnimation.h">
+      <Filter>src\Animation2d</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatedSprite.h">
+      <Filter>src\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseKey.h">
+      <Filter>src\InputControllers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -203,12 +245,6 @@
     <ClCompile Include="MeshResourceCmo.cpp">
       <Filter>src\Resources\ResourceTypes</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationController.cpp">
-      <Filter>src\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="IAnimationController.cpp">
-      <Filter>src\Animation</Filter>
-    </ClCompile>
     <ClCompile Include="IInputDevice.cpp">
       <Filter>src\InputDevice</Filter>
     </ClCompile>
@@ -219,7 +255,28 @@
       <Filter>src\InputDevice</Filter>
     </ClCompile>
     <ClCompile Include="KeyboardState.cpp">
-      <Filter>src\Keyboard</Filter>
+      <Filter>src\InputControllers</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseState.cpp">
+      <Filter>src\InputControllers</Filter>
+    </ClCompile>
+    <ClCompile Include="IAnimationController3d.cpp">
+      <Filter>src\Animation3d</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationController3d.cpp">
+      <Filter>src\Animation3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>src\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatedSprite.cpp">
+      <Filter>src\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite_save.cpp">
+      <Filter>src\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatedSprite_save.cpp">
+      <Filter>src\Sprite</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

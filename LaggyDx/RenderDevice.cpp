@@ -4,10 +4,9 @@
 
 namespace Dx
 {
-  void RenderDevice::initialize(HWND i_hWnd, int i_resolutionX, int i_resolutionY)
+  RenderDevice::RenderDevice(HWND i_hWnd, int i_resolutionX, int i_resolutionY)
+    : d_hWnd(i_hWnd)
   {
-    d_hWnd = i_hWnd;
-
     // Create a DirectX graphics interface factory.
     IDXGIFactory* factory;
     HRESULT result = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&factory);
@@ -252,14 +251,10 @@ namespace Dx
 
     // Create the viewport.
     d_deviceContext->RSSetViewports(1, &viewport);
-
-    d_isInitialized = true;
   }
 
-  void RenderDevice::dispose()
+  RenderDevice::~RenderDevice()
   {
-    d_isInitialized = false;
-
     // Before shutting down set to windowed mode or when you release the swap chain it will throw an exception.
     if (d_swapChain)
     {

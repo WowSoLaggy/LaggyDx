@@ -1,14 +1,14 @@
 #pragma once
 
-#include "IAnimationController.h"
+#include "IAnimationController3d.h"
 
 
 namespace Dx
 {
-  class AnimationController : public IAnimationController
+  class AnimationController3d : public IAnimationController3d
   {
   public:
-    AnimationController(const IResourceController& i_resourceController, ResourceId i_resourceId);
+    AnimationController3d(const IMeshResourceCmo& i_model);
 
     virtual const std::wstring& getCurrentAnimationName() const override { return d_currentAnimationName; }
 

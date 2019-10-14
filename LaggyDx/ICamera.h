@@ -1,6 +1,7 @@
 #pragma once
 
 #include <LaggySdk/SdkFwd.h>
+#include <LaggySdk/Vector.h>
 
 
 namespace Dx
@@ -24,18 +25,18 @@ namespace Dx
     virtual float getDistance() const = 0;
     virtual void setDistance(float i_distance) = 0;
 
-    virtual Sdk::Vector3 getLookAt() const = 0;
-    virtual void setLookAt(Sdk::Vector3 i_direction) = 0;
+    virtual Sdk::Vector3F getLookAt() const = 0;
+    virtual void setLookAt(Sdk::Vector3F i_direction) = 0;
 
-    virtual Sdk::Vector3 getUp() const = 0;
-    virtual void setUp(Sdk::Vector3 i_up) = 0;
+    virtual Sdk::Vector3F getUp() const = 0;
+    virtual void setUp(Sdk::Vector3F i_up) = 0;
 
-    virtual Sdk::Vector3 getLeft() const = 0;
-    virtual Sdk::Vector3 getRight() const = 0;
-    virtual Sdk::Vector3 getForward() const = 0;
-    virtual Sdk::Vector3 getBackward() const = 0;
+    virtual Sdk::Vector3F getLeft() const = 0;
+    virtual Sdk::Vector3F getRight() const = 0;
+    virtual Sdk::Vector3F getForward() const = 0;
+    virtual Sdk::Vector3F getBackward() const = 0;
 
-    virtual Sdk::Vector2 worldToScreen(const Sdk::Vector3& i_point) const = 0;
+    virtual Sdk::Vector2F worldToScreen(const Sdk::Vector3F& i_point) const = 0;
   };
 
 } // ns Dx
