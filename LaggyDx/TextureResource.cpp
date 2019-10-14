@@ -5,6 +5,7 @@
 
 #include <LaggySdk/Contracts.h>
 #include <LaggySdk/json.h>
+#include <LaggySdk/Locker.h>
 
 
 namespace Dx
@@ -109,23 +110,29 @@ namespace Dx
     readTexDesc.Usage = D3D11_USAGE_STAGING; //need staging flag for read
     readTexDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
 
-    ID3D11Texture2D* stagingTex = nullptr;
-    HRESULT hres = renderDevice.getDevicePtr()->CreateTexture2D(&readTexDesc, 0, &stagingTex);
-
-    ID3D11Texture2D* sourceTex = nullptr;
-    d_texture->GetResource(reinterpret_cast<ID3D11Resource**>(&sourceTex));
-
-    renderDevice.getDeviceContextPtr()->CopyResource(stagingTex, sourceTex);
-    
     D3D11_MAPPED_SUBRESOURCE subres;
-    auto res = renderDevice.getDeviceContextPtr()->Map(stagingTex, 0, D3D11_MAP::D3D11_MAP_READ, 0, &subres);
+    std::vector<unsigned char> tempArray;
 
-    unsigned char* data = (unsigned char*)subres.pData;
-    std::vector<unsigned char> tempArray(subres.DepthPitch, 0);
-    memcpy(tempArray.data(), data, subres.DepthPitch);
+    {
+      const Sdk::Locker scopeLocker(renderDevice);
 
-    renderDevice.getDeviceContextPtr()->Unmap(stagingTex, 0);
-    stagingTex->Release();
+      ID3D11Texture2D* stagingTex = nullptr;
+      HRESULT hres = renderDevice.getDevicePtr()->CreateTexture2D(&readTexDesc, 0, &stagingTex);
+
+      ID3D11Texture2D* sourceTex = nullptr;
+      d_texture->GetResource(reinterpret_cast<ID3D11Resource**>(&sourceTex));
+
+      renderDevice.getDeviceContextPtr()->CopyResource(stagingTex, sourceTex);
+
+      auto res = renderDevice.getDeviceContextPtr()->Map(stagingTex, 0, D3D11_MAP::D3D11_MAP_READ, 0, &subres);
+
+      unsigned char* data = (unsigned char*)subres.pData;
+      tempArray.resize(subres.DepthPitch, 0);
+      memcpy(tempArray.data(), data, subres.DepthPitch);
+
+      renderDevice.getDeviceContextPtr()->Unmap(stagingTex, 0);
+      stagingTex->Release();
+    }
 
 
     d_solidAlpha = true;
