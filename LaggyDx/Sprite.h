@@ -30,6 +30,9 @@ namespace Dx
     void setSize(Sdk::Vector2I i_size) { d_size = std::move(i_size); }
     const Sdk::Vector2I& getSize() const { return d_size; }
 
+    void setRotation(double i_rotation) { d_rotation = i_rotation; }
+    double getRotation() const { return d_rotation; }
+
     virtual RECT getSourceRect() const;
 
   protected:
@@ -37,6 +40,7 @@ namespace Dx
     Sdk::Vector2I d_position = Sdk::Vector2I::zero();
     Sdk::Vector2I d_size = Sdk::Vector2I::zero();
     Sdk::Vector4F d_color = Sdk::Vector4F::identity();
+    double d_rotation = 0.0;
 
   public:
     virtual void writeTo(std::ostream& io_stream) const;

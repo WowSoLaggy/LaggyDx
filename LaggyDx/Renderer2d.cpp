@@ -83,7 +83,17 @@ namespace Dx
     const RECT destinationRect{ pos.x, pos.y, pos.x + size.x, pos.y + size.y };
     const auto& color = i_sprite.getColor();
     const XMVECTORF32 colorVector = { { { color.x, color.y, color.z, color.w } } };
-    d_spriteBatch->Draw(textureResource.getTexturePtr(), destinationRect, &sourceRect, colorVector);
+
+    float rotation = 0.0f;
+    DirectX::XMFLOAT2 origin{ 0, 0 };
+    if (std::abs(i_sprite.getRotation()) > 0.01)
+    {
+      rotation = (float)i_sprite.getRotation();
+      origin = { (float)size.x, (float)size.y };
+    }
+
+    d_spriteBatch->Draw(textureResource.getTexturePtr(), destinationRect, &sourceRect, colorVector,
+                        rotation, origin);
 
     ++d_renderedSprites;
   }
