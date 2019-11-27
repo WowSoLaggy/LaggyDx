@@ -34,6 +34,7 @@ namespace Dx
 
     const Sdk::Vector2I& getPosition() const { return d_mousePosition; }
     int getWheelPosition() const { return d_wheelPosition; }
+    int getWheelPositionChange() const { return d_wheelPositionChange; }
 
     void update(const MouseKeys& i_state);
     void reset();
@@ -50,6 +51,7 @@ namespace Dx
 
     Sdk::Vector2I d_mousePosition;
     int d_wheelPosition = 0;
+    int d_wheelPositionChange = 0;
 
     MouseMode d_mode = MouseMode::Absolute;
 

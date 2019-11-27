@@ -83,9 +83,23 @@ namespace Dx
     const RECT destinationRect{ pos.x, pos.y, pos.x + size.x, pos.y + size.y };
     const auto& color = i_sprite.getColor();
     const XMVECTORF32 colorVector = { { { color.x, color.y, color.z, color.w } } };
-    d_spriteBatch->Draw(textureResource.getTexturePtr(), destinationRect, &sourceRect, colorVector);
+
+    const XMVECTOR Scaling = XMVectorSet(1.0f, 1.0f, 1.0f, 0.0f);
+    const XMVECTOR Translation = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
+    const XMVECTOR origin = XMVectorSet((float)(pos.x + size.x / 2), (float)(pos.y + size.y / 2), 0.0f, 0.0f);
+    XMMATRIX matrix = XMMatrixAffineTransformation2D(Scaling, origin, (float)i_sprite.getRotation(), Translation);
+
+    auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
+    SpriteBatch spriteBatch(renderDevice.getDeviceContextPtr());
+    spriteBatch.Begin(SpriteSortMode_Deferred, d_states->NonPremultiplied(),
+                      nullptr, nullptr, nullptr, nullptr,
+                      matrix);
+
+    spriteBatch.Draw(textureResource.getTexturePtr(), destinationRect, &sourceRect, colorVector);
 
     ++d_renderedSprites;
+
+    spriteBatch.End();
   }
 
 } // ns Dx
