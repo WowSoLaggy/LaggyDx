@@ -2,8 +2,8 @@
 
 #include "LaggyDxFwd.h"
 
-#include <LaggySdk/Rect.h>
-#include <LaggySdk/Vector.h>
+#include <Sdk/Rect.h>
+#include <Sdk/Vector.h>
 
 #include <iostream>
 

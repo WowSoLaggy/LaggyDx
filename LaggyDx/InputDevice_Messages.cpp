@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "InputDevice.h"
 
-#include <LaggySdk/Message.h>
+#include <Sdk/Message.h>
 
 
 namespace Dx

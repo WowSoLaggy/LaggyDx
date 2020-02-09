@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "AnimatedSprite.h"
 
-#include <LaggySdk/Streams.h>
+#include <Sdk/Streams.h>
 
 
 namespace Dx

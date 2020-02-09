@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "MeshLoader.h"
 
-#include <LaggySdk/StringUtils.h>
-#include <LaggySdk/Vector.h>
+#include <Sdk/StringUtils.h>
+#include <Sdk/Vector.h>
 
 
 namespace Dx

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <LaggySdk/Rect.h>
+#include <Sdk/Rect.h>
 
 #include <string>
 

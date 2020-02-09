@@ -1,7 +1,7 @@
 #pragma once
 
-#include <LaggySdk/SdkFwd.h>
-#include <LaggySdk/Vector.h>
+#include <Sdk/SdkFwd.h>
+#include <Sdk/Vector.h>
 
 
 namespace Dx

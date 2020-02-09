@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "MouseState.h"
 
-#include <LaggySdk/Contracts.h>
+#include <Sdk/Contracts.h>
 
 
 namespace Dx

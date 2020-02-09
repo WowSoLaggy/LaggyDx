@@ -2,7 +2,7 @@
 
 #include "LaggyDxFwd.h"
 
-#include <LaggySdk/SdkFwd.h>
+#include <Sdk/SdkFwd.h>
 
 
 namespace Dx

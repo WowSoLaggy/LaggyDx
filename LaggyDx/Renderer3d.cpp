@@ -9,7 +9,7 @@
 #include "ShaderBuffers.h"
 #include "VertexShaderResource.h"
 
-#include <LaggySdk/Vector.h>
+#include <Sdk/Vector.h>
 
 
 namespace Dx

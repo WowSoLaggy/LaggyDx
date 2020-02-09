@@ -1,6 +1,6 @@
 #pragma once
 
-#include <LaggySdk/ILockable.h>
+#include <Sdk/ILockable.h>
 
 
 namespace Dx
