@@ -23,6 +23,11 @@ namespace Dx
     d_size = d_texture ? d_texture->getDescription().size() : Sdk::Vector2I{ 0, 0 };
   }
 
+  void Sprite::setTexture(const ITextureResource& i_texture)
+  {
+    setTexture(&i_texture);
+  }
+
 
   RECT Sprite::getSourceRect() const
   {

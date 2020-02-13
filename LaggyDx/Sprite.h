@@ -17,6 +17,7 @@ namespace Dx
            Sdk::Vector2I i_size = Sdk::Vector2I::zero(), Sdk::Vector4F i_color = Sdk::Vector4F::identity());
 
     void setTexture(const ITextureResource* i_texture);
+    void setTexture(const ITextureResource& i_texture);
     const ITextureResource* getTexture() const { return d_texture; }
 
     void setPosition(Sdk::Vector2I i_position) { d_position = std::move(i_position); }
