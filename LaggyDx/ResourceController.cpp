@@ -24,9 +24,9 @@ namespace Dx
   } // anonymous NS
 
 
-  ResourceController::ResourceController(IRenderDevice& i_renderDevice, const std::string& i_resourcesFolder)
+  ResourceController::ResourceController(IRenderDevice& i_renderDevice, fs::path i_resourcesFolder)
     : d_renderDevice(i_renderDevice)
-    , d_resourceFolder(".\\" + i_resourcesFolder + "\\")
+    , d_resourceFolder(std::move(i_resourcesFolder))
   {
     indexResourcesInDir(d_resourceFolder);
   }
@@ -39,7 +39,7 @@ namespace Dx
 
   const IMeshResourceCmo& ResourceController::getMeshResourceCmo(const std::string& i_resourceName)
   {
-    const auto it = d_meshResourcesMap.find(d_resourceFolder + i_resourceName);
+    const auto it = d_meshResourcesMap.find((d_resourceFolder / i_resourceName).string());
     CONTRACT_EXPECT(it != d_meshResourcesMap.cend());
     CONTRACT_EXPECT(it->second);
 
@@ -49,7 +49,7 @@ namespace Dx
 
   const ITextureResource& ResourceController::getTextureResource(const std::string& i_resourceName)
   {
-    const auto it = d_textureResourcesMap.find(d_resourceFolder + i_resourceName);
+    const auto it = d_textureResourcesMap.find((d_resourceFolder / i_resourceName).string());
     CONTRACT_EXPECT(it != d_textureResourcesMap.cend());
     CONTRACT_EXPECT(it->second);
 
@@ -59,7 +59,7 @@ namespace Dx
 
   const IPixelShaderResource& ResourceController::getPixelShaderResource(const std::string& i_resourceName)
   {
-    const auto it = d_pixelShaderResourcesMap.find(d_resourceFolder + i_resourceName);
+    const auto it = d_pixelShaderResourcesMap.find((d_resourceFolder / i_resourceName).string());
     CONTRACT_EXPECT(it != d_pixelShaderResourcesMap.cend());
     CONTRACT_EXPECT(it->second);
 
@@ -69,7 +69,7 @@ namespace Dx
 
   const IVertexShaderResource& ResourceController::getVertexShaderResource(const std::string& i_resourceName)
   {
-    const auto it = d_vertexShaderResourcesMap.find(d_resourceFolder + i_resourceName);
+    const auto it = d_vertexShaderResourcesMap.find((d_resourceFolder / i_resourceName).string());
     CONTRACT_EXPECT(it != d_vertexShaderResourcesMap.cend());
     CONTRACT_EXPECT(it->second);
 
@@ -79,7 +79,7 @@ namespace Dx
 
   const IFontResource& ResourceController::getFontResource(const std::string& i_resourceName)
   {
-    const auto it = d_fontResourcesMap.find(d_resourceFolder + i_resourceName);
+    const auto it = d_fontResourcesMap.find((d_resourceFolder / i_resourceName).string());
     CONTRACT_EXPECT(it != d_fontResourcesMap.cend());
     CONTRACT_EXPECT(it->second);
 
@@ -125,9 +125,9 @@ namespace Dx
   }
 
 
-  void ResourceController::indexResourcesInDir(const std::string& i_dirName)
+  void ResourceController::indexResourcesInDir(const fs::path& i_dirName)
   {
-    auto* pDir = opendir(i_dirName.c_str());
+    auto* pDir = opendir(i_dirName.string().c_str());
     if (!pDir)
       return;
 
@@ -136,7 +136,7 @@ namespace Dx
     {
       if (isDirNotDots(pEntity))
       {
-        indexResourcesInDir(i_dirName + pEntity->d_name + "\\");
+        indexResourcesInDir(i_dirName / pEntity->d_name);
         continue;
       }
 
@@ -152,7 +152,7 @@ namespace Dx
       const std::regex pixelShaderPattern("\\w*.(ps)");
       const std::regex fontPattern("\\w*.(spritefont)");
 
-      auto resourceName = i_dirName + pEntity->d_name;
+      auto resourceName = (i_dirName / pEntity->d_name).string();
 
       if (std::regex_match(pEntity->d_name, modelCmoPattern))
         d_meshResourcesMap.insert({ resourceName, std::make_shared<MeshResourceCmo>(resourceName) });

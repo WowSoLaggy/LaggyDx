@@ -9,7 +9,7 @@ namespace Dx
   {
   public:
     static std::unique_ptr<IResourceController> create(IRenderDevice& i_renderDevice,
-                                                       const std::string& i_resourcesFolder);
+                                                       fs::path i_resourcesFolder);
 
   public:
     virtual ~IResourceController() = default;
