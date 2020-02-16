@@ -348,10 +348,13 @@ namespace Dx
     if (FAILED(result))
       return;
 
+    if (!d_states)
+      d_states = std::make_unique<CommonStates>(d_device);
+
     // Now set the rasterizer state
     d_deviceContext->RSSetState(d_rasterState);
 
-    d_deviceContext->OMSetBlendState(nullptr, nullptr, 0xffffffff);
+    d_deviceContext->OMSetBlendState(d_states->Opaque(), nullptr, 0xffffffff);
     d_deviceContext->OMSetDepthStencilState(d_depthStencilState, 1);
   }
 

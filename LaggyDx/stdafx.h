@@ -9,13 +9,18 @@
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
 
-#include "CommonStates.h"
-#include "DDSTextureLoader.h"
-#include "WICTextureLoader.h"
-#include "Effects.h"
-#include "Keyboard.h"
-#include "Model.h"
-#include "Mouse.h"
-#include "SpriteFont.h"
+#include <DirectXTK/CommonStates.h>
+#include <DirectXTK/DDSTextureLoader.h>
+#include <DirectXTK/Effects.h>
+#include <DirectXTK/Keyboard.h>
+#include <DirectXTK/Model.h>
+#include <DirectXTK/Mouse.h>
+#include <DirectXTK/PrimitiveBatch.h>
+#include <DirectXTK/SimpleMath.h>
+#include <DirectXTK/SpriteBatch.h>
+#include <DirectXTK/SpriteFont.h>
+#include <DirectXTK/VertexTypes.h>
+#include <DirectXTK/WICTextureLoader.h>
 
 using namespace DirectX;
+using namespace SimpleMath;

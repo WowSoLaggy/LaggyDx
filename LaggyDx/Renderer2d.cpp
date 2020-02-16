@@ -18,20 +18,36 @@ namespace Dx
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
 
-    d_spriteBatch = std::make_shared<SpriteBatch>(renderDevice.getDeviceContextPtr());
+    d_textBatch = std::make_shared<SpriteBatch>(renderDevice.getDeviceContextPtr());
     d_states = std::make_unique<CommonStates>(renderDevice.getDevicePtr());
+
+    d_primitiveBatch = std::make_shared<PrimitiveBatch<VertexPositionColor>>(renderDevice.getDeviceContextPtr());
+    d_primitiveEffect = std::make_unique<BasicEffect>(renderDevice.getDevicePtr());
+    d_primitiveEffect->SetVertexColorEnabled(true);
+
+    auto proj = Matrix::CreateOrthographicOffCenter(0.f, float(1600), float(900), 0.f, 0.f, 1.f);
+    d_primitiveEffect->SetProjection(proj);
+
+    void const* shaderByteCode;
+    size_t byteCodeLength;
+    d_primitiveEffect->GetVertexShaderBytecode(&shaderByteCode, &byteCodeLength);
+
+    renderDevice.getDevicePtr()->CreateInputLayout(VertexPositionColor::InputElements,
+                                                   VertexPositionColor::InputElementCount,
+                                                   shaderByteCode, byteCodeLength,
+                                                   d_primitiveInputLayout.ReleaseAndGetAddressOf());
   }
 
 
   void Renderer2d::beginScene()
   {
     d_renderedSprites = 0;
-    d_spriteBatch->Begin(SpriteSortMode_Deferred, d_states->NonPremultiplied());
+    d_textBatch->Begin(SpriteSortMode_Deferred, d_states->NonPremultiplied());
   }
 
   void Renderer2d::endScene()
   {
-    d_spriteBatch->End();
+    d_textBatch->End();
   }
 
 
@@ -64,7 +80,7 @@ namespace Dx
 
     const auto pos = i_position - d_translation;
 
-    fontResource.getSpriteFont()->DrawString(d_spriteBatch.get(), Sdk::getWString(i_text).c_str(),
+    fontResource.getSpriteFont()->DrawString(d_textBatch.get(), Sdk::getWString(i_text).c_str(),
                                              XMFLOAT2((float)pos.x, (float)pos.y));
   }
 
@@ -100,6 +116,59 @@ namespace Dx
     ++d_renderedSprites;
 
     spriteBatch.End();
+  }
+
+  void Renderer2d::renderLine(const Sdk::Vector2I& i_start, const Sdk::Vector2I& i_end,
+                              const Sdk::Vector4F& i_color)
+  {
+    const auto start = i_start - d_translation;
+    const auto end = i_end - d_translation;
+
+    auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
+    auto* context = renderDevice.getDeviceContextPtr();
+
+    d_primitiveEffect->Apply(context);
+    context->IASetInputLayout(d_primitiveInputLayout.Get());
+
+    d_primitiveBatch->Begin();
+
+    VertexPositionColor p1(XMFLOAT3{ (float)start.x, (float)start.y, 0 },
+                           XMFLOAT4{ i_color.x, i_color.y, i_color.z, i_color.w });
+    VertexPositionColor p2(XMFLOAT3{ (float)end.x, (float)end.y, 0 },
+                           XMFLOAT4{ i_color.x, i_color.y, i_color.z, i_color.w });
+    d_primitiveBatch->DrawLine(p1, p2);
+
+    d_primitiveBatch->End();
+  }
+
+  void Renderer2d::renderRect(const Sdk::RectI& i_rect, const Sdk::Vector4F& i_color)
+  {
+    auto rectTranslated = i_rect;
+    rectTranslated.move(-d_translation);
+
+    auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
+    auto* context = renderDevice.getDeviceContextPtr();
+
+    d_primitiveEffect->Apply(context);
+    context->IASetInputLayout(d_primitiveInputLayout.Get());
+
+    d_primitiveBatch->Begin();
+
+    VertexPositionColor p1(XMFLOAT3{ (float)rectTranslated.left(), (float)rectTranslated.top(), 0 },
+                           XMFLOAT4{ i_color.x, i_color.y, i_color.z, i_color.w });
+    VertexPositionColor p2(XMFLOAT3{ (float)rectTranslated.right(), (float)rectTranslated.top(), 0 },
+                           XMFLOAT4{ i_color.x, i_color.y, i_color.z, i_color.w });
+    VertexPositionColor p3(XMFLOAT3{ (float)rectTranslated.right(), (float)rectTranslated.bottom(), 0 },
+                           XMFLOAT4{ i_color.x, i_color.y, i_color.z, i_color.w });
+    VertexPositionColor p4(XMFLOAT3{ (float)rectTranslated.left(), (float)rectTranslated.bottom(), 0 },
+                           XMFLOAT4{ i_color.x, i_color.y, i_color.z, i_color.w });
+
+    d_primitiveBatch->DrawLine(p1, p2);
+    d_primitiveBatch->DrawLine(p2, p3);
+    d_primitiveBatch->DrawLine(p3, p4);
+    d_primitiveBatch->DrawLine(p4, p1);
+
+    d_primitiveBatch->End();
   }
 
 } // ns Dx
