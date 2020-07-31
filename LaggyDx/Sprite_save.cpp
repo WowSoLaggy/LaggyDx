@@ -4,7 +4,7 @@
 #include "IResourceController.h"
 #include "ITextureResource.h"
 
-#include <Sdk/Streams.h>
+#include <LaggySdk/Streams.h>
 
 
 namespace Dx

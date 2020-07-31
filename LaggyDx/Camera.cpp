@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Camera.h"
 
-#include <Sdk/Math.h>
+#include <LaggySdk/Math.h>
 
 
 namespace Dx

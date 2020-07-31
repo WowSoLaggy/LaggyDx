@@ -7,7 +7,7 @@
 #include "TextureResource.h"
 #include "VertexShaderResource.h"
 
-#include <Sdk/Contracts.h>
+#include <LaggySdk/Contracts.h>
 
 
 namespace Dx

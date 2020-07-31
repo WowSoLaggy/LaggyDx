@@ -4,7 +4,7 @@
 #include "ImageDescription.h"
 #include "ITextureResource.h"
 
-#include <Sdk/Contracts.h>
+#include <LaggySdk/Contracts.h>
 
 
 namespace Dx

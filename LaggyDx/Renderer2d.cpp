@@ -7,8 +7,8 @@
 #include "Sprite.h"
 #include "TextureResource.h"
 
-#include <Sdk/StringUtils.h>
-#include <Sdk/Vector.h>
+#include <LaggySdk/StringUtils.h>
+#include <LaggySdk/Vector.h>
 
 
 namespace Dx

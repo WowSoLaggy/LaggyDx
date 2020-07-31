@@ -3,9 +3,9 @@
 
 #include "RenderDevice.h"
 
-#include <Sdk/Contracts.h>
-#include <Sdk/json.h>
-#include <Sdk/Locker.h>
+#include <LaggySdk/Contracts.h>
+#include <LaggySdk/json.h>
+#include <LaggySdk/Locker.h>
 
 
 namespace Dx

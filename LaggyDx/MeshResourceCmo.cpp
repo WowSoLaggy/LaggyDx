@@ -3,7 +3,7 @@
 
 #include "RenderDevice.h"
 
-#include <Sdk/StringUtils.h>
+#include <LaggySdk/StringUtils.h>
 
 
 namespace Dx

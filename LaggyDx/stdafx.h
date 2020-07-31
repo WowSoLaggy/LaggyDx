@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Sdk/Common.h>
+#include <LaggySdk/Common.h>
 
 #include <Windows.h>
 
