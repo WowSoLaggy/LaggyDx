@@ -30,6 +30,7 @@ namespace Dx
 
     void setSize(Sdk::Vector2I i_size) { d_size = std::move(i_size); }
     const Sdk::Vector2I& getSize() const { return d_size; }
+    void resetSizeToTexture();
 
     void setRotation(double i_rotation) { d_rotation = i_rotation; }
     double getRotation() const { return d_rotation; }

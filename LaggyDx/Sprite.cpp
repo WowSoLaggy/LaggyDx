@@ -20,12 +20,17 @@ namespace Dx
   void Sprite::setTexture(const ITextureResource* i_texture)
   {
     d_texture = i_texture;
-    d_size = d_texture ? d_texture->getDescription().size() : Sdk::Vector2I{ 0, 0 };
   }
 
   void Sprite::setTexture(const ITextureResource& i_texture)
   {
     setTexture(&i_texture);
+  }
+
+
+  void Sprite::resetSizeToTexture()
+  {
+    d_size = d_texture ? d_texture->getDescription().size() : Sdk::Vector2I{ 0, 0 };
   }
 
 
