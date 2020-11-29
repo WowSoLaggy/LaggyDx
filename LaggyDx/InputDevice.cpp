@@ -25,7 +25,7 @@ namespace Dx
   {
     const auto state = d_keyboard->GetState();
 
-    KeyboardKeys keys;
+    KeyboardKeysState keys;
     memcpy(&keys, &state, sizeof(keys));
 
     d_keyboardState.update(keys);
@@ -37,7 +37,7 @@ namespace Dx
   {
     const auto state = d_mouse->GetState();
 
-    MouseKeys keys;
+    MouseKeysState keys;
     memcpy(&keys, &state, sizeof(keys));
 
     d_mouseState.update(keys);

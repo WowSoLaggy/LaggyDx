@@ -129,9 +129,6 @@
     <ClInclude Include="InputDevice.h">
       <Filter>src\InputDevice</Filter>
     </ClInclude>
-    <ClInclude Include="KeyboardKeys.h">
-      <Filter>src\InputControllers</Filter>
-    </ClInclude>
     <ClInclude Include="KeyboardState.h">
       <Filter>src\InputControllers</Filter>
     </ClInclude>
@@ -139,9 +136,6 @@
       <Filter>src\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="MouseState.h">
-      <Filter>src\InputControllers</Filter>
-    </ClInclude>
-    <ClInclude Include="MouseKeys.h">
       <Filter>src\InputControllers</Filter>
     </ClInclude>
     <ClInclude Include="ITextureResource.h">
@@ -177,7 +171,16 @@
     <ClInclude Include="AnimatedSprite.h">
       <Filter>src\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="MouseKey.h">
+    <ClInclude Include="KeyboardKeysState.h">
+      <Filter>src\InputControllers</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardKeys.h">
+      <Filter>src\InputControllers</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseKeysState.h">
+      <Filter>src\InputControllers</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseKeys.h">
       <Filter>src\InputControllers</Filter>
     </ClInclude>
   </ItemGroup>

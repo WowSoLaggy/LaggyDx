@@ -10,7 +10,7 @@ namespace Dx
   }
 
 
-  void KeyboardState::update(const KeyboardKeys& i_state)
+  void KeyboardState::update(const KeyboardKeysState& i_state)
   {
     auto currPtr = reinterpret_cast<const uint32_t*>(&i_state);
     auto prevPtr = reinterpret_cast<const uint32_t*>(&d_currentState);

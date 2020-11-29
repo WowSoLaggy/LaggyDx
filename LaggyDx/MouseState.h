@@ -1,6 +1,6 @@
 #pragma once
 
-#include "MouseKeys.h"
+#include "MouseKeysState.h"
 
 #include <LaggySdk/Vector.h>
 
@@ -36,7 +36,7 @@ namespace Dx
     int getWheelPosition() const { return d_wheelPosition; }
     int getWheelPositionChange() const { return d_wheelPositionChange; }
 
-    void update(const MouseKeys& i_state);
+    void update(const MouseKeysState& i_state);
     void reset();
 
     void setMode(MouseMode i_mode) { d_mode = i_mode; }
@@ -55,7 +55,7 @@ namespace Dx
 
     MouseMode d_mode = MouseMode::Absolute;
 
-    MouseKeys d_currentState;
+    MouseKeysState d_currentState;
   };
 
 } // ns Dx

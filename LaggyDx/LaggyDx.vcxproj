@@ -170,13 +170,14 @@
     <ClInclude Include="ITextureResource.h" />
     <ClInclude Include="IVertexShaderResource.h" />
     <ClInclude Include="KeyboardKeys.h" />
+    <ClInclude Include="KeyboardKeysState.h" />
     <ClInclude Include="KeyboardState.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialSequence.h" />
     <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="MeshResourceCmo.h" />
-    <ClInclude Include="MouseKey.h" />
     <ClInclude Include="MouseKeys.h" />
+    <ClInclude Include="MouseKeysState.h" />
     <ClInclude Include="MouseState.h" />
     <ClInclude Include="PixelShaderResource.h" />
     <ClInclude Include="Renderer2d.h" />

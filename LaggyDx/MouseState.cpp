@@ -12,7 +12,7 @@ namespace Dx
   }
 
 
-  void MouseState::update(const MouseKeys& i_state)
+  void MouseState::update(const MouseKeysState& i_state)
   {
 #define UPDATE_BUTTON_STATE(field) static_cast<ButtonState>((!!i_state.field) | \
     ((!!i_state.field ^ !!d_currentState.field) << 1));

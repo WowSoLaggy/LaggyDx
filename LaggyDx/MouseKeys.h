@@ -1,17 +1,14 @@
 #pragma once
 
+
 namespace Dx
 {
-  struct MouseKeys
+  enum class MouseKey
   {
-    bool    leftButton;
-    bool    middleButton;
-    bool    rightButton;
-    bool    xButton1;
-    bool    xButton2;
-    int     x;
-    int     y;
-    int     scrollWheelValue;
+    Left,
+    Middle,
+    Right,
+    x1,
+    x2,
   };
-
 } // ns Dx

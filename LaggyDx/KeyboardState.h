@@ -1,6 +1,6 @@
 #pragma once
 
-#include "KeyboardKeys.h"
+#include "KeyboardKeysState.h"
 
 
 namespace Dx
@@ -10,17 +10,17 @@ namespace Dx
   public:
     KeyboardState();
 
-    const KeyboardKeys& getPressedKeys() const { return d_pressedKeys; }
-    const KeyboardKeys& getCurrentKeys() const { return d_currentState; }
-    const KeyboardKeys& getReleasedKeys() const { return d_releasedKeys; }
+    const KeyboardKeysState& getPressedKeys() const { return d_pressedKeys; }
+    const KeyboardKeysState& getCurrentKeys() const { return d_currentState; }
+    const KeyboardKeysState& getReleasedKeys() const { return d_releasedKeys; }
 
-    void update(const KeyboardKeys& i_state);
+    void update(const KeyboardKeysState& i_state);
     void reset();
 
   private:
-    KeyboardKeys d_pressedKeys;
-    KeyboardKeys d_releasedKeys;
-    KeyboardKeys d_currentState;
+    KeyboardKeysState d_pressedKeys;
+    KeyboardKeysState d_releasedKeys;
+    KeyboardKeysState d_currentState;
   };
 
 } // ns Dx
