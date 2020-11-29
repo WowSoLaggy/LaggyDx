@@ -18,7 +18,6 @@ namespace Dx
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
 
-    d_textBatch = std::make_shared<SpriteBatch>(renderDevice.getDeviceContextPtr());
     d_states = std::make_unique<CommonStates>(renderDevice.getDevicePtr());
 
     d_primitiveBatch = std::make_shared<PrimitiveBatch<VertexPositionColor>>(renderDevice.getDeviceContextPtr());
@@ -42,12 +41,10 @@ namespace Dx
   void Renderer2d::beginScene()
   {
     d_renderedSprites = 0;
-    d_textBatch->Begin(SpriteSortMode_Deferred, d_states->NonPremultiplied());
   }
 
   void Renderer2d::endScene()
   {
-    d_textBatch->End();
   }
 
 
@@ -80,8 +77,13 @@ namespace Dx
 
     const auto pos = i_position - d_translation;
 
-    fontResource.getSpriteFont()->DrawString(d_textBatch.get(), Sdk::getWString(i_text).c_str(),
+    auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
+    SpriteBatch textBatch(renderDevice.getDeviceContextPtr());
+
+    textBatch.Begin(SpriteSortMode_Deferred, d_states->NonPremultiplied());
+    fontResource.getSpriteFont()->DrawString(&textBatch, Sdk::getWString(i_text).c_str(),
                                              XMFLOAT2((float)pos.x, (float)pos.y));
+    textBatch.End();
   }
 
   void Renderer2d::renderSprite(const Sprite& i_sprite)

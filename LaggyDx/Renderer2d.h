@@ -32,7 +32,6 @@ namespace Dx
     IRenderDevice& d_renderDevice;
 
     std::unique_ptr<CommonStates> d_states;
-    std::shared_ptr<SpriteBatch> d_textBatch;
 
     std::shared_ptr<PrimitiveBatch<VertexPositionColor>> d_primitiveBatch;
     std::unique_ptr<BasicEffect> d_primitiveEffect;
