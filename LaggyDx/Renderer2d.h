@@ -29,9 +29,11 @@ namespace Dx
     virtual void renderRect(const Sdk::RectI& i_rect, const Sdk::Vector4F& i_color) override;
 
   private:
-    IRenderDevice& d_renderDevice;
+    RenderDevice& d_renderDevice;
 
     std::unique_ptr<CommonStates> d_states;
+
+    SpriteBatch d_spriteBatch;
 
     std::shared_ptr<PrimitiveBatch<VertexPositionColor>> d_primitiveBatch;
     std::unique_ptr<BasicEffect> d_primitiveEffect;

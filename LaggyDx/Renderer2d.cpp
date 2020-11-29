@@ -14,14 +14,13 @@
 namespace Dx
 {
   Renderer2d::Renderer2d(IRenderDevice& io_renderDevice)
-    : d_renderDevice(io_renderDevice)
+    : d_renderDevice(dynamic_cast<RenderDevice&>(io_renderDevice))
+    , d_spriteBatch(d_renderDevice.getDeviceContextPtr())
   {
-    auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
+    d_states = std::make_unique<CommonStates>(d_renderDevice.getDevicePtr());
 
-    d_states = std::make_unique<CommonStates>(renderDevice.getDevicePtr());
-
-    d_primitiveBatch = std::make_shared<PrimitiveBatch<VertexPositionColor>>(renderDevice.getDeviceContextPtr());
-    d_primitiveEffect = std::make_unique<BasicEffect>(renderDevice.getDevicePtr());
+    d_primitiveBatch = std::make_shared<PrimitiveBatch<VertexPositionColor>>(d_renderDevice.getDeviceContextPtr());
+    d_primitiveEffect = std::make_unique<BasicEffect>(d_renderDevice.getDevicePtr());
     d_primitiveEffect->SetVertexColorEnabled(true);
 
     auto proj = Matrix::CreateOrthographicOffCenter(0.f, float(1600), float(900), 0.f, 0.f, 1.f);
@@ -31,7 +30,7 @@ namespace Dx
     size_t byteCodeLength;
     d_primitiveEffect->GetVertexShaderBytecode(&shaderByteCode, &byteCodeLength);
 
-    renderDevice.getDevicePtr()->CreateInputLayout(VertexPositionColor::InputElements,
+    d_renderDevice.getDevicePtr()->CreateInputLayout(VertexPositionColor::InputElements,
                                                    VertexPositionColor::InputElementCount,
                                                    shaderByteCode, byteCodeLength,
                                                    d_primitiveInputLayout.ReleaseAndGetAddressOf());
@@ -41,10 +40,12 @@ namespace Dx
   void Renderer2d::beginScene()
   {
     d_renderedSprites = 0;
+    d_spriteBatch.Begin(SpriteSortMode::SpriteSortMode_Deferred, d_states->NonPremultiplied());
   }
 
   void Renderer2d::endScene()
   {
+    d_spriteBatch.End();
   }
 
 
@@ -77,13 +78,8 @@ namespace Dx
 
     const auto pos = i_position - d_translation;
 
-    auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
-    SpriteBatch textBatch(renderDevice.getDeviceContextPtr());
-
-    textBatch.Begin(SpriteSortMode_Deferred, d_states->NonPremultiplied());
-    fontResource.getSpriteFont()->DrawString(&textBatch, Sdk::getWString(i_text).c_str(),
+    fontResource.getSpriteFont()->DrawString(&d_spriteBatch, Sdk::getWString(i_text).c_str(),
                                              XMFLOAT2((float)pos.x, (float)pos.y));
-    textBatch.End();
   }
 
   void Renderer2d::renderSprite(const Sprite& i_sprite)
@@ -102,22 +98,9 @@ namespace Dx
     const auto& color = i_sprite.getColor();
     const XMVECTORF32 colorVector = { { { color.x, color.y, color.z, color.w } } };
 
-    const XMVECTOR Scaling = XMVectorSet(1.0f, 1.0f, 1.0f, 0.0f);
-    const XMVECTOR Translation = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
-    const XMVECTOR origin = XMVectorSet((float)(pos.x + size.x / 2), (float)(pos.y + size.y / 2), 0.0f, 0.0f);
-    XMMATRIX matrix = XMMatrixAffineTransformation2D(Scaling, origin, (float)i_sprite.getRotation(), Translation);
-
-    auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
-    SpriteBatch spriteBatch(renderDevice.getDeviceContextPtr());
-    spriteBatch.Begin(SpriteSortMode_Deferred, d_states->NonPremultiplied(),
-                      nullptr, nullptr, nullptr, nullptr,
-                      matrix);
-
-    spriteBatch.Draw(textureResource.getTexturePtr(), destinationRect, &sourceRect, colorVector);
+    d_spriteBatch.Draw(textureResource.getTexturePtr(), destinationRect, &sourceRect, colorVector);
 
     ++d_renderedSprites;
-
-    spriteBatch.End();
   }
 
   void Renderer2d::renderLine(const Sdk::Vector2I& i_start, const Sdk::Vector2I& i_end,
@@ -126,8 +109,7 @@ namespace Dx
     const auto start = i_start - d_translation;
     const auto end = i_end - d_translation;
 
-    auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
-    auto* context = renderDevice.getDeviceContextPtr();
+    auto* context = d_renderDevice.getDeviceContextPtr();
 
     d_primitiveEffect->Apply(context);
     context->IASetInputLayout(d_primitiveInputLayout.Get());
@@ -148,8 +130,7 @@ namespace Dx
     auto rectTranslated = i_rect;
     rectTranslated.move(-d_translation);
 
-    auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
-    auto* context = renderDevice.getDeviceContextPtr();
+    auto* context = d_renderDevice.getDeviceContextPtr();
 
     d_primitiveEffect->Apply(context);
     context->IASetInputLayout(d_primitiveInputLayout.Get());

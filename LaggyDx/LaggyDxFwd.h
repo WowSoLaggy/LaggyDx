@@ -5,6 +5,7 @@
 
 namespace Dx
 {
+  class RenderDevice;
   class IRenderDevice;
   class ICamera;
   class IRenderer;
