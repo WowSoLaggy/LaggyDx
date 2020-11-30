@@ -183,6 +183,9 @@
     <ClInclude Include="MouseKeys.h">
       <Filter>src\InputControllers</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer2dGuard.h">
+      <Filter>src\Renderers\Renderer2d</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -280,6 +283,9 @@
     </ClCompile>
     <ClCompile Include="AnimatedSprite_save.cpp">
       <Filter>src\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer2dGuard.cpp">
+      <Filter>src\Renderers\Renderer2d</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

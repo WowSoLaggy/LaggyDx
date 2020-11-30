@@ -1,6 +1,7 @@
 #pragma once
 
 #include <LaggySdk/ILockable.h>
+#include <LaggySdk/Vector.h>
 
 
 namespace Dx
@@ -15,7 +16,7 @@ namespace Dx
   class IRenderDevice : public Sdk::ILockable
   {
   public:
-    static std::unique_ptr<IRenderDevice> create(HWND i_hWnd, int i_resolutionX, int i_resolutionY);
+    static std::unique_ptr<IRenderDevice> create(HWND i_hWnd, Sdk::Vector2I i_resolution);
 
   public:
     virtual ~IRenderDevice() = default;

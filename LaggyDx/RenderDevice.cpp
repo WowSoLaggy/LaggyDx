@@ -4,8 +4,9 @@
 
 namespace Dx
 {
-  RenderDevice::RenderDevice(HWND i_hWnd, int i_resolutionX, int i_resolutionY)
-    : d_hWnd(i_hWnd)
+  RenderDevice::RenderDevice(HWND i_hWnd, const Sdk::Vector2I i_resolution)
+    : d_resolution(i_resolution)
+    , d_hWnd(i_hWnd)
   {
     // Create a DirectX graphics interface factory.
     IDXGIFactory* factory;
@@ -47,9 +48,9 @@ namespace Dx
     unsigned int denominator = 1;
     for (unsigned int i = 0; i < numModes; ++i)
     {
-      if (displayModeList[i].Width == (unsigned int)i_resolutionX)
+      if (displayModeList[i].Width == (unsigned int)d_resolution.x)
       {
-        if (displayModeList[i].Height == (unsigned int)i_resolutionY)
+        if (displayModeList[i].Height == (unsigned int)d_resolution.y)
         {
           numerator = displayModeList[i].RefreshRate.Numerator;
           denominator = displayModeList[i].RefreshRate.Denominator;
@@ -97,8 +98,8 @@ namespace Dx
     swapChainDesc.BufferCount = 1;
 
     // Set the width and height of the back buffer.
-    swapChainDesc.BufferDesc.Width = i_resolutionX;
-    swapChainDesc.BufferDesc.Height = i_resolutionY;
+    swapChainDesc.BufferDesc.Width = d_resolution.x;
+    swapChainDesc.BufferDesc.Height = d_resolution.y;
 
     // Set regular 32-bit surface for the back buffer.
     swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -173,8 +174,8 @@ namespace Dx
     ZeroMemory(&depthBufferDesc, sizeof(depthBufferDesc));
 
     // Set up the description of the depth buffer.
-    depthBufferDesc.Width = i_resolutionX;
-    depthBufferDesc.Height = i_resolutionY;
+    depthBufferDesc.Width = d_resolution.x;
+    depthBufferDesc.Height = d_resolution.y;
     depthBufferDesc.MipLevels = 1;
     depthBufferDesc.ArraySize = 1;
     depthBufferDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -242,8 +243,8 @@ namespace Dx
 
     // Setup the viewport for rendering.
     D3D11_VIEWPORT viewport;
-    viewport.Width = (float)i_resolutionX;
-    viewport.Height = (float)i_resolutionY;
+    viewport.Width = (float)d_resolution.x;
+    viewport.Height = (float)d_resolution.y;
     viewport.MinDepth = 0.0f;
     viewport.MaxDepth = 1.0f;
     viewport.TopLeftX = 0.0f;

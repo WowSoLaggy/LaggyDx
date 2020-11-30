@@ -12,12 +12,15 @@ namespace Dx
   class IRenderer2d : public IRenderer
   {
   public:
-    static std::unique_ptr<IRenderer2d> create(IRenderDevice& io_renderDevice);
+    static std::unique_ptr<IRenderer2d> create(IRenderDevice& io_renderDevice, Sdk::Vector2I i_resolution);
 
   public:
     virtual ~IRenderer2d() = default;
 
     virtual void beginScene() = 0;
+    virtual void beginScene(const Sdk::Vector2I& i_translation,
+                            const Sdk::Vector2I& i_scaleOrigin,
+                            const Sdk::Vector2D& i_scaling) = 0;
     virtual void endScene() = 0;
 
     virtual const Sdk::Vector2I& getTranslation() const = 0;

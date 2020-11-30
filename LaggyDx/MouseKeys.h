@@ -1,14 +1,18 @@
 #pragma once
 
+#include <cstdint>
+
 
 namespace Dx
 {
-  enum class MouseKey
+  enum class MouseKey : std::int32_t
   {
     Left,
     Middle,
     Right,
-    x1,
-    x2,
+    X1,
+    X2,
+    WheelUp,
+    WheelDown,
   };
 } // ns Dx

@@ -3,15 +3,20 @@
 #include "IRenderer2d.h"
 #include "LaggyDxFwd.h"
 
+#include <LaggySdk/Vector.h>
+
 
 namespace Dx
 {
   class Renderer2d : public IRenderer2d
   {
   public:
-    Renderer2d(IRenderDevice& io_renderDevice);
+    Renderer2d(IRenderDevice& io_renderDevice, Sdk::Vector2I i_resolution);
 
     virtual void beginScene() override;
+    virtual void beginScene(const Sdk::Vector2I& i_translation,
+                            const Sdk::Vector2I& i_scaleOrigin,
+                            const Sdk::Vector2D& i_scaling) override;
     virtual void endScene() override;
 
     virtual const Sdk::Vector2I& getTranslation() const override;
@@ -30,6 +35,7 @@ namespace Dx
 
   private:
     RenderDevice& d_renderDevice;
+    Sdk::Vector2I d_resolution;
 
     std::unique_ptr<CommonStates> d_states;
 

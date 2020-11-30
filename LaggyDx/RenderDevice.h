@@ -18,7 +18,7 @@ namespace Dx
   class RenderDevice : public IRenderDevice
   {
   public:
-    RenderDevice(HWND i_hWnd, int i_resolutionX, int i_resolutionY);
+    RenderDevice(HWND i_hWnd, Sdk::Vector2I i_resolution);
     virtual ~RenderDevice() override;
 
     virtual void beginScene() override;
@@ -48,6 +48,8 @@ namespace Dx
     const bool isMsaaEnabled() const { return c_msaaMode != MsaaMode::None; }
 
   private:
+    Sdk::Vector2I d_resolution;
+
     FillMode d_fillMode;
 
     HWND d_hWnd;

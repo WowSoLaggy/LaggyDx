@@ -6,9 +6,9 @@
 
 namespace Dx
 {
-  std::unique_ptr<IRenderer2d> IRenderer2d::create(IRenderDevice& io_renderDevice)
+  std::unique_ptr<IRenderer2d> IRenderer2d::create(IRenderDevice& io_renderDevice, const Sdk::Vector2I i_resolution)
   {
-    return std::make_unique<Renderer2d>(io_renderDevice);
+    return std::make_unique<Renderer2d>(io_renderDevice, std::move(i_resolution));
   }
 
 } // ns Dx

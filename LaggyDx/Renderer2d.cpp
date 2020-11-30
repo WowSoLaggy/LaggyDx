@@ -8,13 +8,13 @@
 #include "TextureResource.h"
 
 #include <LaggySdk/StringUtils.h>
-#include <LaggySdk/Vector.h>
 
 
 namespace Dx
 {
-  Renderer2d::Renderer2d(IRenderDevice& io_renderDevice)
+  Renderer2d::Renderer2d(IRenderDevice& io_renderDevice, const Sdk::Vector2I i_resolution)
     : d_renderDevice(dynamic_cast<RenderDevice&>(io_renderDevice))
+    , d_resolution(std::move(i_resolution))
     , d_spriteBatch(d_renderDevice.getDeviceContextPtr())
   {
     d_states = std::make_unique<CommonStates>(d_renderDevice.getDevicePtr());
@@ -23,7 +23,8 @@ namespace Dx
     d_primitiveEffect = std::make_unique<BasicEffect>(d_renderDevice.getDevicePtr());
     d_primitiveEffect->SetVertexColorEnabled(true);
 
-    auto proj = Matrix::CreateOrthographicOffCenter(0.f, float(1600), float(900), 0.f, 0.f, 1.f);
+    auto proj = Matrix::CreateOrthographicOffCenter(0.f, float(d_resolution.x), float(d_resolution.y),
+                                                    0.f, 0.f, 1.f);
     d_primitiveEffect->SetProjection(proj);
 
     void const* shaderByteCode;
@@ -41,6 +42,24 @@ namespace Dx
   {
     d_renderedSprites = 0;
     d_spriteBatch.Begin(SpriteSortMode::SpriteSortMode_Deferred, d_states->NonPremultiplied());
+  }
+
+  void Renderer2d::beginScene(const Sdk::Vector2I& i_translation,
+                              const Sdk::Vector2I& i_scaleOrigin,
+                              const Sdk::Vector2D& i_scaling)
+  {
+    d_renderedSprites = 0;
+
+    const auto m = XMMatrixTransformation2D(
+      { (float)(i_scaleOrigin.x / 2), (float)(i_scaleOrigin.y / 2) }, // scaling origin
+      0,
+      { (float)i_scaling.x, (float)i_scaling.y },
+      { 0, 0 },
+      0,
+      { (float)i_translation.x, (float)i_translation.y });
+
+    d_spriteBatch.Begin(SpriteSortMode::SpriteSortMode_Deferred, d_states->NonPremultiplied(),
+                        nullptr, nullptr, nullptr, nullptr, m);
   }
 
   void Renderer2d::endScene()

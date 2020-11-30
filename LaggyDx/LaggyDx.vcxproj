@@ -181,6 +181,7 @@
     <ClInclude Include="MouseState.h" />
     <ClInclude Include="PixelShaderResource.h" />
     <ClInclude Include="Renderer2d.h" />
+    <ClInclude Include="Renderer2dGuard.h" />
     <ClInclude Include="Renderer3d.h" />
     <ClInclude Include="ICamera.h" />
     <ClInclude Include="IRenderDevice.h" />
@@ -217,6 +218,7 @@
     <ClCompile Include="MouseState.cpp" />
     <ClCompile Include="PixelShaderResource.cpp" />
     <ClCompile Include="Renderer2d.cpp" />
+    <ClCompile Include="Renderer2dGuard.cpp" />
     <ClCompile Include="Renderer3d.cpp" />
     <ClCompile Include="ICamera.cpp" />
     <ClCompile Include="IRenderDevice.cpp" />
