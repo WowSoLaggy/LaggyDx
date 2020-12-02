@@ -95,7 +95,7 @@ namespace Dx
   {
     const auto& fontResource = dynamic_cast<const FontResource&>(i_fontResource);
 
-    const auto pos = i_position - d_translation;
+    const auto pos = i_position + d_translation;
 
     fontResource.getSpriteFont()->DrawString(&d_spriteBatch, Sdk::getWString(i_text).c_str(),
                                              XMFLOAT2((float)pos.x, (float)pos.y));
@@ -109,7 +109,7 @@ namespace Dx
 
     const auto& textureResource = dynamic_cast<const TextureResource&>(*texture);
 
-    const auto pos = i_sprite.getPosition() - d_translation;
+    const auto pos = i_sprite.getPosition() + d_translation;
     const auto& size = i_sprite.getSize();
 
     const RECT sourceRect = i_sprite.getSourceRect();
@@ -125,8 +125,8 @@ namespace Dx
   void Renderer2d::renderLine(const Sdk::Vector2I& i_start, const Sdk::Vector2I& i_end,
                               const Sdk::Vector4F& i_color)
   {
-    const auto start = i_start - d_translation;
-    const auto end = i_end - d_translation;
+    const auto start = i_start + d_translation;
+    const auto end = i_end + d_translation;
 
     auto* context = d_renderDevice.getDeviceContextPtr();
 
@@ -147,7 +147,7 @@ namespace Dx
   void Renderer2d::renderRect(const Sdk::RectI& i_rect, const Sdk::Vector4F& i_color)
   {
     auto rectTranslated = i_rect;
-    rectTranslated.move(-d_translation);
+    rectTranslated.move(d_translation);
 
     auto* context = d_renderDevice.getDeviceContextPtr();
 
