@@ -51,7 +51,7 @@ namespace Dx
     d_renderedSprites = 0;
 
     const auto m = XMMatrixTransformation2D(
-      { (float)(i_scaleOrigin.x / 2), (float)(i_scaleOrigin.y / 2) }, // scaling origin
+      { (float)(i_scaleOrigin.x), (float)(i_scaleOrigin.y) }, // scaling origin
       0,
       { (float)i_scaling.x, (float)i_scaling.y },
       { 0, 0 },
