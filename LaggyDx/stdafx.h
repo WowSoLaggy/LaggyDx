@@ -2,8 +2,6 @@
 
 #include <LaggySdk/Common.h>
 
-#include <Windows.h>
-
 #include <d3dcommon.h>
 #include <d3d11.h>
 #include <d3dcompiler.h>
