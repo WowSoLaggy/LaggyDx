@@ -22,13 +22,10 @@ namespace Dx
     dgslEffectFactory.SetDirectory(L".\\Data");
     d_model = Model::CreateFromCMO(renderDevice.getDevicePtr(),
       Sdk::getWString(d_meshFilePath).c_str(), dgslEffectFactory);
-
-    d_loaded = true;
   }
 
   void MeshResourceCmo::unload()
   {
-    d_loaded = false;
     d_model.reset();
   }
 

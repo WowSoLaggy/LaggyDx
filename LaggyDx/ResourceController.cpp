@@ -90,8 +90,7 @@ namespace Dx
 
   void ResourceController::loadResource(ILoadableResource& i_resource)
   {
-    if (!i_resource.isLoaded())
-      i_resource.load(d_renderDevice);
+    i_resource.loadIfNeeded(d_renderDevice);
   }
 
   void ResourceController::loadResources()

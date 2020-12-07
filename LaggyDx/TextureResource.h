@@ -1,9 +1,9 @@
 #pragma once
 
-#include "ILoadableResource.h"
 #include "ImageAnimation.h"
 #include "ImageDescription.h"
 #include "ITextureResource.h"
+#include "LoadableResource.h"
 
 #include <unordered_map>
 
@@ -13,15 +13,13 @@ struct ID3D11ShaderResourceView;
 
 namespace Dx
 {
-  class TextureResource : public ILoadableResource, public ITextureResource
+  class TextureResource : public LoadableResource, public ITextureResource
   {
   public:
     TextureResource(fs::path i_textureFilePath);
 
     virtual void load(IRenderDevice& i_renderDevice) override;
     virtual void unload() override;
-
-    virtual bool isLoaded() const override { return d_loaded; }
 
     virtual fs::path getFilename() const override;
 
@@ -33,7 +31,6 @@ namespace Dx
     ID3D11ShaderResourceView* getTexturePtr() const { return d_texture; }
 
   private:
-    bool d_loaded = false;
     const fs::path d_textureFilePath = "";
 
     ID3D11ShaderResourceView* d_texture = nullptr;

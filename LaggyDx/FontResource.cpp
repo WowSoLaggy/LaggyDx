@@ -20,13 +20,10 @@ namespace Dx
     auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
 
     d_spriteFont = std::make_shared<SpriteFont>(renderDevice.getDevicePtr(), Sdk::getWString(d_fontFilePath).c_str());
-
-    d_loaded = true;
   }
 
   void FontResource::unload()
   {
-    d_loaded = false;
     d_spriteFont.reset();
   }
 

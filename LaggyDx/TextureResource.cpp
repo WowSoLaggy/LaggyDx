@@ -12,7 +12,6 @@ namespace Dx
 {
   TextureResource::TextureResource(fs::path i_textureFilePath)
     : d_textureFilePath(std::move(i_textureFilePath))
-    , d_loaded(false)
   {
   }
 
@@ -23,15 +22,11 @@ namespace Dx
     setSizeFromTexture();
     loadAnnotation();
     fillAlphaMask(i_renderDevice);
-
-    d_loaded = true;
   }
 
   void TextureResource::unload()
   {
-    d_loaded = false;
-
-    if (d_texture && d_loaded)
+    if (d_texture)
       d_texture->Release();
   }
 

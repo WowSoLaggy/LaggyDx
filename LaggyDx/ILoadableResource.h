@@ -10,9 +10,7 @@ namespace Dx
   public:
     virtual ~ILoadableResource() = default;
 
-    virtual void load(IRenderDevice& i_renderDevice) = 0;
-    virtual void unload() = 0;
-
-    virtual bool isLoaded() const = 0;
+    virtual void loadIfNeeded(IRenderDevice& i_renderDevice) = 0;
+    virtual void unloadIfNeeded() = 0;
   };
 } // ns Dx

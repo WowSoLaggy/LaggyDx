@@ -172,6 +172,7 @@
     <ClInclude Include="KeyboardKeys.h" />
     <ClInclude Include="KeyboardKeysState.h" />
     <ClInclude Include="KeyboardState.h" />
+    <ClInclude Include="LoadableResource.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialSequence.h" />
     <ClInclude Include="MeshLoader.h" />
@@ -212,6 +213,7 @@
     <ClCompile Include="IRenderer2d.cpp" />
     <ClCompile Include="IRenderer3d.cpp" />
     <ClCompile Include="KeyboardState.cpp" />
+    <ClCompile Include="LoadableResource.cpp" />
     <ClCompile Include="MaterialSequence.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
     <ClCompile Include="MeshResourceCmo.cpp" />

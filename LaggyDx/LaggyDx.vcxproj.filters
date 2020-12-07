@@ -186,6 +186,9 @@
     <ClInclude Include="Renderer2dGuard.h">
       <Filter>src\Renderers\Renderer2d</Filter>
     </ClInclude>
+    <ClInclude Include="LoadableResource.h">
+      <Filter>src\Resources\ResourceTypes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -286,6 +289,9 @@
     </ClCompile>
     <ClCompile Include="Renderer2dGuard.cpp">
       <Filter>src\Renderers\Renderer2d</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadableResource.cpp">
+      <Filter>src\Resources\ResourceTypes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
