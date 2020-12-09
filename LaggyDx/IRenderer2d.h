@@ -27,7 +27,7 @@ namespace Dx
     virtual void setTranslation(Sdk::Vector2I i_translation) = 0;
     virtual void resetTranslation() = 0;
 
-    virtual int getRenderedSprites() = 0;
+    virtual int resetRenderedSprites() = 0;
 
 
     virtual void renderText(const std::string& i_text,

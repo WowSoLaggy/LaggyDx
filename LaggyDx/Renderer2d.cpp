@@ -40,7 +40,6 @@ namespace Dx
 
   void Renderer2d::beginScene()
   {
-    d_renderedSprites = 0;
     d_spriteBatch.Begin(SpriteSortMode::SpriteSortMode_Deferred, d_states->NonPremultiplied());
   }
 
@@ -48,8 +47,6 @@ namespace Dx
                               const Sdk::Vector2I& i_scaleOrigin,
                               const Sdk::Vector2D& i_scaling)
   {
-    d_renderedSprites = 0;
-
     const auto m = XMMatrixTransformation2D(
       { (float)(i_scaleOrigin.x), (float)(i_scaleOrigin.y) }, // scaling origin
       0,
@@ -84,9 +81,9 @@ namespace Dx
   }
 
 
-  int Renderer2d::getRenderedSprites()
+  int Renderer2d::resetRenderedSprites()
   {
-    return d_renderedSprites;
+    return std::exchange(d_renderedSprites, 0);
   }
 
 
