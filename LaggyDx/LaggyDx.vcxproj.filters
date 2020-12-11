@@ -46,6 +46,9 @@
     <Filter Include="src\Animation2d">
       <UniqueIdentifier>{6c31fb6b-366b-4ff5-8667-b0241d849fd8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Projector">
+      <UniqueIdentifier>{791c494e-f8ff-4638-afed-aef6b7308be4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -189,6 +192,9 @@
     <ClInclude Include="LoadableResource.h">
       <Filter>src\Resources\ResourceTypes</Filter>
     </ClInclude>
+    <ClInclude Include="Projector.h">
+      <Filter>src\Projector</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -292,6 +298,9 @@
     </ClCompile>
     <ClCompile Include="LoadableResource.cpp">
       <Filter>src\Resources\ResourceTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="Projector.cpp">
+      <Filter>src\Projector</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

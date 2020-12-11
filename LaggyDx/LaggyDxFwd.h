@@ -55,4 +55,5 @@ namespace DirectX
   class Model;
   class SpriteFont;
   class SpriteBatch;
+  struct XMMATRIX;
 }

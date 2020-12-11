@@ -1,6 +1,7 @@
 #pragma once
 
 #include <LaggySdk/Common.h>
+#include <LaggySdk/Contracts.h>
 
 #include <d3dcommon.h>
 #include <d3d11.h>
