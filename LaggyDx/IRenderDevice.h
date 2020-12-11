@@ -26,6 +26,8 @@ namespace Dx
 
     virtual void switchFillMode() = 0;
     virtual void setFillMode(FillMode i_fillMode) = 0;
+
+    virtual void setClearColor(std::array<float, 4> i_clearColor) = 0;
   };
 
 } // ns Dx

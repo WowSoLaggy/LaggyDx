@@ -315,7 +315,7 @@ namespace Dx
   void RenderDevice::beginScene()
   {
     // Clear the back buffer.
-    d_deviceContext->ClearRenderTargetView(d_renderTargetView, c_clearColor);
+    d_deviceContext->ClearRenderTargetView(d_renderTargetView, d_clearColor);
 
     // Clear the depth buffer.
     d_deviceContext->ClearDepthStencilView(d_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
@@ -368,6 +368,12 @@ namespace Dx
   void RenderDevice::setFillMode(FillMode i_fillMode)
   {
     d_fillMode = i_fillMode;
+  }
+
+  void RenderDevice::setClearColor(std::array<float, 4> i_clearColor)
+  {
+    for (int i = 0; i < i_clearColor.size(); ++i)
+      d_clearColor[i] = i_clearColor[i];
   }
 
 } // ns Dx

@@ -27,6 +27,8 @@ namespace Dx
     virtual void switchFillMode() override;
     virtual void setFillMode(FillMode i_fillMode) override;
 
+    virtual void setClearColor(std::array<float, 4> i_clearColor) override;
+
     ID3D11Device* getDevicePtr() { return d_device; }
     ID3D11DeviceContext* getDeviceContextPtr() { return d_deviceContext; }
 
@@ -35,7 +37,6 @@ namespace Dx
   private:
     const bool c_vSyncEnabled = true;
     const bool c_fullScreen = false;
-    const float c_clearColor[4] = { 0.396f, 0.612f, 0.937f, 1.0f };
 
     enum class MsaaMode
     {
@@ -49,6 +50,7 @@ namespace Dx
 
   private:
     Sdk::Vector2I d_resolution;
+    float d_clearColor[4] = { 0.396f, 0.612f, 0.937f, 1.0f };
 
     FillMode d_fillMode;
 
