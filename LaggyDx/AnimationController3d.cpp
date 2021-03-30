@@ -54,7 +54,7 @@ namespace Dx
 
   void AnimationController3d::resetAnimationXfms()
   {
-    for (int meshIndex = 0; meshIndex < d_model.meshes.size(); ++meshIndex)
+    for (int meshIndex = 0; meshIndex < (int)d_model.meshes.size(); ++meshIndex)
     {
       const auto& mesh = d_model.meshes.at(meshIndex);
       for (int boneIndex = 0; boneIndex < (int)mesh->bones.size(); ++boneIndex)
@@ -67,7 +67,7 @@ namespace Dx
   {
     resetAnimationXfms();
 
-    for (int meshIndex = 0; meshIndex < d_model.meshes.size(); ++meshIndex)
+    for (int meshIndex = 0; meshIndex < (int)d_model.meshes.size(); ++meshIndex)
     {
       const auto& mesh = d_model.meshes.at(meshIndex);
 
@@ -92,10 +92,10 @@ namespace Dx
 
   void AnimationController3d::updateCombinedXfms()
   {
-    for (int meshIndex = 0; meshIndex < d_model.meshes.size(); ++meshIndex)
+    for (int meshIndex = 0; meshIndex < (int)d_model.meshes.size(); ++meshIndex)
     {
       const auto& mesh = *d_model.meshes.at(meshIndex);
-      for (int boneIndex = 0; boneIndex < mesh.bones.size(); ++boneIndex)
+      for (int boneIndex = 0; boneIndex < (int)mesh.bones.size(); ++boneIndex)
       {
         const auto& bone = mesh.bones.at(boneIndex);
         auto& animationXfm = d_meshesBoneAnimationXfms.at(meshIndex).at(boneIndex);

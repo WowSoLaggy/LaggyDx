@@ -372,7 +372,7 @@ namespace Dx
 
   void RenderDevice::setClearColor(std::array<float, 4> i_clearColor)
   {
-    for (int i = 0; i < i_clearColor.size(); ++i)
+    for (int i = 0; i < (int)i_clearColor.size(); ++i)
       d_clearColor[i] = i_clearColor[i];
   }
 

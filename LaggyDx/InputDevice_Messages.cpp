@@ -11,8 +11,14 @@ namespace Dx
     switch (i_inputMessage.message)
     {
     case WM_ACTIVATEAPP:
-      Keyboard::ProcessMessage(static_cast<UINT>(i_inputMessage.message), i_inputMessage.wParam, i_inputMessage.lParam);
-      Mouse::ProcessMessage(static_cast<UINT>(i_inputMessage.message), i_inputMessage.wParam, i_inputMessage.lParam);
+      Keyboard::ProcessMessage(
+        static_cast<UINT>(i_inputMessage.message),
+        static_cast<WPARAM>(i_inputMessage.wParam),
+        static_cast<LPARAM>(i_inputMessage.lParam));
+      Mouse::ProcessMessage(
+        static_cast<UINT>(i_inputMessage.message),
+        static_cast<WPARAM>(i_inputMessage.wParam),
+        static_cast<LPARAM>(i_inputMessage.lParam));
       break;
 
     case WM_INPUT:
@@ -27,14 +33,20 @@ namespace Dx
     case WM_XBUTTONDOWN:
     case WM_XBUTTONUP:
     case WM_MOUSEHOVER:
-      Mouse::ProcessMessage(static_cast<UINT>(i_inputMessage.message), i_inputMessage.wParam, i_inputMessage.lParam);
+      Mouse::ProcessMessage(
+        static_cast<UINT>(i_inputMessage.message),
+        static_cast<WPARAM>(i_inputMessage.wParam),
+        static_cast<LPARAM>(i_inputMessage.lParam));
       break;
 
     case WM_KEYDOWN:
     case WM_SYSKEYDOWN:
     case WM_KEYUP:
     case WM_SYSKEYUP:
-      Keyboard::ProcessMessage(static_cast<UINT>(i_inputMessage.message), i_inputMessage.wParam, i_inputMessage.lParam);
+      Keyboard::ProcessMessage(
+        static_cast<UINT>(i_inputMessage.message),
+        static_cast<WPARAM>(i_inputMessage.wParam),
+        static_cast<LPARAM>(i_inputMessage.lParam));
       break;
     }
   }
