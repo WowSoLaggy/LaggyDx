@@ -18,6 +18,9 @@ namespace Dx
     virtual const MouseState& checkMouse() override;
     virtual const KeyboardState& checkKeyboard() override;
 
+    virtual void showCursor() override;
+    virtual void hideCursor() override;
+
   private:
 
     std::unique_ptr<Mouse> d_mouse;

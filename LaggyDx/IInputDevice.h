@@ -19,6 +19,9 @@ namespace Dx
 
     virtual const MouseState& checkMouse() = 0;
     virtual const KeyboardState& checkKeyboard() = 0;
+
+    virtual void showCursor() = 0;
+    virtual void hideCursor() = 0;
   };
 
 } // ns Dx

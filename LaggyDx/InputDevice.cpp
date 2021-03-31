@@ -46,4 +46,15 @@ namespace Dx
     return d_mouseState;
   }
 
+
+  void InputDevice::showCursor()
+  {
+    d_mouse->SetVisible(true);
+  }
+
+  void InputDevice::hideCursor()
+  {
+    d_mouse->SetVisible(false);
+  }
+
 } // ns Dx
