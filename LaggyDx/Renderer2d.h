@@ -40,9 +40,8 @@ namespace Dx
     std::unique_ptr<CommonStates> d_states;
 
     SpriteBatch d_spriteBatch;
-
-    std::shared_ptr<PrimitiveBatch<VertexPositionColor>> d_primitiveBatch;
-    std::unique_ptr<BasicEffect> d_primitiveEffect;
+    PrimitiveBatch<VertexPositionColor> d_primitiveBatch;
+    BasicEffect d_primitiveEffect;
     Microsoft::WRL::ComPtr<ID3D11InputLayout> d_primitiveInputLayout;
 
     Sdk::Vector2I d_translation{};

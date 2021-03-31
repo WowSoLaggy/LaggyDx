@@ -16,20 +16,20 @@ namespace Dx
     : d_renderDevice(dynamic_cast<RenderDevice&>(io_renderDevice))
     , d_resolution(std::move(i_resolution))
     , d_spriteBatch(d_renderDevice.getDeviceContextPtr())
+    , d_primitiveBatch(d_renderDevice.getDeviceContextPtr())
+    , d_primitiveEffect(d_renderDevice.getDevicePtr())
   {
     d_states = std::make_unique<CommonStates>(d_renderDevice.getDevicePtr());
 
-    d_primitiveBatch = std::make_shared<PrimitiveBatch<VertexPositionColor>>(d_renderDevice.getDeviceContextPtr());
-    d_primitiveEffect = std::make_unique<BasicEffect>(d_renderDevice.getDevicePtr());
-    d_primitiveEffect->SetVertexColorEnabled(true);
-
+    d_primitiveEffect.SetVertexColorEnabled(true);
+    
     auto proj = Matrix::CreateOrthographicOffCenter(0.f, float(d_resolution.x), float(d_resolution.y),
                                                     0.f, 0.f, 1.f);
-    d_primitiveEffect->SetProjection(proj);
+    d_primitiveEffect.SetProjection(proj);
 
     void const* shaderByteCode;
     size_t byteCodeLength;
-    d_primitiveEffect->GetVertexShaderBytecode(&shaderByteCode, &byteCodeLength);
+    d_primitiveEffect.GetVertexShaderBytecode(&shaderByteCode, &byteCodeLength);
 
     d_renderDevice.getDevicePtr()->CreateInputLayout(VertexPositionColor::InputElements,
                                                    VertexPositionColor::InputElementCount,
@@ -41,6 +41,7 @@ namespace Dx
   void Renderer2d::beginScene()
   {
     d_spriteBatch.Begin(SpriteSortMode::SpriteSortMode_Deferred, d_states->NonPremultiplied());
+    d_primitiveBatch.Begin();
   }
 
   void Renderer2d::beginScene(const Sdk::Vector2I& i_translation,
@@ -57,10 +58,14 @@ namespace Dx
 
     d_spriteBatch.Begin(SpriteSortMode::SpriteSortMode_Deferred, d_states->NonPremultiplied(),
                         nullptr, nullptr, nullptr, nullptr, m);
+
+    d_primitiveEffect.SetWorld(m);
+    d_primitiveBatch.Begin();
   }
 
   void Renderer2d::endScene()
   {
+    d_primitiveBatch.End();
     d_spriteBatch.End();
   }
 
@@ -127,18 +132,14 @@ namespace Dx
 
     auto* context = d_renderDevice.getDeviceContextPtr();
 
-    d_primitiveEffect->Apply(context);
+    d_primitiveEffect.Apply(context);
     context->IASetInputLayout(d_primitiveInputLayout.Get());
-
-    d_primitiveBatch->Begin();
 
     VertexPositionColor p1(XMFLOAT3{ (float)start.x, (float)start.y, 0 },
                            XMFLOAT4{ i_color.x, i_color.y, i_color.z, i_color.w });
     VertexPositionColor p2(XMFLOAT3{ (float)end.x, (float)end.y, 0 },
                            XMFLOAT4{ i_color.x, i_color.y, i_color.z, i_color.w });
-    d_primitiveBatch->DrawLine(p1, p2);
-
-    d_primitiveBatch->End();
+    d_primitiveBatch.DrawLine(p1, p2);
   }
 
   void Renderer2d::renderRect(const Sdk::RectI& i_rect, const Sdk::Vector4F& i_color)
@@ -148,10 +149,8 @@ namespace Dx
 
     auto* context = d_renderDevice.getDeviceContextPtr();
 
-    d_primitiveEffect->Apply(context);
+    d_primitiveEffect.Apply(context);
     context->IASetInputLayout(d_primitiveInputLayout.Get());
-
-    d_primitiveBatch->Begin();
 
     VertexPositionColor p1(XMFLOAT3{ (float)rectTranslated.left(), (float)rectTranslated.top(), 0 },
                            XMFLOAT4{ i_color.x, i_color.y, i_color.z, i_color.w });
@@ -162,12 +161,11 @@ namespace Dx
     VertexPositionColor p4(XMFLOAT3{ (float)rectTranslated.left(), (float)rectTranslated.bottom(), 0 },
                            XMFLOAT4{ i_color.x, i_color.y, i_color.z, i_color.w });
 
-    d_primitiveBatch->DrawLine(p1, p2);
-    d_primitiveBatch->DrawLine(p2, p3);
-    d_primitiveBatch->DrawLine(p3, p4);
-    d_primitiveBatch->DrawLine(p4, p1);
+    d_primitiveBatch.DrawLine(p1, p2);
+    d_primitiveBatch.DrawLine(p2, p3);
+    d_primitiveBatch.DrawLine(p3, p4);
+    d_primitiveBatch.DrawLine(p4, p1);
 
-    d_primitiveBatch->End();
   }
 
 } // ns Dx
