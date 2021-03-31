@@ -49,6 +49,9 @@
     <Filter Include="src\Projector">
       <UniqueIdentifier>{791c494e-f8ff-4638-afed-aef6b7308be4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Shapes">
+      <UniqueIdentifier>{4114a761-856b-4f66-a14f-0f71bba9c243}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -195,6 +198,12 @@
     <ClInclude Include="Projector.h">
       <Filter>src\Projector</Filter>
     </ClInclude>
+    <ClInclude Include="IShape.h">
+      <Filter>src\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Shape.h">
+      <Filter>src\Shapes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -301,6 +310,12 @@
     </ClCompile>
     <ClCompile Include="Projector.cpp">
       <Filter>src\Projector</Filter>
+    </ClCompile>
+    <ClCompile Include="Shape.cpp">
+      <Filter>src\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="IShape.cpp">
+      <Filter>src\Shapes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

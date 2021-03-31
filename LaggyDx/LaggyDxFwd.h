@@ -44,6 +44,8 @@ namespace Dx
   struct ImageDescription;
   struct ImageAnimation;
   using AnimationsMap = std::unordered_map<std::string, ImageAnimation>;
+
+  class IShape;
 } // ns Dx
 
 
@@ -56,4 +58,6 @@ namespace DirectX
   class SpriteFont;
   class SpriteBatch;
   struct XMMATRIX;
+
+  struct VertexPositionColor;
 }

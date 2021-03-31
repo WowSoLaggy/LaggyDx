@@ -167,6 +167,7 @@
     <ClInclude Include="IRenderer.h" />
     <ClInclude Include="IRenderer2d.h" />
     <ClInclude Include="IRenderer3d.h" />
+    <ClInclude Include="IShape.h" />
     <ClInclude Include="ITextureResource.h" />
     <ClInclude Include="IVertexShaderResource.h" />
     <ClInclude Include="KeyboardKeys.h" />
@@ -193,6 +194,7 @@
     <ClInclude Include="RenderDevice.h" />
     <ClInclude Include="ResourceController.h" />
     <ClInclude Include="ShaderBuffers.h" />
+    <ClInclude Include="Shape.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="VertexShaderResource.h" />
     <ClInclude Include="stdafx.h" />
@@ -213,6 +215,7 @@
     <ClCompile Include="InputDevice_Messages.cpp" />
     <ClCompile Include="IRenderer2d.cpp" />
     <ClCompile Include="IRenderer3d.cpp" />
+    <ClCompile Include="IShape.cpp" />
     <ClCompile Include="KeyboardState.cpp" />
     <ClCompile Include="LoadableResource.cpp" />
     <ClCompile Include="MaterialSequence.cpp" />
@@ -230,6 +233,7 @@
     <ClCompile Include="RenderDevice.cpp" />
     <ClCompile Include="Renderer3d_Renders.cpp" />
     <ClCompile Include="ResourceController.cpp" />
+    <ClCompile Include="Shape.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Sprite_save.cpp" />
     <ClCompile Include="VertexShaderResource.cpp" />
