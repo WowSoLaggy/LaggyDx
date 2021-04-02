@@ -52,6 +52,9 @@
     <Filter Include="src\Shapes">
       <UniqueIdentifier>{4114a761-856b-4f66-a14f-0f71bba9c243}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Actions">
+      <UniqueIdentifier>{d5e40606-7024-45ca-a7af-82aeba080944}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -204,6 +207,15 @@
     <ClInclude Include="Shape.h">
       <Filter>src\Shapes</Filter>
     </ClInclude>
+    <ClInclude Include="Action.h">
+      <Filter>src\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionsMap.h">
+      <Filter>src\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionType.h">
+      <Filter>src\Actions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -316,6 +328,12 @@
     </ClCompile>
     <ClCompile Include="IShape.cpp">
       <Filter>src\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Action.cpp">
+      <Filter>src\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionsMap.cpp">
+      <Filter>src\Actions</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

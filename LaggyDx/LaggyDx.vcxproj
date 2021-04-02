@@ -151,6 +151,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Action.h" />
+    <ClInclude Include="ActionsMap.h" />
+    <ClInclude Include="ActionType.h" />
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="ImageAnimation.h" />
     <ClInclude Include="AnimationController3d.h" />
@@ -203,6 +206,8 @@
     <ClInclude Include="VertexTypes.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Action.cpp" />
+    <ClCompile Include="ActionsMap.cpp" />
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="AnimatedSprite_save.cpp" />
     <ClCompile Include="AnimationController3d.cpp" />
