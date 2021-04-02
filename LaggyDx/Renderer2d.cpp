@@ -44,6 +44,26 @@ namespace Dx
     d_primitiveBatch.Begin();
   }
 
+  void Renderer2d::beginScene(const Sdk::Vector2D& i_translation,
+                              const Sdk::Vector2D& i_rotationOrigin,
+                              const double i_rotation)
+  {
+    const auto m = XMMatrixTransformation2D(
+      { 0, 0 },                                                 // scaling origin
+      0,                                                        // scaling orientation
+      { 1, 1 },                                                 // scaling
+      { (float)i_rotationOrigin.x, (float)i_rotationOrigin.y }, // rotation origin
+      (float) i_rotation,                                       // rotation
+      { (float)i_translation.x, (float)i_translation.y }        // translation
+    );
+
+    d_spriteBatch.Begin(SpriteSortMode::SpriteSortMode_Deferred, d_states->NonPremultiplied(),
+                        nullptr, nullptr, nullptr, nullptr, m);
+
+    d_primitiveEffect.SetWorld(m);
+    d_primitiveBatch.Begin();
+  }
+
   void Renderer2d::beginScene(const Sdk::Vector2I& i_translation,
                               const Sdk::Vector2I& i_scaleOrigin,
                               const Sdk::Vector2D& i_scaling)

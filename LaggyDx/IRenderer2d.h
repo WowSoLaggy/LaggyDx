@@ -18,6 +18,9 @@ namespace Dx
     virtual ~IRenderer2d() = default;
 
     virtual void beginScene() = 0;
+    virtual void beginScene(const Sdk::Vector2D& i_translation,
+                            const Sdk::Vector2D& i_rotationOrigin,
+                            double i_rotation) = 0;
     virtual void beginScene(const Sdk::Vector2I& i_translation,
                             const Sdk::Vector2I& i_scaleOrigin,
                             const Sdk::Vector2D& i_scaling) = 0;

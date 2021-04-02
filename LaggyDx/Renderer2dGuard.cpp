@@ -13,6 +13,15 @@ namespace Dx
   }
 
   Renderer2dGuard::Renderer2dGuard(IRenderer2d& i_renderer,
+                                   const Sdk::Vector2D& i_translation,
+                                   const Sdk::Vector2D& i_rotationOrigin,
+                                   double i_rotation)
+    : d_renderer(i_renderer)
+  {
+    d_renderer.beginScene(i_translation, i_rotationOrigin, i_rotation);
+  }
+
+  Renderer2dGuard::Renderer2dGuard(IRenderer2d& i_renderer,
                                    const Sdk::Vector2I& i_translation,
                                    const Sdk::Vector2I& i_scaleOrigin,
                                    const Sdk::Vector2D& i_scaling)
