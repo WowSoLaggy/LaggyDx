@@ -48,6 +48,11 @@ namespace Dx
     return d_speed;
   }
 
+  Sdk::Vector2F ObjectBase::getSpeedF() const
+  {
+    return { (float)d_speed.x, (float)d_speed.y };
+  }
+
 
   void ObjectBase::setRotation(const double i_rotation)
   {

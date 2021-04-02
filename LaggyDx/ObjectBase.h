@@ -17,6 +17,7 @@ namespace Dx
 
     virtual void setSpeed(Sdk::Vector2D i_speed) override;
     virtual const Sdk::Vector2D& getSpeed() const override;
+    virtual Sdk::Vector2F getSpeedF() const override;
 
     virtual void setRotation(double i_rotation) override;
     virtual double getRotation() const override;
