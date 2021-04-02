@@ -35,6 +35,7 @@ namespace Dx
     virtual void renderLine(const Sdk::Vector2I& i_start, const Sdk::Vector2I& i_end,
                             const Sdk::Vector4F& i_color) override;
     virtual void renderRect(const Sdk::RectI& i_rect, const Sdk::Vector4F& i_color) override;
+    virtual void renderShape(const IShape& i_shape) override;
 
   private:
     RenderDevice& d_renderDevice;

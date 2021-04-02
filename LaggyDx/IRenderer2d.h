@@ -39,6 +39,7 @@ namespace Dx
     virtual void renderLine(const Sdk::Vector2I& i_start, const Sdk::Vector2I& i_end,
                             const Sdk::Vector4F& i_color) = 0;
     virtual void renderRect(const Sdk::RectI& i_rect, const Sdk::Vector4F& i_color) = 0;
+    virtual void renderShape(const IShape& i_shape) = 0;
   };
 
 } // ns Dx

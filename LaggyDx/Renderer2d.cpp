@@ -2,6 +2,7 @@
 #include "Renderer2d.h"
 
 #include "FontResource.h"
+#include "IShape.h"
 #include "RenderDevice.h"
 #include "ResourceController.h"
 #include "Sprite.h"
@@ -185,7 +186,20 @@ namespace Dx
     d_primitiveBatch.DrawLine(p2, p3);
     d_primitiveBatch.DrawLine(p3, p4);
     d_primitiveBatch.DrawLine(p4, p1);
+  }
 
+  void Renderer2d::renderShape(const IShape& i_shape)
+  {
+    auto* context = d_renderDevice.getDeviceContextPtr();
+
+    const auto& color = i_shape.getColor();
+    d_primitiveEffect.SetColorAndAlpha({ color.x, color.y, color.z, color.w });
+    d_primitiveEffect.Apply(context);
+    context->IASetInputLayout(d_primitiveInputLayout.Get());
+
+    d_primitiveBatch.DrawIndexed(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
+                                  i_shape.getInds(), i_shape.getIndsCount(),
+                                  i_shape.getVerts(), i_shape.getVertsCount());
   }
 
 } // ns Dx
