@@ -16,6 +16,7 @@ namespace Dx
 
     virtual void setPosition(Sdk::Vector2D i_position) = 0;
     virtual const Sdk::Vector2D& getPosition() const = 0;
+    virtual Sdk::Vector2F getPositionF() const = 0;
 
     virtual void setSpeed(Sdk::Vector2D i_speed) = 0;
     virtual const Sdk::Vector2D& getSpeed() const = 0;

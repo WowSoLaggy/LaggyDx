@@ -37,8 +37,8 @@ namespace Dx
     auto points = Sdk::getPointsOnCircle(i_radius, i_numPoints, i_startAngle, i_endAngle);
     points.insert(points.begin(), { 0, 0 });
 
-    std::vector<int> inds(i_numPoints * 3, 0);
-    for (int i = 0; i < i_numPoints; ++i)
+    std::vector<int> inds((i_numPoints - 1) * 3, 0);
+    for (int i = 0; i < i_numPoints - 1; ++i)
     {
       inds[i * 3 + 1] = i + 1;
       inds[i * 3 + 2] = i + 2;

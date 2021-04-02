@@ -13,6 +13,7 @@ namespace Dx
 
     virtual void setPosition(Sdk::Vector2D i_position) override;
     virtual const Sdk::Vector2D& getPosition() const override;
+    virtual Sdk::Vector2F getPositionF() const override;
 
     virtual void setSpeed(Sdk::Vector2D i_speed) override;
     virtual const Sdk::Vector2D& getSpeed() const override;

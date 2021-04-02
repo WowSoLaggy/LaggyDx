@@ -103,7 +103,7 @@ namespace Dx
 
     handleKeyboard(d_inputDevice->checkKeyboard());
 
-    updateObjects(dt);
+    update(dt);
 
     {
       const Sdk::Locker scopeLocker(*d_renderDevice);
@@ -118,7 +118,7 @@ namespace Dx
   }
 
 
-  void Game::updateObjects(double i_dt)
+  void Game::update(double i_dt)
   {
     for (const auto& obj : d_objectCollection.getObjects())
       updateObject(*obj, i_dt);

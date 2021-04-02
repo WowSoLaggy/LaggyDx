@@ -42,7 +42,7 @@ namespace Dx
 
     [[nodiscard]] virtual bool continueLoop();
 
-    virtual void updateObjects(double i_dt);
+    virtual void update(double i_dt);
     virtual void updateObject(IObject& i_obj, double i_dt);
 
     virtual void renderObjects();

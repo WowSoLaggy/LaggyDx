@@ -32,6 +32,11 @@ namespace Dx
     return d_position;
   }
 
+  Sdk::Vector2F ObjectBase::getPositionF() const
+  {
+    return { (float)d_position.x, (float)d_position.y };
+  }
+
 
   void ObjectBase::setSpeed(Sdk::Vector2D i_speed)
   {
@@ -62,7 +67,10 @@ namespace Dx
 
   void ObjectBase::render(IRenderer2d& i_renderer) const
   {
-    Renderer2dGuard rendererGuard(i_renderer, d_translation, d_rotationOrigin, d_sprite.getRotation());
+    Renderer2dGuard rendererGuard(i_renderer,
+                                  { (float)d_translation.x, (float)d_translation.y },
+                                  { (float)d_rotationOrigin.x, (float)d_rotationOrigin.y },
+                                  (float)d_sprite.getRotation());
     i_renderer.renderSprite(d_sprite);
   }
 

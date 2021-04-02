@@ -42,20 +42,22 @@ namespace Dx
   void Renderer2d::beginScene()
   {
     d_spriteBatch.Begin(SpriteSortMode::SpriteSortMode_Deferred, d_states->NonPremultiplied());
+    
+    d_primitiveEffect.SetWorld(XMMatrixIdentity());
     d_primitiveBatch.Begin();
   }
 
-  void Renderer2d::beginScene(const Sdk::Vector2D& i_translation,
-                              const Sdk::Vector2D& i_rotationOrigin,
-                              const double i_rotation)
+  void Renderer2d::beginScene(const Sdk::Vector2F& i_translation,
+                              const Sdk::Vector2F& i_rotationOrigin,
+                              const float i_rotation)
   {
     const auto m = XMMatrixTransformation2D(
-      { 0, 0 },                                                 // scaling origin
-      0,                                                        // scaling orientation
-      { 1, 1 },                                                 // scaling
-      { (float)i_rotationOrigin.x, (float)i_rotationOrigin.y }, // rotation origin
-      (float) i_rotation,                                       // rotation
-      { (float)i_translation.x, (float)i_translation.y }        // translation
+      { 0, 0 },                                   // scaling origin
+      0,                                          // scaling orientation
+      { 1, 1 },                                   // scaling
+      { i_rotationOrigin.x, i_rotationOrigin.y }, // rotation origin
+      i_rotation,                                 // rotation
+      { i_translation.x, i_translation.y }        // translation
     );
 
     d_spriteBatch.Begin(SpriteSortMode::SpriteSortMode_Deferred, d_states->NonPremultiplied(),
@@ -65,17 +67,17 @@ namespace Dx
     d_primitiveBatch.Begin();
   }
 
-  void Renderer2d::beginScene(const Sdk::Vector2I& i_translation,
-                              const Sdk::Vector2I& i_scaleOrigin,
-                              const Sdk::Vector2D& i_scaling)
+  void Renderer2d::beginScene(const Sdk::Vector2F& i_translation,
+                              const Sdk::Vector2F& i_scaleOrigin,
+                              const Sdk::Vector2F& i_scaling)
   {
     const auto m = XMMatrixTransformation2D(
-      { (float)(i_scaleOrigin.x), (float)(i_scaleOrigin.y) }, // scaling origin
+      { i_scaleOrigin.x, i_scaleOrigin.y }, // scaling origin
       0,
-      { (float)i_scaling.x, (float)i_scaling.y },
+      { i_scaling.x, i_scaling.y },
       { 0, 0 },
       0,
-      { (float)i_translation.x, (float)i_translation.y });
+      { i_translation.x, i_translation.y });
 
     d_spriteBatch.Begin(SpriteSortMode::SpriteSortMode_Deferred, d_states->NonPremultiplied(),
                         nullptr, nullptr, nullptr, nullptr, m);
@@ -91,12 +93,12 @@ namespace Dx
   }
 
 
-  const Sdk::Vector2I& Renderer2d::getTranslation() const
+  const Sdk::Vector2F& Renderer2d::getTranslation() const
   {
     return d_translation;
   }
 
-  void Renderer2d::setTranslation(Sdk::Vector2I i_translation)
+  void Renderer2d::setTranslation(Sdk::Vector2F i_translation)
   {
     d_translation = std::move(i_translation);
   }
@@ -118,7 +120,7 @@ namespace Dx
   {
     const auto& fontResource = dynamic_cast<const FontResource&>(i_fontResource);
 
-    const auto pos = i_position + d_translation;
+    const auto pos = i_position + Sdk::Vector2I{ (int)d_translation.x, (int)d_translation.y };
 
     fontResource.getSpriteFont()->DrawString(&d_spriteBatch, Sdk::getWString(i_text).c_str(),
                                              XMFLOAT2((float)pos.x, (float)pos.y));
@@ -132,7 +134,7 @@ namespace Dx
 
     const auto& textureResource = dynamic_cast<const TextureResource&>(*texture);
 
-    const auto pos = i_sprite.getPosition() + d_translation;
+    const auto pos = i_sprite.getPosition() + Sdk::Vector2I{ (int)d_translation.x, (int)d_translation.y };
     const auto& size = i_sprite.getSize();
 
     const RECT sourceRect = i_sprite.getSourceRect();
@@ -145,7 +147,7 @@ namespace Dx
     ++d_renderedSprites;
   }
 
-  void Renderer2d::renderLine(const Sdk::Vector2I& i_start, const Sdk::Vector2I& i_end,
+  void Renderer2d::renderLine(const Sdk::Vector2F& i_start, const Sdk::Vector2F& i_end,
                               const Sdk::Vector4F& i_color)
   {
     const auto start = i_start + d_translation;
@@ -153,34 +155,36 @@ namespace Dx
 
     auto* context = d_renderDevice.getDeviceContextPtr();
 
+    d_primitiveEffect.SetColorAndAlpha({ i_color.x, i_color.y, i_color.z, i_color.w });
     d_primitiveEffect.Apply(context);
     context->IASetInputLayout(d_primitiveInputLayout.Get());
 
-    VertexPositionColor p1(XMFLOAT3{ (float)start.x, (float)start.y, 0 },
-                           XMFLOAT4{ i_color.x, i_color.y, i_color.z, i_color.w });
-    VertexPositionColor p2(XMFLOAT3{ (float)end.x, (float)end.y, 0 },
-                           XMFLOAT4{ i_color.x, i_color.y, i_color.z, i_color.w });
+    VertexPositionColor p1(XMFLOAT3{ start.x, start.y, 0 },
+                           XMFLOAT4{ 1.0f, 1.0f, 1.0f, 1.0f });
+    VertexPositionColor p2(XMFLOAT3{ end.x, end.y, 0 },
+                           XMFLOAT4{ 1.0f, 1.0f, 1.0f, 1.0f });
     d_primitiveBatch.DrawLine(p1, p2);
   }
 
   void Renderer2d::renderRect(const Sdk::RectI& i_rect, const Sdk::Vector4F& i_color)
   {
     auto rectTranslated = i_rect;
-    rectTranslated.move(d_translation);
+    rectTranslated.move({ (int)d_translation.x, (int)d_translation.y });
 
     auto* context = d_renderDevice.getDeviceContextPtr();
 
+    d_primitiveEffect.SetColorAndAlpha({ i_color.x, i_color.y, i_color.z, i_color.w });
     d_primitiveEffect.Apply(context);
     context->IASetInputLayout(d_primitiveInputLayout.Get());
 
     VertexPositionColor p1(XMFLOAT3{ (float)rectTranslated.left(), (float)rectTranslated.top(), 0 },
-                           XMFLOAT4{ i_color.x, i_color.y, i_color.z, i_color.w });
+                           XMFLOAT4{ 1.0f, 1.0f, 1.0f, 1.0f });
     VertexPositionColor p2(XMFLOAT3{ (float)rectTranslated.right(), (float)rectTranslated.top(), 0 },
-                           XMFLOAT4{ i_color.x, i_color.y, i_color.z, i_color.w });
+                           XMFLOAT4{ 1.0f, 1.0f, 1.0f, 1.0f });
     VertexPositionColor p3(XMFLOAT3{ (float)rectTranslated.right(), (float)rectTranslated.bottom(), 0 },
-                           XMFLOAT4{ i_color.x, i_color.y, i_color.z, i_color.w });
+                           XMFLOAT4{ 1.0f, 1.0f, 1.0f, 1.0f });
     VertexPositionColor p4(XMFLOAT3{ (float)rectTranslated.left(), (float)rectTranslated.bottom(), 0 },
-                           XMFLOAT4{ i_color.x, i_color.y, i_color.z, i_color.w });
+                           XMFLOAT4{ 1.0f, 1.0f, 1.0f, 1.0f });
 
     d_primitiveBatch.DrawLine(p1, p2);
     d_primitiveBatch.DrawLine(p2, p3);
@@ -198,8 +202,8 @@ namespace Dx
     context->IASetInputLayout(d_primitiveInputLayout.Get());
 
     d_primitiveBatch.DrawIndexed(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
-                                  i_shape.getInds(), i_shape.getIndsCount(),
-                                  i_shape.getVerts(), i_shape.getVertsCount());
+                                 i_shape.getInds(), i_shape.getIndsCount(),
+                                 i_shape.getVerts(), i_shape.getVertsCount());
   }
 
 } // ns Dx
