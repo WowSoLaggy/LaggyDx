@@ -15,6 +15,8 @@ namespace Dx
       const std::vector<int>& i_inds);
 
     static std::shared_ptr<IShape> createCircle(float i_radius, int i_numPoints);
+    static std::shared_ptr<IShape> createCircle(float i_radius, int i_numPoints,
+                                                float i_startAngle, float i_endAngle);
 
   public:
     virtual ~IShape() = default;

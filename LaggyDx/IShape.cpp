@@ -31,5 +31,20 @@ namespace Dx
     return std::make_shared<Shape>(points, inds);
   }
 
+  std::shared_ptr<IShape> IShape::createCircle(const float i_radius, const int i_numPoints,
+                                               const float i_startAngle, const float i_endAngle)
+  {
+    auto points = Sdk::getPointsOnCircle(i_radius, i_numPoints, i_startAngle, i_endAngle);
+    points.insert(points.begin(), { 0, 0 });
+
+    std::vector<int> inds(i_numPoints * 3, 0);
+    for (int i = 0; i < i_numPoints; ++i)
+    {
+      inds[i * 3 + 1] = i + 1;
+      inds[i * 3 + 2] = i + 2;
+    }
+
+    return std::make_shared<Shape>(points, inds);
+  }
 
 } // ns Dx
