@@ -155,6 +155,9 @@
     <ClInclude Include="ActionsMap.h" />
     <ClInclude Include="ActionType.h" />
     <ClInclude Include="AnimatedSprite.h" />
+    <ClInclude Include="Colors.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameSettings.h" />
     <ClInclude Include="ImageAnimation.h" />
     <ClInclude Include="AnimationController3d.h" />
     <ClInclude Include="Camera.h" />
@@ -166,6 +169,7 @@
     <ClInclude Include="IMeshResourceCmo.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="InputDevice.h" />
+    <ClInclude Include="IObject.h" />
     <ClInclude Include="IPixelShaderResource.h" />
     <ClInclude Include="IRenderer.h" />
     <ClInclude Include="IRenderer2d.h" />
@@ -176,6 +180,7 @@
     <ClInclude Include="KeyboardKeys.h" />
     <ClInclude Include="KeyboardKeysState.h" />
     <ClInclude Include="KeyboardState.h" />
+    <ClInclude Include="KeyUtils.h" />
     <ClInclude Include="LoadableResource.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialSequence.h" />
@@ -184,6 +189,8 @@
     <ClInclude Include="MouseKeys.h" />
     <ClInclude Include="MouseKeysState.h" />
     <ClInclude Include="MouseState.h" />
+    <ClInclude Include="ObjectBase.h" />
+    <ClInclude Include="ObjectCollection.h" />
     <ClInclude Include="PixelShaderResource.h" />
     <ClInclude Include="Projector.h" />
     <ClInclude Include="Renderer2d.h" />
@@ -212,7 +219,9 @@
     <ClCompile Include="AnimatedSprite_save.cpp" />
     <ClCompile Include="AnimationController3d.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Colors.cpp" />
     <ClCompile Include="FontResource.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="IAnimationController3d.cpp" />
     <ClCompile Include="IInputDevice.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
@@ -222,11 +231,14 @@
     <ClCompile Include="IRenderer3d.cpp" />
     <ClCompile Include="IShape.cpp" />
     <ClCompile Include="KeyboardState.cpp" />
+    <ClCompile Include="KeyUtils.cpp" />
     <ClCompile Include="LoadableResource.cpp" />
     <ClCompile Include="MaterialSequence.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
     <ClCompile Include="MeshResourceCmo.cpp" />
     <ClCompile Include="MouseState.cpp" />
+    <ClCompile Include="ObjectBase.cpp" />
+    <ClCompile Include="ObjectCollection.cpp" />
     <ClCompile Include="PixelShaderResource.cpp" />
     <ClCompile Include="Projector.cpp" />
     <ClCompile Include="Renderer2d.cpp" />

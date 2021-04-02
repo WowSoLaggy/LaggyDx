@@ -36,6 +36,7 @@ namespace Dx
 
   class IInputDevice;
   class KeyboardState;
+  struct KeyboardKeysState;
   class MouseState;
   struct MousePosition;
 
@@ -44,6 +45,12 @@ namespace Dx
   struct ImageDescription;
   struct ImageAnimation;
   using AnimationsMap = std::unordered_map<std::string, ImageAnimation>;
+
+  class Game;
+  struct GameSettings;
+
+  class IObject;
+  class ObjectBase;
 
   class IShape;
 } // ns Dx

@@ -49,11 +49,20 @@
     <Filter Include="src\Projector">
       <UniqueIdentifier>{791c494e-f8ff-4638-afed-aef6b7308be4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Game">
+      <UniqueIdentifier>{92269b4c-3b87-47fd-8b61-a313a17a0edd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Objects">
+      <UniqueIdentifier>{16e2a9b4-3af9-4fff-8a16-7b1bf144037f}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Shapes">
       <UniqueIdentifier>{4114a761-856b-4f66-a14f-0f71bba9c243}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Actions">
       <UniqueIdentifier>{d5e40606-7024-45ca-a7af-82aeba080944}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Colors">
+      <UniqueIdentifier>{5f7b1133-9e14-437b-a978-59f6994bad23}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -201,6 +210,21 @@
     <ClInclude Include="Projector.h">
       <Filter>src\Projector</Filter>
     </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>src\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSettings.h">
+      <Filter>src\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectCollection.h">
+      <Filter>src\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="IObject.h">
+      <Filter>src\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectBase.h">
+      <Filter>src\Objects</Filter>
+    </ClInclude>
     <ClInclude Include="IShape.h">
       <Filter>src\Shapes</Filter>
     </ClInclude>
@@ -215,6 +239,12 @@
     </ClInclude>
     <ClInclude Include="ActionType.h">
       <Filter>src\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyUtils.h">
+      <Filter>src\InputControllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Colors.h">
+      <Filter>src\Colors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -323,6 +353,15 @@
     <ClCompile Include="Projector.cpp">
       <Filter>src\Projector</Filter>
     </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>src\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectCollection.cpp">
+      <Filter>src\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectBase.cpp">
+      <Filter>src\Objects</Filter>
+    </ClCompile>
     <ClCompile Include="Shape.cpp">
       <Filter>src\Shapes</Filter>
     </ClCompile>
@@ -334,6 +373,12 @@
     </ClCompile>
     <ClCompile Include="ActionsMap.cpp">
       <Filter>src\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyUtils.cpp">
+      <Filter>src\InputControllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Colors.cpp">
+      <Filter>src\Colors</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
