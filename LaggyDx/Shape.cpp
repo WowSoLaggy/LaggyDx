@@ -21,6 +21,17 @@ namespace Dx
   }
 
 
+  const Sdk::Vector4F& Shape::getColor() const
+  {
+    return d_color;
+  }
+
+  void Shape::setColor(Sdk::Vector4F i_color)
+  {
+    d_color = std::move(i_color);
+  }
+
+
   const VertexPositionColor* Shape::getVerts() const
   {
     return d_verts.data();
