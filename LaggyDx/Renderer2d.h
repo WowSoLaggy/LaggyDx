@@ -14,11 +14,18 @@ namespace Dx
     Renderer2d(IRenderDevice& io_renderDevice, Sdk::Vector2I i_resolution);
 
     virtual void beginScene() override;
+    virtual void beginScene(const Sdk::Vector2F& i_translation) override;
     virtual void beginScene(const Sdk::Vector2F& i_translation,
                             const Sdk::Vector2F& i_rotationOrigin,
                             float i_rotation) override;
     virtual void beginScene(const Sdk::Vector2F& i_translation,
                             const Sdk::Vector2F& i_scaleOrigin,
+                            const Sdk::Vector2F& i_scaling) override;
+    virtual void beginScene(const Sdk::Vector2F& i_translation,
+                            const Sdk::Vector2F& i_rotationOrigin,
+                            float i_rotation,
+                            const Sdk::Vector2F& i_scalingOrigin,
+                            float i_scalingOrientation,
                             const Sdk::Vector2F& i_scaling) override;
     virtual void endScene() override;
 

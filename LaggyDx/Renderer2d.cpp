@@ -47,37 +47,40 @@ namespace Dx
     d_primitiveBatch.Begin();
   }
 
+  void Renderer2d::beginScene(const Sdk::Vector2F& i_translation)
+  {
+    beginScene(i_translation, { 0.0f, 0.0f }, 0.0f, { 0.0f, 0.0f }, 0.0f, { 1.0f, 1.0f });
+  }
+
   void Renderer2d::beginScene(const Sdk::Vector2F& i_translation,
                               const Sdk::Vector2F& i_rotationOrigin,
                               const float i_rotation)
   {
+    beginScene(i_translation, i_rotationOrigin, i_rotation, { 0.0f, 0.0f }, 0.0f, { 1.0f, 1.0f });
+  }
+
+  void Renderer2d::beginScene(const Sdk::Vector2F& i_translation,
+                              const Sdk::Vector2F& i_scalingOrigin,
+                              const Sdk::Vector2F& i_scaling)
+  {
+    beginScene(i_translation, { 0.0f, 0.0f }, 0.0f, i_scalingOrigin, 0, i_scaling);
+  }
+
+  void Renderer2d::beginScene(const Sdk::Vector2F& i_translation,
+                              const Sdk::Vector2F& i_rotationOrigin,
+                              float i_rotation,
+                              const Sdk::Vector2F& i_scalingOrigin,
+                              float i_scalingOrientation,
+                              const Sdk::Vector2F& i_scaling)
+  {
     const auto m = XMMatrixTransformation2D(
-      { 0, 0 },                                   // scaling origin
-      0,                                          // scaling orientation
-      { 1, 1 },                                   // scaling
+      { i_scalingOrigin.x, i_scalingOrigin.y },   // scaling origin
+      i_scalingOrientation,                       // scaling orientation
+      { i_scaling.x, i_scaling.y },               // scaling
       { i_rotationOrigin.x, i_rotationOrigin.y }, // rotation origin
       i_rotation,                                 // rotation
       { i_translation.x, i_translation.y }        // translation
     );
-
-    d_spriteBatch.Begin(SpriteSortMode::SpriteSortMode_Deferred, d_states->NonPremultiplied(),
-                        nullptr, nullptr, nullptr, nullptr, m);
-
-    d_primitiveEffect.SetWorld(m);
-    d_primitiveBatch.Begin();
-  }
-
-  void Renderer2d::beginScene(const Sdk::Vector2F& i_translation,
-                              const Sdk::Vector2F& i_scaleOrigin,
-                              const Sdk::Vector2F& i_scaling)
-  {
-    const auto m = XMMatrixTransformation2D(
-      { i_scaleOrigin.x, i_scaleOrigin.y }, // scaling origin
-      0,
-      { i_scaling.x, i_scaling.y },
-      { 0, 0 },
-      0,
-      { i_translation.x, i_translation.y });
 
     d_spriteBatch.Begin(SpriteSortMode::SpriteSortMode_Deferred, d_states->NonPremultiplied(),
                         nullptr, nullptr, nullptr, nullptr, m);
