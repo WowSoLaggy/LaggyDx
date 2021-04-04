@@ -1,13 +1,14 @@
 #pragma once
 
 #include "ActionsMap.h"
+#include "Form.h"
+#include "IInputDevice.h"
+#include "IRenderDevice.h"
+#include "IRenderer2d.h"
+#include "IResourceController.h"
 #include "LaggyDxFwd.h"
 #include "ObjectCollection.h"
 
-#include <LaggyDx/IInputDevice.h>
-#include <LaggyDx/IRenderDevice.h>
-#include <LaggyDx/IRenderer2d.h>
-#include <LaggyDx/IResourceController.h>
 #include <LaggySdk/Timer.h>
 #include <LaggySdk/Window.h>
 
@@ -24,6 +25,7 @@ namespace Dx
     virtual ~Game();
 
     void run();
+    void stop();
 
     [[nodiscard]] IInputDevice& getInputDevice();
     [[nodiscard]] IRenderDevice& getRenderDevice();
@@ -35,6 +37,9 @@ namespace Dx
     [[nodiscard]] ActionsMap& getActionsMap();
     [[nodiscard]] const ActionsMap& getActionsMap() const;
     void setActionsMap(ActionsMap i_actionsMap);
+
+    [[nodiscard]] Control& getForm();
+    [[nodiscard]] const Control& getForm() const;
 
   protected:
     virtual void onGameStart();
@@ -53,6 +58,8 @@ namespace Dx
   private:
     static Game* s_this;
 
+    bool d_stop = false;
+
     Sdk::Timer d_timer;
     std::unique_ptr<Sdk::Window> d_window;
     std::unique_ptr<IInputDevice> d_inputDevice;
@@ -62,6 +69,8 @@ namespace Dx
 
     ObjectCollection d_objectCollection;
     ActionsMap d_actionsMap;
+
+    Form d_form;
 
     void mainloop();
     void handleKeyboard(const Dx::KeyboardState& i_keyboardState);

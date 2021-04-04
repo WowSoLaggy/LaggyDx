@@ -53,6 +53,8 @@ namespace Dx
   class ObjectBase;
 
   class IShape;
+
+  class IControl;
 } // ns Dx
 
 

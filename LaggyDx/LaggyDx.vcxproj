@@ -156,8 +156,11 @@
     <ClInclude Include="ActionType.h" />
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="Colors.h" />
+    <ClInclude Include="Control.h" />
+    <ClInclude Include="Form.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameSettings.h" />
+    <ClInclude Include="IControl.h" />
     <ClInclude Include="ImageAnimation.h" />
     <ClInclude Include="AnimationController3d.h" />
     <ClInclude Include="Camera.h" />
@@ -181,6 +184,7 @@
     <ClInclude Include="KeyboardKeysState.h" />
     <ClInclude Include="KeyboardState.h" />
     <ClInclude Include="KeyUtils.h" />
+    <ClInclude Include="Label.h" />
     <ClInclude Include="LoadableResource.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialSequence.h" />
@@ -206,6 +210,7 @@
     <ClInclude Include="ShaderBuffers.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="VertexShaderResource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextureResource.h" />
@@ -220,7 +225,9 @@
     <ClCompile Include="AnimationController3d.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Colors.cpp" />
+    <ClCompile Include="Control.cpp" />
     <ClCompile Include="FontResource.cpp" />
+    <ClCompile Include="Form.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="IAnimationController3d.cpp" />
     <ClCompile Include="IInputDevice.cpp" />
@@ -232,6 +239,7 @@
     <ClCompile Include="IShape.cpp" />
     <ClCompile Include="KeyboardState.cpp" />
     <ClCompile Include="KeyUtils.cpp" />
+    <ClCompile Include="Label.cpp" />
     <ClCompile Include="LoadableResource.cpp" />
     <ClCompile Include="MaterialSequence.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
@@ -253,6 +261,7 @@
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Sprite_save.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="VertexShaderResource.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

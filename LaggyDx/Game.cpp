@@ -5,6 +5,7 @@
 #include "IObject.h"
 #include "KeyboardState.h"
 #include "KeyUtils.h"
+#include "Renderer2dGuard.h"
 
 #include <LaggySdk/Cursor.h>
 #include <LaggySdk/HandleMessages.h>
@@ -67,6 +68,9 @@ namespace Dx
   [[nodiscard]] const ActionsMap& Game::getActionsMap() const { return d_actionsMap; }
   void Game::setActionsMap(ActionsMap i_actionsMap) { d_actionsMap = std::move(i_actionsMap); }
 
+  [[nodiscard]] Control& Game::getForm() { return d_form; }
+  [[nodiscard]] const Control& Game::getForm() const { return d_form; }
+
 
   void Game::run()
   {
@@ -80,6 +84,11 @@ namespace Dx
     onGameEnd();
   }
 
+  void Game::stop()
+  {
+    d_stop = true;
+  }
+
   void Game::onGameStart()
   {
   }
@@ -90,6 +99,9 @@ namespace Dx
 
   bool Game::continueLoop()
   {
+    if (d_stop)
+      return false;
+
     CONTRACT_EXPECT(d_inputDevice);
     if (!Sdk::handleMessages(std::bind(&Dx::IInputDevice::processMessage, std::ref(*d_inputDevice), std::placeholders::_1)))
       return false;
@@ -144,6 +156,8 @@ namespace Dx
 
   void Game::renderGui()
   {
+    Renderer2dGuard renderer2dGuard(*d_renderer2d);
+    d_form.render(*d_renderer2d);
   }
 
 

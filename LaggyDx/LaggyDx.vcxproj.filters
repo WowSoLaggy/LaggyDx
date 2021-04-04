@@ -64,6 +64,9 @@
     <Filter Include="src\Colors">
       <UniqueIdentifier>{5f7b1133-9e14-437b-a978-59f6994bad23}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Gui">
+      <UniqueIdentifier>{9f5332b1-d654-4e9a-aa21-c0071fadf2d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -246,6 +249,21 @@
     <ClInclude Include="Colors.h">
       <Filter>src\Colors</Filter>
     </ClInclude>
+    <ClInclude Include="IControl.h">
+      <Filter>src\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Control.h">
+      <Filter>src\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Label.h">
+      <Filter>src\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>src\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Form.h">
+      <Filter>src\Gui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -379,6 +397,18 @@
     </ClCompile>
     <ClCompile Include="Colors.cpp">
       <Filter>src\Colors</Filter>
+    </ClCompile>
+    <ClCompile Include="Control.cpp">
+      <Filter>src\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Label.cpp">
+      <Filter>src\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>src\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Form.cpp">
+      <Filter>src\Gui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,0 +1,32 @@
+#include "stdafx.h"
+#include "Text.h"
+
+#include "Game.h"
+#include "IRenderer2d.h"
+#include "IResourceController.h"
+
+
+namespace Dx
+{
+  void Text::setText(std::string i_text)
+  {
+    d_text = std::move(i_text);
+  }
+
+  const std::string& Text::getText() const
+  {
+    return d_text;
+  }
+
+  void Text::setFont(const std::string& i_fontName)
+  {
+    d_fontResource = &Game::get().getResourceController().getFontResource(i_fontName);
+  }
+
+  void Text::render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_position) const
+  {
+    if (d_fontResource && !d_text.empty())
+      i_renderer.renderText(d_text, *d_fontResource, i_position);
+  }
+
+} // Dx
