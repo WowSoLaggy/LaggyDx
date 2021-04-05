@@ -120,7 +120,8 @@ namespace Dx
 
   void Renderer2d::renderText(const std::string& i_text,
                               const IFontResource& i_fontResource,
-                              const Sdk::Vector2F& i_position)
+                              const Sdk::Vector2F& i_position,
+                              const Sdk::Vector4F& i_color)
   {
     const auto& fontResource = dynamic_cast<const FontResource&>(i_fontResource);
 
@@ -128,7 +129,8 @@ namespace Dx
 
     fontResource.getSpriteFont()->DrawString(&d_spriteBatch,
                                              Sdk::getWString(i_text).c_str(),
-                                             XMFLOAT2(pos.x, pos.y));
+                                             XMFLOAT2(pos.x, pos.y),
+                                             { i_color.x, i_color.y, i_color.z, i_color.w });
   }
 
   void Renderer2d::renderSprite(const Sprite& i_sprite)
@@ -142,12 +144,12 @@ namespace Dx
     const auto pos = i_sprite.getPosition() + Sdk::Vector2I{ (int)d_translation.x, (int)d_translation.y };
     const auto& size = i_sprite.getSize();
 
-    const RECT sourceRect = i_sprite.getSourceRect();
     const RECT destinationRect{ pos.x, pos.y, pos.x + size.x, pos.y + size.y };
     const auto& color = i_sprite.getColor();
-    const XMVECTORF32 colorVector = { { { color.x, color.y, color.z, color.w } } };
 
-    d_spriteBatch.Draw(textureResource.getTexturePtr(), destinationRect, &sourceRect, colorVector);
+    d_spriteBatch.Draw(textureResource.getTexturePtr(),
+                       destinationRect, &i_sprite.getSourceRect(),
+                       { color.x, color.y, color.z, color.w });
 
     ++d_renderedSprites;
   }

@@ -48,11 +48,13 @@ namespace Dx
     [[nodiscard]] virtual bool continueLoop();
 
     virtual void update(double i_dt);
+    virtual void updateObjects(double i_dt);
     virtual void updateObject(IObject& i_obj, double i_dt);
+    virtual void updateGui(double i_dt);
 
+    virtual void render();
     virtual void renderObjects();
     virtual void renderObject(const IObject& i_obj);
-
     virtual void renderGui();
 
   private:

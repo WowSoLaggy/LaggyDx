@@ -55,6 +55,7 @@ namespace Dx
   class IShape;
 
   class IControl;
+  class Label;
 } // ns Dx
 
 

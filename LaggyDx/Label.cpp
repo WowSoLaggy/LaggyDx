@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Label.h"
 
+#include "Colors.h"
+
 
 namespace Dx
 {
@@ -18,6 +20,25 @@ namespace Dx
   void Label::setFont(const std::string& i_fontName)
   {
     d_text.setFont(i_fontName);
+  }
+
+
+  void Label::setTextColor(Sdk::Vector4F i_color)
+  {
+    d_originalTextColor = std::move(i_color);
+    d_text.setColor(colorWithAlpha(d_originalTextColor, (float)getOpacity()));
+  }
+
+  const Sdk::Vector4F& Label::getTextColor() const
+  {
+    return d_originalTextColor;
+  }
+
+
+  void Label::setOpacity(const double i_opacity)
+  {
+    Control::setOpacity(i_opacity);
+    d_text.setColor(colorWithAlpha(d_originalTextColor, (float)getOpacity()));
   }
 
 

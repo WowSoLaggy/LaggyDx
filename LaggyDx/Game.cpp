@@ -121,8 +121,7 @@ namespace Dx
       const Sdk::Locker scopeLocker(*d_renderDevice);
 
       d_renderDevice->beginScene();
-      renderObjects();
-      renderGui();
+      render();
       d_renderDevice->endScene();
     }
 
@@ -130,17 +129,34 @@ namespace Dx
   }
 
 
-  void Game::update(double i_dt)
+  void Game::update(const double i_dt)
+  {
+    updateObjects(i_dt);
+    updateGui(i_dt);
+  }
+
+  void Game::updateObjects(const double i_dt)
   {
     for (const auto& obj : d_objectCollection.getObjects())
       updateObject(*obj, i_dt);
   }
 
-  void Game::updateObject(IObject& i_obj, double i_dt)
+  void Game::updateObject(IObject& i_obj, const double i_dt)
   {
     i_obj.update(i_dt);
   }
 
+  void Game::updateGui(const double i_dt)
+  {
+    d_form.update(i_dt);
+  }
+
+
+  void Game::render()
+  {
+    renderObjects();
+    renderGui();
+  }
 
   void Game::renderObjects()
   {
