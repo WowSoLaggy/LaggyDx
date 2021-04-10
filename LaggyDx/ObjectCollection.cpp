@@ -12,4 +12,9 @@ namespace Dx
     return *newObjectPtr;
   }
 
+  void ObjectCollection::addObject(std::shared_ptr<IObject> i_object)
+  {
+    d_objects.push_back(std::move(i_object));
+  }
+
 } // ns Dx
