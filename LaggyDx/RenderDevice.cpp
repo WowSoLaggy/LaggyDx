@@ -370,10 +370,12 @@ namespace Dx
     d_fillMode = i_fillMode;
   }
 
-  void RenderDevice::setClearColor(std::array<float, 4> i_clearColor)
+  void RenderDevice::setClearColor(const Sdk::Vector4F& i_clearColor)
   {
-    for (int i = 0; i < (int)i_clearColor.size(); ++i)
-      d_clearColor[i] = i_clearColor[i];
+    d_clearColor[0] = i_clearColor.x;
+    d_clearColor[1] = i_clearColor.y;
+    d_clearColor[2] = i_clearColor.z;
+    d_clearColor[3] = i_clearColor.w;
   }
 
 } // ns Dx

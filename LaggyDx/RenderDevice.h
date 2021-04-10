@@ -27,7 +27,7 @@ namespace Dx
     virtual void switchFillMode() override;
     virtual void setFillMode(FillMode i_fillMode) override;
 
-    virtual void setClearColor(std::array<float, 4> i_clearColor) override;
+    virtual void setClearColor(const Sdk::Vector4F& i_clearColor) override;
 
     ID3D11Device* getDevicePtr() { return d_device; }
     ID3D11DeviceContext* getDeviceContextPtr() { return d_deviceContext; }
