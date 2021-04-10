@@ -67,6 +67,9 @@
     <Filter Include="src\Gui">
       <UniqueIdentifier>{9f5332b1-d654-4e9a-aa21-c0071fadf2d6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\GuiEffects">
+      <UniqueIdentifier>{00008779-2d46-4835-9186-6014d9228bb2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -264,6 +267,15 @@
     <ClInclude Include="Form.h">
       <Filter>src\Gui</Filter>
     </ClInclude>
+    <ClInclude Include="IGuiEffect.h">
+      <Filter>src\GuiEffects</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeOutEffect.h">
+      <Filter>src\GuiEffects</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiEffect.h">
+      <Filter>src\GuiEffects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -409,6 +421,12 @@
     </ClCompile>
     <ClCompile Include="Form.cpp">
       <Filter>src\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeOutEffect.cpp">
+      <Filter>src\GuiEffects</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiEffect.cpp">
+      <Filter>src\GuiEffects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

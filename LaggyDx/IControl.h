@@ -22,6 +22,8 @@ namespace Dx
 
     virtual void setOpacity(double i_opacity) = 0;
     virtual double getOpacity() const = 0;
+
+    virtual void addEffect(std::shared_ptr<IGuiEffect> i_effect) = 0;
   };
 
 } // Dx

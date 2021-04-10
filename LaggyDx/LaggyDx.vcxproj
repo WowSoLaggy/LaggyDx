@@ -160,10 +160,13 @@
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="Control.h" />
+    <ClInclude Include="FadeOutEffect.h" />
     <ClInclude Include="Form.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameSettings.h" />
+    <ClInclude Include="GuiEffect.h" />
     <ClInclude Include="IControl.h" />
+    <ClInclude Include="IGuiEffect.h" />
     <ClInclude Include="ImageAnimation.h" />
     <ClInclude Include="AnimationController3d.h" />
     <ClInclude Include="Camera.h" />
@@ -229,9 +232,11 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Colors.cpp" />
     <ClCompile Include="Control.cpp" />
+    <ClCompile Include="FadeOutEffect.cpp" />
     <ClCompile Include="FontResource.cpp" />
     <ClCompile Include="Form.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GuiEffect.cpp" />
     <ClCompile Include="IAnimationController3d.cpp" />
     <ClCompile Include="IInputDevice.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />

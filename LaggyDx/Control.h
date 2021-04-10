@@ -20,10 +20,15 @@ namespace Dx
     virtual void render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_parentPos) const override;
     virtual void update(double i_dt) override;
 
+    virtual void addEffect(std::shared_ptr<IGuiEffect> i_effect) override;
+
   private:
     Sdk::Vector2F d_position;
     Sdk::Vector2F d_size;
+
     double d_opacity = 1;
+
+    std::vector<std::shared_ptr<IGuiEffect>> d_effects;
   };
 
 } // Dx

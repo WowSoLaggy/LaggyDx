@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Control.h"
 
+#include "IGuiEffect.h"
+
+
 namespace Dx
 {
   void Control::setPosition(Sdk::Vector2F i_position) { d_position = std::move(i_position); }
@@ -12,6 +15,7 @@ namespace Dx
   void Control::setOpacity(const double i_opacity) { d_opacity = i_opacity; }
   double Control::getOpacity() const { return d_opacity; }
 
+
   void Control::render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_parentPos) const
   {
     for (const auto& child : getChildren())
@@ -22,6 +26,17 @@ namespace Dx
   {
     for (auto& child : getChildren())
       std::dynamic_pointer_cast<Control>(child)->update(i_dt);
+
+    for (auto& effect : d_effects)
+      effect->update(i_dt);
   }
+
+
+  void Control::addEffect(std::shared_ptr<IGuiEffect> i_effect)
+  {
+    i_effect->setControl(*this);
+    d_effects.push_back(i_effect);
+  }
+
 
 } // Dx

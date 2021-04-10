@@ -56,6 +56,8 @@ namespace Dx
 
   class IControl;
   class Label;
+
+  class IGuiEffect;
 } // ns Dx
 
 
