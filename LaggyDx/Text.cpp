@@ -40,10 +40,21 @@ namespace Dx
   }
 
 
+  void Text::setScale(const float i_scale)
+  {
+    d_scale = i_scale;
+  }
+
+  float Text::getScale() const
+  {
+    return d_scale;
+  }
+
+
   void Text::render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_position) const
   {
     if (d_fontResource && !d_text.empty())
-      i_renderer.renderText(d_text, *d_fontResource, i_position, d_color);
+      i_renderer.renderText(d_text, *d_fontResource, i_position, d_color, d_scale);
   }
 
 } // Dx

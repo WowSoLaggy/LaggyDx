@@ -18,6 +18,9 @@ namespace Dx
     void setTextColor(Sdk::Vector4F i_color);
     const Sdk::Vector4F& getTextColor() const;
 
+    void setTextScale(float i_scale);
+    float getTextScale() const;
+
     virtual void setOpacity(double i_opacity) override;
 
     virtual void render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_parentPos) const override;

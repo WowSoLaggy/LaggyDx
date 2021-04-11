@@ -40,6 +40,17 @@ namespace Dx
   }
 
 
+  void Label::setTextScale(const float i_scale)
+  {
+    d_text.setScale(i_scale);
+  }
+
+  float Label::getTextScale() const
+  {
+    return d_text.getScale();
+  }
+
+
   void Label::setOpacity(const double i_opacity)
   {
     Control::setOpacity(i_opacity);

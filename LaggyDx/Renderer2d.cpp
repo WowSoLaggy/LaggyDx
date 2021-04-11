@@ -121,7 +121,8 @@ namespace Dx
   void Renderer2d::renderText(const std::string& i_text,
                               const IFontResource& i_fontResource,
                               const Sdk::Vector2F& i_position,
-                              const Sdk::Vector4F& i_color)
+                              const Sdk::Vector4F& i_color,
+                              float i_scale)
   {
     const auto& fontResource = dynamic_cast<const FontResource&>(i_fontResource);
 
@@ -133,7 +134,7 @@ namespace Dx
                                              { i_color.x, i_color.y, i_color.z, i_color.w },
                                              0,
                                              { 0, 0 },
-                                             1);
+                                             i_scale);
   }
 
   void Renderer2d::renderSprite(const Sprite& i_sprite)
