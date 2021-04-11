@@ -13,6 +13,8 @@ namespace Dx
     IObject& createObject();
     void addObject(std::shared_ptr<IObject> i_object);
 
+    void deleteObject(const IObject& i_object);
+
   private:
     std::vector<std::shared_ptr<IObject>> d_objects;
   };
