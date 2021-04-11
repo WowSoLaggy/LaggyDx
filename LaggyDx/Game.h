@@ -28,11 +28,16 @@ namespace Dx
     void stop();
 
     [[nodiscard]] IInputDevice& getInputDevice();
+    [[nodiscard]] const IInputDevice& getInputDevice() const;
     [[nodiscard]] IRenderDevice& getRenderDevice();
+    [[nodiscard]] const IRenderDevice& getRenderDevice() const;
     [[nodiscard]] IResourceController& getResourceController();
+    [[nodiscard]] const IResourceController& getResourceController() const;
     [[nodiscard]] IRenderer2d& getRenderer2d();
+    [[nodiscard]] const IRenderer2d& getRenderer2d() const;
 
     [[nodiscard]] ObjectCollection& getObjectCollection();
+    [[nodiscard]] const ObjectCollection& getObjectCollection() const;
 
     [[nodiscard]] ActionsMap& getActionsMap();
     [[nodiscard]] const ActionsMap& getActionsMap() const;

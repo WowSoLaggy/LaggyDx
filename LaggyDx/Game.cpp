@@ -58,11 +58,16 @@ namespace Dx
 
 
   [[nodiscard]] IInputDevice& Game::getInputDevice() { return *d_inputDevice; }
+  [[nodiscard]] const IInputDevice& Game::getInputDevice() const { return *d_inputDevice; }
   [[nodiscard]] IRenderDevice& Game::getRenderDevice() { return *d_renderDevice; }
+  [[nodiscard]] const IRenderDevice& Game::getRenderDevice() const { return *d_renderDevice; }
   [[nodiscard]] IResourceController& Game::getResourceController() { return *d_resourceController; }
+  [[nodiscard]] const IResourceController& Game::getResourceController() const { return *d_resourceController; }
   [[nodiscard]] IRenderer2d& Game::getRenderer2d() { return *d_renderer2d; }
+  [[nodiscard]] const IRenderer2d& Game::getRenderer2d() const { return *d_renderer2d; }
 
   [[nodiscard]] ObjectCollection& Game::getObjectCollection() { return d_objectCollection; }
+  [[nodiscard]] const ObjectCollection& Game::getObjectCollection() const { return d_objectCollection; }
 
   [[nodiscard]] ActionsMap& Game::getActionsMap() { return d_actionsMap; }
   [[nodiscard]] const ActionsMap& Game::getActionsMap() const { return d_actionsMap; }
