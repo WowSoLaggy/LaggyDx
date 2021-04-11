@@ -23,6 +23,11 @@ namespace Dx
     d_fontResource = &Game::get().getResourceController().getFontResource(i_fontName);
   }
 
+  const IFontResource* Text::getFontResource() const
+  {
+    return d_fontResource;
+  }
+
 
   void Text::setColor(Sdk::Vector4F i_color)
   {

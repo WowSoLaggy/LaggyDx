@@ -130,7 +130,10 @@ namespace Dx
     fontResource.getSpriteFont()->DrawString(&d_spriteBatch,
                                              Sdk::getWString(i_text).c_str(),
                                              XMFLOAT2(pos.x, pos.y),
-                                             { i_color.x, i_color.y, i_color.z, i_color.w });
+                                             { i_color.x, i_color.y, i_color.z, i_color.w },
+                                             0,
+                                             { 0, 0 },
+                                             1);
   }
 
   void Renderer2d::renderSprite(const Sprite& i_sprite)

@@ -22,6 +22,11 @@ namespace Dx
     d_text.setFont(i_fontName);
   }
 
+  const IFontResource* Label::getFontResource() const
+  {
+    return d_text.getFontResource();
+  }
+
 
   void Label::setTextColor(Sdk::Vector4F i_color)
   {

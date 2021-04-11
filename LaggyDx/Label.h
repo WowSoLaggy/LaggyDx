@@ -13,6 +13,7 @@ namespace Dx
     const std::string& getText() const;
 
     void setFont(const std::string& i_fontName);
+    const IFontResource* getFontResource() const;
 
     void setTextColor(Sdk::Vector4F i_color);
     const Sdk::Vector4F& getTextColor() const;
