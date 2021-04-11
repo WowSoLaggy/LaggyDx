@@ -81,7 +81,8 @@ namespace Dx
 
   void ObjectBase::update(const double i_dt)
   {
-    setPosition(d_position + d_speed * i_dt);
+    if (d_speed.lengthSq() > 0.001 * 0.001)
+      setPosition(d_position + d_speed * i_dt);
   }
 
 
