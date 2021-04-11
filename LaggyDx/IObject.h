@@ -27,6 +27,9 @@ namespace Dx
 
     virtual void setColor(Sdk::Vector4F i_color) = 0;
 
+    virtual void setScale(Sdk::Vector2D i_scale) = 0;
+    virtual const Sdk::Vector2D& getScale() const = 0;
+
     virtual void render(IRenderer2d& i_renderer) const = 0;
     virtual void update(double i_dt) = 0;
   };

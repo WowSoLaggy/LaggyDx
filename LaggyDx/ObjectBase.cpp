@@ -9,6 +9,12 @@
 
 namespace Dx
 {
+  ObjectBase::ObjectBase()
+    : d_scale(Sdk::Vector2D::identity())
+  {
+  }
+
+
   void ObjectBase::setTexture(const std::string& i_textureName)
   {
     auto& rc = Game::get().getResourceController();
@@ -70,12 +76,26 @@ namespace Dx
   }
 
 
+  void ObjectBase::setScale(Sdk::Vector2D i_scale)
+  {
+    d_scale = std::move(i_scale);
+  }
+
+  const Sdk::Vector2D& ObjectBase::getScale() const
+  {
+    return d_scale;
+  }
+
+
   void ObjectBase::render(IRenderer2d& i_renderer) const
   {
     Renderer2dGuard rendererGuard(i_renderer,
                                   { (float)d_translation.x, (float)d_translation.y },
-                                  { (float)d_rotationOrigin.x, (float)d_rotationOrigin.y },
-                                  (float)d_sprite.getRotation());
+                                  { (float)d_origin.x, (float)d_origin.y },
+                                  (float)d_sprite.getRotation(),
+                                  { (float)d_origin.x, (float)d_origin.y },
+                                  0.0f,
+                                  { (float)d_scale.x, (float)d_scale.y });
     i_renderer.renderSprite(d_sprite);
   }
 
@@ -95,7 +115,7 @@ namespace Dx
 
   void ObjectBase::updateRotationOrigin()
   {
-    d_rotationOrigin = {
+    d_origin = {
       (double)d_sprite.getSize().x / 2,
       (double)d_sprite.getSize().y / 2 };
   }
