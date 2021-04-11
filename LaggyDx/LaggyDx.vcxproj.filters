@@ -276,6 +276,9 @@
     <ClInclude Include="GuiEffect.h">
       <Filter>src\GuiEffects</Filter>
     </ClInclude>
+    <ClInclude Include="Panel.h">
+      <Filter>src\Gui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -427,6 +430,9 @@
     </ClCompile>
     <ClCompile Include="GuiEffect.cpp">
       <Filter>src\GuiEffects</Filter>
+    </ClCompile>
+    <ClCompile Include="Panel.cpp">
+      <Filter>src\Gui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
