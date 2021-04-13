@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Colors.h"
 #include "IShape.h"
 
 #include <LaggySdk/Vector.h>
@@ -24,7 +25,7 @@ namespace Dx
     virtual std::size_t getIndsCount() const override;
 
   private:
-    Sdk::Vector4F d_color;
+    Sdk::Vector4F d_color = Colors::White;
     std::vector<VertexPositionColor> d_verts;
     std::vector<std::uint16_t> d_inds;
   };
