@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Colors.h"
 #include "IObject.h"
 #include "Sprite.h"
 
@@ -25,17 +26,21 @@ namespace Dx
     virtual double getRotation() const override;
 
     virtual void setColor(Sdk::Vector4F i_color) override;
+    virtual const Sdk::Vector4F& getColor() const override;
 
     virtual void setScale(Sdk::Vector2D i_scale) override;
     virtual const Sdk::Vector2D& getScale() const override;
 
     virtual void render(IRenderer2d& i_renderer) const override;
+    virtual void renderWithGuard(IRenderer2d& i_renderer) const;
     virtual void update(double i_dt) override;
 
   private:
     Sprite d_sprite;
     Sdk::Vector2D d_position;
     Sdk::Vector2D d_speed;
+
+    Sdk::Vector4F d_color = Colors::White;
 
     Sdk::Vector2D d_translation;
     Sdk::Vector2D d_origin;

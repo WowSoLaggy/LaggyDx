@@ -64,6 +64,7 @@ namespace Dx
   {
     d_sprite.setRotation(i_rotation);
   }
+
   double ObjectBase::getRotation() const
   {
     return d_sprite.getRotation();
@@ -72,8 +73,15 @@ namespace Dx
 
   void ObjectBase::setColor(Sdk::Vector4F i_color)
   {
+    d_color = i_color;
     d_sprite.setColor(std::move(i_color));
   }
+
+  const Sdk::Vector4F& ObjectBase::getColor() const
+  {
+    return d_color;
+  }
+
 
 
   void ObjectBase::setScale(Sdk::Vector2D i_scale)
@@ -96,8 +104,15 @@ namespace Dx
                                   { (float)d_origin.x, (float)d_origin.y },
                                   0.0f,
                                   { (float)d_scale.x, (float)d_scale.y });
+
+    renderWithGuard(i_renderer);
+  }
+
+  void ObjectBase::renderWithGuard(IRenderer2d& i_renderer) const
+  {
     i_renderer.renderSprite(d_sprite);
   }
+
 
   void ObjectBase::update(const double i_dt)
   {

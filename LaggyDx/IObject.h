@@ -26,6 +26,7 @@ namespace Dx
     virtual double getRotation() const = 0;
 
     virtual void setColor(Sdk::Vector4F i_color) = 0;
+    virtual const Sdk::Vector4F& getColor() const = 0;
 
     virtual void setScale(Sdk::Vector2D i_scale) = 0;
     virtual const Sdk::Vector2D& getScale() const = 0;
