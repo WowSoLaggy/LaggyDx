@@ -11,7 +11,7 @@ namespace Dx
     int screenHeight = 900;
 
     std::string applicationName = "DxGame";
-    std::string assetsFolder = "Data/Assets/";
+    fs::path assetsFolder = "Data/Assets/";
   };
 
 } // ns Dx
