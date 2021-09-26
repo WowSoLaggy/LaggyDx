@@ -22,6 +22,10 @@ namespace Dx
     virtual const Sdk::Vector2D& getSpeed() const = 0;
     virtual Sdk::Vector2F getSpeedF() const = 0;
 
+    virtual void setAccel(Sdk::Vector2D i_speed) = 0;
+    virtual const Sdk::Vector2D& getAccel() const = 0;
+    virtual Sdk::Vector2F getAccelF() const = 0;
+
     virtual void setRotation(double i_rotation) = 0;
     virtual double getRotation() const = 0;
 

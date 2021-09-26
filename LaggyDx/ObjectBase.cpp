@@ -60,6 +60,22 @@ namespace Dx
   }
 
 
+  void ObjectBase::setAccel(Sdk::Vector2D i_speed)
+  {
+    d_accel = std::move(i_speed);
+  }
+
+  const Sdk::Vector2D& ObjectBase::getAccel() const
+  {
+    return d_accel;
+  }
+
+  Sdk::Vector2F ObjectBase::getAccelF() const
+  {
+    return { (float)d_accel.x, (float)d_accel.y };
+  }
+
+
   void ObjectBase::setRotation(const double i_rotation)
   {
     d_sprite.setRotation(i_rotation);
@@ -116,6 +132,8 @@ namespace Dx
 
   void ObjectBase::update(const double i_dt)
   {
+    if (d_accel.lengthSq() > 0.001 * 0.001)
+      setSpeed(d_speed + d_accel * i_dt);
     if (d_speed.lengthSq() > 0.001 * 0.001)
       setPosition(d_position + d_speed * i_dt);
   }

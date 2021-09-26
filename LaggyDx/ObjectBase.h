@@ -22,6 +22,10 @@ namespace Dx
     virtual const Sdk::Vector2D& getSpeed() const override;
     virtual Sdk::Vector2F getSpeedF() const override;
 
+    virtual void setAccel(Sdk::Vector2D i_speed) override;
+    virtual const Sdk::Vector2D& getAccel() const override;
+    virtual Sdk::Vector2F getAccelF() const override;
+
     virtual void setRotation(double i_rotation) override;
     virtual double getRotation() const override;
 
@@ -39,6 +43,7 @@ namespace Dx
     Sprite d_sprite;
     Sdk::Vector2D d_position;
     Sdk::Vector2D d_speed;
+    Sdk::Vector2D d_accel;
 
     Sdk::Vector4F d_color = Colors::White;
 
