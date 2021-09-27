@@ -35,6 +35,8 @@ namespace Dx
     virtual void setScale(Sdk::Vector2D i_scale) override;
     virtual const Sdk::Vector2D& getScale() const override;
 
+    virtual const Sdk::Vector2I& getSpriteSize() const override;
+
     virtual void render(IRenderer2d& i_renderer) const override;
     virtual void renderWithGuard(IRenderer2d& i_renderer) const;
     virtual void update(double i_dt) override;

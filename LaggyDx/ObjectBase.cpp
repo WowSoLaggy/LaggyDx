@@ -111,6 +111,12 @@ namespace Dx
   }
 
 
+  const Sdk::Vector2I& ObjectBase::getSpriteSize() const
+  {
+    return d_sprite.getSize();
+  }
+
+
   void ObjectBase::render(IRenderer2d& i_renderer) const
   {
     Renderer2dGuard rendererGuard(i_renderer,
