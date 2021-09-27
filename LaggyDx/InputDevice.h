@@ -21,6 +21,8 @@ namespace Dx
     virtual void showCursor() override;
     virtual void hideCursor() override;
 
+    virtual const Sdk::Vector2I& getMousePosition() const override;
+
   private:
 
     std::unique_ptr<Mouse> d_mouse;

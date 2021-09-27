@@ -3,6 +3,7 @@
 #include "LaggyDxFwd.h"
 
 #include <LaggySdk/SdkFwd.h>
+#include <LaggySdk/Vector.h>
 
 
 namespace Dx
@@ -22,6 +23,8 @@ namespace Dx
 
     virtual void showCursor() = 0;
     virtual void hideCursor() = 0;
+
+    virtual const Sdk::Vector2I& getMousePosition() const = 0;
   };
 
 } // ns Dx

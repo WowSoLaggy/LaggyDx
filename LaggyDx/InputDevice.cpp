@@ -47,6 +47,12 @@ namespace Dx
   }
 
 
+  const Sdk::Vector2I& InputDevice::getMousePosition() const
+  {
+    return d_mouseState.getPosition();
+  }
+
+
   void InputDevice::showCursor()
   {
     d_mouse->SetVisible(true);
