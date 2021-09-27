@@ -119,6 +119,7 @@ namespace Dx
     double dt = d_timer.restart();
 
     handleKeyboard(d_inputDevice->checkKeyboard());
+    d_inputDevice->checkMouse();
 
     update(dt);
 
