@@ -27,4 +27,9 @@ namespace Dx
                     d_objects.end());
   }
 
+  void ObjectCollection::deleteAllObjects()
+  {
+    d_objects.clear();
+  }
+
 } // ns Dx

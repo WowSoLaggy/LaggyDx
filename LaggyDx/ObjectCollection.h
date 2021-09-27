@@ -16,6 +16,8 @@ namespace Dx
 
     void deleteObject(const IObject& i_object);
 
+    void deleteAllObjects();
+
   private:
     std::vector<std::shared_ptr<IObject>> d_objects;
   };
