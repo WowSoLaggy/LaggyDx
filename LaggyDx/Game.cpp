@@ -57,24 +57,24 @@ namespace Dx
   }
 
 
-  [[nodiscard]] IInputDevice& Game::getInputDevice() { return *d_inputDevice; }
-  [[nodiscard]] const IInputDevice& Game::getInputDevice() const { return *d_inputDevice; }
-  [[nodiscard]] IRenderDevice& Game::getRenderDevice() { return *d_renderDevice; }
-  [[nodiscard]] const IRenderDevice& Game::getRenderDevice() const { return *d_renderDevice; }
-  [[nodiscard]] IResourceController& Game::getResourceController() { return *d_resourceController; }
-  [[nodiscard]] const IResourceController& Game::getResourceController() const { return *d_resourceController; }
-  [[nodiscard]] IRenderer2d& Game::getRenderer2d() { return *d_renderer2d; }
-  [[nodiscard]] const IRenderer2d& Game::getRenderer2d() const { return *d_renderer2d; }
+  IInputDevice& Game::getInputDevice() { return *d_inputDevice; }
+  const IInputDevice& Game::getInputDevice() const { return *d_inputDevice; }
+  IRenderDevice& Game::getRenderDevice() { return *d_renderDevice; }
+  const IRenderDevice& Game::getRenderDevice() const { return *d_renderDevice; }
+  IResourceController& Game::getResourceController() { return *d_resourceController; }
+  const IResourceController& Game::getResourceController() const { return *d_resourceController; }
+  IRenderer2d& Game::getRenderer2d() { return *d_renderer2d; }
+  const IRenderer2d& Game::getRenderer2d() const { return *d_renderer2d; }
 
-  [[nodiscard]] ObjectCollection& Game::getObjectCollection() { return d_objectCollection; }
-  [[nodiscard]] const ObjectCollection& Game::getObjectCollection() const { return d_objectCollection; }
+  ObjectCollection& Game::getObjectCollection() { return d_objectCollection; }
+  const ObjectCollection& Game::getObjectCollection() const { return d_objectCollection; }
 
-  [[nodiscard]] ActionsMap& Game::getActionsMap() { return d_actionsMap; }
-  [[nodiscard]] const ActionsMap& Game::getActionsMap() const { return d_actionsMap; }
+  ActionsMap& Game::getActionsMap() { return d_actionsMap; }
+  const ActionsMap& Game::getActionsMap() const { return d_actionsMap; }
   void Game::setActionsMap(ActionsMap i_actionsMap) { d_actionsMap = std::move(i_actionsMap); }
 
-  [[nodiscard]] Control& Game::getForm() { return d_form; }
-  [[nodiscard]] const Control& Game::getForm() const { return d_form; }
+  Control& Game::getForm() { return d_form; }
+  const Control& Game::getForm() const { return d_form; }
 
 
   void Game::run()
