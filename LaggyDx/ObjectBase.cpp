@@ -111,9 +111,9 @@ namespace Dx
   }
 
 
-  const Sdk::Vector2I& ObjectBase::getSpriteSize() const
+  const Sprite& ObjectBase::getSprite() const
   {
-    return d_sprite.getSize();
+    return d_sprite;
   }
 
 

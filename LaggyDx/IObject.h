@@ -35,7 +35,7 @@ namespace Dx
     virtual void setScale(Sdk::Vector2D i_scale) = 0;
     virtual const Sdk::Vector2D& getScale() const = 0;
 
-    virtual const Sdk::Vector2I& getSpriteSize() const = 0;
+    virtual const Sprite& getSprite() const = 0;
 
     virtual void render(IRenderer2d& i_renderer) const = 0;
     virtual void update(double i_dt) = 0;
