@@ -145,6 +145,8 @@ namespace Dx
   {
     for (const auto& obj : d_objectCollection.getObjects())
       updateObject(*obj, i_dt);
+
+    d_collisionManager.checkCollisions(d_objectCollection.getObjects());
   }
 
   void Game::updateObject(IObject& i_obj, const double i_dt)

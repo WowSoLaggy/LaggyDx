@@ -158,6 +158,12 @@
     <ClInclude Include="ActionsMap.h" />
     <ClInclude Include="ActionType.h" />
     <ClInclude Include="AnimatedSprite.h" />
+    <ClInclude Include="Collider.h" />
+    <ClInclude Include="Collision.h" />
+    <ClInclude Include="CollisionInfo.h" />
+    <ClInclude Include="CollisionPointNormal.h" />
+    <ClInclude Include="CollisionManager.h" />
+    <ClInclude Include="CollisionShape.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="Control.h" />
     <ClInclude Include="FadeOutEffect.h" />
@@ -165,6 +171,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameSettings.h" />
     <ClInclude Include="GuiEffect.h" />
+    <ClInclude Include="ICollision.h" />
     <ClInclude Include="IControl.h" />
     <ClInclude Include="IGuiEffect.h" />
     <ClInclude Include="ImageAnimation.h" />
@@ -223,6 +230,7 @@
     <ClInclude Include="TextureResource.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexTypes.h" />
+    <ClInclude Include="CollShapeMover.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Action.cpp" />
@@ -231,6 +239,9 @@
     <ClCompile Include="AnimatedSprite_save.cpp" />
     <ClCompile Include="AnimationController3d.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Colors.cpp" />
     <ClCompile Include="Control.cpp" />
     <ClCompile Include="FadeOutEffect.cpp" />
@@ -281,6 +292,7 @@
     </ClCompile>
     <ClCompile Include="TextureResource.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
+    <ClCompile Include="CollShapeMover.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DirectXTK\DirectXTK_Desktop_2017_Win10.vcxproj">

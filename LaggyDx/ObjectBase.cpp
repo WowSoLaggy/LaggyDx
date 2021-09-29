@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ObjectBase.h"
 
+#include "CollShapeMover.h"
 #include "Game.h"
 #include "ImageDescription.h"
 #include "ITextureResource.h"
@@ -114,6 +115,29 @@ namespace Dx
   const Sprite& ObjectBase::getSprite() const
   {
     return d_sprite;
+  }
+
+
+  ICollision& ObjectBase::getCollision()
+  {
+    return d_collision;
+  }
+
+  const ICollision& ObjectBase::getCollision() const
+  {
+    return d_collision;
+  }
+
+  void ObjectBase::onCollide(const CollisionInfo& i_collInfo)
+  {
+    // nop
+  }
+
+  CollisionShape ObjectBase::getPositionedCollisionShape() const
+  {
+    const auto& collShape = getCollision().getCollisionShape();
+    const auto positionedCollisionShape = std::visit(CollShapeMover(getPosition()), collShape);
+    return positionedCollisionShape;
   }
 
 

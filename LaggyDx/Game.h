@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ActionsMap.h"
+#include "CollisionManager.h"
 #include "Form.h"
 #include "IInputDevice.h"
 #include "IRenderDevice.h"
@@ -76,6 +77,7 @@ namespace Dx
 
     ObjectCollection d_objectCollection;
     ActionsMap d_actionsMap;
+    CollisionManager d_collisionManager;
 
     Form d_form;
 

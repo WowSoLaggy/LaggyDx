@@ -70,6 +70,9 @@
     <Filter Include="src\GuiEffects">
       <UniqueIdentifier>{00008779-2d46-4835-9186-6014d9228bb2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Collisions">
+      <UniqueIdentifier>{f536cdea-fda2-4ec8-a6dd-08e40016cde5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -279,6 +282,30 @@
     <ClInclude Include="Panel.h">
       <Filter>src\Gui</Filter>
     </ClInclude>
+    <ClInclude Include="ICollision.h">
+      <Filter>src\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>src\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>src\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>src\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionPointNormal.h">
+      <Filter>src\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionInfo.h">
+      <Filter>src\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionShape.h">
+      <Filter>src\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="CollShapeMover.h">
+      <Filter>src\Collisions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -433,6 +460,18 @@
     </ClCompile>
     <ClCompile Include="Panel.cpp">
       <Filter>src\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>src\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>src\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>src\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="CollShapeMover.cpp">
+      <Filter>src\Collisions</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
