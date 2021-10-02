@@ -13,6 +13,8 @@ namespace Dx
   ObjectBase::ObjectBase()
     : d_scale(Sdk::Vector2D::identity())
   {
+    updateRotationOrigin();
+    updateTranslation();
   }
 
 
@@ -24,6 +26,7 @@ namespace Dx
     d_sprite.setSize(texture.getDescription().size());
 
     updateRotationOrigin();
+    updateTranslation();
   }
 
 
