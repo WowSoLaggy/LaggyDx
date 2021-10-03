@@ -8,7 +8,7 @@
 
 namespace Dx
 {
-  class Collider
+  class CollisionFunctor
   {
   public:
     std::optional<CollisionPointNormal> operator()(

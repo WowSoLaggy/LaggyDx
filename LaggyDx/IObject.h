@@ -38,10 +38,11 @@ namespace Dx
 
     virtual const Sprite& getSprite() const = 0;
 
-    virtual ICollision& getCollision() = 0;
-    virtual const ICollision& getCollision() const = 0;
     virtual void onCollide(const CollisionInfo& i_collInfo) = 0;
     virtual CollisionShape getPositionedCollisionShape() const = 0;
+
+    virtual std::shared_ptr<ICollider> getCollider() const = 0;
+    virtual void setCollider(std::shared_ptr<ICollider> i_collider) = 0;
 
     virtual void render(IRenderer2d& i_renderer) const = 0;
     virtual void update(double i_dt) = 0;

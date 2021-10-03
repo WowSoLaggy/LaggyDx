@@ -59,11 +59,10 @@ namespace Dx
 
   class IGuiEffect;
 
-  class Circle;
-  class AABB;
-  class ICollision;
   struct CollisionPointNormal;
   struct CollisionInfo;
+
+  class ICollider;
 
 } // ns Dx
 

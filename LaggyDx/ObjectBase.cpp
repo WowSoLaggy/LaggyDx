@@ -6,12 +6,14 @@
 #include "ImageDescription.h"
 #include "ITextureResource.h"
 #include "Renderer2dGuard.h"
+#include "StaticCollider.h"
 
 
 namespace Dx
 {
   ObjectBase::ObjectBase()
     : d_scale(Sdk::Vector2D::identity())
+    , d_collider(std::make_shared<StaticCollider>(*this))
   {
     updateRotationOrigin();
     updateTranslation();
@@ -121,16 +123,6 @@ namespace Dx
   }
 
 
-  ICollision& ObjectBase::getCollision()
-  {
-    return d_collision;
-  }
-
-  const ICollision& ObjectBase::getCollision() const
-  {
-    return d_collision;
-  }
-
   void ObjectBase::onCollide(const CollisionInfo& i_collInfo)
   {
     // nop
@@ -138,9 +130,21 @@ namespace Dx
 
   CollisionShape ObjectBase::getPositionedCollisionShape() const
   {
-    const auto& collShape = getCollision().getCollisionShape();
+    const auto collider = getCollider();
+    CONTRACT_EXPECT(collider);
+    const auto& collShape = collider->getCollisionShape();
     const auto positionedCollisionShape = std::visit(CollShapeMover(getPosition()), collShape);
     return positionedCollisionShape;
+  }
+
+  std::shared_ptr<ICollider> ObjectBase::getCollider() const
+  {
+    return d_collider;
+  }
+
+  void ObjectBase::setCollider(std::shared_ptr<ICollider> i_collider)
+  {
+    d_collider = i_collider;
   }
 
 
@@ -165,10 +169,6 @@ namespace Dx
 
   void ObjectBase::update(const double i_dt)
   {
-    if (d_accel.lengthSq() > 0.001 * 0.001)
-      setSpeed(d_speed + d_accel * i_dt);
-    if (d_speed.lengthSq() > 0.001 * 0.001)
-      setPosition(d_position + d_speed * i_dt);
   }
 
 

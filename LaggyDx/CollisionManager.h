@@ -15,8 +15,8 @@ namespace Dx
     void checkCollision(IObject& i_sender, IObject& i_receiver);
 
     std::optional<CollisionInfo> getCollisionInfoIfExists(
-      const IObject& i_obj1,
-      const IObject& i_obj2);
+      const IObject& i_sender,
+      const IObject& i_receiver);
 
   };
 

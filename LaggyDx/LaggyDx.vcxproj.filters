@@ -73,6 +73,9 @@
     <Filter Include="src\Collisions">
       <UniqueIdentifier>{f536cdea-fda2-4ec8-a6dd-08e40016cde5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Collisions\Colliders">
+      <UniqueIdentifier>{95bd1268-8c21-4d41-8e24-689f3bd3d304}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -282,16 +285,7 @@
     <ClInclude Include="Panel.h">
       <Filter>src\Gui</Filter>
     </ClInclude>
-    <ClInclude Include="ICollision.h">
-      <Filter>src\Collisions</Filter>
-    </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>src\Collisions</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionManager.h">
-      <Filter>src\Collisions</Filter>
-    </ClInclude>
-    <ClInclude Include="Collider.h">
       <Filter>src\Collisions</Filter>
     </ClInclude>
     <ClInclude Include="CollisionPointNormal.h">
@@ -305,6 +299,24 @@
     </ClInclude>
     <ClInclude Include="CollShapeMover.h">
       <Filter>src\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionFunctor.h">
+      <Filter>src\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="ICollider.h">
+      <Filter>src\Collisions\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticCollider.h">
+      <Filter>src\Collisions\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicCollider.h">
+      <Filter>src\Collisions\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="KinematicCollider.h">
+      <Filter>src\Collisions\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderBase.h">
+      <Filter>src\Collisions\Colliders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -461,17 +473,26 @@
     <ClCompile Include="Panel.cpp">
       <Filter>src\Gui</Filter>
     </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>src\Collisions</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
-      <Filter>src\Collisions</Filter>
-    </ClCompile>
-    <ClCompile Include="Collider.cpp">
       <Filter>src\Collisions</Filter>
     </ClCompile>
     <ClCompile Include="CollShapeMover.cpp">
       <Filter>src\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionFunctor.cpp">
+      <Filter>src\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticCollider.cpp">
+      <Filter>src\Collisions\Colliders</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicCollider.cpp">
+      <Filter>src\Collisions\Colliders</Filter>
+    </ClCompile>
+    <ClCompile Include="KinematicCollider.cpp">
+      <Filter>src\Collisions\Colliders</Filter>
+    </ClCompile>
+    <ClCompile Include="ColliderBase.cpp">
+      <Filter>src\Collisions\Colliders</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -55,7 +55,8 @@ namespace Dx
 
     virtual void update(double i_dt);
     virtual void updateObjects(double i_dt);
-    virtual void updateObject(IObject& i_obj, double i_dt);
+    virtual void beforeObjectUpdate(IObject& i_obj, double i_dt);
+    virtual void afterObjectUpdate(IObject& i_obj, double i_dt);
     virtual void updateGui(double i_dt);
 
     virtual void render();

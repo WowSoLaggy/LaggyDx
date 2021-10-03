@@ -1,12 +1,12 @@
 #include "stdafx.h"
-#include "Collider.h"
+#include "CollisionFunctor.h"
 
 #include <LaggySdk/Math.h>
 
 
 namespace Dx
 {
-  std::optional<CollisionPointNormal> Collider::operator()(
+  std::optional<CollisionPointNormal> CollisionFunctor::operator()(
     const Sdk::Vector2D& i_point1, const Sdk::Vector2D& i_point2) const
   {
     if (i_point1 == i_point2)
@@ -15,7 +15,7 @@ namespace Dx
     return std::nullopt;
   }
 
-  std::optional<CollisionPointNormal> Collider::operator()(
+  std::optional<CollisionPointNormal> CollisionFunctor::operator()(
     const Sdk::Vector2D& i_point, const Sdk::CircleD& i_circle) const
   {
     const auto dist = i_point - i_circle.getCenter();
@@ -25,14 +25,14 @@ namespace Dx
     return std::nullopt;
   }
 
-  std::optional<CollisionPointNormal> Collider::operator()(
+  std::optional<CollisionPointNormal> CollisionFunctor::operator()(
     const Sdk::Vector2D& i_point, const Sdk::RectD& i_rect) const
   {
     throw std::runtime_error("Not implemented yet");
   }
 
 
-  std::optional<CollisionPointNormal> Collider::operator()(
+  std::optional<CollisionPointNormal> CollisionFunctor::operator()(
     const Sdk::CircleD& i_circle, const Sdk::Vector2D& i_point) const
   {
     if (auto collisionNormalPointOpt = operator()(i_point, i_circle))
@@ -41,7 +41,7 @@ namespace Dx
     return std::nullopt;
   }
 
-  std::optional<CollisionPointNormal> Collider::operator()(
+  std::optional<CollisionPointNormal> CollisionFunctor::operator()(
     const Sdk::CircleD& i_circle1, const Sdk::CircleD& i_circle2) const
   {
     const auto dist = i_circle1.getCenter() - i_circle2.getCenter();
@@ -55,7 +55,7 @@ namespace Dx
     return std::nullopt;
   }
 
-  std::optional<CollisionPointNormal> Collider::operator()(
+  std::optional<CollisionPointNormal> CollisionFunctor::operator()(
     const Sdk::CircleD& i_circle, const Sdk::RectD& i_rect) const
   {
     auto dist = i_circle.getCenter() - i_rect.center();
@@ -77,7 +77,7 @@ namespace Dx
   }
 
 
-  std::optional<CollisionPointNormal> Collider::operator()(
+  std::optional<CollisionPointNormal> CollisionFunctor::operator()(
     const Sdk::RectD& i_rect, const Sdk::Vector2D& i_point) const
   {
     if (auto collisionNormalPointOpt = operator()(i_point, i_rect))
@@ -86,7 +86,7 @@ namespace Dx
     return std::nullopt;
   }
 
-  std::optional<CollisionPointNormal> Collider::operator()(
+  std::optional<CollisionPointNormal> CollisionFunctor::operator()(
     const Sdk::RectD& i_rect, const Sdk::CircleD& i_circle) const
   {
     if (auto collisionNormalPointOpt = operator()(i_circle, i_rect))
@@ -95,7 +95,7 @@ namespace Dx
     return std::nullopt;
   }
 
-  std::optional<CollisionPointNormal> Collider::operator()(
+  std::optional<CollisionPointNormal> CollisionFunctor::operator()(
     const Sdk::RectD& i_rect1, const Sdk::RectD& i_rect2) const
   {
     if (!i_rect1.intersectRect(i_rect2))

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Game.h"
 
+#include "ICollider.h"
 #include "GameSettings.h"
 #include "IObject.h"
 #include "KeyboardState.h"
@@ -142,14 +143,23 @@ namespace Dx
   void Game::updateObjects(const double i_dt)
   {
     for (const auto& obj : d_objectCollection.getObjects())
-      updateObject(*obj, i_dt);
+    {
+      beforeObjectUpdate(*obj, i_dt);
+      obj->update(i_dt);
+      if (const auto collider = obj->getCollider())
+        collider->update(i_dt);
+      afterObjectUpdate(*obj, i_dt);
+    }
 
     d_collisionManager.checkCollisions(d_objectCollection.getObjects());
   }
 
-  void Game::updateObject(IObject& i_obj, const double i_dt)
+  void Game::beforeObjectUpdate(IObject& i_obj, double i_dt)
   {
-    i_obj.update(i_dt);
+  }
+
+  void Game::afterObjectUpdate(IObject& i_obj, double i_dt)
+  {
   }
 
   void Game::updateGui(const double i_dt)

@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "CollisionManager.h"
 
-#include "Collider.h"
-#include "ICollision.h"
+#include "CollisionFunctor.h"
+#include "ICollider.h"
 #include "IObject.h"
 
 
@@ -29,17 +29,19 @@ namespace Dx
 
 
   std::optional<CollisionInfo> CollisionManager::getCollisionInfoIfExists(
-    const IObject& i_obj1,
-    const IObject& i_obj2)
+    const IObject& i_sender,
+    const IObject& i_receiver)
   {
-    if (!i_obj1.getCollision().getSendColl() || !i_obj2.getCollision().getReceiveColl())
+    if (!i_sender.getCollider() || !i_receiver.getCollider())
+      return std::nullopt;
+    if (!i_receiver.getCollider()->getReceiveCollision())
       return std::nullopt;
 
-    if (const auto collisionPointNormalOpt = std::visit(Collider(),
-        i_obj1.getPositionedCollisionShape(),
-        i_obj2.getPositionedCollisionShape()))
+    if (const auto collisionPointNormalOpt = std::visit(CollisionFunctor(),
+        i_sender.getPositionedCollisionShape(),
+        i_receiver.getPositionedCollisionShape()))
     {
-      return CollisionInfo{ i_obj1, i_obj2, *collisionPointNormalOpt };
+      return CollisionInfo{ i_sender, i_receiver, *collisionPointNormalOpt };
     }
 
     return std::nullopt;

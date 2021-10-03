@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Collision.h"
 #include "Colors.h"
 #include "IObject.h"
 #include "Sprite.h"
@@ -38,10 +37,11 @@ namespace Dx
 
     virtual const Sprite& getSprite() const override;
 
-    virtual ICollision& getCollision() override;
-    virtual const ICollision& getCollision() const override;
     virtual void onCollide(const CollisionInfo& i_collInfo) override;
     virtual CollisionShape getPositionedCollisionShape() const override;
+
+    virtual std::shared_ptr<ICollider> getCollider() const override;
+    virtual void setCollider(std::shared_ptr<ICollider> i_collider) override;
 
     virtual void render(IRenderer2d& i_renderer) const override;
     virtual void renderWithGuard(IRenderer2d& i_renderer) const;
@@ -60,7 +60,7 @@ namespace Dx
 
     Sdk::Vector2D d_scale;
 
-    Collision d_collision;
+    std::shared_ptr<ICollider> d_collider;
 
     void updateTranslation();
     void updateRotationOrigin();
