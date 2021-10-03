@@ -130,8 +130,6 @@ namespace Dx
       render();
       d_renderDevice->endScene();
     }
-
-    std::this_thread::sleep_for(1ms);
   }
 
 
