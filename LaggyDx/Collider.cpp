@@ -67,8 +67,10 @@ namespace Dx
 
     if (distToPoint.lengthSq() <= i_circle.getRadiusSq())
     {
-      const auto normal = closestPoint - i_circle.getCenter();
-      return CollisionPointNormal{ closestPoint, Sdk::normalize(normal) };
+      auto normal = closestPoint - i_circle.getCenter();
+      if (normal.lengthSq() > 0.0001 * 0.0001)
+        normal = Sdk::normalize(normal);
+      return CollisionPointNormal{ closestPoint, normal };
     }
 
     return std::nullopt;
