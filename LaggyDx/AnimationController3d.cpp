@@ -12,12 +12,12 @@ namespace Dx
     , d_currentAnimationName(L"")
     , d_animationTime(0)
   {
-    for (auto& modelMeshPtr : d_model.meshes)
+    /*for (auto& modelMeshPtr : d_model.meshes)
     {
       BoneTransformCollection boneTransformCollection(modelMeshPtr->bones.size());
       d_meshesBoneAnimationXfms.push_back(boneTransformCollection);
       d_meshesBoneCombinedXfms.push_back(boneTransformCollection);
-    }
+    }*/
 
     resetAnimationXfms();
   }
@@ -54,12 +54,12 @@ namespace Dx
 
   void AnimationController3d::resetAnimationXfms()
   {
-    for (int meshIndex = 0; meshIndex < (int)d_model.meshes.size(); ++meshIndex)
+    /*for (int meshIndex = 0; meshIndex < (int)d_model.meshes.size(); ++meshIndex)
     {
       const auto& mesh = d_model.meshes.at(meshIndex);
       for (int boneIndex = 0; boneIndex < (int)mesh->bones.size(); ++boneIndex)
         d_meshesBoneAnimationXfms.at(meshIndex).at(boneIndex) = XMMatrixIdentity();
-    }
+    }*/
   }
 
 
@@ -67,7 +67,7 @@ namespace Dx
   {
     resetAnimationXfms();
 
-    for (int meshIndex = 0; meshIndex < (int)d_model.meshes.size(); ++meshIndex)
+    /*for (int meshIndex = 0; meshIndex < (int)d_model.meshes.size(); ++meshIndex)
     {
       const auto& mesh = d_model.meshes.at(meshIndex);
 
@@ -87,12 +87,12 @@ namespace Dx
         if (keyframe.Time >= time)
           break;
       }
-    }
+    }*/
   }
 
   void AnimationController3d::updateCombinedXfms()
   {
-    for (int meshIndex = 0; meshIndex < (int)d_model.meshes.size(); ++meshIndex)
+    /*for (int meshIndex = 0; meshIndex < (int)d_model.meshes.size(); ++meshIndex)
     {
       const auto& mesh = *d_model.meshes.at(meshIndex);
       for (int boneIndex = 0; boneIndex < (int)mesh.bones.size(); ++boneIndex)
@@ -111,7 +111,7 @@ namespace Dx
 
         d_meshesBoneCombinedXfms.at(meshIndex).at(boneIndex) = combinedXfm;
       }
-    }
+    }*/
   }
 
 } // ns Dx

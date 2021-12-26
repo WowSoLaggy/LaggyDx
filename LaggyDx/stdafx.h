@@ -8,18 +8,18 @@
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
 
-#include <DirectXTK/CommonStates.h>
-#include <DirectXTK/DDSTextureLoader.h>
-#include <DirectXTK/Effects.h>
-#include <DirectXTK/Keyboard.h>
-#include <DirectXTK/Model.h>
-#include <DirectXTK/Mouse.h>
-#include <DirectXTK/PrimitiveBatch.h>
-#include <DirectXTK/SimpleMath.h>
-#include <DirectXTK/SpriteBatch.h>
-#include <DirectXTK/SpriteFont.h>
-#include <DirectXTK/VertexTypes.h>
-#include <DirectXTK/WICTextureLoader.h>
+#include <DirectXTK/Inc/CommonStates.h>
+#include <DirectXTK/Inc/DDSTextureLoader.h>
+#include <DirectXTK/Inc/Effects.h>
+#include <DirectXTK/Inc/Keyboard.h>
+#include <DirectXTK/Inc/Model.h>
+#include <DirectXTK/Inc/Mouse.h>
+#include <DirectXTK/Inc/PrimitiveBatch.h>
+#include <DirectXTK/Inc/SimpleMath.h>
+#include <DirectXTK/Inc/SpriteBatch.h>
+#include <DirectXTK/Inc/SpriteFont.h>
+#include <DirectXTK/Inc/VertexTypes.h>
+#include <DirectXTK/Inc/WICTextureLoader.h>
 
 using namespace DirectX;
 using namespace SimpleMath;

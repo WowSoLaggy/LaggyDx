@@ -151,8 +151,10 @@ namespace Dx
     const RECT destinationRect{ pos.x, pos.y, pos.x + size.x, pos.y + size.y };
     const auto& color = i_sprite.getColor();
 
+    const auto sourceRect = i_sprite.getSourceRect();
+
     d_spriteBatch.Draw(textureResource.getTexturePtr(),
-                       destinationRect, &i_sprite.getSourceRect(),
+                       destinationRect, &sourceRect,
                        { color.x, color.y, color.z, color.w });
 
     ++d_renderedSprites;
