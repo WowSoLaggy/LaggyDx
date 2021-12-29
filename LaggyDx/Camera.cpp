@@ -17,7 +17,7 @@ namespace Dx
   } // anonymous NS
 
 
-  Camera::Camera(int i_screenWidth, int i_screenHeight)
+  Camera::Camera(const int i_screenWidth, const int i_screenHeight)
     : d_yaw(0)
     , d_pitch(Sdk::degToRad(45.0f))
     , d_distance(10)
@@ -27,22 +27,42 @@ namespace Dx
     , d_viewportHeight(i_screenHeight)
   {
     updateProjectionMatrix();
+    updateViewMatrix();
   }
 
 
-  void Camera::setYaw(float i_yaw)
+  void Camera::setFovAngle(const float i_fovAngle)
+  {
+    d_fovAngle = i_fovAngle;
+    updateProjectionMatrix();
+  }
+
+  void Camera::setViewportMinZ(const float i_viewportMinZ)
+  {
+    d_viewportMinZ = i_viewportMinZ;
+    updateProjectionMatrix();
+  }
+
+  void Camera::setViewportMaxZ(const float i_viewportMaxZ)
+  {
+    d_viewportMaxZ = i_viewportMaxZ;
+    updateProjectionMatrix();
+  }
+
+
+  void Camera::setYaw(const float i_yaw)
   {
     d_yaw = i_yaw;
     updateViewMatrix();
   }
 
-  void Camera::setPitch(float i_pitch)
+  void Camera::setPitch(const float i_pitch)
   {
     d_pitch = i_pitch;
     updateViewMatrix();
   }
 
-  void Camera::setDistance(float i_distance)
+  void Camera::setDistance(const float i_distance)
   {
     d_distance = i_distance;
     updateViewMatrix();
@@ -101,8 +121,8 @@ namespace Dx
   void Camera::updateProjectionMatrix()
   {
     float screenAspect = (float)d_viewportWidth / (float)d_viewportHeight;
-    d_projectionMatrix = XMMatrixPerspectiveFovRH(FovAngle, screenAspect,
-      ViewportMinZ, ViewportMaxZ);
+    d_projectionMatrix = XMMatrixPerspectiveFovRH(d_fovAngle, screenAspect,
+      d_viewportMinZ, d_viewportMaxZ);
   }
 
   void Camera::updateViewMatrix()
@@ -116,7 +136,7 @@ namespace Dx
     auto worldMatrix = XMMatrixIdentity();
 
     auto res = XMVector3Project(toXmVector(i_point), 0.0f, 0.0f,
-      (float)d_viewportWidth, (float)d_viewportHeight, ViewportMinZ, ViewportMaxZ,
+      (float)d_viewportWidth, (float)d_viewportHeight, d_viewportMinZ, d_viewportMaxZ,
       d_projectionMatrix, d_viewMatrix, worldMatrix);
 
     XMFLOAT3 tempVector;

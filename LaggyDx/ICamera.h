@@ -1,5 +1,7 @@
 #pragma once
 
+#include "LaggyDxFwd.h"
+
 #include <LaggySdk/SdkFwd.h>
 #include <LaggySdk/Vector.h>
 
@@ -15,6 +17,15 @@ namespace Dx
   public:
 
     virtual ~ICamera() = default;
+
+    virtual float getFovAngle() const = 0;
+    virtual void setFovAngle(float i_fovAngle) = 0;
+
+    virtual float getViewportMinZ() const = 0;
+    virtual void setViewportMinZ(float i_viewportMinZ) = 0;
+
+    virtual float getViewportMaxZ() const = 0;
+    virtual void setViewportMaxZ(float i_viewportMaxZ) = 0;
 
     virtual float getYaw() const = 0;
     virtual void setYaw(float i_yaw) = 0;
@@ -37,6 +48,9 @@ namespace Dx
     virtual Sdk::Vector3F getBackward() const = 0;
 
     virtual Sdk::Vector2F worldToScreen(const Sdk::Vector3F& i_point) const = 0;
+
+    virtual const XMMATRIX& getProjectionMatrix() const = 0;
+    virtual const XMMATRIX& getViewMatrix() const = 0;
   };
 
 } // ns Dx

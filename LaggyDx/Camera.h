@@ -13,6 +13,15 @@ namespace Dx
 
     Camera(int i_screenWidth, int i_screenHeight);
 
+    virtual float getFovAngle() const override { return d_fovAngle; }
+    virtual void setFovAngle(float i_fovAngle) override;
+
+    virtual float getViewportMinZ() const override { return d_viewportMinZ; }
+    virtual void setViewportMinZ(float i_viewportMinZ) override;
+
+    virtual float getViewportMaxZ() const override { return d_viewportMaxZ; }
+    virtual void setViewportMaxZ(float i_viewportMaxZ) override;
+
     virtual float getYaw() const override { return d_yaw; }
     virtual void setYaw(float i_yaw) override;
 
@@ -35,21 +44,21 @@ namespace Dx
 
     virtual Sdk::Vector2F worldToScreen(const Sdk::Vector3F& i_point) const override;
 
-    const XMMATRIX& getProjectionMatrix() const { return d_projectionMatrix; }
-    const XMMATRIX& getViewMatrix() const { return d_viewMatrix; }
+    virtual const XMMATRIX& getProjectionMatrix() const override { return d_projectionMatrix; }
+    virtual const XMMATRIX& getViewMatrix() const override { return d_viewMatrix; }
 
   private:
 
-    const float FovAngle = (float)DirectX::XM_PI / 4.0f;
-    const float ViewportMinZ = 0.1f;
-    const float ViewportMaxZ = 1000.0f;
+    float d_fovAngle = (float)DirectX::XM_PI / 4.0f;
+    float d_viewportMinZ = 0.1f;
+    float d_viewportMaxZ = 1000.0f;
 
-    int d_viewportWidth;
-    int d_viewportHeight;
+    int d_viewportWidth = 0;
+    int d_viewportHeight = 0;
 
-    float d_yaw;
-    float d_pitch;
-    float d_distance;
+    float d_yaw = 0.0;
+    float d_pitch = 0.0;
+    float d_distance = 0.0;
     Sdk::Vector3F d_lookAt;
     Sdk::Vector3F d_up;
 
