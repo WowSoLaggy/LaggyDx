@@ -39,8 +39,8 @@ namespace Dx
 
     std::shared_ptr<CommonStates> d_commonStates;
 
-    ID3D11Buffer* d_matrixBuffer;
-    ID3D11Buffer* d_lightBuffer;
+    ID3D11Buffer* d_matrixBuffer = nullptr;
+    ID3D11Buffer* d_lightBuffer = nullptr;
 
     void createBuffers();
     void disposeBuffers();

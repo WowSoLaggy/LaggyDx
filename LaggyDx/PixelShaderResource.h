@@ -20,7 +20,7 @@ namespace Dx
   private:
     const fs::path d_shaderFilePath;
 
-    ID3D11PixelShader* d_pixelShader;
-    ID3D11SamplerState* d_sampleState;
+    ID3D11PixelShader* d_pixelShader = nullptr;
+    ID3D11SamplerState* d_sampleState = nullptr;
   };
 } // ns Dx

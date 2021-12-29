@@ -17,8 +17,8 @@ namespace Dx
 
   private:
 
-    int d_indexCount;
-    ID3D11Buffer* d_indexBuffer;
+    int d_indexCount = 0;
+    ID3D11Buffer* d_indexBuffer = nullptr;
 
   };
 

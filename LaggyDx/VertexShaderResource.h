@@ -20,7 +20,7 @@ namespace Dx
   private:
     const fs::path d_shaderFilePath;
 
-    ID3D11VertexShader* d_vertexShader;
-    ID3D11InputLayout* d_layout;
+    ID3D11VertexShader* d_vertexShader = nullptr;
+    ID3D11InputLayout* d_layout = nullptr;
   };
 } // ns Dx
