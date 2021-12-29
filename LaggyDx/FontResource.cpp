@@ -9,7 +9,7 @@
 
 namespace Dx
 {
-  FontResource::FontResource(std::string i_fontFilePath)
+  FontResource::FontResource(fs::path i_fontFilePath)
     : d_fontFilePath(std::move(i_fontFilePath))
   {
   }
@@ -19,7 +19,7 @@ namespace Dx
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
 
-    d_spriteFont = std::make_shared<SpriteFont>(renderDevice.getDevicePtr(), Sdk::getWString(d_fontFilePath).c_str());
+    d_spriteFont = std::make_shared<SpriteFont>(renderDevice.getDevicePtr(), d_fontFilePath.wstring().c_str());
   }
 
   void FontResource::unload()

@@ -9,7 +9,7 @@ namespace Dx
   class PixelShaderResource : public LoadableResource, public IPixelShaderResource
   {
   public:
-    PixelShaderResource(std::string i_shaderFilePath);
+    PixelShaderResource(fs::path i_shaderFilePath);
 
     virtual void load(IRenderDevice& i_renderDevice) override;
     virtual void unload() override;
@@ -18,7 +18,7 @@ namespace Dx
     ID3D11SamplerState* getSampleStatePtr() const { return d_sampleState; }
 
   private:
-    const std::string d_shaderFilePath;
+    const fs::path d_shaderFilePath;
 
     ID3D11PixelShader* d_pixelShader;
     ID3D11SamplerState* d_sampleState;

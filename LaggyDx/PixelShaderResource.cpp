@@ -8,7 +8,7 @@
 
 namespace Dx
 {
-  PixelShaderResource::PixelShaderResource(std::string i_shaderFilePath)
+  PixelShaderResource::PixelShaderResource(fs::path i_shaderFilePath)
     : d_shaderFilePath(std::move(i_shaderFilePath))
   {
   }
@@ -21,7 +21,7 @@ namespace Dx
     // Pixel Shader
 
     ID3D10Blob* pixelShaderBuffer = nullptr;
-    D3DReadFileToBlob(Sdk::getWString(d_shaderFilePath).c_str(), &pixelShaderBuffer);
+    D3DReadFileToBlob(d_shaderFilePath.wstring().c_str(), &pixelShaderBuffer);
 
     renderDevice.getDevicePtr()->CreatePixelShader(pixelShaderBuffer->GetBufferPointer(),
       pixelShaderBuffer->GetBufferSize(), NULL, &d_pixelShader);

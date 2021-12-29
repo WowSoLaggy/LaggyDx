@@ -9,7 +9,7 @@ namespace Dx
   class FontResource : public LoadableResource, public IFontResource
   {
   public:
-    FontResource(std::string i_fontFilePath);
+    FontResource(fs::path i_fontFilePath);
 
     virtual void load(IRenderDevice& i_renderDevice) override;
     virtual void unload() override;
@@ -19,7 +19,7 @@ namespace Dx
     std::shared_ptr<SpriteFont> getSpriteFont() const { return d_spriteFont; }
 
   private:
-    const std::string d_fontFilePath;
+    const fs::path d_fontFilePath;
     std::shared_ptr<SpriteFont> d_spriteFont;
   };
 } // ns Dx

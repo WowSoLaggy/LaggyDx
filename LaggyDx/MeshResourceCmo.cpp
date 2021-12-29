@@ -8,7 +8,7 @@
 
 namespace Dx
 {
-  MeshResourceCmo::MeshResourceCmo(std::string i_meshFilePath)
+  MeshResourceCmo::MeshResourceCmo(fs::path i_meshFilePath)
     : d_meshFilePath(std::move(i_meshFilePath))
   {
   }
@@ -21,7 +21,7 @@ namespace Dx
     DGSLEffectFactory dgslEffectFactory(renderDevice.getDevicePtr());
     dgslEffectFactory.SetDirectory(L".\\Data");
     d_model = Model::CreateFromCMO(renderDevice.getDevicePtr(),
-      Sdk::getWString(d_meshFilePath).c_str(), dgslEffectFactory);
+      d_meshFilePath.wstring().c_str(), dgslEffectFactory);
   }
 
   void MeshResourceCmo::unload()

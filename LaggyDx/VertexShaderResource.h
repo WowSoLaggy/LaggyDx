@@ -9,7 +9,7 @@ namespace Dx
   class VertexShaderResource : public LoadableResource, public IVertexShaderResource
   {
   public:
-    VertexShaderResource(std::string i_shaderFilePath);
+    VertexShaderResource(fs::path i_shaderFilePath);
 
     virtual void load(IRenderDevice& i_renderDevice) override;
     virtual void unload() override;
@@ -18,7 +18,7 @@ namespace Dx
     ID3D11InputLayout* getLayoutPtr() const { return d_layout; }
 
   private:
-    const std::string d_shaderFilePath;
+    const fs::path d_shaderFilePath;
 
     ID3D11VertexShader* d_vertexShader;
     ID3D11InputLayout* d_layout;

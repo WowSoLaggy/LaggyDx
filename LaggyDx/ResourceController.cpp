@@ -151,18 +151,18 @@ namespace Dx
       const std::regex pixelShaderPattern("\\w*.(ps)");
       const std::regex fontPattern("\\w*.(spritefont)");
 
-      auto resourceName = (i_dirName / pEntity->d_name).string();
+      auto resourceName = i_dirName / pEntity->d_name;
 
       if (std::regex_match(pEntity->d_name, modelCmoPattern))
-        d_meshResourcesMap.insert({ resourceName, std::make_shared<MeshResourceCmo>(resourceName) });
+        d_meshResourcesMap.insert({ resourceName.string(), std::make_shared<MeshResourceCmo>(resourceName) });
       else if (std::regex_match(pEntity->d_name, texturePattern))
-        d_textureResourcesMap.insert({ resourceName, std::make_shared<TextureResource>(resourceName) });
+        d_textureResourcesMap.insert({ resourceName.string(), std::make_shared<TextureResource>(resourceName) });
       else if (std::regex_match(pEntity->d_name, vertexShaderPattern))
-        d_vertexShaderResourcesMap.insert({ resourceName, std::make_shared<VertexShaderResource>(resourceName) });
+        d_vertexShaderResourcesMap.insert({ resourceName.string(), std::make_shared<VertexShaderResource>(resourceName) });
       else if (std::regex_match(pEntity->d_name, pixelShaderPattern))
-        d_pixelShaderResourcesMap.insert({ resourceName, std::make_shared<PixelShaderResource>(resourceName) });
+        d_pixelShaderResourcesMap.insert({ resourceName.string(), std::make_shared<PixelShaderResource>(resourceName) });
       else if (std::regex_match(pEntity->d_name, fontPattern))
-        d_fontResourcesMap.insert({ resourceName, std::make_shared<FontResource>(resourceName) });
+        d_fontResourcesMap.insert({ resourceName.string(), std::make_shared<FontResource>(resourceName) });
     }
   }
 

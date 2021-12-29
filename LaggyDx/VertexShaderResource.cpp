@@ -8,7 +8,7 @@
 
 namespace Dx
 {
-  VertexShaderResource::VertexShaderResource(std::string i_shaderFilePath)
+  VertexShaderResource::VertexShaderResource(fs::path i_shaderFilePath)
     : d_shaderFilePath(std::move(i_shaderFilePath))
   {
   }
@@ -21,7 +21,7 @@ namespace Dx
     // Vertex Shader
 
     ID3D10Blob* vertexShaderBuffer = nullptr;
-    D3DReadFileToBlob(Sdk::getWString(d_shaderFilePath).c_str(), &vertexShaderBuffer);
+    D3DReadFileToBlob(d_shaderFilePath.wstring().c_str(), &vertexShaderBuffer);
 
     renderDevice.getDevicePtr()->CreateVertexShader(vertexShaderBuffer->GetBufferPointer(),
       vertexShaderBuffer->GetBufferSize(), NULL, &d_vertexShader);
