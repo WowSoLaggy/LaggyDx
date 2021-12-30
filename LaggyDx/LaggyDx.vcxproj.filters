@@ -330,6 +330,12 @@
     <ClInclude Include="LoadableResource.h">
       <Filter>src\Resources\LoadableResource</Filter>
     </ClInclude>
+    <ClInclude Include="PsBinResource.h">
+      <Filter>src\Resources\ShaderResources</Filter>
+    </ClInclude>
+    <ClInclude Include="VsBinResource.h">
+      <Filter>src\Resources\ShaderResources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -502,6 +508,12 @@
     </ClCompile>
     <ClCompile Include="LoadableResource.cpp">
       <Filter>src\Resources\LoadableResource</Filter>
+    </ClCompile>
+    <ClCompile Include="PsBinResource.cpp">
+      <Filter>src\Resources\ShaderResources</Filter>
+    </ClCompile>
+    <ClCompile Include="VsBinResource.cpp">
+      <Filter>src\Resources\ShaderResources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

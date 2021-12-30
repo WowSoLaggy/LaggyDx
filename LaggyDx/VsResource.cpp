@@ -14,17 +14,12 @@ namespace Dx
   }
 
 
-  void VsResource::load(IRenderDevice& i_renderDevice)
+  void VsResource::loadFromBuffer(IRenderDevice& i_renderDevice, ID3D10Blob* i_psBuffer)
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
 
-    // Vertex Shader
-
-    ID3D10Blob* vertexShaderBuffer = nullptr;
-    D3DReadFileToBlob(d_shaderFilePath.wstring().c_str(), &vertexShaderBuffer);
-
-    renderDevice.getDevicePtr()->CreateVertexShader(vertexShaderBuffer->GetBufferPointer(),
-      vertexShaderBuffer->GetBufferSize(), NULL, &d_vertexShader);
+    renderDevice.getDevicePtr()->CreateVertexShader(i_psBuffer->GetBufferPointer(),
+      i_psBuffer->GetBufferSize(), NULL, &d_vertexShader);
 
     // Input layout
 
@@ -57,9 +52,7 @@ namespace Dx
     unsigned int numElements = sizeof(polygonLayout) / sizeof(polygonLayout[0]);
 
     renderDevice.getDevicePtr()->CreateInputLayout(polygonLayout, numElements,
-      vertexShaderBuffer->GetBufferPointer(), vertexShaderBuffer->GetBufferSize(), &d_layout);
-
-    vertexShaderBuffer->Release();
+      i_psBuffer->GetBufferPointer(), i_psBuffer->GetBufferSize(), &d_layout);
   }
 
   void VsResource::unload()

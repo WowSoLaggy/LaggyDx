@@ -14,19 +14,12 @@ namespace Dx
   }
 
 
-  void PsResource::load(IRenderDevice& i_renderDevice)
+  void PsResource::loadFromBuffer(IRenderDevice& i_renderDevice, ID3D10Blob* i_psBuffer)
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
 
-    // Pixel Shader
-
-    ID3D10Blob* pixelShaderBuffer = nullptr;
-    D3DReadFileToBlob(d_shaderFilePath.wstring().c_str(), &pixelShaderBuffer);
-
-    renderDevice.getDevicePtr()->CreatePixelShader(pixelShaderBuffer->GetBufferPointer(),
-      pixelShaderBuffer->GetBufferSize(), NULL, &d_pixelShader);
-
-    pixelShaderBuffer->Release();
+    renderDevice.getDevicePtr()->CreatePixelShader(i_psBuffer->GetBufferPointer(),
+      i_psBuffer->GetBufferSize(), NULL, &d_pixelShader);
 
     // Sampler state
 

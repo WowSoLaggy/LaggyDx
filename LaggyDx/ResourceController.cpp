@@ -3,9 +3,9 @@
 
 #include "FontResource.h"
 #include "MeshResourceCmo.h"
-#include "PsResource.h"
+#include "PsBinResource.h"
 #include "TextureResource.h"
-#include "VsResource.h"
+#include "VsBinResource.h"
 
 #include <LaggySdk/Contracts.h>
 
@@ -128,8 +128,8 @@ namespace Dx
 
       const std::regex texturePattern("\\w*.(dds|png|bmp|jpg|jpeg|tiff|gif)");
       const std::regex modelCmoPattern("\\w*.(cmo)");
-      const std::regex vsPattern("\\w*.(vs)");
-      const std::regex psPattern("\\w*.(ps)");
+      const std::regex vsBinPattern("\\w*.(vs)");
+      const std::regex psBinPattern("\\w*.(ps)");
       const std::regex fontPattern("\\w*.(spritefont)");
 
       auto resourceName = i_dirName / pEntity->d_name;
@@ -138,10 +138,10 @@ namespace Dx
         d_resources.insert({ resourceName.string(), std::make_shared<MeshResourceCmo>(resourceName) });
       else if (std::regex_match(pEntity->d_name, texturePattern))
         d_resources.insert({ resourceName.string(), std::make_shared<TextureResource>(resourceName) });
-      else if (std::regex_match(pEntity->d_name, vsPattern))
-        d_resources.insert({ resourceName.string(), std::make_shared<VsResource>(resourceName) });
-      else if (std::regex_match(pEntity->d_name, psPattern))
-        d_resources.insert({ resourceName.string(), std::make_shared<PsResource>(resourceName) });
+      else if (std::regex_match(pEntity->d_name, vsBinPattern))
+        d_resources.insert({ resourceName.string(), std::make_shared<VsBinResource>(resourceName) });
+      else if (std::regex_match(pEntity->d_name, psBinPattern))
+        d_resources.insert({ resourceName.string(), std::make_shared<PsBinResource>(resourceName) });
       else if (std::regex_match(pEntity->d_name, fontPattern))
         d_resources.insert({ resourceName.string(), std::make_shared<FontResource>(resourceName) });
     }
