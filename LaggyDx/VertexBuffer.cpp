@@ -6,7 +6,7 @@
 
 namespace Dx
 {
-  void VertexBuffer::create(IRenderDevice& i_renderDevice, const std::vector<VertexTypePosTexNorm>& i_vertices)
+  VertexBuffer::VertexBuffer(IRenderDevice& i_renderDevice, const std::vector<VertexTypePosTexNorm>& i_vertices)
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
 
@@ -28,7 +28,7 @@ namespace Dx
     renderDevice.getDevicePtr()->CreateBuffer(&vertexBufferDesc, &vertexData, &d_vertexBuffer);
   }
 
-  void VertexBuffer::dispose()
+  VertexBuffer::~VertexBuffer()
   {
     d_vertexBuffer->Release();
   }
