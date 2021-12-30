@@ -13,9 +13,6 @@
     <Filter Include="src\Resources">
       <UniqueIdentifier>{ddcb04d9-708b-4dbf-b638-236a1a041335}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Resources\ResourceTypes">
-      <UniqueIdentifier>{572e44ab-42dc-4f03-9084-d1c91d73c562}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Mesh">
       <UniqueIdentifier>{c8170a72-b4dc-466c-b166-5b99e072a9cd}</UniqueIdentifier>
     </Filter>
@@ -76,6 +73,15 @@
     <Filter Include="src\Collisions\Colliders">
       <UniqueIdentifier>{95bd1268-8c21-4d41-8e24-689f3bd3d304}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Resources\ShaderResources">
+      <UniqueIdentifier>{71c8206f-b8d7-4e03-a2f5-066873d01f2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Resources\OtherResources">
+      <UniqueIdentifier>{572e44ab-42dc-4f03-9084-d1c91d73c562}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Resources\LoadableResource">
+      <UniqueIdentifier>{9f154164-f4b6-4047-bccc-156f2d1e57be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -100,7 +106,7 @@
       <Filter>src\Resources</Filter>
     </ClInclude>
     <ClInclude Include="TextureResource.h">
-      <Filter>src\Resources\ResourceTypes</Filter>
+      <Filter>src\Resources\OtherResources</Filter>
     </ClInclude>
     <ClInclude Include="MeshLoader.h">
       <Filter>src\Mesh</Filter>
@@ -120,17 +126,11 @@
     <ClInclude Include="IndexBuffer.h">
       <Filter>src\Buffers</Filter>
     </ClInclude>
-    <ClInclude Include="VsResource.h">
-      <Filter>src\Resources\ResourceTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="PsResource.h">
-      <Filter>src\Resources\ResourceTypes</Filter>
-    </ClInclude>
     <ClInclude Include="ShaderBuffers.h">
       <Filter>src\Buffers</Filter>
     </ClInclude>
     <ClInclude Include="FontResource.h">
-      <Filter>src\Resources\ResourceTypes</Filter>
+      <Filter>src\Resources\OtherResources</Filter>
     </ClInclude>
     <ClInclude Include="IRenderer3d.h">
       <Filter>src\Renderers\Renderer3d</Filter>
@@ -145,7 +145,7 @@
       <Filter>src\Renderers\Renderer2d</Filter>
     </ClInclude>
     <ClInclude Include="MeshResourceCmo.h">
-      <Filter>src\Resources\ResourceTypes</Filter>
+      <Filter>src\Resources\OtherResources</Filter>
     </ClInclude>
     <ClInclude Include="IRenderer.h">
       <Filter>src\Renderers</Filter>
@@ -169,22 +169,13 @@
       <Filter>src\InputControllers</Filter>
     </ClInclude>
     <ClInclude Include="ITextureResource.h">
-      <Filter>src\Resources\ResourceTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="ILoadableResource.h">
-      <Filter>src\Resources\ResourceTypes</Filter>
+      <Filter>src\Resources\OtherResources</Filter>
     </ClInclude>
     <ClInclude Include="IFontResource.h">
-      <Filter>src\Resources\ResourceTypes</Filter>
+      <Filter>src\Resources\OtherResources</Filter>
     </ClInclude>
     <ClInclude Include="IMeshResourceCmo.h">
-      <Filter>src\Resources\ResourceTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="IPsResource.h">
-      <Filter>src\Resources\ResourceTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="IVsResource.h">
-      <Filter>src\Resources\ResourceTypes</Filter>
+      <Filter>src\Resources\OtherResources</Filter>
     </ClInclude>
     <ClInclude Include="IAnimationController3d.h">
       <Filter>src\Animation3d</Filter>
@@ -215,9 +206,6 @@
     </ClInclude>
     <ClInclude Include="Renderer2dGuard.h">
       <Filter>src\Renderers\Renderer2d</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadableResource.h">
-      <Filter>src\Resources\ResourceTypes</Filter>
     </ClInclude>
     <ClInclude Include="Projector.h">
       <Filter>src\Projector</Filter>
@@ -324,6 +312,24 @@
     <ClInclude Include="IObject3.h">
       <Filter>src\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="VsResource.h">
+      <Filter>src\Resources\ShaderResources</Filter>
+    </ClInclude>
+    <ClInclude Include="PsResource.h">
+      <Filter>src\Resources\ShaderResources</Filter>
+    </ClInclude>
+    <ClInclude Include="IVsResource.h">
+      <Filter>src\Resources\ShaderResources</Filter>
+    </ClInclude>
+    <ClInclude Include="IPsResource.h">
+      <Filter>src\Resources\ShaderResources</Filter>
+    </ClInclude>
+    <ClInclude Include="ILoadableResource.h">
+      <Filter>src\Resources\LoadableResource</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadableResource.h">
+      <Filter>src\Resources\LoadableResource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -348,7 +354,7 @@
       <Filter>src\Resources</Filter>
     </ClCompile>
     <ClCompile Include="TextureResource.cpp">
-      <Filter>src\Resources\ResourceTypes</Filter>
+      <Filter>src\Resources\OtherResources</Filter>
     </ClCompile>
     <ClCompile Include="MeshLoader.cpp">
       <Filter>src\Mesh</Filter>
@@ -362,14 +368,8 @@
     <ClCompile Include="IndexBuffer.cpp">
       <Filter>src\Buffers</Filter>
     </ClCompile>
-    <ClCompile Include="VsResource.cpp">
-      <Filter>src\Resources\ResourceTypes</Filter>
-    </ClCompile>
-    <ClCompile Include="PsResource.cpp">
-      <Filter>src\Resources\ResourceTypes</Filter>
-    </ClCompile>
     <ClCompile Include="FontResource.cpp">
-      <Filter>src\Resources\ResourceTypes</Filter>
+      <Filter>src\Resources\OtherResources</Filter>
     </ClCompile>
     <ClCompile Include="IRenderer3d.cpp">
       <Filter>src\Renderers\Renderer3d</Filter>
@@ -387,7 +387,7 @@
       <Filter>src\Renderers\Renderer3d</Filter>
     </ClCompile>
     <ClCompile Include="MeshResourceCmo.cpp">
-      <Filter>src\Resources\ResourceTypes</Filter>
+      <Filter>src\Resources\OtherResources</Filter>
     </ClCompile>
     <ClCompile Include="IInputDevice.cpp">
       <Filter>src\InputDevice</Filter>
@@ -424,9 +424,6 @@
     </ClCompile>
     <ClCompile Include="Renderer2dGuard.cpp">
       <Filter>src\Renderers\Renderer2d</Filter>
-    </ClCompile>
-    <ClCompile Include="LoadableResource.cpp">
-      <Filter>src\Resources\ResourceTypes</Filter>
     </ClCompile>
     <ClCompile Include="Projector.cpp">
       <Filter>src\Projector</Filter>
@@ -496,6 +493,15 @@
     </ClCompile>
     <ClCompile Include="ColliderBase.cpp">
       <Filter>src\Collisions\Colliders</Filter>
+    </ClCompile>
+    <ClCompile Include="VsResource.cpp">
+      <Filter>src\Resources\ShaderResources</Filter>
+    </ClCompile>
+    <ClCompile Include="PsResource.cpp">
+      <Filter>src\Resources\ShaderResources</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadableResource.cpp">
+      <Filter>src\Resources\LoadableResource</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
