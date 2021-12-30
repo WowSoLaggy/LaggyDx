@@ -37,7 +37,7 @@ namespace Dx
   }
 
 
-  const IMeshResourceCmo& ResourceController::getMeshResourceCmo(const std::string& i_resourceName)
+  const IMeshResourceCmo& ResourceController::getMeshResourceCmo(const std::string& i_resourceName) const
   {
     const auto it = d_meshResourcesMap.find((d_resourceFolder / i_resourceName).string());
     CONTRACT_EXPECT(it != d_meshResourcesMap.cend());
@@ -47,7 +47,7 @@ namespace Dx
     return *it->second;
   }
 
-  const ITextureResource& ResourceController::getTextureResource(const std::string& i_resourceName)
+  const ITextureResource& ResourceController::getTextureResource(const std::string& i_resourceName) const
   {
     const auto it = d_textureResourcesMap.find((d_resourceFolder / i_resourceName).string());
     CONTRACT_EXPECT(it != d_textureResourcesMap.cend());
@@ -57,7 +57,7 @@ namespace Dx
     return *it->second;
   }
 
-  const IPixelShaderResource& ResourceController::getPixelShaderResource(const std::string& i_resourceName)
+  const IPixelShaderResource& ResourceController::getPixelShaderResource(const std::string& i_resourceName) const
   {
     const auto it = d_pixelShaderResourcesMap.find((d_resourceFolder / i_resourceName).string());
     CONTRACT_EXPECT(it != d_pixelShaderResourcesMap.cend());
@@ -67,7 +67,7 @@ namespace Dx
     return *it->second;
   }
 
-  const IVertexShaderResource& ResourceController::getVertexShaderResource(const std::string& i_resourceName)
+  const IVertexShaderResource& ResourceController::getVertexShaderResource(const std::string& i_resourceName) const
   {
     const auto it = d_vertexShaderResourcesMap.find((d_resourceFolder / i_resourceName).string());
     CONTRACT_EXPECT(it != d_vertexShaderResourcesMap.cend());
@@ -77,7 +77,7 @@ namespace Dx
     return *it->second;
   }
 
-  const IFontResource& ResourceController::getFontResource(const std::string& i_resourceName)
+  const IFontResource& ResourceController::getFontResource(const std::string& i_resourceName) const
   {
     const auto it = d_fontResourcesMap.find((d_resourceFolder / i_resourceName).string());
     CONTRACT_EXPECT(it != d_fontResourcesMap.cend());
@@ -88,12 +88,12 @@ namespace Dx
   }
 
 
-  void ResourceController::loadResource(ILoadableResource& i_resource)
+  void ResourceController::loadResource(ILoadableResource& i_resource) const
   {
     i_resource.loadIfNeeded(d_renderDevice);
   }
 
-  void ResourceController::loadResources()
+  void ResourceController::loadResources() const
   {
     auto loadAll = [&](auto& i_map)
     {
@@ -108,7 +108,7 @@ namespace Dx
     loadAll(d_fontResourcesMap);
   }
 
-  void ResourceController::unloadResources()
+  void ResourceController::unloadResources() const
   {
     auto unloadAll = [](auto& i_map)
     {
