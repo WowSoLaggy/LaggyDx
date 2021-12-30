@@ -28,6 +28,8 @@ namespace Dx
     virtual void setFillMode(FillMode i_fillMode) = 0;
 
     virtual void setClearColor(const Sdk::Vector4F& i_clearColor) = 0;
+
+    virtual const Sdk::Vector2I& getResolution() const = 0;
   };
 
 } // ns Dx

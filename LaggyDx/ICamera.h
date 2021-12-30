@@ -12,7 +12,7 @@ namespace Dx
   {
   public:
 
-    static std::shared_ptr<ICamera> createCamera(int i_screenWidth, int i_screenHeight);
+    static std::unique_ptr<ICamera> createCamera(Sdk::Vector2I i_viewportResolution);
 
   public:
 
@@ -49,8 +49,8 @@ namespace Dx
 
     virtual Sdk::Vector2F worldToScreen(const Sdk::Vector3F& i_point) const = 0;
 
-    virtual const XMMATRIX& getProjectionMatrix() const = 0;
-    virtual const XMMATRIX& getViewMatrix() const = 0;
+    virtual const DirectX::XMMATRIX& getProjectionMatrix() const = 0;
+    virtual const DirectX::XMMATRIX& getViewMatrix() const = 0;
   };
 
 } // ns Dx

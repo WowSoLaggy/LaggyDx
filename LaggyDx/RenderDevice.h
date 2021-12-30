@@ -29,6 +29,8 @@ namespace Dx
 
     virtual void setClearColor(const Sdk::Vector4F& i_clearColor) override;
 
+    virtual const Sdk::Vector2I& getResolution() const override;
+
     ID3D11Device* getDevicePtr() { return d_device; }
     ID3D11DeviceContext* getDeviceContextPtr() { return d_deviceContext; }
 

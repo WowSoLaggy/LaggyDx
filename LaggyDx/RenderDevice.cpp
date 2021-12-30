@@ -378,4 +378,10 @@ namespace Dx
     d_clearColor[3] = i_clearColor.w;
   }
 
+  const Sdk::Vector2I& RenderDevice::getResolution() const
+  {
+    return d_resolution;
+  }
+
+
 } // ns Dx

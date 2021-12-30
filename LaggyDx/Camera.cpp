@@ -17,14 +17,13 @@ namespace Dx
   } // anonymous NS
 
 
-  Camera::Camera(const int i_screenWidth, const int i_screenHeight)
+  Camera::Camera(Sdk::Vector2I i_viewportResolution)
     : d_yaw(0)
     , d_pitch(Sdk::degToRad(45.0f))
     , d_distance(10)
     , d_lookAt{ 0, 0, 0 }
     , d_up{ 0, 1, 0 }
-    , d_viewportWidth(i_screenWidth)
-    , d_viewportHeight(i_screenHeight)
+    , d_viewportResolution(std::move(i_viewportResolution))
   {
     updateProjectionMatrix();
     updateViewMatrix();
@@ -120,7 +119,7 @@ namespace Dx
 
   void Camera::updateProjectionMatrix()
   {
-    float screenAspect = (float)d_viewportWidth / (float)d_viewportHeight;
+    float screenAspect = (float)d_viewportResolution.x / (float)d_viewportResolution.y;
     d_projectionMatrix = XMMatrixPerspectiveFovRH(d_fovAngle, screenAspect,
       d_viewportMinZ, d_viewportMaxZ);
   }
@@ -136,7 +135,7 @@ namespace Dx
     auto worldMatrix = XMMatrixIdentity();
 
     auto res = XMVector3Project(toXmVector(i_point), 0.0f, 0.0f,
-      (float)d_viewportWidth, (float)d_viewportHeight, d_viewportMinZ, d_viewportMaxZ,
+      (float)d_viewportResolution.x, (float)d_viewportResolution.y, d_viewportMinZ, d_viewportMaxZ,
       d_projectionMatrix, d_viewMatrix, worldMatrix);
 
     XMFLOAT3 tempVector;

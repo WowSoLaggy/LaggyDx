@@ -6,9 +6,9 @@
 
 namespace Dx
 {
-  std::shared_ptr<ICamera> ICamera::createCamera(int i_screenWidth, int i_screenHeight)
+  std::unique_ptr<ICamera> ICamera::createCamera(Sdk::Vector2I i_viewportResolution)
   {
-    return std::make_shared<Camera>(i_screenWidth, i_screenHeight);
+    return std::make_unique<Camera>(std::move(i_viewportResolution));
   }
 
 } // ns Dx
