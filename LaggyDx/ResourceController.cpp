@@ -4,8 +4,10 @@
 #include "FontResource.h"
 #include "MeshResourceCmo.h"
 #include "PsBinResource.h"
+#include "PsHlslResource.h"
 #include "TextureResource.h"
 #include "VsBinResource.h"
+#include "VsHlslResource.h"
 
 #include <LaggySdk/Contracts.h>
 
@@ -111,7 +113,7 @@ namespace Dx
     if (!pDir)
       return;
 
-    struct dirent* pEntity;
+    struct dirent* pEntity = nullptr;
     while (pEntity = readdir(pDir))
     {
       if (isDirNotDots(pEntity))
@@ -126,13 +128,15 @@ namespace Dx
         continue;
       }
 
-      const std::regex texturePattern("\\w*.(dds|png|bmp|jpg|jpeg|tiff|gif)");
-      const std::regex modelCmoPattern("\\w*.(cmo)");
-      const std::regex vsBinPattern("\\w*.(vs)");
-      const std::regex psBinPattern("\\w*.(ps)");
-      const std::regex fontPattern("\\w*.(spritefont)");
+      const std::regex texturePattern("\\w*.(dds|png|bmp|jpg|jpeg|tiff|gif)$");
+      const std::regex modelCmoPattern("\\w*.(cmo)$");
+      const std::regex vsBinPattern("\\w*.(vs)$");
+      const std::regex vsHlslPattern("\\w*.(vs.hlsl)$");
+      const std::regex psBinPattern("\\w*.(ps)$");
+      const std::regex psHlslPattern("\\w*.(ps.hlsl)$");
+      const std::regex fontPattern("\\w*.(spritefont)$");
 
-      auto resourceName = i_dirName / pEntity->d_name;
+      const auto resourceName = i_dirName / pEntity->d_name;
 
       if (std::regex_match(pEntity->d_name, modelCmoPattern))
         d_resources.insert({ resourceName.string(), std::make_shared<MeshResourceCmo>(resourceName) });
@@ -140,8 +144,12 @@ namespace Dx
         d_resources.insert({ resourceName.string(), std::make_shared<TextureResource>(resourceName) });
       else if (std::regex_match(pEntity->d_name, vsBinPattern))
         d_resources.insert({ resourceName.string(), std::make_shared<VsBinResource>(resourceName) });
+      else if (std::regex_match(pEntity->d_name, vsHlslPattern))
+        d_resources.insert({ resourceName.string(), std::make_shared<VsHlslResource>(resourceName) });
       else if (std::regex_match(pEntity->d_name, psBinPattern))
         d_resources.insert({ resourceName.string(), std::make_shared<PsBinResource>(resourceName) });
+      else if (std::regex_match(pEntity->d_name, psHlslPattern))
+        d_resources.insert({ resourceName.string(), std::make_shared<PsHlslResource>(resourceName) });
       else if (std::regex_match(pEntity->d_name, fontPattern))
         d_resources.insert({ resourceName.string(), std::make_shared<FontResource>(resourceName) });
     }

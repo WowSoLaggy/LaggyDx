@@ -336,6 +336,15 @@
     <ClInclude Include="VsBinResource.h">
       <Filter>src\Resources\ShaderResources</Filter>
     </ClInclude>
+    <ClInclude Include="PsHlslResource.h">
+      <Filter>src\Resources\ShaderResources</Filter>
+    </ClInclude>
+    <ClInclude Include="VsHlslResource.h">
+      <Filter>src\Resources\ShaderResources</Filter>
+    </ClInclude>
+    <ClInclude Include="_ShaderUtils.h">
+      <Filter>src\Resources\ShaderResources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -513,6 +522,15 @@
       <Filter>src\Resources\ShaderResources</Filter>
     </ClCompile>
     <ClCompile Include="VsBinResource.cpp">
+      <Filter>src\Resources\ShaderResources</Filter>
+    </ClCompile>
+    <ClCompile Include="PsHlslResource.cpp">
+      <Filter>src\Resources\ShaderResources</Filter>
+    </ClCompile>
+    <ClCompile Include="VsHlslResource.cpp">
+      <Filter>src\Resources\ShaderResources</Filter>
+    </ClCompile>
+    <ClCompile Include="_ShaderUtils.cpp">
       <Filter>src\Resources\ShaderResources</Filter>
     </ClCompile>
   </ItemGroup>

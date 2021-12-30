@@ -214,6 +214,7 @@
     <ClInclude Include="ObjectCollection.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="PsBinResource.h" />
+    <ClInclude Include="PsHlslResource.h" />
     <ClInclude Include="PsResource.h" />
     <ClInclude Include="Projector.h" />
     <ClInclude Include="Renderer2d.h" />
@@ -232,12 +233,14 @@
     <ClInclude Include="StaticCollider.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="VsBinResource.h" />
+    <ClInclude Include="VsHlslResource.h" />
     <ClInclude Include="VsResource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextureResource.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexTypes.h" />
     <ClInclude Include="CollShapeMover.h" />
+    <ClInclude Include="_ShaderUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Action.cpp" />
@@ -245,6 +248,7 @@
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="AnimatedSprite_save.cpp" />
     <ClCompile Include="AnimationController3d.cpp" />
+    <ClCompile Include="PsHlslResource.cpp" />
     <ClCompile Include="VsBinResource.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ColliderBase.cpp" />
@@ -294,6 +298,7 @@
     <ClCompile Include="Sprite_save.cpp" />
     <ClCompile Include="StaticCollider.cpp" />
     <ClCompile Include="Text.cpp" />
+    <ClCompile Include="VsHlslResource.cpp" />
     <ClCompile Include="VsResource.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -304,6 +309,7 @@
     <ClCompile Include="TextureResource.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="CollShapeMover.cpp" />
+    <ClCompile Include="_ShaderUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DirectXTK\DirectXTK_Desktop_2022.vcxproj">

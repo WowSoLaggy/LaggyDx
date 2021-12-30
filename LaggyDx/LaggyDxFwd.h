@@ -70,6 +70,7 @@ namespace Dx
 
 
 struct ID3D11Buffer;
+struct ID3D10Blob;
 
 
 namespace DirectX
