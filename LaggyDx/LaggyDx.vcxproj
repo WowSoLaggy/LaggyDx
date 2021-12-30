@@ -187,6 +187,8 @@
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="InputDevice.h" />
     <ClInclude Include="IObject.h" />
+    <ClInclude Include="IObject2.h" />
+    <ClInclude Include="IObject3.h" />
     <ClInclude Include="IPixelShaderResource.h" />
     <ClInclude Include="IRenderer.h" />
     <ClInclude Include="IRenderer2d.h" />
@@ -271,7 +273,6 @@
     <ClCompile Include="MeshResourceCmo.cpp" />
     <ClCompile Include="MouseState.cpp" />
     <ClCompile Include="ObjectBase.cpp" />
-    <ClCompile Include="ObjectCollection.cpp" />
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="PixelShaderResource.cpp" />
     <ClCompile Include="Projector.cpp" />

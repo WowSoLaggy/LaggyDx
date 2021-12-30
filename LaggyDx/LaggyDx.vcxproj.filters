@@ -318,6 +318,12 @@
     <ClInclude Include="ColliderBase.h">
       <Filter>src\Collisions\Colliders</Filter>
     </ClInclude>
+    <ClInclude Include="IObject2.h">
+      <Filter>src\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="IObject3.h">
+      <Filter>src\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -427,9 +433,6 @@
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>src\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectCollection.cpp">
-      <Filter>src\Objects</Filter>
     </ClCompile>
     <ClCompile Include="ObjectBase.cpp">
       <Filter>src\Objects</Filter>

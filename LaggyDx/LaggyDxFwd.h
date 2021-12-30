@@ -50,6 +50,8 @@ namespace Dx
   struct GameSettings;
 
   class IObject;
+  class IObject2;
+  class IObject3;
   class ObjectBase;
 
   class IShape;

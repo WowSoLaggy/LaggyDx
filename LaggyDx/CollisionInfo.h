@@ -7,8 +7,8 @@ namespace Dx
 {
   struct CollisionInfo
   {
-    const IObject& sender;
-    const IObject& receiver;
+    const IObject2& sender;
+    const IObject2& receiver;
 
     const CollisionPointNormal pointNormal;
   };

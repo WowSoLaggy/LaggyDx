@@ -8,7 +8,7 @@ namespace Dx
   class KinematicCollider : public ColliderBase
   {
   public:
-    KinematicCollider(IObject& io_object);
+    KinematicCollider(IObject2& io_object);
 
     virtual bool getReceiveCollision() const override;
 

@@ -8,7 +8,7 @@ namespace Dx
   class StaticCollider : public ColliderBase
   {
   public:
-    StaticCollider(IObject& io_object);
+    StaticCollider(IObject2& io_object);
 
     virtual bool getReceiveCollision() const override;
 

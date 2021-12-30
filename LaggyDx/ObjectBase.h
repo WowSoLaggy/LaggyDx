@@ -1,13 +1,13 @@
 #pragma once
 
 #include "Colors.h"
-#include "IObject.h"
+#include "IObject2.h"
 #include "Sprite.h"
 
 
 namespace Dx
 {
-  class ObjectBase : public IObject
+  class ObjectBase : public IObject2
   {
   public:
     ObjectBase();

@@ -3,7 +3,7 @@
 
 namespace Dx
 {
-  StaticCollider::StaticCollider(IObject& io_object)
+  StaticCollider::StaticCollider(IObject2& io_object)
     : ColliderBase(io_object)
   {
   }

@@ -4,6 +4,8 @@
 #include "ICollider.h"
 #include "GameSettings.h"
 #include "IObject.h"
+#include "IObject2.h"
+#include "IObject3.h"
 #include "KeyboardState.h"
 #include "KeyUtils.h"
 #include "Renderer2dGuard.h"
@@ -67,8 +69,10 @@ namespace Dx
   IRenderer2d& Game::getRenderer2d() { return *d_renderer2d; }
   const IRenderer2d& Game::getRenderer2d() const { return *d_renderer2d; }
 
-  ObjectCollection& Game::getObjectCollection() { return d_objectCollection; }
-  const ObjectCollection& Game::getObjectCollection() const { return d_objectCollection; }
+  ObjectCollection<IObject2>& Game::getObject2Collection() { return d_object2Collection; }
+  const ObjectCollection<IObject2>& Game::getObject2Collection() const { return d_object2Collection; }
+  ObjectCollection<IObject3>& Game::getObject3Collection() { return d_object3Collection; }
+  const ObjectCollection<IObject3>& Game::getObject3Collection() const { return d_object3Collection; }
 
   ActionsMap& Game::getActionsMap() { return d_actionsMap; }
   const ActionsMap& Game::getActionsMap() const { return d_actionsMap; }
@@ -142,7 +146,14 @@ namespace Dx
 
   void Game::updateObjects(const double i_dt)
   {
-    for (const auto& obj : d_objectCollection.getObjects())
+    for (const auto& obj : d_object3Collection.getObjects())
+    {
+      beforeObjectUpdate(*obj, i_dt);
+      obj->update(i_dt);
+      afterObjectUpdate(*obj, i_dt);
+    }
+
+    for (const auto& obj : d_object2Collection.getObjects())
     {
       beforeObjectUpdate(*obj, i_dt);
       obj->update(i_dt);
@@ -151,7 +162,7 @@ namespace Dx
       afterObjectUpdate(*obj, i_dt);
     }
 
-    d_collisionManager.checkCollisions(d_objectCollection.getObjects());
+    d_collisionManager.checkCollisions(d_object2Collection.getObjects());
   }
 
   void Game::beforeObjectUpdate(IObject& i_obj, double i_dt)
@@ -176,13 +187,16 @@ namespace Dx
 
   void Game::renderObjects()
   {
-    for (const auto& obj : d_objectCollection.getObjects())
+    for (const auto& obj : d_object3Collection.getObjects())
+      renderObject(*obj);
+    for (const auto& obj : d_object2Collection.getObjects())
       renderObject(*obj);
   }
 
   void Game::renderObject(const IObject& i_obj)
   {
-    i_obj.render(*d_renderer2d);
+    if (const auto* obj2 = dynamic_cast<const IObject2*>(&i_obj))
+      obj2->render(*d_renderer2d);
   }
 
 

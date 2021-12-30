@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "KinematicCollider.h"
 
-#include "IObject.h"
+#include "IObject2.h"
 
 
 namespace Dx
 {
-  KinematicCollider::KinematicCollider(IObject& io_object)
+  KinematicCollider::KinematicCollider(IObject2& io_object)
     : ColliderBase(io_object)
   {
   }

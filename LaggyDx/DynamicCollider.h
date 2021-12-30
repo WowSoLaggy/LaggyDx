@@ -8,7 +8,7 @@ namespace Dx
   class DynamicCollider : public ColliderBase
   {
   public:
-    DynamicCollider(IObject& io_object);
+    DynamicCollider(IObject2& io_object);
 
     virtual bool getReceiveCollision() const override;
 

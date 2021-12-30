@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "DynamicCollider.h"
 
-#include "IObject.h"
+#include "IObject2.h"
 
 
 namespace Dx
 {
-  DynamicCollider::DynamicCollider(IObject& io_object)
+  DynamicCollider::DynamicCollider(IObject2& io_object)
     : ColliderBase(io_object)
   {
   }

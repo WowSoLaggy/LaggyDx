@@ -9,14 +9,14 @@ namespace Dx
   class CollisionManager
   {
   public:
-    void checkCollisions(const std::vector<std::shared_ptr<IObject>>& i_objects);
+    void checkCollisions(const std::vector<std::shared_ptr<IObject2>>& i_objects);
 
   private:
-    void checkCollision(IObject& i_sender, IObject& i_receiver);
+    void checkCollision(IObject2& i_sender, IObject2& i_receiver);
 
     std::optional<CollisionInfo> getCollisionInfoIfExists(
-      const IObject& i_sender,
-      const IObject& i_receiver);
+      const IObject2& i_sender,
+      const IObject2& i_receiver);
 
   };
 
