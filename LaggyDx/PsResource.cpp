@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "PixelShaderResource.h"
+#include "PsResource.h"
 
 #include "RenderDevice.h"
 
@@ -8,13 +8,13 @@
 
 namespace Dx
 {
-  PixelShaderResource::PixelShaderResource(fs::path i_shaderFilePath)
+  PsResource::PsResource(fs::path i_shaderFilePath)
     : d_shaderFilePath(std::move(i_shaderFilePath))
   {
   }
 
 
-  void PixelShaderResource::load(IRenderDevice& i_renderDevice)
+  void PsResource::load(IRenderDevice& i_renderDevice)
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
 
@@ -48,7 +48,7 @@ namespace Dx
     renderDevice.getDevicePtr()->CreateSamplerState(&samplerDesc, &d_sampleState);
   }
 
-  void PixelShaderResource::unload()
+  void PsResource::unload()
   {
     d_sampleState->Release();
     d_pixelShader->Release();

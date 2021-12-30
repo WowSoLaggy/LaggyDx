@@ -5,7 +5,8 @@
 
 namespace Dx
 {
-  class IVertexShaderResource : public LoadableResource
+  class IVsResource : public LoadableResource
   {
   };
+
 } // ns Dx

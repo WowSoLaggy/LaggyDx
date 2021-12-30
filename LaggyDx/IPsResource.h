@@ -5,7 +5,8 @@
 
 namespace Dx
 {
-  class IPixelShaderResource : public LoadableResource
+  class IPsResource : public LoadableResource
   {
   };
+
 } // ns Dx

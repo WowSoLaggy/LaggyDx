@@ -120,10 +120,10 @@
     <ClInclude Include="IndexBuffer.h">
       <Filter>src\Buffers</Filter>
     </ClInclude>
-    <ClInclude Include="VertexShaderResource.h">
+    <ClInclude Include="VsResource.h">
       <Filter>src\Resources\ResourceTypes</Filter>
     </ClInclude>
-    <ClInclude Include="PixelShaderResource.h">
+    <ClInclude Include="PsResource.h">
       <Filter>src\Resources\ResourceTypes</Filter>
     </ClInclude>
     <ClInclude Include="ShaderBuffers.h">
@@ -180,10 +180,10 @@
     <ClInclude Include="IMeshResourceCmo.h">
       <Filter>src\Resources\ResourceTypes</Filter>
     </ClInclude>
-    <ClInclude Include="IPixelShaderResource.h">
+    <ClInclude Include="IPsResource.h">
       <Filter>src\Resources\ResourceTypes</Filter>
     </ClInclude>
-    <ClInclude Include="IVertexShaderResource.h">
+    <ClInclude Include="IVsResource.h">
       <Filter>src\Resources\ResourceTypes</Filter>
     </ClInclude>
     <ClInclude Include="IAnimationController3d.h">
@@ -362,10 +362,10 @@
     <ClCompile Include="IndexBuffer.cpp">
       <Filter>src\Buffers</Filter>
     </ClCompile>
-    <ClCompile Include="VertexShaderResource.cpp">
+    <ClCompile Include="VsResource.cpp">
       <Filter>src\Resources\ResourceTypes</Filter>
     </ClCompile>
-    <ClCompile Include="PixelShaderResource.cpp">
+    <ClCompile Include="PsResource.cpp">
       <Filter>src\Resources\ResourceTypes</Filter>
     </ClCompile>
     <ClCompile Include="FontResource.cpp">

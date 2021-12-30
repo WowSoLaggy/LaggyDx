@@ -3,11 +3,11 @@
 
 #include "Camera.h"
 #include "MaterialSequence.h"
-#include "PixelShaderResource.h"
+#include "PsResource.h"
 #include "RenderDevice.h"
 #include "ResourceController.h"
 #include "ShaderBuffers.h"
-#include "VertexShaderResource.h"
+#include "VsResource.h"
 
 #include <LaggySdk/Vector.h>
 
@@ -60,16 +60,16 @@ namespace Dx
     auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
     auto& resourceController = dynamic_cast<ResourceController&>(d_resourceController);
 
-    const auto& pixelShaderResource = dynamic_cast<const PixelShaderResource&>(
-      resourceController.getPixelShaderResource("TextureLightPS.ps"));
-    const auto& vertexShaderResource = dynamic_cast<const VertexShaderResource&>(
-      resourceController.getVertexShaderResource("TextureLightVS.vs"));
+    const auto& psResource = dynamic_cast<const PsResource&>(
+      resourceController.getPsResource("TextureLightPS.ps"));
+    const auto& vsResource = dynamic_cast<const VsResource&>(
+      resourceController.getVsResource("TextureLightVS.vs"));
 
-    auto* samplerState = pixelShaderResource.getSampleStatePtr();
+    auto* samplerState = psResource.getSampleStatePtr();
 
-    renderDevice.getDeviceContextPtr()->IASetInputLayout(vertexShaderResource.getLayoutPtr());
-    renderDevice.getDeviceContextPtr()->VSSetShader(vertexShaderResource.getPtr(), nullptr, 0);
-    renderDevice.getDeviceContextPtr()->PSSetShader(pixelShaderResource.getPtr(), nullptr, 0);
+    renderDevice.getDeviceContextPtr()->IASetInputLayout(vsResource.getLayoutPtr());
+    renderDevice.getDeviceContextPtr()->VSSetShader(vsResource.getPtr(), nullptr, 0);
+    renderDevice.getDeviceContextPtr()->PSSetShader(psResource.getPtr(), nullptr, 0);
     renderDevice.getDeviceContextPtr()->PSSetSamplers(0, 1, &samplerState);
   }
 

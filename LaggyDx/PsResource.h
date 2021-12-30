@@ -1,14 +1,14 @@
 #pragma once
 
-#include "IPixelShaderResource.h"
+#include "IPsResource.h"
 
 
 namespace Dx
 {
-  class PixelShaderResource : public IPixelShaderResource
+  class PsResource : public IPsResource
   {
   public:
-    PixelShaderResource(fs::path i_shaderFilePath);
+    PsResource(fs::path i_shaderFilePath);
 
     virtual void load(IRenderDevice& i_renderDevice) override;
     virtual void unload() override;

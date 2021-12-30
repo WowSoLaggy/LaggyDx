@@ -189,13 +189,13 @@
     <ClInclude Include="IObject.h" />
     <ClInclude Include="IObject2.h" />
     <ClInclude Include="IObject3.h" />
-    <ClInclude Include="IPixelShaderResource.h" />
+    <ClInclude Include="IPsResource.h" />
     <ClInclude Include="IRenderer.h" />
     <ClInclude Include="IRenderer2d.h" />
     <ClInclude Include="IRenderer3d.h" />
     <ClInclude Include="IShape.h" />
     <ClInclude Include="ITextureResource.h" />
-    <ClInclude Include="IVertexShaderResource.h" />
+    <ClInclude Include="IVsResource.h" />
     <ClInclude Include="KeyboardKeys.h" />
     <ClInclude Include="KeyboardKeysState.h" />
     <ClInclude Include="KeyboardState.h" />
@@ -213,7 +213,7 @@
     <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="ObjectCollection.h" />
     <ClInclude Include="Panel.h" />
-    <ClInclude Include="PixelShaderResource.h" />
+    <ClInclude Include="PsResource.h" />
     <ClInclude Include="Projector.h" />
     <ClInclude Include="Renderer2d.h" />
     <ClInclude Include="Renderer2dGuard.h" />
@@ -230,7 +230,7 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="StaticCollider.h" />
     <ClInclude Include="Text.h" />
-    <ClInclude Include="VertexShaderResource.h" />
+    <ClInclude Include="VsResource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextureResource.h" />
     <ClInclude Include="VertexBuffer.h" />
@@ -274,7 +274,7 @@
     <ClCompile Include="MouseState.cpp" />
     <ClCompile Include="ObjectBase.cpp" />
     <ClCompile Include="Panel.cpp" />
-    <ClCompile Include="PixelShaderResource.cpp" />
+    <ClCompile Include="PsResource.cpp" />
     <ClCompile Include="Projector.cpp" />
     <ClCompile Include="Renderer2d.cpp" />
     <ClCompile Include="Renderer2dGuard.cpp" />
@@ -290,7 +290,7 @@
     <ClCompile Include="Sprite_save.cpp" />
     <ClCompile Include="StaticCollider.cpp" />
     <ClCompile Include="Text.cpp" />
-    <ClCompile Include="VertexShaderResource.cpp" />
+    <ClCompile Include="VsResource.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

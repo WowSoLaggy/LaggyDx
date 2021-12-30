@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "VertexShaderResource.h"
+#include "VsResource.h"
 
 #include "RenderDevice.h"
 
@@ -8,13 +8,13 @@
 
 namespace Dx
 {
-  VertexShaderResource::VertexShaderResource(fs::path i_shaderFilePath)
+  VsResource::VsResource(fs::path i_shaderFilePath)
     : d_shaderFilePath(std::move(i_shaderFilePath))
   {
   }
 
 
-  void VertexShaderResource::load(IRenderDevice& i_renderDevice)
+  void VsResource::load(IRenderDevice& i_renderDevice)
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
 
@@ -62,7 +62,7 @@ namespace Dx
     vertexShaderBuffer->Release();
   }
 
-  void VertexShaderResource::unload()
+  void VsResource::unload()
   {
     d_layout->Release();
     d_vertexShader->Release();

@@ -16,8 +16,8 @@ namespace Dx
 
     virtual const IMeshResourceCmo& getMeshResourceCmo(const std::string& i_resourceName) const override;
     virtual const ITextureResource& getTextureResource(const std::string& i_resourceName) const override;
-    virtual const IPixelShaderResource& getPixelShaderResource(const std::string& i_resourceName) const override;
-    virtual const IVertexShaderResource& getVertexShaderResource(const std::string& i_resourceName) const override;
+    virtual const IPsResource& getPsResource(const std::string& i_resourceName) const override;
+    virtual const IVsResource& getVsResource(const std::string& i_resourceName) const override;
     virtual const IFontResource& getFontResource(const std::string& i_resourceName) const override;
 
     virtual void loadResources() const override;

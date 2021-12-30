@@ -1,14 +1,14 @@
 #pragma once
 
-#include "IVertexShaderResource.h"
+#include "IVsResource.h"
 
 
 namespace Dx
 {
-  class VertexShaderResource : public IVertexShaderResource
+  class VsResource : public IVsResource
   {
   public:
-    VertexShaderResource(fs::path i_shaderFilePath);
+    VsResource(fs::path i_shaderFilePath);
 
     virtual void load(IRenderDevice& i_renderDevice) override;
     virtual void unload() override;

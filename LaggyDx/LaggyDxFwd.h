@@ -18,10 +18,10 @@ namespace Dx
   class MeshResourceCmo;
   class ITextureResource;
   class TextureResource;
-  class IPixelShaderResource;
-  class PixelShaderResource;
-  class IVertexShaderResource;
-  class VertexShaderResource;
+  class IPsResource;
+  class PsResource;
+  class IVsResource;
+  class VsResource;
   class IFontResource;
   class FontResource;
 

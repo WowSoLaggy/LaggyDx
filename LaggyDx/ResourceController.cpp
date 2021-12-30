@@ -3,9 +3,9 @@
 
 #include "FontResource.h"
 #include "MeshResourceCmo.h"
-#include "PixelShaderResource.h"
+#include "PsResource.h"
 #include "TextureResource.h"
-#include "VertexShaderResource.h"
+#include "VsResource.h"
 
 #include <LaggySdk/Contracts.h>
 
@@ -62,18 +62,18 @@ namespace Dx
     return res;
   }
 
-  const IPixelShaderResource& ResourceController::getPixelShaderResource(const std::string& i_resourceName) const
+  const IPsResource& ResourceController::getPsResource(const std::string& i_resourceName) const
   {
     const std::string fullName = (d_resourceFolder / i_resourceName).string();
-    auto& res = getResource<IPixelShaderResource>(d_resources, fullName);
+    auto& res = getResource<IPsResource>(d_resources, fullName);
     loadResource(res);
     return res;
   }
 
-  const IVertexShaderResource& ResourceController::getVertexShaderResource(const std::string& i_resourceName) const
+  const IVsResource& ResourceController::getVsResource(const std::string& i_resourceName) const
   {
     const std::string fullName = (d_resourceFolder / i_resourceName).string();
-    auto& res = getResource<IVertexShaderResource>(d_resources, fullName);
+    auto& res = getResource<IVsResource>(d_resources, fullName);
     loadResource(res);
     return res;
   }
@@ -128,8 +128,8 @@ namespace Dx
 
       const std::regex texturePattern("\\w*.(dds|png|bmp|jpg|jpeg|tiff|gif)");
       const std::regex modelCmoPattern("\\w*.(cmo)");
-      const std::regex vertexShaderPattern("\\w*.(vs)");
-      const std::regex pixelShaderPattern("\\w*.(ps)");
+      const std::regex vsPattern("\\w*.(vs)");
+      const std::regex psPattern("\\w*.(ps)");
       const std::regex fontPattern("\\w*.(spritefont)");
 
       auto resourceName = i_dirName / pEntity->d_name;
@@ -138,10 +138,10 @@ namespace Dx
         d_resources.insert({ resourceName.string(), std::make_shared<MeshResourceCmo>(resourceName) });
       else if (std::regex_match(pEntity->d_name, texturePattern))
         d_resources.insert({ resourceName.string(), std::make_shared<TextureResource>(resourceName) });
-      else if (std::regex_match(pEntity->d_name, vertexShaderPattern))
-        d_resources.insert({ resourceName.string(), std::make_shared<VertexShaderResource>(resourceName) });
-      else if (std::regex_match(pEntity->d_name, pixelShaderPattern))
-        d_resources.insert({ resourceName.string(), std::make_shared<PixelShaderResource>(resourceName) });
+      else if (std::regex_match(pEntity->d_name, vsPattern))
+        d_resources.insert({ resourceName.string(), std::make_shared<VsResource>(resourceName) });
+      else if (std::regex_match(pEntity->d_name, psPattern))
+        d_resources.insert({ resourceName.string(), std::make_shared<PsResource>(resourceName) });
       else if (std::regex_match(pEntity->d_name, fontPattern))
         d_resources.insert({ resourceName.string(), std::make_shared<FontResource>(resourceName) });
     }
