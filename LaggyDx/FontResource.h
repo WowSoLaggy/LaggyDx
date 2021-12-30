@@ -1,12 +1,11 @@
 #pragma once
 
 #include "IFontResource.h"
-#include "LoadableResource.h"
 
 
 namespace Dx
 {
-  class FontResource : public LoadableResource, public IFontResource
+  class FontResource : public IFontResource
   {
   public:
     FontResource(fs::path i_fontFilePath);

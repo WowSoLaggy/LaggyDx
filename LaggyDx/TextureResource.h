@@ -3,7 +3,6 @@
 #include "ImageAnimation.h"
 #include "ImageDescription.h"
 #include "ITextureResource.h"
-#include "LoadableResource.h"
 
 #include <unordered_map>
 
@@ -13,7 +12,7 @@ struct ID3D11ShaderResourceView;
 
 namespace Dx
 {
-  class TextureResource : public LoadableResource, public ITextureResource
+  class TextureResource : public ITextureResource
   {
   public:
     TextureResource(fs::path i_textureFilePath);

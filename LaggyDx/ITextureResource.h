@@ -1,17 +1,16 @@
 #pragma once
 
 #include "LaggyDxFwd.h"
+#include "LoadableResource.h"
 
 #include <LaggySdk/Vector.h>
 
 
 namespace Dx
 {
-  class ITextureResource
+  class ITextureResource : public LoadableResource
   {
   public:
-    virtual ~ITextureResource() = default;
-
     virtual fs::path getFilename() const = 0;
 
     virtual const ImageDescription& getDescription() const = 0;

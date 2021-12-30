@@ -1,11 +1,11 @@
 #pragma once
 
+#include "LoadableResource.h"
+
 
 namespace Dx
 {
-  class IPixelShaderResource
+  class IPixelShaderResource : public LoadableResource
   {
-  public:
-    virtual ~IPixelShaderResource() = default;
   };
 } // ns Dx

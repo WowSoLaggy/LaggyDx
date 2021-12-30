@@ -1,11 +1,11 @@
 #pragma once
 
+#include "LoadableResource.h"
+
 
 namespace Dx
 {
-  class IMeshResourceCmo
+  class IMeshResourceCmo : public LoadableResource
   {
-  public:
-    virtual ~IMeshResourceCmo() = default;
   };
 } // ns Dx

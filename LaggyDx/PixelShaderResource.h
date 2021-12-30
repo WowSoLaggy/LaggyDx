@@ -1,12 +1,11 @@
 #pragma once
 
 #include "IPixelShaderResource.h"
-#include "LoadableResource.h"
 
 
 namespace Dx
 {
-  class PixelShaderResource : public LoadableResource, public IPixelShaderResource
+  class PixelShaderResource : public IPixelShaderResource
   {
   public:
     PixelShaderResource(fs::path i_shaderFilePath);

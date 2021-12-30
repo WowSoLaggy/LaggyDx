@@ -1,12 +1,11 @@
 #pragma once
 
 #include "IMeshResourceCmo.h"
-#include "LoadableResource.h"
 
 
 namespace Dx
 {
-  class MeshResourceCmo : public LoadableResource, public IMeshResourceCmo
+  class MeshResourceCmo : public IMeshResourceCmo
   {
   public:
     MeshResourceCmo(fs::path i_meshFilePath);

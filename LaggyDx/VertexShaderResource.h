@@ -1,12 +1,11 @@
 #pragma once
 
 #include "IVertexShaderResource.h"
-#include "LoadableResource.h"
 
 
 namespace Dx
 {
-  class VertexShaderResource : public LoadableResource, public IVertexShaderResource
+  class VertexShaderResource : public IVertexShaderResource
   {
   public:
     VertexShaderResource(fs::path i_shaderFilePath);

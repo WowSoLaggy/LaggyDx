@@ -6,6 +6,8 @@
 
 namespace Dx
 {
+  using ResourcesMap = std::unordered_map<std::string, std::shared_ptr<ILoadableResource>>;
+
   class ResourceController : public IResourceController
   {
   public:
@@ -26,11 +28,7 @@ namespace Dx
 
     fs::path d_resourceFolder;
 
-    std::unordered_map<std::string, std::shared_ptr<MeshResourceCmo>> d_meshResourcesMap;
-    std::unordered_map<std::string, std::shared_ptr<TextureResource>> d_textureResourcesMap;
-    std::unordered_map<std::string, std::shared_ptr<PixelShaderResource>> d_pixelShaderResourcesMap;
-    std::unordered_map<std::string, std::shared_ptr<VertexShaderResource>> d_vertexShaderResourcesMap;
-    std::unordered_map<std::string, std::shared_ptr<FontResource>> d_fontResourcesMap;
+    ResourcesMap d_resources;
 
     void loadResource(ILoadableResource& i_resource) const;
     void indexResourcesInDir(const fs::path& i_dirName);

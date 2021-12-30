@@ -1,11 +1,11 @@
 #pragma once
 
+#include "LoadableResource.h"
+
 
 namespace Dx
 {
-  class IVertexShaderResource
+  class IVertexShaderResource : public LoadableResource
   {
-  public:
-    virtual ~IVertexShaderResource() = default;
   };
 } // ns Dx
