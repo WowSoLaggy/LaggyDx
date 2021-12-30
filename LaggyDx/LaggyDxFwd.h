@@ -52,7 +52,7 @@ namespace Dx
   class IObject;
   class IObject2;
   class IObject3;
-  class ObjectBase;
+  class Object2Base;
 
   class IShape;
 

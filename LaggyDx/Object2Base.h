@@ -7,10 +7,10 @@
 
 namespace Dx
 {
-  class ObjectBase : public IObject2
+  class Object2Base : public IObject2
   {
   public:
-    ObjectBase();
+    Object2Base();
 
     virtual void setTexture(const std::string& i_textureName) override;
 

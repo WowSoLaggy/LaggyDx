@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "ObjectBase.h"
+#include "Object2Base.h"
 
 #include "CollShapeMover.h"
 #include "Game.h"
@@ -11,7 +11,7 @@
 
 namespace Dx
 {
-  ObjectBase::ObjectBase()
+  Object2Base::Object2Base()
     : d_scale(Sdk::Vector2D::identity())
     , d_collider(std::make_shared<StaticCollider>(*this))
   {
@@ -20,7 +20,7 @@ namespace Dx
   }
 
 
-  void ObjectBase::setTexture(const std::string& i_textureName)
+  void Object2Base::setTexture(const std::string& i_textureName)
   {
     auto& rc = Game::get().getResourceController();
     const auto& texture = rc.getTextureResource(i_textureName);
@@ -32,103 +32,103 @@ namespace Dx
   }
 
 
-  void ObjectBase::setPosition(Sdk::Vector2D i_position)
+  void Object2Base::setPosition(Sdk::Vector2D i_position)
   {
     d_position = std::move(i_position);
 
     updateTranslation();
   }
 
-  const Sdk::Vector2D& ObjectBase::getPosition() const
+  const Sdk::Vector2D& Object2Base::getPosition() const
   {
     return d_position;
   }
 
-  Sdk::Vector2F ObjectBase::getPositionF() const
+  Sdk::Vector2F Object2Base::getPositionF() const
   {
     return { (float)d_position.x, (float)d_position.y };
   }
 
 
-  void ObjectBase::setSpeed(Sdk::Vector2D i_speed)
+  void Object2Base::setSpeed(Sdk::Vector2D i_speed)
   {
     d_speed = std::move(i_speed);
   }
 
-  const Sdk::Vector2D& ObjectBase::getSpeed() const
+  const Sdk::Vector2D& Object2Base::getSpeed() const
   {
     return d_speed;
   }
 
-  Sdk::Vector2F ObjectBase::getSpeedF() const
+  Sdk::Vector2F Object2Base::getSpeedF() const
   {
     return { (float)d_speed.x, (float)d_speed.y };
   }
 
 
-  void ObjectBase::setAccel(Sdk::Vector2D i_speed)
+  void Object2Base::setAccel(Sdk::Vector2D i_speed)
   {
     d_accel = std::move(i_speed);
   }
 
-  const Sdk::Vector2D& ObjectBase::getAccel() const
+  const Sdk::Vector2D& Object2Base::getAccel() const
   {
     return d_accel;
   }
 
-  Sdk::Vector2F ObjectBase::getAccelF() const
+  Sdk::Vector2F Object2Base::getAccelF() const
   {
     return { (float)d_accel.x, (float)d_accel.y };
   }
 
 
-  void ObjectBase::setRotation(const double i_rotation)
+  void Object2Base::setRotation(const double i_rotation)
   {
     d_sprite.setRotation(i_rotation);
   }
 
-  double ObjectBase::getRotation() const
+  double Object2Base::getRotation() const
   {
     return d_sprite.getRotation();
   }
 
 
-  void ObjectBase::setColor(Sdk::Vector4F i_color)
+  void Object2Base::setColor(Sdk::Vector4F i_color)
   {
     d_color = i_color;
     d_sprite.setColor(std::move(i_color));
   }
 
-  const Sdk::Vector4F& ObjectBase::getColor() const
+  const Sdk::Vector4F& Object2Base::getColor() const
   {
     return d_color;
   }
 
 
 
-  void ObjectBase::setScale(Sdk::Vector2D i_scale)
+  void Object2Base::setScale(Sdk::Vector2D i_scale)
   {
     d_scale = std::move(i_scale);
   }
 
-  const Sdk::Vector2D& ObjectBase::getScale() const
+  const Sdk::Vector2D& Object2Base::getScale() const
   {
     return d_scale;
   }
 
 
-  const Sprite& ObjectBase::getSprite() const
+  const Sprite& Object2Base::getSprite() const
   {
     return d_sprite;
   }
 
 
-  void ObjectBase::onCollide(const CollisionInfo& i_collInfo)
+  void Object2Base::onCollide(const CollisionInfo& i_collInfo)
   {
     // nop
   }
 
-  CollisionShape ObjectBase::getPositionedCollisionShape() const
+  CollisionShape Object2Base::getPositionedCollisionShape() const
   {
     const auto collider = getCollider();
     CONTRACT_EXPECT(collider);
@@ -137,18 +137,18 @@ namespace Dx
     return positionedCollisionShape;
   }
 
-  std::shared_ptr<ICollider> ObjectBase::getCollider() const
+  std::shared_ptr<ICollider> Object2Base::getCollider() const
   {
     return d_collider;
   }
 
-  void ObjectBase::setCollider(std::shared_ptr<ICollider> i_collider)
+  void Object2Base::setCollider(std::shared_ptr<ICollider> i_collider)
   {
     d_collider = i_collider;
   }
 
 
-  void ObjectBase::render(IRenderer2d& i_renderer) const
+  void Object2Base::render(IRenderer2d& i_renderer) const
   {
     Renderer2dGuard rendererGuard(i_renderer,
                                   { (float)d_translation.x, (float)d_translation.y },
@@ -161,25 +161,25 @@ namespace Dx
     renderWithGuard(i_renderer);
   }
 
-  void ObjectBase::renderWithGuard(IRenderer2d& i_renderer) const
+  void Object2Base::renderWithGuard(IRenderer2d& i_renderer) const
   {
     i_renderer.renderSprite(d_sprite);
   }
 
 
-  void ObjectBase::update(const double i_dt)
+  void Object2Base::update(const double i_dt)
   {
   }
 
 
-  void ObjectBase::updateTranslation()
+  void Object2Base::updateTranslation()
   {
     d_translation = {
       d_position.x - (double)d_sprite.getSize().x / 2,
       d_position.y - (double)d_sprite.getSize().y / 2 };
   }
 
-  void ObjectBase::updateRotationOrigin()
+  void Object2Base::updateRotationOrigin()
   {
     d_origin = {
       (double)d_sprite.getSize().x / 2,

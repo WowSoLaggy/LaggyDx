@@ -210,7 +210,7 @@
     <ClInclude Include="MouseKeys.h" />
     <ClInclude Include="MouseKeysState.h" />
     <ClInclude Include="MouseState.h" />
-    <ClInclude Include="ObjectBase.h" />
+    <ClInclude Include="Object2Base.h" />
     <ClInclude Include="ObjectCollection.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="PsBinResource.h" />
@@ -279,7 +279,7 @@
     <ClCompile Include="MeshLoader.cpp" />
     <ClCompile Include="MeshResourceCmo.cpp" />
     <ClCompile Include="MouseState.cpp" />
-    <ClCompile Include="ObjectBase.cpp" />
+    <ClCompile Include="Object2Base.cpp" />
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="PsBinResource.cpp" />
     <ClCompile Include="PsResource.cpp" />

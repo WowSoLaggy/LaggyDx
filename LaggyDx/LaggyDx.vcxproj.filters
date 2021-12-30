@@ -222,7 +222,7 @@
     <ClInclude Include="IObject.h">
       <Filter>src\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectBase.h">
+    <ClInclude Include="Object2Base.h">
       <Filter>src\Objects</Filter>
     </ClInclude>
     <ClInclude Include="IShape.h">
@@ -446,7 +446,7 @@
     <ClCompile Include="Game.cpp">
       <Filter>src\Game</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectBase.cpp">
+    <ClCompile Include="Object2Base.cpp">
       <Filter>src\Objects</Filter>
     </ClCompile>
     <ClCompile Include="Shape.cpp">
