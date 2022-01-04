@@ -12,13 +12,19 @@ namespace Dx
     virtual const Sdk::Vector2F& getPosition() const override;
 
     virtual void setSize(Sdk::Vector2F i_size) override;
-    virtual const Sdk::Vector2F& getSize() const override;
+    virtual Sdk::Vector2F getSize() const override;
+
+    virtual Sdk::RectF getRect() const override;
 
     virtual void setOpacity(double i_opacity) override;
     virtual double getOpacity() const override;
 
     virtual void render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_parentPos) const override;
     virtual void update(double i_dt) override;
+
+    virtual void onMouseMove() override;
+    virtual void onMouseClick(MouseKey i_key) override;
+    virtual void onMouseRelease(MouseKey i_key) override;
 
     virtual void addEffect(std::shared_ptr<IGuiEffect> i_effect) override;
 

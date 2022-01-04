@@ -124,7 +124,7 @@ namespace Dx
     double dt = d_timer.restart();
 
     handleKeyboard(d_inputDevice->checkKeyboard());
-    d_inputDevice->checkMouse();
+    handleMouse(d_inputDevice->checkMouse());
 
     update(dt);
 
@@ -226,6 +226,38 @@ namespace Dx
       if (const auto* action = d_actionsMap.getAction(key, ActionType::Continuous))
         action->operator()();
     }
+  }
+
+  void Game::handleMouse(const Dx::MouseState& i_mouseState)
+  {
+    if (i_mouseState.getPosition() != d_mouseState.getPosition())
+      onMouseMove();
+
+    for (const auto key : { MouseKey::Left, MouseKey::Right, MouseKey::Middle, MouseKey::X1, MouseKey::X2 })
+    {
+      const auto state = i_mouseState.getButtonState(key);
+      if (state == Dx::MouseButtonState::Pressed)
+        onMouseClick(key);
+      else if (state == Dx::MouseButtonState::Released)
+        onMouseRelease(key);
+    }
+
+    d_mouseState = i_mouseState;
+  }
+
+  void Game::onMouseMove()
+  {
+    d_form.onMouseMove();
+  }
+
+  void Game::onMouseClick(MouseKey i_key)
+  {
+    d_form.onMouseClick(i_key);
+  }
+
+  void Game::onMouseRelease(MouseKey i_key)
+  {
+    d_form.onMouseRelease(i_key);
   }
 
 } // ns Dx

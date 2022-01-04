@@ -9,7 +9,7 @@ namespace Dx
   class Label : public Control
   {
   public:
-    void setText(std::string i_text);
+    virtual void setText(std::string i_text);
     const std::string& getText() const;
 
     void setFont(const std::string& i_fontName);

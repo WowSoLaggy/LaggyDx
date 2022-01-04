@@ -1,5 +1,6 @@
 #pragma once
 
+#include "MouseKeys.h"
 #include "MouseKeysState.h"
 
 #include <LaggySdk/Vector.h>
@@ -13,7 +14,7 @@ namespace Dx
     Relative = 1,
   };
 
-  enum class ButtonState
+  enum class MouseButtonState
   {
     Up        = 0,  // Button is up
     Held      = 1,  // Button is held down
@@ -26,11 +27,13 @@ namespace Dx
   public:
     MouseState();
 
-    ButtonState getLeftButtonState() const { return d_leftButtonState; }
-    ButtonState getMiddleButtonState() const { return d_middleButtonState; }
-    ButtonState getRightButtonState() const { return d_rightButtonState; }
-    ButtonState getXButton1State() const { return d_xButton1State; }
-    ButtonState getXButton2State() const { return d_xButton2State; }
+    MouseButtonState getLeftButtonState() const { return d_leftButtonState; }
+    MouseButtonState getMiddleButtonState() const { return d_middleButtonState; }
+    MouseButtonState getRightButtonState() const { return d_rightButtonState; }
+    MouseButtonState getXButton1State() const { return d_xButton1State; }
+    MouseButtonState getXButton2State() const { return d_xButton2State; }
+
+    MouseButtonState getButtonState(MouseKey i_key) const;
 
     const Sdk::Vector2I& getPosition() const { return d_mousePosition; }
     int getWheelPosition() const { return d_wheelPosition; }
@@ -43,11 +46,11 @@ namespace Dx
     const MouseMode getMode() const { return d_mode; }
 
   private:
-    ButtonState d_leftButtonState;
-    ButtonState d_middleButtonState;
-    ButtonState d_rightButtonState;
-    ButtonState d_xButton1State;
-    ButtonState d_xButton2State;
+    MouseButtonState d_leftButtonState;
+    MouseButtonState d_middleButtonState;
+    MouseButtonState d_rightButtonState;
+    MouseButtonState d_xButton1State;
+    MouseButtonState d_xButton2State;
 
     Sdk::Vector2I d_mousePosition;
     int d_wheelPosition = 0;

@@ -345,6 +345,12 @@
     <ClInclude Include="_ShaderUtils.h">
       <Filter>src\Resources\ShaderResources</Filter>
     </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>src\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Layout.h">
+      <Filter>src\Gui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -532,6 +538,12 @@
     </ClCompile>
     <ClCompile Include="_ShaderUtils.cpp">
       <Filter>src\Resources\ShaderResources</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>src\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Layout.cpp">
+      <Filter>src\Gui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

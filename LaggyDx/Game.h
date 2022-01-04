@@ -8,6 +8,7 @@
 #include "IRenderer2d.h"
 #include "IResourceController.h"
 #include "LaggyDxFwd.h"
+#include "MouseState.h"
 #include "ObjectCollection.h"
 
 #include <LaggySdk/Timer.h>
@@ -84,10 +85,17 @@ namespace Dx
     ActionsMap d_actionsMap;
     CollisionManager d_collisionManager;
 
+    Dx::MouseState d_mouseState;
+
     Form d_form;
 
     void mainloop();
-    void handleKeyboard(const Dx::KeyboardState& i_keyboardState);
+    void handleKeyboard(const KeyboardState& i_keyboardState);
+    void handleMouse(const MouseState& i_mouseState);
+
+    void onMouseMove();
+    void onMouseClick(MouseKey i_key);
+    void onMouseRelease(MouseKey i_key);
   };
 
 } // ns Dx
