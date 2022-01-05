@@ -71,8 +71,6 @@ namespace Dx
 
   ObjectCollection<IObject2>& Game::getObject2Collection() { return d_object2Collection; }
   const ObjectCollection<IObject2>& Game::getObject2Collection() const { return d_object2Collection; }
-  ObjectCollection<IObject3>& Game::getObject3Collection() { return d_object3Collection; }
-  const ObjectCollection<IObject3>& Game::getObject3Collection() const { return d_object3Collection; }
 
   ActionsMap& Game::getActionsMap() { return d_actionsMap; }
   const ActionsMap& Game::getActionsMap() const { return d_actionsMap; }
@@ -146,13 +144,6 @@ namespace Dx
 
   void Game::updateObjects(const double i_dt)
   {
-    for (const auto& obj : d_object3Collection.getObjects())
-    {
-      beforeObjectUpdate(*obj, i_dt);
-      obj->update(i_dt);
-      afterObjectUpdate(*obj, i_dt);
-    }
-
     for (const auto& obj : d_object2Collection.getObjects())
     {
       beforeObjectUpdate(*obj, i_dt);
@@ -187,8 +178,6 @@ namespace Dx
 
   void Game::renderObjects()
   {
-    for (const auto& obj : d_object3Collection.getObjects())
-      renderObject(*obj);
     for (const auto& obj : d_object2Collection.getObjects())
       renderObject(*obj);
   }

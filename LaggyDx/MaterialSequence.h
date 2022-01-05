@@ -1,29 +1,19 @@
 #pragma once
 
-#include "Material.h"
+#include "IMaterialSequence.h"
 
 
 namespace Dx
 {
-  struct MaterialSpan
-  {
-    Material material;
-
-    int startIndex;
-    int count;
-  };
-
-  class MaterialSequence
+  class MaterialSequence : public IMaterialSequence
   {
   public:
-
     void clear();
     void add(const MaterialSpan& i_materialSpan);
 
-    const std::vector<MaterialSpan>& getMaterialSpans() const { return d_materialSpans; }
+    virtual const std::vector<MaterialSpan>& getMaterialSpans() const override { return d_materialSpans; }
 
   private:
-
     std::vector<MaterialSpan> d_materialSpans;
   };
 

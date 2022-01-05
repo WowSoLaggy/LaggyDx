@@ -40,8 +40,6 @@ namespace Dx
 
     [[nodiscard]] ObjectCollection<IObject2>& getObject2Collection();
     [[nodiscard]] const ObjectCollection<IObject2>& getObject2Collection() const;
-    [[nodiscard]] ObjectCollection<IObject3>& getObject3Collection();
-    [[nodiscard]] const ObjectCollection<IObject3>& getObject3Collection() const;
 
     [[nodiscard]] ActionsMap& getActionsMap();
     [[nodiscard]] const ActionsMap& getActionsMap() const;
@@ -80,7 +78,6 @@ namespace Dx
     std::unique_ptr<IRenderer2d> d_renderer2d;
 
     ObjectCollection<IObject2> d_object2Collection;
-    ObjectCollection<IObject3> d_object3Collection;
 
     ActionsMap d_actionsMap;
     CollisionManager d_collisionManager;

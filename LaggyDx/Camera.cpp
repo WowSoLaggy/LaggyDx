@@ -119,7 +119,7 @@ namespace Dx
 
   void Camera::updateProjectionMatrix()
   {
-    float screenAspect = (float)d_viewportResolution.x / (float)d_viewportResolution.y;
+    const float screenAspect = (float)d_viewportResolution.x / (float)d_viewportResolution.y;
     d_projectionMatrix = XMMatrixPerspectiveFovRH(d_fovAngle, screenAspect,
       d_viewportMinZ, d_viewportMaxZ);
   }

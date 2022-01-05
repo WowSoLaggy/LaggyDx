@@ -1,15 +1,26 @@
 #pragma once
 
-#include "IObject.h"
+#include "LaggyDxFwd.h"
+
+#include <LaggySdk/Vector.h>
 
 
 namespace Dx
 {
-  class IObject3 : public IObject
+  class IObject3
   {
   public:
-    virtual void render() const = 0;
+    virtual ~IObject3() = default;
 
+    virtual const Sdk::Vector3F& getPosition() const = 0;
+    virtual const Sdk::Vector3F& getRotation() const = 0;
+    virtual const Sdk::Vector3F& getScale() const = 0;
+
+    virtual const VertexBuffer& getVertexBuffer() const = 0;
+    virtual const IndexBuffer& getIndexBuffer() const = 0;
+    virtual const IMaterialSequence& getMaterials() const = 0;
+
+    virtual const ITextureResource& getTextureResource() const = 0;
   };
 
 } // ns Dx

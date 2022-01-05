@@ -31,8 +31,8 @@ namespace Dx
 
     virtual const Sdk::Vector2I& getResolution() const override;
 
-    ID3D11Device* getDevicePtr() { return d_device; }
-    ID3D11DeviceContext* getDeviceContextPtr() { return d_deviceContext; }
+    ID3D11Device* getDevicePtr() const { return d_device; }
+    ID3D11DeviceContext* getDeviceContextPtr() const { return d_deviceContext; }
 
     void resetState();
 

@@ -6,7 +6,7 @@
 
 namespace Dx
 {
-  void IndexBuffer::create(IRenderDevice& i_renderDevice, const std::vector<int>& i_indices)
+  IndexBuffer::IndexBuffer(IRenderDevice& i_renderDevice, const std::vector<int>& i_indices)
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
 
@@ -28,7 +28,7 @@ namespace Dx
     renderDevice.getDevicePtr()->CreateBuffer(&indexBufferDesc, &indexData, &d_indexBuffer);
   }
 
-  void IndexBuffer::dispose()
+  IndexBuffer::~IndexBuffer()
   {
     d_indexBuffer->Release();
   }

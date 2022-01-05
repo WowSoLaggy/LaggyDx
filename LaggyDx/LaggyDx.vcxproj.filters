@@ -73,6 +73,9 @@
     <Filter Include="src\Collisions\Colliders">
       <UniqueIdentifier>{95bd1268-8c21-4d41-8e24-689f3bd3d304}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Renderers\SimpleRenderer">
+      <UniqueIdentifier>{bdeb37d4-b934-49c1-848d-99818b19d167}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Resources\ShaderResources">
       <UniqueIdentifier>{71c8206f-b8d7-4e03-a2f5-066873d01f2f}</UniqueIdentifier>
     </Filter>
@@ -315,6 +318,9 @@
     <ClInclude Include="IObject3.h">
       <Filter>src\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="SimpleRenderer.h">
+      <Filter>src\Renderers\SimpleRenderer</Filter>
+    </ClInclude>
     <ClInclude Include="VsResource.h">
       <Filter>src\Resources\ShaderResources</Filter>
     </ClInclude>
@@ -365,6 +371,18 @@
     </ClInclude>
     <ClInclude Include="miniz.h">
       <Filter>libs</Filter>
+    </ClInclude>
+    <ClInclude Include="IMaterialSequence.h">
+      <Filter>src\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Object3.h">
+      <Filter>src\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialSpan.h">
+      <Filter>src\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="ISimpleRenderer.h">
+      <Filter>src\Renderers\SimpleRenderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -530,6 +548,9 @@
     <ClCompile Include="ColliderBase.cpp">
       <Filter>src\Collisions\Colliders</Filter>
     </ClCompile>
+    <ClCompile Include="SimpleRenderer.cpp">
+      <Filter>src\Renderers\SimpleRenderer</Filter>
+    </ClCompile>
     <ClCompile Include="VsResource.cpp">
       <Filter>src\Resources\ShaderResources</Filter>
     </ClCompile>
@@ -568,6 +589,12 @@
     </ClCompile>
     <ClCompile Include="miniz.cpp">
       <Filter>libs</Filter>
+    </ClCompile>
+    <ClCompile Include="Object3.cpp">
+      <Filter>src\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="ISimpleRenderer.cpp">
+      <Filter>src\Renderers\SimpleRenderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

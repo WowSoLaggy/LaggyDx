@@ -11,6 +11,7 @@ namespace Dx
   class IRenderer;
   class IRenderer2d;
   class IRenderer3d;
+  class ISimpleRenderer;
 
   class IResourceController;
   class ILoadableResource;
@@ -31,6 +32,7 @@ namespace Dx
 
   struct Material;
   struct MaterialSpan;
+  class IMaterialSequence;
   class MaterialSequence;
 
   class IAnimationController3d;
@@ -52,8 +54,9 @@ namespace Dx
 
   class IObject;
   class IObject2;
-  class IObject3;
   class Object2Base;
+  class IObject3;
+  class Object3;
 
   class IShape;
 

@@ -10,6 +10,7 @@ namespace Dx
   public:
     virtual void addChild(std::shared_ptr<TreeNode> i_child) override;
     virtual void removeChild(TreeNode& i_child) override;
+    virtual void removeChildren() override;
 
     void setOffset(int i_offset);
     void setOffsetFromBorder(int i_offsetFromBorder);

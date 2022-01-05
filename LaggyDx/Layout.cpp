@@ -16,6 +16,12 @@ namespace Dx
     onChildrenChanged();
   }
 
+  void Layout::removeChildren()
+  {
+    Control::removeChildren();
+    onChildrenChanged();
+  }
+
   
   void Layout::onChildrenChanged()
   {

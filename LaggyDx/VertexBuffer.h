@@ -20,7 +20,6 @@ namespace Dx
   private:
     int d_verticeCount = 0;
     ID3D11Buffer* d_vertexBuffer = nullptr;
-
   };
 
 } // ns Dx

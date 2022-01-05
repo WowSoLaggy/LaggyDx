@@ -186,6 +186,7 @@
     <ClInclude Include="IFontResource.h" />
     <ClInclude Include="IInputDevice.h" />
     <ClInclude Include="ImageDescription.h" />
+    <ClInclude Include="IMaterialSequence.h" />
     <ClInclude Include="IMeshResourceCmo.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="InputDevice.h" />
@@ -197,6 +198,7 @@
     <ClInclude Include="IRenderer2d.h" />
     <ClInclude Include="IRenderer3d.h" />
     <ClInclude Include="IShape.h" />
+    <ClInclude Include="ISimpleRenderer.h" />
     <ClInclude Include="ITextureResource.h" />
     <ClInclude Include="IVsResource.h" />
     <ClInclude Include="KeyboardKeys.h" />
@@ -209,6 +211,7 @@
     <ClInclude Include="LoadableResource.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialSequence.h" />
+    <ClInclude Include="MaterialSpan.h" />
     <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="MeshResourceCmo.h" />
     <ClInclude Include="miniz.h" />
@@ -216,6 +219,7 @@
     <ClInclude Include="MouseKeysState.h" />
     <ClInclude Include="MouseState.h" />
     <ClInclude Include="Object2Base.h" />
+    <ClInclude Include="Object3.h" />
     <ClInclude Include="ObjectCollection.h" />
     <ClInclude Include="ofbx.h" />
     <ClInclude Include="Panel.h" />
@@ -225,6 +229,7 @@
     <ClInclude Include="Projector.h" />
     <ClInclude Include="Renderer2d.h" />
     <ClInclude Include="Renderer2dGuard.h" />
+    <ClInclude Include="SimpleRenderer.h" />
     <ClInclude Include="Renderer3d.h" />
     <ClInclude Include="ICamera.h" />
     <ClInclude Include="IRenderDevice.h" />
@@ -256,8 +261,10 @@
     <ClCompile Include="AnimationController3d.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="FbxResource.cpp" />
+    <ClCompile Include="ISimpleRenderer.cpp" />
     <ClCompile Include="Layout.cpp" />
     <ClCompile Include="miniz.cpp" />
+    <ClCompile Include="Object3.cpp" />
     <ClCompile Include="ofbx.cpp" />
     <ClCompile Include="PsHlslResource.cpp" />
     <ClCompile Include="VsBinResource.cpp" />
@@ -297,6 +304,7 @@
     <ClCompile Include="Projector.cpp" />
     <ClCompile Include="Renderer2d.cpp" />
     <ClCompile Include="Renderer2dGuard.cpp" />
+    <ClCompile Include="SimpleRenderer.cpp" />
     <ClCompile Include="Renderer3d.cpp" />
     <ClCompile Include="ICamera.cpp" />
     <ClCompile Include="IRenderDevice.cpp" />
