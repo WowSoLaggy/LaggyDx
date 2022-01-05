@@ -9,7 +9,7 @@ namespace Dx
   {
   public:
     static ISimpleRenderer& getOrCreate(
-      const IRenderDevice& i_renderDevice,
+      IRenderDevice& i_renderDevice,
       const ICamera& i_camera,
       const IResourceController& i_resourceController);
 

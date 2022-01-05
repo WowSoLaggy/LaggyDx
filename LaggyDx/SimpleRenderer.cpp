@@ -17,7 +17,7 @@
 namespace Dx
 {
   SimpleRenderer::SimpleRenderer(
-    const IRenderDevice& i_renderDevice,
+    IRenderDevice& i_renderDevice,
     const ICamera& i_camera,
     const IResourceController& i_resourceController)
     : d_renderDevice(i_renderDevice)
@@ -36,6 +36,7 @@ namespace Dx
 
   void SimpleRenderer::draw(const IObject3& i_object)
   {
+    setRenderStates();
     setShaders();
     setBuffers(i_object);
     setMatrices(i_object);
@@ -82,6 +83,12 @@ namespace Dx
     d_lightBuffer = nullptr;
   }
 
+
+  void SimpleRenderer::setRenderStates()
+  {
+    auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
+    renderDevice.resetState();
+  }
 
   void SimpleRenderer::setShaders()
   {

@@ -89,7 +89,7 @@ namespace Dx
     };
 
     static const auto yVector = getVector({ 0, -1, 0 });
-    static const auto zVector = getVector({ 0, 0, -1 });
+    static const auto zVector = getVector({ 0, 0, 1 });
 
     XMFLOAT3 unitVector{ 1, 0, 0 };
 

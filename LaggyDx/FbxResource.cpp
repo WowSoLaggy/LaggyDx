@@ -26,7 +26,7 @@ namespace Dx
         VertexTypePosTexNorm vert;
         vert.position = { (float)vertices[i].x, (float)vertices[i].y, (float)vertices[i].z };
         vert.normal = { (float)normals[i].x, (float)normals[i].y, (float)normals[i].z };
-        vert.texture = { (float)uvs[i].x, (float)uvs[i].y };
+        vert.texture = { (float)uvs[i].x, 1.0f - (float)uvs[i].y }; // invert Y due to Blender FBX exporter specific :(
         verts.push_back(std::move(vert));
       }
 
@@ -120,8 +120,10 @@ namespace Dx
     const auto* geometry = mesh->getGeometry();
     CONTRACT_ASSERT(geometry);
     
-    d_vertexBuffer = std::make_unique<VertexBuffer>(i_renderDevice, getVertices(*geometry));
-    d_indexBuffer = std::make_unique<IndexBuffer>(i_renderDevice, getIndices(*geometry));
+    const auto verts = getVertices(*geometry);
+    const auto inds = getIndices(*geometry);
+    d_vertexBuffer = std::make_unique<VertexBuffer>(i_renderDevice, verts);
+    d_indexBuffer = std::make_unique<IndexBuffer>(i_renderDevice, inds);
 
     d_materials = getMaterialsFromMesh(*mesh);
 

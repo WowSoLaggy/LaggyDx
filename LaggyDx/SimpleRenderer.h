@@ -11,7 +11,7 @@ namespace Dx
   {
   public:
     SimpleRenderer(
-      const IRenderDevice& i_renderDevice,
+      IRenderDevice& i_renderDevice,
       const ICamera& i_camera,
       const IResourceController& i_resourceController);
     ~SimpleRenderer();
@@ -19,7 +19,7 @@ namespace Dx
     virtual void draw(const IObject3& i_object) override;
 
   private:
-    const IRenderDevice& d_renderDevice;
+    IRenderDevice& d_renderDevice;
     const ICamera& d_camera;
     const IPsResource& d_pixelShader;
     const IVsResource& d_vertexShader;
@@ -30,6 +30,7 @@ namespace Dx
     void createBuffers();
     void deleteBuffers();
 
+    void setRenderStates();
     void setShaders();
     void setBuffers(const IObject3& i_object);
     void setMatrices(const IObject3& i_object);
