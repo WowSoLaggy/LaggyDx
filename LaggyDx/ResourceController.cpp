@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ResourceController.h"
 
+#include "FbxResource.h"
 #include "FontResource.h"
 #include "MeshResourceCmo.h"
 #include "PsBinResource.h"
@@ -88,6 +89,14 @@ namespace Dx
     return res;
   }
 
+  const IFbxResource& ResourceController::getFbxResource(const std::string& i_resourceName) const
+  {
+    const std::string fullName = (d_resourceFolder / i_resourceName).string();
+    auto& res = getResource<IFbxResource>(d_resources, fullName);
+    loadResource(res);
+    return res;
+  }
+
 
   void ResourceController::loadResource(ILoadableResource& i_resource) const
   {
@@ -135,6 +144,7 @@ namespace Dx
       const std::regex psBinPattern("\\w*.(ps)$");
       const std::regex psHlslPattern("\\w*.(ps.hlsl)$");
       const std::regex fontPattern("\\w*.(spritefont)$");
+      const std::regex fbxPattern("\\w*.(fbx)$");
 
       const auto resourceName = i_dirName / pEntity->d_name;
 
@@ -152,6 +162,8 @@ namespace Dx
         d_resources.insert({ resourceName.string(), std::make_shared<PsHlslResource>(resourceName) });
       else if (std::regex_match(pEntity->d_name, fontPattern))
         d_resources.insert({ resourceName.string(), std::make_shared<FontResource>(resourceName) });
+      else if (std::regex_match(pEntity->d_name, fbxPattern))
+        d_resources.insert({ resourceName.string(), std::make_shared<FbxResource>(resourceName) });
     }
   }
 

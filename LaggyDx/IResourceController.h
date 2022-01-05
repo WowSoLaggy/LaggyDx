@@ -19,6 +19,7 @@ namespace Dx
     virtual const IPsResource& getPsResource(const std::string& i_resourceName) const = 0;
     virtual const IVsResource& getVsResource(const std::string& i_resourceName) const = 0;
     virtual const IFontResource& getFontResource(const std::string& i_resourceName) const = 0;
+    virtual const IFbxResource& getFbxResource(const std::string& i_resourceName) const = 0;
 
     virtual void loadResources() const = 0;
     virtual void unloadResources() const = 0;

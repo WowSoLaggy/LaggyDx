@@ -24,6 +24,7 @@ namespace Dx
   class VsResource;
   class IFontResource;
   class FontResource;
+  class IFbxResource;
 
   class VertexBuffer;
   class IndexBuffer;
@@ -81,4 +82,11 @@ namespace DirectX
   struct XMMATRIX;
 
   struct VertexPositionColor;
-}
+
+} // ns DirectX
+
+namespace ofbx
+{
+  struct IScene;
+
+} // ns ofbx

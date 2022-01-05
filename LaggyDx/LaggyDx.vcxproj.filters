@@ -82,6 +82,9 @@
     <Filter Include="src\Resources\LoadableResource">
       <UniqueIdentifier>{9f154164-f4b6-4047-bccc-156f2d1e57be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="libs">
+      <UniqueIdentifier>{7ccd6687-4778-48e8-8e0a-e7fa538c3909}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -351,6 +354,18 @@
     <ClInclude Include="Layout.h">
       <Filter>src\Gui</Filter>
     </ClInclude>
+    <ClInclude Include="IFbxResource.h">
+      <Filter>src\Resources\OtherResources</Filter>
+    </ClInclude>
+    <ClInclude Include="FbxResource.h">
+      <Filter>src\Resources\OtherResources</Filter>
+    </ClInclude>
+    <ClInclude Include="ofbx.h">
+      <Filter>libs</Filter>
+    </ClInclude>
+    <ClInclude Include="miniz.h">
+      <Filter>libs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -544,6 +559,15 @@
     </ClCompile>
     <ClCompile Include="Layout.cpp">
       <Filter>src\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="FbxResource.cpp">
+      <Filter>src\Resources\OtherResources</Filter>
+    </ClCompile>
+    <ClCompile Include="ofbx.cpp">
+      <Filter>libs</Filter>
+    </ClCompile>
+    <ClCompile Include="miniz.cpp">
+      <Filter>libs</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
