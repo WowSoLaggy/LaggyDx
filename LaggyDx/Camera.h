@@ -37,6 +37,8 @@ namespace Dx
     virtual Sdk::Vector3F getUp() const override { return d_up; }
     virtual void setUp(Sdk::Vector3F i_up) override;
 
+    virtual Sdk::Vector3F getPosition() const override;
+
     virtual Sdk::Vector3F getLeft() const override;
     virtual Sdk::Vector3F getRight() const override;
     virtual Sdk::Vector3F getForward() const override;
@@ -66,9 +68,6 @@ namespace Dx
 
     void updateProjectionMatrix();
     void updateViewMatrix();
-
-    Sdk::Vector3F getPosition() const;
-
   };
 
 } // ns Dx

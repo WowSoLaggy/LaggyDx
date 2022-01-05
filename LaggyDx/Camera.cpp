@@ -83,10 +83,21 @@ namespace Dx
 
   Sdk::Vector3F Camera::getPosition() const
   {
+    auto getVector = [](XMFLOAT3 i_vector)
+    {
+      return XMLoadFloat3(&i_vector);
+    };
+
+    static const auto yVector = getVector({ 0, -1, 0 });
+    static const auto zVector = getVector({ 0, 0, -1 });
+
     XMFLOAT3 unitVector{ 1, 0, 0 };
 
-    auto qRotation = XMQuaternionRotationRollPitchYaw(0, d_yaw, d_pitch);
-    XMStoreFloat3(&unitVector, XMVector3Rotate(XMLoadFloat3(&unitVector), qRotation));
+    const auto qRotationY = XMQuaternionRotationAxis(yVector, d_pitch);
+    const auto qRotationZ = XMQuaternionRotationAxis(zVector, d_yaw);
+
+    XMStoreFloat3(&unitVector, XMVector3Rotate(XMLoadFloat3(&unitVector), qRotationY));
+    XMStoreFloat3(&unitVector, XMVector3Rotate(XMLoadFloat3(&unitVector), qRotationZ));
 
     Sdk::Vector3F relativePosition{ unitVector.x * d_distance, unitVector.y * d_distance, unitVector.z * d_distance };
     return d_lookAt + relativePosition;
