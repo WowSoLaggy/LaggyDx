@@ -20,6 +20,7 @@ namespace Dx
 
     renderDevice.getDevicePtr()->CreateVertexShader(i_psBuffer->GetBufferPointer(),
       i_psBuffer->GetBufferSize(), NULL, &d_vertexShader);
+    CONTRACT_ASSERT(d_vertexShader != nullptr);
 
     // Input layout
 
@@ -53,6 +54,7 @@ namespace Dx
 
     renderDevice.getDevicePtr()->CreateInputLayout(polygonLayout, numElements,
       i_psBuffer->GetBufferPointer(), i_psBuffer->GetBufferSize(), &d_layout);
+    CONTRACT_ASSERT(d_layout != nullptr);
   }
 
   void VsResource::unload()

@@ -20,6 +20,7 @@ namespace Dx
 
     renderDevice.getDevicePtr()->CreatePixelShader(i_psBuffer->GetBufferPointer(),
       i_psBuffer->GetBufferSize(), NULL, &d_pixelShader);
+    CONTRACT_ASSERT(d_pixelShader != nullptr);
 
     // Sampler state
 
@@ -39,6 +40,7 @@ namespace Dx
     samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
     renderDevice.getDevicePtr()->CreateSamplerState(&samplerDesc, &d_sampleState);
+    CONTRACT_ASSERT(d_sampleState != nullptr);
   }
 
   void PsResource::unload()
