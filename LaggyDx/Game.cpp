@@ -1,8 +1,9 @@
 #include "stdafx.h"
 #include "Game.h"
 
-#include "ICollider.h"
+#include "Form.h"
 #include "GameSettings.h"
+#include "ICollider.h"
 #include "IObject.h"
 #include "IObject2.h"
 #include "IObject3.h"
@@ -48,6 +49,8 @@ namespace Dx
     d_inputDevice = IInputDevice::create(d_window->getHWnd());
     CONTRACT_ENSURE(d_inputDevice);
 
+    d_form = std::make_unique<Form>();
+
     Sdk::setCursorToCenter();
     d_window->show();
 
@@ -76,8 +79,8 @@ namespace Dx
   const ActionsMap& Game::getActionsMap() const { return d_actionsMap; }
   void Game::setActionsMap(ActionsMap i_actionsMap) { d_actionsMap = std::move(i_actionsMap); }
 
-  Control& Game::getForm() { return d_form; }
-  const Control& Game::getForm() const { return d_form; }
+  IControl& Game::getForm() { return *d_form; }
+  const IControl& Game::getForm() const { return *d_form; }
 
 
   void Game::run()
@@ -166,7 +169,7 @@ namespace Dx
 
   void Game::updateGui(const double i_dt)
   {
-    d_form.update(i_dt);
+    getForm().update(i_dt);
   }
 
 
@@ -192,7 +195,7 @@ namespace Dx
   void Game::renderGui()
   {
     Renderer2dGuard renderer2dGuard(*d_renderer2d);
-    d_form.render(*d_renderer2d);
+    getForm().render(*d_renderer2d, Sdk::Vector2F::zero());
   }
 
 
@@ -236,17 +239,17 @@ namespace Dx
 
   void Game::onMouseMove()
   {
-    d_form.onMouseMove();
+    getForm().onMouseMove();
   }
 
   void Game::onMouseClick(MouseKey i_key)
   {
-    d_form.onMouseClick(i_key);
+    getForm().onMouseClick(i_key);
   }
 
   void Game::onMouseRelease(MouseKey i_key)
   {
-    d_form.onMouseRelease(i_key);
+    getForm().onMouseRelease(i_key);
   }
 
 } // ns Dx

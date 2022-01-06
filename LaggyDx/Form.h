@@ -7,8 +7,6 @@ namespace Dx
 {
   class Form : public Control
   {
-  public:
-    void render(IRenderer2d& i_renderer) const;
   };
 
 } // Dx

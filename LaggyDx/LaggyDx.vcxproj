@@ -277,7 +277,6 @@
     <ClCompile Include="DynamicCollider.cpp" />
     <ClCompile Include="FadeOutEffect.cpp" />
     <ClCompile Include="FontResource.cpp" />
-    <ClCompile Include="Form.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GuiEffect.cpp" />
     <ClCompile Include="IAnimationController3d.cpp" />

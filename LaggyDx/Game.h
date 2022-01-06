@@ -2,7 +2,6 @@
 
 #include "ActionsMap.h"
 #include "CollisionManager.h"
-#include "Form.h"
 #include "IInputDevice.h"
 #include "IRenderDevice.h"
 #include "IRenderer2d.h"
@@ -45,8 +44,8 @@ namespace Dx
     [[nodiscard]] const ActionsMap& getActionsMap() const;
     void setActionsMap(ActionsMap i_actionsMap);
 
-    [[nodiscard]] Control& getForm();
-    [[nodiscard]] const Control& getForm() const;
+    [[nodiscard]] IControl& getForm();
+    [[nodiscard]] const IControl& getForm() const;
 
   protected:
     virtual void onGameStart();
@@ -84,7 +83,7 @@ namespace Dx
 
     Dx::MouseState d_mouseState;
 
-    Form d_form;
+    std::unique_ptr<IControl> d_form;
 
     void mainloop();
     void handleKeyboard(const KeyboardState& i_keyboardState);

@@ -515,9 +515,6 @@
     <ClCompile Include="Text.cpp">
       <Filter>src\Gui</Filter>
     </ClCompile>
-    <ClCompile Include="Form.cpp">
-      <Filter>src\Gui</Filter>
-    </ClCompile>
     <ClCompile Include="FadeOutEffect.cpp">
       <Filter>src\GuiEffects</Filter>
     </ClCompile>
