@@ -5,13 +5,14 @@
 #include "KeyboardKeys.h"
 #include "MouseKeys.h"
 
+#include <LaggySdk/PairHash.h>
+
 
 namespace Dx
 {
   class ActionsMap
   {
   public:
-    [[nodiscard]] bool isKeyBinded(Dx::KeyboardKey i_key) const;
     [[nodiscard]] bool isKeyBinded(Dx::KeyboardKey i_key, ActionType i_actionType) const;
     [[nodiscard]] bool isKeyBinded(Dx::MouseKey i_key) const;
 
@@ -20,7 +21,7 @@ namespace Dx
     [[nodiscard]] const Action* getAction(Dx::KeyboardKey i_key, ActionType i_actionType) const;
     [[nodiscard]] const Action* getAction(Dx::MouseKey i_key) const;
   private:
-    std::unordered_map<Dx::KeyboardKey, std::pair<Action, ActionType>> d_keyboardMap;
+    std::unordered_map<std::pair<Dx::KeyboardKey, ActionType>, Action, Sdk::PairHash> d_keyboardMap;
     std::unordered_map<Dx::MouseKey, Action> d_mouseMap;
   };
 
