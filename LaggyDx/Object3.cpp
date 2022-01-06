@@ -6,7 +6,7 @@
 
 namespace Dx
 {
-  const Sdk::Vector3F& Object3::getPosition() const { return d_position; }
+  Sdk::Vector3F Object3::getPosition() const { return d_position; }
   const Sdk::Vector3F& Object3::getRotation() const { return d_rotation; }
   const Sdk::Vector3F& Object3::getScale() const { return d_scale; }
   void Object3::setPosition(Sdk::Vector3F i_position) { d_position = std::move(i_position); }

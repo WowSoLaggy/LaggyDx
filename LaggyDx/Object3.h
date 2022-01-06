@@ -10,7 +10,7 @@ namespace Dx
   class Object3 : public IObject3
   {
   public:
-    virtual const Sdk::Vector3F& getPosition() const override;
+    virtual Sdk::Vector3F getPosition() const override;
     virtual const Sdk::Vector3F& getRotation() const override;
     virtual const Sdk::Vector3F& getScale() const override;
     void setPosition(Sdk::Vector3F i_position);
