@@ -107,7 +107,7 @@ namespace Dx
   Sdk::Vector3F Camera::getLeft() const
   {
     auto left = getUp();
-    left.cross(getForward());
+    left = left.cross(getForward());
     left.normalize();
     return left;
   }
