@@ -47,6 +47,9 @@ namespace Dx
   {
     d_sampleState->Release();
     d_pixelShader->Release();
+
+    d_sampleState = nullptr;
+    d_pixelShader = nullptr;
   }
 
 } // ns Dx

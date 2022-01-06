@@ -132,6 +132,9 @@ namespace Dx
 
   void FbxResource::unload()
   {
+    d_vertexBuffer.reset();
+    d_indexBuffer.reset();
+    d_materials.clear();
   }
 
 } // ns Dx
