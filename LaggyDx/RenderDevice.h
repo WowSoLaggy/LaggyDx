@@ -54,20 +54,20 @@ namespace Dx
     Sdk::Vector2I d_resolution;
     float d_clearColor[4] = { 0.396f, 0.612f, 0.937f, 1.0f };
 
-    FillMode d_fillMode;
+    FillMode d_fillMode = FillMode::Solid;
 
-    HWND d_hWnd;
+    HWND d_hWnd = nullptr;
 
-    int d_videoCardMemory;
+    int d_videoCardMemory = 0;
     char d_videoCardDescription[128];
-    IDXGISwapChain* d_swapChain;
-    ID3D11Device* d_device;
-    ID3D11DeviceContext* d_deviceContext;
-    ID3D11RenderTargetView* d_renderTargetView;
-    ID3D11Texture2D* d_depthStencilBuffer;
-    ID3D11DepthStencilState* d_depthStencilState;
-    ID3D11DepthStencilView* d_depthStencilView;
-    ID3D11RasterizerState* d_rasterState;
+    IDXGISwapChain* d_swapChain = nullptr;
+    ID3D11Device* d_device = nullptr;
+    ID3D11DeviceContext* d_deviceContext = nullptr;
+    ID3D11RenderTargetView* d_renderTargetView = nullptr;
+    ID3D11Texture2D* d_depthStencilBuffer = nullptr;
+    ID3D11DepthStencilState* d_depthStencilState = nullptr;
+    ID3D11DepthStencilView* d_depthStencilView = nullptr;
+    ID3D11RasterizerState* d_rasterState = nullptr;
 
     std::unique_ptr<DirectX::CommonStates> d_states;
   };
