@@ -13,8 +13,8 @@ namespace Dx
     virtual ~IObject3() = default;
 
     virtual Sdk::Vector3F getPosition() const = 0;
-    virtual const Sdk::Vector3F& getRotation() const = 0;
-    virtual const Sdk::Vector3F& getScale() const = 0;
+    virtual Sdk::Vector3F getRotation() const = 0;
+    virtual Sdk::Vector3F getScale() const = 0;
 
     virtual const VertexBuffer& getVertexBuffer() const = 0;
     virtual const IndexBuffer& getIndexBuffer() const = 0;

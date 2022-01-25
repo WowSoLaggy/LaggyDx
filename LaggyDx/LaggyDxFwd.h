@@ -47,7 +47,7 @@ namespace Dx
   class AnimatedSprite;
   struct ImageDescription;
   struct ImageAnimation;
-  using AnimationsMap = std::unordered_map<std::string, ImageAnimation>;
+  using Animations2Map = std::unordered_map<std::string, ImageAnimation>;
 
   class Game;
   struct GameSettings;
@@ -69,6 +69,8 @@ namespace Dx
   struct CollisionInfo;
 
   class ICollider;
+
+  struct Animation;
 
 } // ns Dx
 

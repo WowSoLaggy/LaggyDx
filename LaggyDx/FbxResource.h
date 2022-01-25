@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Animation.h"
 #include "IFbxResource.h"
 #include "IndexBuffer.h"
 #include "LaggyDxFwd.h"
@@ -20,6 +21,7 @@ namespace Dx
     const VertexBuffer& getVertexBuffer() const;
     const IndexBuffer& getIndexBuffer() const;
     const IMaterialSequence& getMaterials() const;
+    const AnimationsMap& getAnimations() const;
 
   private:
     const fs::path d_filePath;
@@ -28,5 +30,6 @@ namespace Dx
     std::unique_ptr<IndexBuffer> d_indexBuffer;
 
     MaterialSequence d_materials;
+    AnimationsMap d_animations;
   };
 } // ns Dx

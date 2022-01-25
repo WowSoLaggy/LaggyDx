@@ -23,7 +23,7 @@ namespace Dx
     virtual fs::path getFilename() const override;
 
     virtual const ImageDescription& getDescription() const override { return d_description; }
-    virtual const AnimationsMap& getAnimationsMap() const override { return d_animations; }
+    virtual const Animations2Map& getAnimationsMap() const override { return d_animations; }
 
     virtual bool checkAlpha(Sdk::Vector2I i_coords, int i_frame = 0) const override;
 
@@ -35,7 +35,7 @@ namespace Dx
     ID3D11ShaderResourceView* d_texture = nullptr;
     D3D11_TEXTURE2D_DESC d_textureDesc;
     ImageDescription d_description;
-    AnimationsMap d_animations;
+    Animations2Map d_animations;
 
     bool d_solidAlpha = true;
     std::vector<bool> d_alphaMask;

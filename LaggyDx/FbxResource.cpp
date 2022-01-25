@@ -25,8 +25,10 @@ namespace Dx
       {
         VertexTypePosTexNorm vert;
         vert.position = { (float)vertices[i].x, (float)vertices[i].y, (float)vertices[i].z };
-        vert.normal = { (float)normals[i].x, (float)normals[i].y, (float)normals[i].z };
-        vert.texture = { (float)uvs[i].x, 1.0f - (float)uvs[i].y }; // invert Y due to Blender FBX exporter specific :(
+        if (normals)
+          vert.normal = { (float)normals[i].x, (float)normals[i].y, (float)normals[i].z };
+        if (uvs)
+          vert.texture = { (float)uvs[i].x, 1.0f - (float)uvs[i].y }; // invert Y due to Blender FBX exporter specific :(
         verts.push_back(std::move(vert));
       }
 
@@ -106,6 +108,10 @@ namespace Dx
   {
     return d_materials;
   }
+  const AnimationsMap& FbxResource::getAnimations() const
+  {
+    return d_animations;
+  }
 
   void FbxResource::load(IRenderDevice& i_renderDevice)
   {
@@ -126,6 +132,8 @@ namespace Dx
     d_indexBuffer = std::make_unique<IndexBuffer>(i_renderDevice, inds);
 
     d_materials = getMaterialsFromMesh(*mesh);
+
+    d_animations = importFromFbx(*scene);
 
     scene->destroy();
   }

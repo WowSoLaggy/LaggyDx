@@ -14,7 +14,7 @@ namespace Dx
     virtual fs::path getFilename() const = 0;
 
     virtual const ImageDescription& getDescription() const = 0;
-    virtual const AnimationsMap& getAnimationsMap() const = 0;
+    virtual const Animations2Map& getAnimationsMap() const = 0;
 
     virtual bool checkAlpha(Sdk::Vector2I i_coords, int i_frame = 0) const = 0;
   };
