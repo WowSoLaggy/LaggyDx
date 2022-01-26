@@ -68,8 +68,7 @@ namespace Dx
     ID3D11DepthStencilState* d_depthStencilState = nullptr;
     ID3D11DepthStencilView* d_depthStencilView = nullptr;
     ID3D11RasterizerState* d_rasterState = nullptr;
-
-    std::unique_ptr<DirectX::CommonStates> d_states;
+    ID3D11BlendState* d_blendState = nullptr;
   };
 
 } // ns Dx
