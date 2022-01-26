@@ -313,10 +313,21 @@ namespace Dx
     // Initialize the description of the stencil state
     D3D11_DEPTH_STENCIL_DESC depthStencilDesc = {};
 
-    // Set up the description of the stencil state.
+    // Set up the description of the stencil state
     depthStencilDesc.DepthEnable = true;
     depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
     depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+
+    depthStencilDesc.StencilEnable = FALSE;
+    depthStencilDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
+    depthStencilDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
+
+    depthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+    depthStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+    depthStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+    depthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+
+    depthStencilDesc.BackFace = depthStencilDesc.FrontFace;
 
     // Create the depth stencil state
     result = d_device->CreateDepthStencilState(&depthStencilDesc, &d_depthStencilState);
