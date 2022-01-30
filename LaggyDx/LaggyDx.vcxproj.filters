@@ -94,10 +94,7 @@
     <Filter Include="src\Model">
       <UniqueIdentifier>{c8170a72-b4dc-466c-b166-5b99e072a9cd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Utils">
-      <UniqueIdentifier>{2d287ab3-fc1b-43e3-8375-32e63df3c001}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Utils\OfbxSceneWrapper">
+    <Filter Include="src\OfbxSceneWrapper">
       <UniqueIdentifier>{cc00dc88-33c3-464a-aa4c-b5e7ce755153}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -409,7 +406,7 @@
       <Filter>src\Model</Filter>
     </ClInclude>
     <ClInclude Include="OfbxSceneWrapper.h">
-      <Filter>src\Utils\OfbxSceneWrapper</Filter>
+      <Filter>src\OfbxSceneWrapper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -630,7 +627,7 @@
       <Filter>src\Model</Filter>
     </ClCompile>
     <ClCompile Include="OfbxSceneWrapper.cpp">
-      <Filter>src\Utils\OfbxSceneWrapper</Filter>
+      <Filter>src\OfbxSceneWrapper</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
