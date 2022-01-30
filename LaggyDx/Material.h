@@ -9,12 +9,11 @@ namespace Dx
 {
   struct Material
   {
-    static Material getDefault() { return { "", { 1, 1, 1, 1}, {1, 1, 1, 1} }; }
-    
     std::string name;
 
-    Sdk::Vector4F ambientColor;
-    Sdk::Vector4F diffuseColor;
+    std::string textureName;
+    Sdk::Vector4F ambientColor = Sdk::Vector4F::identity();
+    Sdk::Vector4F diffuseColor = Sdk::Vector4F::identity();
   };
 
 } // ns Dx

@@ -67,28 +67,29 @@ namespace Dx
       const auto* geometry = i_mesh.getGeometry();
       CONTRACT_ASSERT(geometry);
 
-      const int* materials = geometry->getMaterials();
-      // TODO: ae
-      //if (!materials)
-      {
-        MaterialSpan matSpan;
-        matSpan.startIndex = 0;
-        matSpan.count = geometry->getIndexCount();
+      MaterialSpan matSpan;
+      matSpan.startIndex = 0;
+      matSpan.count = geometry->getIndexCount();
 
-        matSpan.material = Material::getDefault();
-        if (i_mesh.getMaterialCount() != 0)
+      if (i_mesh.getMaterialCount() != 0)
+      {
+        const auto* meshMaterial = i_mesh.getMaterial(0);
+
+        if (const auto* texture = meshMaterial->getTexture(ofbx::Texture::TextureType::DIFFUSE))
         {
-          const auto* meshMaterial = i_mesh.getMaterial(0);
-          matSpan.material.ambientColor = toColor(meshMaterial->getAmbientColor());
-          matSpan.material.diffuseColor = toColor(meshMaterial->getDiffuseColor());
+          char name[128];
+          texture->getFileName().toString(name);
+          fs::path filename(name);
+          matSpan.material.textureName = filename.filename().string();
         }
 
-        MaterialSequence matSeq;
-        matSeq.add(matSpan);
-        return matSeq;
+        matSpan.material.ambientColor = toColor(meshMaterial->getAmbientColor());
+        matSpan.material.diffuseColor = toColor(meshMaterial->getDiffuseColor());
       }
 
-      CONTRACT_ASSERT(false);
+      MaterialSequence matSeq;
+      matSeq.add(matSpan);
+      return matSeq;
     }
 
   } // anonym NS

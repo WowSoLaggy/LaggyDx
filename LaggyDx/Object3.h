@@ -18,7 +18,7 @@ namespace Dx
     void setScale(Sdk::Vector3F i_scale);
 
     virtual const IModel& getModel() const override;
-    virtual const ITextureResource& getTextureResource() const override;
+    virtual const ITextureResource* getTextureResource() const override;
     
     void setModel(const IModel& i_model);
     void setTextureResource(const ITextureResource& i_textureResource);

@@ -156,7 +156,7 @@ namespace Dx
     {
       auto itMat = std::find_if(materials.begin(), materials.end(),
         [&](const Material& i_material) { return i_material.name == it->second; });
-      Material material = itMat != materials.end() ? *itMat : Material::getDefault();
+      Material material = itMat != materials.end() ? *itMat : Material();
 
       if (std::next(it) != materialNamesMap.end())
       {

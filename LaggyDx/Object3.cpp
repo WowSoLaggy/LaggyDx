@@ -18,10 +18,9 @@ namespace Dx
     return *d_model;
   }
 
-  const ITextureResource& Object3::getTextureResource() const
+  const ITextureResource* Object3::getTextureResource() const
   {
-    CONTRACT_ASSERT(d_textureResource);
-    return *d_textureResource;
+    return d_textureResource;
   }
 
   void Object3::setModel(const IModel& i_model) { d_model= &i_model; }

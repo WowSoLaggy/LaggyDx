@@ -17,7 +17,7 @@ namespace Dx
     virtual Sdk::Vector3F getScale() const = 0;
 
     virtual const IModel& getModel() const = 0;
-    virtual const ITextureResource& getTextureResource() const = 0;
+    virtual const ITextureResource* getTextureResource() const = 0;
   };
 
 } // ns Dx

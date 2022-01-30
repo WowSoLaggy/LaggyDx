@@ -22,6 +22,7 @@ namespace Dx
     const ICamera& i_camera,
     const IResourceController& i_resourceController)
     : d_renderDevice(i_renderDevice)
+    , d_resourceController(i_resourceController)
     , d_camera(i_camera)
     , d_pixelShader(i_resourceController.getPsResource("SimpleShader.ps.hlsl"))
     , d_vertexShader(i_resourceController.getVsResource("SimpleShader.vs.hlsl"))
@@ -48,6 +49,7 @@ namespace Dx
 
       for (const auto& materialSpan : mesh.getMaterials().getMaterialSpans())
       {
+        setTexture(materialSpan.material);
         setMaterial(materialSpan.material);
         drawIndexed(materialSpan.count, materialSpan.startIndex);
       }
@@ -160,10 +162,26 @@ namespace Dx
 
   void SimpleRenderer::setTexture(const IObject3& i_object)
   {
-    const auto& renderDevice = dynamic_cast<const RenderDevice&>(d_renderDevice);
-    const auto& textureResource = dynamic_cast<const TextureResource&>(i_object.getTextureResource());
-    auto* texturePtr = textureResource.getTexturePtr();
-    renderDevice.getDeviceContextPtr()->PSSetShaderResources(0, 1, &texturePtr);
+    if (const auto* textureResource = dynamic_cast<const TextureResource*>(i_object.getTextureResource()))
+    {
+      auto* texturePtr = textureResource->getTexturePtr();
+
+      const auto& renderDevice = dynamic_cast<const RenderDevice&>(d_renderDevice);
+      renderDevice.getDeviceContextPtr()->PSSetShaderResources(0, 1, &texturePtr);
+    }
+  }
+
+  void SimpleRenderer::setTexture(const Material& i_material)
+  {
+    if (!i_material.textureName.empty())
+    {
+      const auto& texture = dynamic_cast<const TextureResource&>(
+        d_resourceController.getTextureResource(i_material.textureName));
+      auto* texturePtr = texture.getTexturePtr();
+
+      const auto& renderDevice = dynamic_cast<const RenderDevice&>(d_renderDevice);
+      renderDevice.getDeviceContextPtr()->PSSetShaderResources(0, 1, &texturePtr);
+    }
   }
 
   void SimpleRenderer::setMaterial(const Material& i_material)

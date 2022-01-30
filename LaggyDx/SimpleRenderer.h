@@ -20,6 +20,7 @@ namespace Dx
 
   private:
     IRenderDevice& d_renderDevice;
+    const IResourceController& d_resourceController;
     const ICamera& d_camera;
     const IPsResource& d_pixelShader;
     const IVsResource& d_vertexShader;
@@ -35,6 +36,7 @@ namespace Dx
     void setBuffers(const Mesh& i_mesh);
     void setMatrices(const IObject3& i_object);
     void setTexture(const IObject3& i_object);
+    void setTexture(const Material& i_material);
     void setMaterial(const Material& i_material);
     void drawIndexed(int i_count, int i_startIndex);
   };
