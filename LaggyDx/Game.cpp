@@ -225,6 +225,9 @@ namespace Dx
     if (i_mouseState.getPosition() != d_mouseState.getPosition())
       onMouseMove();
 
+    if (i_mouseState.getWheelPositionChange() != 0)
+      onMouseWheel(i_mouseState.getWheelPositionChange());
+
     for (const auto key : { MouseKey::Left, MouseKey::Right, MouseKey::Middle, MouseKey::X1, MouseKey::X2 })
     {
       const auto state = i_mouseState.getButtonState(key);
@@ -240,6 +243,13 @@ namespace Dx
   void Game::onMouseMove()
   {
     getForm().onMouseMove();
+  }
+
+  void Game::onMouseWheel(const int i_distance)
+  {
+    MouseKey mkey = i_distance > 0 ? MouseKey::WheelUp : MouseKey::WheelDown;
+    if (const auto* action = d_actionsMap.getAction(mkey))
+      action->operator()();
   }
 
   void Game::onMouseClick(MouseKey i_key)

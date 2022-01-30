@@ -33,7 +33,8 @@ namespace Dx
 
     d_mousePosition = { i_state.x, i_state.y };
 
-    d_wheelPositionChange = i_state.scrollWheelValue - d_wheelPosition;
+    // 120 is a WHEEL_DELTA const
+    d_wheelPositionChange = (i_state.scrollWheelValue - d_wheelPosition) / 120;
     d_wheelPosition = i_state.scrollWheelValue;
   }
 

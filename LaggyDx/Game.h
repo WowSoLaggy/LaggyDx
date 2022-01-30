@@ -90,6 +90,7 @@ namespace Dx
     void handleMouse(const MouseState& i_mouseState);
 
     void onMouseMove();
+    void onMouseWheel(int i_distance);
     void onMouseClick(MouseKey i_key);
     void onMouseRelease(MouseKey i_key);
   };
