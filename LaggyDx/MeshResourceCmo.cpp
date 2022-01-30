@@ -20,7 +20,7 @@ namespace Dx
 
     DGSLEffectFactory dgslEffectFactory(renderDevice.getDevicePtr());
     dgslEffectFactory.SetDirectory(L".\\Data");
-    d_model = Model::CreateFromCMO(renderDevice.getDevicePtr(),
+    d_model = DirectX::Model::CreateFromCMO(renderDevice.getDevicePtr(),
       d_meshFilePath.wstring().c_str(), dgslEffectFactory);
   }
 

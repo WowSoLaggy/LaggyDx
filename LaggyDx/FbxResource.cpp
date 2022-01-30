@@ -2,17 +2,18 @@
 #include "FbxResource.h"
 
 #include "IndexBuffer.h"
+#include "OfbxSceneWrapper.h"
 #include "VertexBuffer.h"
 #include "ofbx.h"
-
-#include <LaggySdk/Files.h>
 
 
 namespace Dx
 {
   namespace
   {
-    std::vector<VertexTypePosTexNorm> getVertices(const ofbx::Geometry& i_geometry)
+    std::vector<VertexTypePosTexNorm> getVertices(
+      const ofbx::Geometry& i_geometry,
+      const float i_unitScale)
     {
       const int vertexCount = i_geometry.getVertexCount();
       const auto* vertices = i_geometry.getVertices();
@@ -25,6 +26,9 @@ namespace Dx
       {
         VertexTypePosTexNorm vert;
         vert.position = { (float)vertices[i].x, (float)vertices[i].y, (float)vertices[i].z };
+        if (i_unitScale != 1.0f)
+          vert.position = vert.position / i_unitScale;
+
         if (normals)
           vert.normal = { (float)normals[i].x, (float)normals[i].y, (float)normals[i].z };
         if (uvs)
@@ -64,7 +68,8 @@ namespace Dx
       CONTRACT_ASSERT(geometry);
 
       const int* materials = geometry->getMaterials();
-      if (!materials)
+      // TODO: ae
+      //if (!materials)
       {
         MaterialSpan matSpan;
         matSpan.startIndex = 0;
@@ -94,55 +99,45 @@ namespace Dx
   {
   }
 
-  const VertexBuffer& FbxResource::getVertexBuffer() const
+  const IModel& FbxResource::getModel() const
   {
-    CONTRACT_ASSERT(d_vertexBuffer);
-    return *d_vertexBuffer;
-  }
-  const IndexBuffer& FbxResource::getIndexBuffer() const
-  {
-    CONTRACT_ASSERT(d_indexBuffer);
-    return *d_indexBuffer;
-  }
-  const IMaterialSequence& FbxResource::getMaterials() const
-  {
-    return d_materials;
-  }
-  const AnimationsMap& FbxResource::getAnimations() const
-  {
-    return d_animations;
+    CONTRACT_ASSERT(d_model);
+    return *d_model;
   }
 
   void FbxResource::load(IRenderDevice& i_renderDevice)
   {
-    const auto buffer = Sdk::readBytes(d_filePath);
-    auto* scene = ofbx::load(buffer.data(), (int)buffer.size(), (ofbx::u64)ofbx::LoadFlags::TRIANGULATE);
-    CONTRACT_ASSERT(scene);
-    CONTRACT_ASSERT(scene->getMeshCount() == 1);
+    OfbxSceneWrapper scene(d_filePath);
 
-    const auto* mesh = scene->getMesh(0);
-    CONTRACT_ASSERT(mesh);
+    Model model;
 
-    const auto* geometry = mesh->getGeometry();
-    CONTRACT_ASSERT(geometry);
-    
-    const auto verts = getVertices(*geometry);
-    const auto inds = getIndices(*geometry);
-    d_vertexBuffer = std::make_unique<VertexBuffer>(i_renderDevice, verts);
-    d_indexBuffer = std::make_unique<IndexBuffer>(i_renderDevice, inds);
+    for (int meshIndex = 0; meshIndex < scene->getMeshCount(); ++meshIndex)
+    {
+      const auto* fbxMesh = scene->getMesh(meshIndex);
+      CONTRACT_ASSERT(fbxMesh);
 
-    d_materials = getMaterialsFromMesh(*mesh);
+      const auto* geometry = fbxMesh->getGeometry();
+      CONTRACT_ASSERT(geometry);
 
-    d_animations = importFromFbx(*scene);
+      const auto verts = getVertices(*geometry, scene->getGlobalSettings()->UnitScaleFactor);
+      const auto inds = getIndices(*geometry);
 
-    scene->destroy();
+      Mesh mesh;
+      mesh.setVertexBuffer(std::make_unique<VertexBuffer>(i_renderDevice, verts));
+      mesh.setIndexBuffer(std::make_unique<IndexBuffer>(i_renderDevice, inds));
+      mesh.setMaterials(std::make_unique<MaterialSequence>(getMaterialsFromMesh(*fbxMesh)));
+
+      model.addMesh(std::move(mesh));
+    }
+
+    model.setAnimations(importAnimationsFromFbx(*scene));
+
+    d_model = std::make_unique<Model>(std::move(model));
   }
 
   void FbxResource::unload()
   {
-    d_vertexBuffer.reset();
-    d_indexBuffer.reset();
-    d_materials.clear();
+    d_model.reset();
   }
 
 } // ns Dx

@@ -6,6 +6,7 @@
 #include "IndexBuffer.h"
 #include "IObject3.h"
 #include "IResourceController.h"
+#include "Model.h"
 #include "PsResource.h"
 #include "RenderDevice.h"
 #include "ShaderBuffers.h"
@@ -38,14 +39,18 @@ namespace Dx
   {
     setRenderStates();
     setShaders();
-    setBuffers(i_object);
     setMatrices(i_object);
     setTexture(i_object);
 
-    for (const auto& materialSpan : i_object.getMaterials().getMaterialSpans())
+    for (const auto& mesh : i_object.getModel().getMeshes())
     {
-      setMaterial(materialSpan.material);
-      drawIndexed(materialSpan.count, materialSpan.startIndex);
+      setBuffers(mesh);
+
+      for (const auto& materialSpan : mesh.getMaterials().getMaterialSpans())
+      {
+        setMaterial(materialSpan.material);
+        drawIndexed(materialSpan.count, materialSpan.startIndex);
+      }
     }
   }
 
@@ -104,13 +109,13 @@ namespace Dx
     renderDevice.getDeviceContextPtr()->PSSetSamplers(0, 1, &samplerState);
   }
 
-  void SimpleRenderer::setBuffers(const IObject3& i_object)
+  void SimpleRenderer::setBuffers(const Mesh& i_mesh)
   {
     const auto& renderDevice = dynamic_cast<const RenderDevice&>(d_renderDevice);
 
-    auto* vbPtr = i_object.getVertexBuffer().getPtr();
-    unsigned int stride = i_object.getVertexBuffer().getStride();
-    auto* ibPtr = i_object.getIndexBuffer().getPtr();
+    auto* vbPtr = i_mesh.getVertexBuffer().getPtr();
+    unsigned int stride = i_mesh.getVertexBuffer().getStride();
+    auto* ibPtr = i_mesh.getIndexBuffer().getPtr();
     unsigned int offset = 0;
 
     renderDevice.getDeviceContextPtr()->IASetVertexBuffers(0, 1, &vbPtr, &stride, &offset);

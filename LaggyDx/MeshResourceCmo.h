@@ -13,10 +13,10 @@ namespace Dx
     virtual void load(IRenderDevice& i_renderDevice) override;
     virtual void unload() override;
 
-    Model& getModel() const { return *d_model; }
+    DirectX::Model& getModel() const { return *d_model; }
 
   private:
     const fs::path d_meshFilePath;
-    std::shared_ptr<Model> d_model;
+    std::shared_ptr<DirectX::Model> d_model;
   };
 } // ns Dx

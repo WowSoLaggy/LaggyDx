@@ -72,6 +72,10 @@ namespace Dx
 
   struct Animation;
 
+  class IModel;
+  class Model;
+  class Mesh;
+
 } // ns Dx
 
 

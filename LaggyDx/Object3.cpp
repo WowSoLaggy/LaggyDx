@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "Object3.h"
 
-#include "FbxResource.h"
-
 
 namespace Dx
 {
@@ -14,33 +12,19 @@ namespace Dx
   void Object3::setScale(Sdk::Vector3F i_scale) { d_scale = std::move(i_scale); }
 
 
-  const VertexBuffer& Object3::getVertexBuffer() const
+  const IModel& Object3::getModel() const
   {
-    const auto* fbxResource = dynamic_cast<const FbxResource*>(d_fbxResource);
-    CONTRACT_ASSERT(fbxResource);
-
-    return fbxResource->getVertexBuffer();
+    CONTRACT_ASSERT(d_model);
+    return *d_model;
   }
-  const IndexBuffer& Object3::getIndexBuffer() const
-  {
-    const auto* fbxResource = dynamic_cast<const FbxResource*>(d_fbxResource);
-    CONTRACT_ASSERT(fbxResource);
 
-    return fbxResource->getIndexBuffer();
-  }
-  const IMaterialSequence& Object3::getMaterials() const
-  {
-    const auto* fbxResource = dynamic_cast<const FbxResource*>(d_fbxResource);
-    CONTRACT_ASSERT(fbxResource);
-
-    return fbxResource->getMaterials();
-  }
   const ITextureResource& Object3::getTextureResource() const
   {
     CONTRACT_ASSERT(d_textureResource);
     return *d_textureResource;
   }
-  void Object3::setFbxResource(const IFbxResource& i_fbxResource) { d_fbxResource = &i_fbxResource; }
+
+  void Object3::setModel(const IModel& i_model) { d_model= &i_model; }
   void Object3::setTextureResource(const ITextureResource& i_textureResource) { d_textureResource = &i_textureResource; }
 
 } // ns Dx

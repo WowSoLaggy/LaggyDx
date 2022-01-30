@@ -105,7 +105,7 @@ namespace Dx
   } // anonym NS
 
 
-  AnimationsMap importFromFbx(const ofbx::IScene& i_scene)
+  AnimationsMap importAnimationsFromFbx(const ofbx::IScene& i_scene)
   {
     AnimationsMap animations;
 

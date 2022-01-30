@@ -17,11 +17,10 @@ namespace Dx
     void setRotation(Sdk::Vector3F i_rotation);
     void setScale(Sdk::Vector3F i_scale);
 
-    virtual const VertexBuffer& getVertexBuffer() const override;
-    virtual const IndexBuffer& getIndexBuffer() const override;
-    virtual const IMaterialSequence& getMaterials() const override;
+    virtual const IModel& getModel() const override;
     virtual const ITextureResource& getTextureResource() const override;
-    void setFbxResource(const IFbxResource& i_fbxResource);
+    
+    void setModel(const IModel& i_model);
     void setTextureResource(const ITextureResource& i_textureResource);
 
   private:
@@ -29,7 +28,7 @@ namespace Dx
     Sdk::Vector3F d_rotation;
     Sdk::Vector3F d_scale = Sdk::Vector3F::identity();
 
-    const IFbxResource* d_fbxResource = nullptr;
+    const IModel* d_model = nullptr;
     const ITextureResource* d_textureResource = nullptr;
   };
 

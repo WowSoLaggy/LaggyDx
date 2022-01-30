@@ -32,7 +32,7 @@ namespace Dx
 
     void setRenderStates();
     void setShaders();
-    void setBuffers(const IObject3& i_object);
+    void setBuffers(const Mesh& i_mesh);
     void setMatrices(const IObject3& i_object);
     void setTexture(const IObject3& i_object);
     void setMaterial(const Material& i_material);

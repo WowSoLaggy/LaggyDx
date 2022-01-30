@@ -189,6 +189,7 @@
     <ClInclude Include="ImageDescription.h" />
     <ClInclude Include="IMaterialSequence.h" />
     <ClInclude Include="IMeshResourceCmo.h" />
+    <ClInclude Include="IModel.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="InputDevice.h" />
     <ClInclude Include="IObject.h" />
@@ -213,9 +214,11 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialSequence.h" />
     <ClInclude Include="MaterialSpan.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="MeshResourceCmo.h" />
     <ClInclude Include="miniz.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="MouseKeys.h" />
     <ClInclude Include="MouseKeysState.h" />
     <ClInclude Include="MouseState.h" />
@@ -223,6 +226,7 @@
     <ClInclude Include="Object3.h" />
     <ClInclude Include="ObjectCollection.h" />
     <ClInclude Include="ofbx.h" />
+    <ClInclude Include="OfbxSceneWrapper.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="PsBinResource.h" />
     <ClInclude Include="PsHlslResource.h" />
@@ -265,9 +269,12 @@
     <ClCompile Include="FbxResource.cpp" />
     <ClCompile Include="ISimpleRenderer.cpp" />
     <ClCompile Include="Layout.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="miniz.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="Object3.cpp" />
     <ClCompile Include="ofbx.cpp" />
+    <ClCompile Include="OfbxSceneWrapper.cpp" />
     <ClCompile Include="PsHlslResource.cpp" />
     <ClCompile Include="VsBinResource.cpp" />
     <ClCompile Include="Camera.cpp" />

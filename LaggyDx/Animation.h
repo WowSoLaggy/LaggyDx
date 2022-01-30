@@ -50,6 +50,6 @@ namespace Dx
 
   using AnimationsMap = std::unordered_map<std::string, Animation>;
 
-  AnimationsMap importFromFbx(const ofbx::IScene& i_scene);
+  AnimationsMap importAnimationsFromFbx(const ofbx::IScene& i_scene);
 
 } // ns Dx

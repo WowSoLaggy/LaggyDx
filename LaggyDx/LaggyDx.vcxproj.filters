@@ -13,9 +13,6 @@
     <Filter Include="src\Resources">
       <UniqueIdentifier>{ddcb04d9-708b-4dbf-b638-236a1a041335}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Mesh">
-      <UniqueIdentifier>{c8170a72-b4dc-466c-b166-5b99e072a9cd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Buffers">
       <UniqueIdentifier>{99149c37-a63a-47ae-8b69-523f2363d42f}</UniqueIdentifier>
     </Filter>
@@ -91,6 +88,18 @@
     <Filter Include="src\AnimationFbx">
       <UniqueIdentifier>{254a46f2-6af8-48da-b731-b899aa518649}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Resources\ModelResources">
+      <UniqueIdentifier>{1191deec-7391-498d-bb5b-16a5b100621b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Model">
+      <UniqueIdentifier>{c8170a72-b4dc-466c-b166-5b99e072a9cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Utils">
+      <UniqueIdentifier>{2d287ab3-fc1b-43e3-8375-32e63df3c001}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Utils\OfbxSceneWrapper">
+      <UniqueIdentifier>{cc00dc88-33c3-464a-aa4c-b5e7ce755153}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -118,16 +127,16 @@
       <Filter>src\Resources\OtherResources</Filter>
     </ClInclude>
     <ClInclude Include="MeshLoader.h">
-      <Filter>src\Mesh</Filter>
+      <Filter>src\Model</Filter>
     </ClInclude>
     <ClInclude Include="VertexTypes.h">
-      <Filter>src\Mesh</Filter>
+      <Filter>src\Model</Filter>
     </ClInclude>
     <ClInclude Include="MaterialSequence.h">
-      <Filter>src\Mesh</Filter>
+      <Filter>src\Model</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
-      <Filter>src\Mesh</Filter>
+      <Filter>src\Model</Filter>
     </ClInclude>
     <ClInclude Include="VertexBuffer.h">
       <Filter>src\Buffers</Filter>
@@ -152,9 +161,6 @@
     </ClInclude>
     <ClInclude Include="Renderer2d.h">
       <Filter>src\Renderers\Renderer2d</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshResourceCmo.h">
-      <Filter>src\Resources\OtherResources</Filter>
     </ClInclude>
     <ClInclude Include="IRenderer.h">
       <Filter>src\Renderers</Filter>
@@ -181,9 +187,6 @@
       <Filter>src\Resources\OtherResources</Filter>
     </ClInclude>
     <ClInclude Include="IFontResource.h">
-      <Filter>src\Resources\OtherResources</Filter>
-    </ClInclude>
-    <ClInclude Include="IMeshResourceCmo.h">
       <Filter>src\Resources\OtherResources</Filter>
     </ClInclude>
     <ClInclude Include="IAnimationController3d.h">
@@ -363,12 +366,6 @@
     <ClInclude Include="Layout.h">
       <Filter>src\Gui</Filter>
     </ClInclude>
-    <ClInclude Include="IFbxResource.h">
-      <Filter>src\Resources\OtherResources</Filter>
-    </ClInclude>
-    <ClInclude Include="FbxResource.h">
-      <Filter>src\Resources\OtherResources</Filter>
-    </ClInclude>
     <ClInclude Include="ofbx.h">
       <Filter>libs</Filter>
     </ClInclude>
@@ -376,19 +373,43 @@
       <Filter>libs</Filter>
     </ClInclude>
     <ClInclude Include="IMaterialSequence.h">
-      <Filter>src\Mesh</Filter>
+      <Filter>src\Model</Filter>
     </ClInclude>
     <ClInclude Include="Object3.h">
       <Filter>src\Objects</Filter>
     </ClInclude>
     <ClInclude Include="MaterialSpan.h">
-      <Filter>src\Mesh</Filter>
+      <Filter>src\Model</Filter>
     </ClInclude>
     <ClInclude Include="ISimpleRenderer.h">
       <Filter>src\Renderers\SimpleRenderer</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>src\AnimationFbx</Filter>
+    </ClInclude>
+    <ClInclude Include="FbxResource.h">
+      <Filter>src\Resources\ModelResources</Filter>
+    </ClInclude>
+    <ClInclude Include="IFbxResource.h">
+      <Filter>src\Resources\ModelResources</Filter>
+    </ClInclude>
+    <ClInclude Include="IMeshResourceCmo.h">
+      <Filter>src\Resources\ModelResources</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshResourceCmo.h">
+      <Filter>src\Resources\ModelResources</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>src\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>src\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="IModel.h">
+      <Filter>src\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="OfbxSceneWrapper.h">
+      <Filter>src\Utils\OfbxSceneWrapper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -417,10 +438,10 @@
       <Filter>src\Resources\OtherResources</Filter>
     </ClCompile>
     <ClCompile Include="MeshLoader.cpp">
-      <Filter>src\Mesh</Filter>
+      <Filter>src\Model</Filter>
     </ClCompile>
     <ClCompile Include="MaterialSequence.cpp">
-      <Filter>src\Mesh</Filter>
+      <Filter>src\Model</Filter>
     </ClCompile>
     <ClCompile Include="VertexBuffer.cpp">
       <Filter>src\Buffers</Filter>
@@ -445,9 +466,6 @@
     </ClCompile>
     <ClCompile Include="Renderer3d_Renders.cpp">
       <Filter>src\Renderers\Renderer3d</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshResourceCmo.cpp">
-      <Filter>src\Resources\OtherResources</Filter>
     </ClCompile>
     <ClCompile Include="IInputDevice.cpp">
       <Filter>src\InputDevice</Filter>
@@ -584,9 +602,6 @@
     <ClCompile Include="Layout.cpp">
       <Filter>src\Gui</Filter>
     </ClCompile>
-    <ClCompile Include="FbxResource.cpp">
-      <Filter>src\Resources\OtherResources</Filter>
-    </ClCompile>
     <ClCompile Include="ofbx.cpp">
       <Filter>libs</Filter>
     </ClCompile>
@@ -601,6 +616,21 @@
     </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>src\AnimationFbx</Filter>
+    </ClCompile>
+    <ClCompile Include="FbxResource.cpp">
+      <Filter>src\Resources\ModelResources</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshResourceCmo.cpp">
+      <Filter>src\Resources\ModelResources</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>src\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>src\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="OfbxSceneWrapper.cpp">
+      <Filter>src\Utils\OfbxSceneWrapper</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
