@@ -20,14 +20,27 @@ namespace Dx
       const auto* normals = i_geometry.getNormals();
       const auto* uvs = i_geometry.getUVs();
 
+      /*float maxX = -std::numeric_limits<float>::max();
+      float minX = std::numeric_limits<float>::max();
+      float maxY = -std::numeric_limits<float>::max();
+      float minY = std::numeric_limits<float>::max();
+      float minZ = std::numeric_limits<float>::max();*/
+
       std::vector<VertexTypePosTexNorm> verts;
       verts.reserve(vertexCount);
       for (int i = 0; i < vertexCount; ++i)
       {
         VertexTypePosTexNorm vert;
+
         vert.position = { (float)vertices[i].x, (float)vertices[i].y, (float)vertices[i].z };
         if (i_unitScale != 1.0f)
           vert.position = vert.position / i_unitScale;
+
+        /*maxX = std::max(maxX, vert.position.x);
+        minX = std::min(minX, vert.position.x);
+        maxY = std::max(maxY, vert.position.y);
+        minY = std::min(minY, vert.position.y);
+        minZ = std::min(minZ, vert.position.z);*/
 
         if (normals)
           vert.normal = { (float)normals[i].x, (float)normals[i].y, (float)normals[i].z };
@@ -35,6 +48,17 @@ namespace Dx
           vert.texture = { (float)uvs[i].x, 1.0f - (float)uvs[i].y }; // invert Y due to Blender FBX exporter specific :(
         verts.push_back(std::move(vert));
       }
+
+      // Center the mesh
+
+     /* const float centerX = (maxX - minX) / 2.0f;
+      const float centerY = (maxY - minY) / 2.0f;
+      for (auto& vert : verts)
+      {
+        vert.position.x -= centerX;
+        vert.position.y -= centerY;
+        vert.position.z -= minZ;
+      }*/
 
       return verts;
     }
