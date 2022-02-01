@@ -16,6 +16,8 @@ namespace Dx
       const IResourceController& i_resourceController);
     ~SimpleRenderer();
 
+    void setDrawAabb(bool i_draw);
+
     virtual void draw(const IObject3& i_object) override;
 
   private:
@@ -27,6 +29,8 @@ namespace Dx
 
     ID3D11Buffer* d_matrixBuffer = nullptr;
     ID3D11Buffer* d_lightBuffer = nullptr;
+
+    bool d_drawAabb = false;
 
     void createBuffers();
     void deleteBuffers();

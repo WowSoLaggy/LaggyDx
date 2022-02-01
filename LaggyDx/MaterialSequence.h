@@ -9,7 +9,7 @@ namespace Dx
   {
   public:
     void clear();
-    void add(const MaterialSpan& i_materialSpan);
+    void add(MaterialSpan i_materialSpan);
 
     virtual const std::vector<MaterialSpan>& getMaterialSpans() const override { return d_materialSpans; }
 

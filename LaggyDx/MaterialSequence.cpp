@@ -9,9 +9,9 @@ namespace Dx
     d_materialSpans.clear();
   }
 
-  void MaterialSequence::add(const MaterialSpan& i_materialSpan)
+  void MaterialSequence::add(MaterialSpan i_materialSpan)
   {
-    d_materialSpans.push_back(i_materialSpan);
+    d_materialSpans.push_back(std::move(i_materialSpan));
   }
 
 } // ns Dx

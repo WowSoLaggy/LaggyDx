@@ -38,4 +38,19 @@ namespace Dx
     d_materials = std::move(i_mats);
   }
 
+
+  void Mesh::setAabb(Aabb i_aabb)
+  {
+    d_aabb = std::move(i_aabb);
+  }
+
+  const Aabb& Mesh::getAabb() const
+  {
+    return d_aabb;
+  }
+
+
+  void Mesh::setTopology(Topology i_topology) { d_topology = i_topology; }
+  Topology Mesh::getTopology() const { return d_topology; }
+
 } // ns Dx

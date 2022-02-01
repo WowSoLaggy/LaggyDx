@@ -154,6 +154,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Aabb.h" />
     <ClInclude Include="Action.h" />
     <ClInclude Include="ActionsMap.h" />
     <ClInclude Include="ActionType.h" />
@@ -200,6 +201,7 @@
     <ClInclude Include="IRenderer2d.h" />
     <ClInclude Include="IRenderer3d.h" />
     <ClInclude Include="IShape.h" />
+    <ClInclude Include="IShape3d.h" />
     <ClInclude Include="ISimpleRenderer.h" />
     <ClInclude Include="ITextureResource.h" />
     <ClInclude Include="IVsResource.h" />
@@ -217,6 +219,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="MeshResourceCmo.h" />
+    <ClInclude Include="MeshUtils.h" />
     <ClInclude Include="miniz.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="MouseKeys.h" />
@@ -234,6 +237,7 @@
     <ClInclude Include="Projector.h" />
     <ClInclude Include="Renderer2d.h" />
     <ClInclude Include="Renderer2dGuard.h" />
+    <ClInclude Include="Shape3d.h" />
     <ClInclude Include="SimpleRenderer.h" />
     <ClInclude Include="Renderer3d.h" />
     <ClInclude Include="ICamera.h" />
@@ -248,6 +252,7 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="StaticCollider.h" />
     <ClInclude Include="Text.h" />
+    <ClInclude Include="TopologyTypes.h" />
     <ClInclude Include="VsBinResource.h" />
     <ClInclude Include="VsHlslResource.h" />
     <ClInclude Include="VsResource.h" />
@@ -259,6 +264,7 @@
     <ClInclude Include="_ShaderUtils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Aabb.cpp" />
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="ActionsMap.cpp" />
     <ClCompile Include="AnimatedSprite.cpp" />
@@ -270,12 +276,14 @@
     <ClCompile Include="ISimpleRenderer.cpp" />
     <ClCompile Include="Layout.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshUtils.cpp" />
     <ClCompile Include="miniz.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Object3.cpp" />
     <ClCompile Include="ofbx.cpp" />
     <ClCompile Include="OfbxSceneWrapper.cpp" />
     <ClCompile Include="PsHlslResource.cpp" />
+    <ClCompile Include="Shape3d.cpp" />
     <ClCompile Include="VsBinResource.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ColliderBase.cpp" />

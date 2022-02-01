@@ -59,6 +59,8 @@ namespace Dx
   class Object3;
 
   class IShape;
+  class IShape3d;
+  class Shape3d;
 
   class IControl;
   class Label;
@@ -75,6 +77,8 @@ namespace Dx
   class IModel;
   class Model;
   class Mesh;
+
+  class Aabb;
 
 } // ns Dx
 

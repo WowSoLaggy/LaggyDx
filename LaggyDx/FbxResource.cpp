@@ -2,7 +2,9 @@
 #include "FbxResource.h"
 
 #include "IndexBuffer.h"
+#include "MeshUtils.h"
 #include "OfbxSceneWrapper.h"
+#include "Shape3d.h"
 #include "VertexBuffer.h"
 #include "ofbx.h"
 
@@ -20,12 +22,6 @@ namespace Dx
       const auto* normals = i_geometry.getNormals();
       const auto* uvs = i_geometry.getUVs();
 
-      /*float maxX = -std::numeric_limits<float>::max();
-      float minX = std::numeric_limits<float>::max();
-      float maxY = -std::numeric_limits<float>::max();
-      float minY = std::numeric_limits<float>::max();
-      float minZ = std::numeric_limits<float>::max();*/
-
       std::vector<VertexTypePosTexNorm> verts;
       verts.reserve(vertexCount);
       for (int i = 0; i < vertexCount; ++i)
@@ -36,29 +32,12 @@ namespace Dx
         if (i_unitScale != 1.0f)
           vert.position = vert.position / i_unitScale;
 
-        /*maxX = std::max(maxX, vert.position.x);
-        minX = std::min(minX, vert.position.x);
-        maxY = std::max(maxY, vert.position.y);
-        minY = std::min(minY, vert.position.y);
-        minZ = std::min(minZ, vert.position.z);*/
-
         if (normals)
           vert.normal = { (float)normals[i].x, (float)normals[i].y, (float)normals[i].z };
         if (uvs)
           vert.texture = { (float)uvs[i].x, 1.0f - (float)uvs[i].y }; // invert Y due to Blender FBX exporter specific :(
         verts.push_back(std::move(vert));
       }
-
-      // Center the mesh
-
-     /* const float centerX = (maxX - minX) / 2.0f;
-      const float centerY = (maxY - minY) / 2.0f;
-      for (auto& vert : verts)
-      {
-        vert.position.x -= centerX;
-        vert.position.y -= centerY;
-        vert.position.z -= minZ;
-      }*/
 
       return verts;
     }
@@ -79,6 +58,13 @@ namespace Dx
       }
 
       return inds;
+    }
+
+    Shape3d getShape(const ofbx::Geometry& i_geometry, const float i_scaleFactor)
+    {
+      auto verts = getVertices(i_geometry, i_scaleFactor);
+      auto inds = getIndices(i_geometry);
+      return Shape3d(std::move(verts), std::move(inds));
     }
 
     MaterialSequence getMaterialsFromMesh(const ofbx::Mesh& i_mesh)
@@ -144,18 +130,16 @@ namespace Dx
       const auto* geometry = fbxMesh->getGeometry();
       CONTRACT_ASSERT(geometry);
 
-      const auto verts = getVertices(*geometry, scene->getGlobalSettings()->UnitScaleFactor);
-      const auto inds = getIndices(*geometry);
+      const auto shape = getShape(*geometry, scene->getGlobalSettings()->UnitScaleFactor);
+      auto mesh = createMeshFromShape(shape, i_renderDevice);
 
-      Mesh mesh;
-      mesh.setVertexBuffer(std::make_unique<VertexBuffer>(i_renderDevice, verts));
-      mesh.setIndexBuffer(std::make_unique<IndexBuffer>(i_renderDevice, inds));
       mesh.setMaterials(std::make_unique<MaterialSequence>(getMaterialsFromMesh(*fbxMesh)));
 
       model.addMesh(std::move(mesh));
     }
 
     model.setAnimations(importAnimationsFromFbx(*scene));
+    model.createAabbMesh(i_renderDevice);
 
     d_model = std::make_unique<Model>(std::move(model));
   }

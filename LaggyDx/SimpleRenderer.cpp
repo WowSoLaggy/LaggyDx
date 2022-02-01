@@ -36,6 +36,12 @@ namespace Dx
   }
 
 
+  void SimpleRenderer::setDrawAabb(bool i_draw)
+  {
+    d_drawAabb = i_draw;
+  }
+
+
   void SimpleRenderer::draw(const IObject3& i_object)
   {
     setRenderStates();
@@ -43,17 +49,23 @@ namespace Dx
     setMatrices(i_object);
     setTexture(i_object);
 
-    for (const auto& mesh : i_object.getModel().getMeshes())
+    auto drawMesh = [&](const auto& i_mesh)
     {
-      setBuffers(mesh);
+      setBuffers(i_mesh);
 
-      for (const auto& materialSpan : mesh.getMaterials().getMaterialSpans())
+      for (const auto& materialSpan : i_mesh.getMaterials().getMaterialSpans())
       {
         setTexture(materialSpan.material);
         setMaterial(materialSpan.material);
         drawIndexed(materialSpan.count, materialSpan.startIndex);
       }
-    }
+    };
+
+    for (const auto& mesh : i_object.getModel().getMeshes())
+      drawMesh(mesh);
+
+    if (d_drawAabb)
+      drawMesh(i_object.getModel().getAabbMesh());
   }
 
 
@@ -123,7 +135,11 @@ namespace Dx
     renderDevice.getDeviceContextPtr()->IASetVertexBuffers(0, 1, &vbPtr, &stride, &offset);
     renderDevice.getDeviceContextPtr()->IASetIndexBuffer(ibPtr, DXGI_FORMAT_R32_UINT, 0);
 
-    renderDevice.getDeviceContextPtr()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    const auto topology = i_mesh.getTopology() == Topology::TriangleList
+      ? D3D_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST
+      : D3D_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINELIST;
+
+    renderDevice.getDeviceContextPtr()->IASetPrimitiveTopology(topology);
   }
 
   void SimpleRenderer::setMatrices(const IObject3& i_object)

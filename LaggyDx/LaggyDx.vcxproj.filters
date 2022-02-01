@@ -408,6 +408,21 @@
     <ClInclude Include="OfbxSceneWrapper.h">
       <Filter>src\OfbxSceneWrapper</Filter>
     </ClInclude>
+    <ClInclude Include="Aabb.h">
+      <Filter>src\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Shape3d.h">
+      <Filter>src\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="IShape3d.h">
+      <Filter>src\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshUtils.h">
+      <Filter>src\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="TopologyTypes.h">
+      <Filter>src\Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -628,6 +643,15 @@
     </ClCompile>
     <ClCompile Include="OfbxSceneWrapper.cpp">
       <Filter>src\OfbxSceneWrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Aabb.cpp">
+      <Filter>src\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Shape3d.cpp">
+      <Filter>src\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshUtils.cpp">
+      <Filter>src\Model</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
