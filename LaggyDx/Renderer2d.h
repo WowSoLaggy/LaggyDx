@@ -38,7 +38,6 @@ namespace Dx
 
     virtual void renderText(const std::string& i_text,
                             const IFontResource& i_fontResource,
-                            const Sdk::Vector2F& i_position,
                             const Sdk::Vector4F& i_color,
                             float i_scale) override;
     virtual void renderSprite(const Sprite& i_sprite) override;

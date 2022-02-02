@@ -16,6 +16,8 @@ namespace Dx
   public:
     virtual ~ISimpleRenderer() = default;
 
+    virtual void setDrawAabb(bool i_draw) = 0;
+
     virtual void draw(const IObject3& i_object) = 0;
   };
 

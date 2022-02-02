@@ -9,7 +9,7 @@ namespace Dx
   {
   public:
     virtual void setPosition(Sdk::Vector2F i_position) override;
-    virtual const Sdk::Vector2F& getPosition() const override;
+    virtual Sdk::Vector2F getPosition() const override;
 
     virtual void setSize(Sdk::Vector2F i_size) override;
     virtual Sdk::Vector2F getSize() const override;
@@ -18,6 +18,9 @@ namespace Dx
 
     virtual void setOpacity(double i_opacity) override;
     virtual double getOpacity() const override;
+
+    virtual void setVisible(bool i_visible) override;
+    virtual bool getVisible() const override;
 
     virtual void render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_parentPos) const override;
     virtual void update(double i_dt) override;
@@ -32,6 +35,7 @@ namespace Dx
     Sdk::Vector2F d_position;
     Sdk::Vector2F d_size;
 
+    bool d_visible = true;
     double d_opacity = 1;
 
     std::vector<std::shared_ptr<IGuiEffect>> d_effects;

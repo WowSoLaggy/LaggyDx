@@ -15,33 +15,12 @@ namespace Dx
   }
 
 
-  void Button::setPosition(Sdk::Vector2F i_position)
-  {
-    Label::setPosition(i_position);
-    d_sprite.setPosition({ (int)i_position.x, (int)i_position.y });
-  }
-
-  void Button::setText(std::string i_text)
-  {
-    Label::setText(i_text);
-    updateTextOffset();
-  }
-
-  Sdk::Vector2F Button::getSize() const
-  {
-    const auto spriteSize = d_sprite.getSize();
-    return { (float)spriteSize.x, (float)spriteSize.y };
-  }
-
   void Button::render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_parentPos) const
   {
-    const auto translationOgirinal = i_renderer.getTranslation();
-
-    i_renderer.setTranslation(translationOgirinal + i_parentPos);
+    i_renderer.setTranslation(getPosition());
     i_renderer.renderSprite(d_sprite);
-    i_renderer.setTranslation(translationOgirinal);
 
-    Label::render(i_renderer, i_parentPos + d_textOffset);
+    d_text.render(i_renderer, getPosition() + d_textOffset);
   }
 
 
@@ -86,6 +65,18 @@ namespace Dx
   }
 
 
+  void Button::setText(std::string i_text)
+  {
+    d_text.setText(i_text);
+    updateTextOffset();
+  }
+
+  void Button::setFont(const std::string& i_fontName)
+  {
+    d_text.setFont(i_fontName);
+  }
+
+
   void Button::onPress()
   {
     if (d_onPress)
@@ -100,9 +91,11 @@ namespace Dx
 
   void Button::updateTexture()
   {
-    auto& rc = Game::get().getResourceController();
+    const auto& rc = Game::get().getResourceController();
     d_sprite.setTexture(rc.getTextureResource(d_textures[d_state]));
     d_sprite.resetSizeToTexture();
+
+    setSize(d_sprite.getSize().getVector<float>());
 
     updateTextOffset();
   }
@@ -110,7 +103,7 @@ namespace Dx
   void Button::updateTextOffset()
   {
     const auto selfSize = d_sprite.getSize();
-    const auto textSize = getFontResource()->getStringRect(getText());
+    const auto textSize = d_text.getFontResource()->getStringRect(d_text.getText());
     d_textOffset = { (float)(selfSize.x - textSize.width()) / 2, (float)(selfSize.y - textSize.height()) / 2 };
   }
 

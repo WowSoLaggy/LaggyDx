@@ -423,6 +423,12 @@
     <ClInclude Include="TopologyTypes.h">
       <Filter>src\Model</Filter>
     </ClInclude>
+    <ClInclude Include="Checkbox.h">
+      <Filter>src\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlEvents.h">
+      <Filter>src\Gui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -652,6 +658,9 @@
     </ClCompile>
     <ClCompile Include="MeshUtils.cpp">
       <Filter>src\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Checkbox.cpp">
+      <Filter>src\Gui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

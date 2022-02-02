@@ -120,17 +120,14 @@ namespace Dx
 
   void Renderer2d::renderText(const std::string& i_text,
                               const IFontResource& i_fontResource,
-                              const Sdk::Vector2F& i_position,
                               const Sdk::Vector4F& i_color,
                               float i_scale)
   {
     const auto& fontResource = dynamic_cast<const FontResource&>(i_fontResource);
 
-    const auto pos = i_position + d_translation;
-
     fontResource.getSpriteFont()->DrawString(&d_spriteBatch,
                                              Sdk::getWString(i_text).c_str(),
-                                             XMFLOAT2(pos.x, pos.y),
+                                             XMFLOAT2(d_translation.x, d_translation.y),
                                              { i_color.x, i_color.y, i_color.z, i_color.w },
                                              0,
                                              { 0, 0 },

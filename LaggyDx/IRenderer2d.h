@@ -42,7 +42,6 @@ namespace Dx
 
     virtual void renderText(const std::string& i_text,
                             const IFontResource& i_fontResource,
-                            const Sdk::Vector2F& i_position,
                             const Sdk::Vector4F& i_color,
                             float i_scale) = 0;
     virtual void renderSprite(const Sprite& i_sprite) = 0;

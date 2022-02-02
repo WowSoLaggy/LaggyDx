@@ -9,7 +9,7 @@ namespace Dx
 {
   void Panel::setTexture(const std::string& i_textureName)
   {
-    auto& rc = Game::get().getResourceController();
+    const auto& rc = Game::get().getResourceController();
     d_sprite.setTexture(rc.getTextureResource(i_textureName));
   }
 
@@ -29,7 +29,10 @@ namespace Dx
 
   void Panel::render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_parentPos) const
   {
+    i_renderer.setTranslation(i_parentPos + getPosition());
     i_renderer.renderSprite(d_sprite);
+
+    Control::render(i_renderer, i_parentPos);
   }
 
 } // ns Dx

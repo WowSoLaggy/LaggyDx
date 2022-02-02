@@ -1,15 +1,26 @@
 #include "stdafx.h"
 #include "Control.h"
 
+#include "ControlEvents.h"
 #include "IGuiEffect.h"
 
 
 namespace Dx
 {
   void Control::setPosition(Sdk::Vector2F i_position) { d_position = std::move(i_position); }
-  const Sdk::Vector2F& Control::getPosition() const { return d_position; }
+  Sdk::Vector2F Control::getPosition() const
+  {
+    if (const auto* parentControl = dynamic_cast<const Control*>(getParent()))
+      return d_position + parentControl->getPosition();
+    else
+      return d_position;
+  }
 
-  void Control::setSize(Sdk::Vector2F i_size) { d_size = std::move(i_size); }
+  void Control::setSize(Sdk::Vector2F i_size)
+  {
+    d_size = std::move(i_size);
+    notify(ControlSizeChangedEvent());
+  }
   Sdk::Vector2F Control::getSize() const { return d_size; }
 
   Sdk::RectF Control::getRect() const
@@ -20,11 +31,18 @@ namespace Dx
   void Control::setOpacity(const double i_opacity) { d_opacity = i_opacity; }
   double Control::getOpacity() const { return d_opacity; }
 
+  void Control::setVisible(bool i_visible) { d_visible = i_visible; }
+  bool Control::getVisible() const { return d_visible; }
+
 
   void Control::render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_parentPos) const
   {
     for (const auto& child : getChildren())
-      std::dynamic_pointer_cast<IControl>(child)->render(i_renderer, i_parentPos + getPosition());
+    {
+      const auto childPtr = std::dynamic_pointer_cast<IControl>(child);
+      if (childPtr->getVisible())
+        childPtr->render(i_renderer, i_parentPos + getPosition());
+    }
   }
 
   void Control::update(double i_dt)
@@ -40,19 +58,31 @@ namespace Dx
   void Control::onMouseMove()
   {
     for (auto& child : getChildren())
-      std::dynamic_pointer_cast<IControl>(child)->onMouseMove();
+    {
+      const auto childPtr = std::dynamic_pointer_cast<IControl>(child);
+      if (childPtr->getVisible())
+        childPtr->onMouseMove();
+    }
   }
 
   void Control::onMouseClick(MouseKey i_key)
   {
     for (auto& child : getChildren())
-      std::dynamic_pointer_cast<IControl>(child)->onMouseClick(i_key);
+    {
+      const auto childPtr = std::dynamic_pointer_cast<IControl>(child);
+      if (childPtr->getVisible())
+        childPtr->onMouseClick(i_key);
+    }
   }
 
   void Control::onMouseRelease(MouseKey i_key)
   {
     for (auto& child : getChildren())
-      std::dynamic_pointer_cast<IControl>(child)->onMouseRelease(i_key);
+    {
+      const auto childPtr = std::dynamic_pointer_cast<IControl>(child);
+      if (childPtr->getVisible())
+        childPtr->onMouseRelease(i_key);
+    }
   }
 
 

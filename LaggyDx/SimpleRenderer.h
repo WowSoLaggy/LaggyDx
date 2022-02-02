@@ -16,7 +16,7 @@ namespace Dx
       const IResourceController& i_resourceController);
     ~SimpleRenderer();
 
-    void setDrawAabb(bool i_draw);
+    virtual void setDrawAabb(bool i_draw) override;
 
     virtual void draw(const IObject3& i_object) override;
 

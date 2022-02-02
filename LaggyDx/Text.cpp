@@ -54,7 +54,10 @@ namespace Dx
   void Text::render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_position) const
   {
     if (d_fontResource && !d_text.empty())
-      i_renderer.renderText(d_text, *d_fontResource, i_position, d_color, d_scale);
+    {
+      i_renderer.setTranslation(i_position);
+      i_renderer.renderText(d_text, *d_fontResource, d_color, d_scale);
+    }
   }
 
 } // Dx

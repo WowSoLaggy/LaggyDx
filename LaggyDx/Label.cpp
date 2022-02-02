@@ -60,7 +60,7 @@ namespace Dx
 
   void Label::render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_parentPos) const
   {
-    d_text.render(i_renderer, i_parentPos + getPosition());
+    d_text.render(i_renderer, getPosition());
   }
 
 } // ns Dx

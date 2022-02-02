@@ -161,6 +161,7 @@
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Checkbox.h" />
     <ClInclude Include="ColliderBase.h" />
     <ClInclude Include="CollisionFunctor.h" />
     <ClInclude Include="CollisionInfo.h" />
@@ -169,6 +170,7 @@
     <ClInclude Include="CollisionShape.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="Control.h" />
+    <ClInclude Include="ControlEvents.h" />
     <ClInclude Include="DynamicCollider.h" />
     <ClInclude Include="FadeOutEffect.h" />
     <ClInclude Include="FbxResource.h" />
@@ -272,6 +274,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationController3d.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Checkbox.cpp" />
     <ClCompile Include="FbxResource.cpp" />
     <ClCompile Include="ISimpleRenderer.cpp" />
     <ClCompile Include="Layout.cpp" />

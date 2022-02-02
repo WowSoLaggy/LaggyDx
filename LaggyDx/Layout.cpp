@@ -1,17 +1,27 @@
 #include "stdafx.h"
 #include "Layout.h"
 
+#include "ControlEvents.h"
+
 
 namespace Dx
 {
   void Layout::addChild(std::shared_ptr<Sdk::TreeNode> i_child)
   {
+    auto* childControl = dynamic_cast<IControl*>(i_child.get());
+    CONTRACT_ASSERT(childControl);
+    connectTo(*childControl);
+
     Control::addChild(i_child);
     onChildrenChanged();
   }
 
   void Layout::removeChild(Sdk::TreeNode& i_child)
   {
+    auto* childControl = dynamic_cast<IControl*>(&i_child);
+    CONTRACT_ASSERT(childControl);
+    disconnectFrom(*childControl);
+
     Control::removeChild(i_child);
     onChildrenChanged();
   }
@@ -49,6 +59,13 @@ namespace Dx
   void Layout::setOffsetFromBorder(int i_offsetFromBorder)
   {
     d_offsetFromBorder = i_offsetFromBorder;
+  }
+
+
+  void Layout::processEvent(const Sdk::IEvent& i_event)
+  {
+    if (dynamic_cast<const ControlSizeChangedEvent*>(&i_event))
+      onChildrenChanged();
   }
 
 } // ns Dx

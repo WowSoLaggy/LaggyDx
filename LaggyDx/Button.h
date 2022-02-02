@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Label.h"
+#include "Control.h"
+#include "Text.h"
 #include "Sprite.h"
 
 
@@ -13,25 +14,26 @@ namespace Dx
     Pressed,
   };
 
-  class Button : public Label
+  class Button : public Control
   {
   public:
     void setTextureName(ButtonState i_state, std::string i_textureName);
 
-    virtual void setPosition(Sdk::Vector2F i_position) override;
-    virtual void setText(std::string i_text) override;
-    virtual Sdk::Vector2F getSize() const override;
     virtual void render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_parentPos) const override;
 
     virtual void onMouseMove() override;
     virtual void onMouseClick(MouseKey i_key) override;
     virtual void onMouseRelease(MouseKey i_key) override;
 
+    void setText(std::string i_text);
+    void setFont(const std::string& i_fontName);
+
     void onPress();
     void setOnPress(std::function<void()> i_onPress);
 
   private:
     Sprite d_sprite;
+    Text d_text;
 
     ButtonState d_state = ButtonState::Normal;
     std::unordered_map<ButtonState, std::string> d_textures;
