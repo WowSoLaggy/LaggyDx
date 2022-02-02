@@ -22,7 +22,7 @@ namespace Dx
     virtual void setVisible(bool i_visible) override;
     virtual bool getVisible() const override;
 
-    virtual void render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_parentPos) const override;
+    virtual void render(IRenderer2d& i_renderer) const override;
     virtual void update(double i_dt) override;
 
     virtual void onMouseMove() override;

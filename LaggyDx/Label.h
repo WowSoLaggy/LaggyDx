@@ -23,7 +23,7 @@ namespace Dx
 
     virtual void setOpacity(double i_opacity) override;
 
-    virtual void render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_parentPos) const override;
+    virtual void render(IRenderer2d& i_renderer) const override;
 
   private:
     Text d_text;

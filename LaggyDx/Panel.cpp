@@ -27,12 +27,12 @@ namespace Dx
   }
 
 
-  void Panel::render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_parentPos) const
+  void Panel::render(IRenderer2d& i_renderer) const
   {
-    i_renderer.setTranslation(i_parentPos + getPosition());
+    i_renderer.setTranslation(getPosition());
     i_renderer.renderSprite(d_sprite);
 
-    Control::render(i_renderer, i_parentPos);
+    Control::render(i_renderer);
   }
 
 } // ns Dx

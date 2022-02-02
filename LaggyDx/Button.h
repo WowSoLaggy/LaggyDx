@@ -19,7 +19,7 @@ namespace Dx
   public:
     void setTextureName(ButtonState i_state, std::string i_textureName);
 
-    virtual void render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_parentPos) const override;
+    virtual void render(IRenderer2d& i_renderer) const override;
 
     virtual void onMouseMove() override;
     virtual void onMouseClick(MouseKey i_key) override;

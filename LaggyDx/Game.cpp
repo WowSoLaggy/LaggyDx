@@ -195,7 +195,7 @@ namespace Dx
   void Game::renderGui()
   {
     Renderer2dGuard renderer2dGuard(*d_renderer2d);
-    getForm().render(*d_renderer2d, Sdk::Vector2F::zero());
+    getForm().render(*d_renderer2d);
   }
 
 

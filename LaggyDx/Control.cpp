@@ -35,13 +35,13 @@ namespace Dx
   bool Control::getVisible() const { return d_visible; }
 
 
-  void Control::render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_parentPos) const
+  void Control::render(IRenderer2d& i_renderer) const
   {
     for (const auto& child : getChildren())
     {
       const auto childPtr = std::dynamic_pointer_cast<IControl>(child);
       if (childPtr->getVisible())
-        childPtr->render(i_renderer, i_parentPos + getPosition());
+        childPtr->render(i_renderer);
     }
   }
 

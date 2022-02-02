@@ -15,7 +15,7 @@ namespace Dx
   }
 
 
-  void Button::render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_parentPos) const
+  void Button::render(IRenderer2d& i_renderer) const
   {
     i_renderer.setTranslation(getPosition());
     i_renderer.renderSprite(d_sprite);

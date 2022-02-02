@@ -15,7 +15,7 @@ namespace Dx
     
     virtual void setSize(Sdk::Vector2F i_size) override;
 
-    virtual void render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_parentPos) const override;
+    virtual void render(IRenderer2d& i_renderer) const override;
 
   private:
     Sprite d_sprite;
