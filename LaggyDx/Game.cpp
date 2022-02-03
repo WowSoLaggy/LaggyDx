@@ -247,19 +247,25 @@ namespace Dx
 
   void Game::onMouseWheel(const int i_distance)
   {
-    MouseKey mkey = i_distance > 0 ? MouseKey::WheelUp : MouseKey::WheelDown;
-    if (const auto* action = d_actionsMap.getAction(mkey))
+    const auto mkey = i_distance > 0 ? MouseKey::WheelUp : MouseKey::WheelDown;
+    if (const auto* action = d_actionsMap.getAction(mkey, ActionType::OnPress))
       action->operator()();
   }
 
   void Game::onMouseClick(MouseKey i_key)
   {
     getForm().onMouseClick(i_key);
+
+    if (const auto* action = d_actionsMap.getAction(i_key, ActionType::OnPress))
+      action->operator()();
   }
 
   void Game::onMouseRelease(MouseKey i_key)
   {
     getForm().onMouseRelease(i_key);
+
+    if (const auto* action = d_actionsMap.getAction(i_key, ActionType::OnRelease))
+      action->operator()();
   }
 
 } // ns Dx
