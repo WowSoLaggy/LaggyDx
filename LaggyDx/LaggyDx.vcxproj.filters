@@ -429,6 +429,9 @@
     <ClInclude Include="ControlEvents.h">
       <Filter>src\Gui</Filter>
     </ClInclude>
+    <ClInclude Include="Obb.h">
+      <Filter>src\Collisions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -661,6 +664,9 @@
     </ClCompile>
     <ClCompile Include="Checkbox.cpp">
       <Filter>src\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Obb.cpp">
+      <Filter>src\Collisions</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

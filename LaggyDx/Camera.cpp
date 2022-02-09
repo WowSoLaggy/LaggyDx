@@ -14,6 +14,16 @@ namespace Dx
       return XMVectorSet(i_vector.x, i_vector.y, i_vector.z, 1);
     }
 
+    XMVECTOR toXmVector(const Sdk::Vector2I& i_vector, const float i_z)
+    {
+      return XMVectorSet((float)i_vector.x, (float)i_vector.y, i_z, 1);
+    }
+
+    Sdk::Vector3F fromXmVector(const XMFLOAT3& i_vector)
+    {
+      return { i_vector.x, i_vector.y, i_vector.z };
+    }
+
   } // anonymous NS
 
 
@@ -152,6 +162,25 @@ namespace Dx
     XMFLOAT3 tempVector;
     XMStoreFloat3(&tempVector, res);
     return { tempVector.x, tempVector.y };
+  }
+
+  Sdk::RayF Camera::screenToWorld(const Sdk::Vector2I& i_point) const
+  {
+    const auto worldMatrix = XMMatrixIdentity();
+
+    const auto resNear = XMVector3Unproject(toXmVector(i_point, 0.0f), 0.0f, 0.0f,
+      (float)d_viewportResolution.x, (float)d_viewportResolution.y, d_viewportMinZ, d_viewportMaxZ,
+      d_projectionMatrix, d_viewMatrix, worldMatrix);
+    const auto resFar = XMVector3Unproject(toXmVector(i_point, 1.0f), 0.0f, 0.0f,
+      (float)d_viewportResolution.x, (float)d_viewportResolution.y, d_viewportMinZ, d_viewportMaxZ,
+      d_projectionMatrix, d_viewMatrix, worldMatrix);
+
+    XMFLOAT3 tempVectorNear;
+    XMStoreFloat3(&tempVectorNear, resNear);
+    XMFLOAT3 tempVectorFar;
+    XMStoreFloat3(&tempVectorFar, resFar);
+
+    return Sdk::RayF::createFromTwoPoints(fromXmVector(tempVectorNear), fromXmVector(tempVectorFar));
   }
 
 } // ns Dx

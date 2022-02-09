@@ -23,6 +23,14 @@ namespace Dx
   }
 
 
+  float Aabb::getMinX() const { return d_xMin; }
+  float Aabb::getMaxX() const { return d_xMax; }
+  float Aabb::getMinY() const { return d_yMin; }
+  float Aabb::getMaxY() const { return d_yMax; }
+  float Aabb::getMinZ() const { return d_zMin; }
+  float Aabb::getMaxZ() const { return d_zMax; }
+
+
   void Aabb::mergeWith(const Aabb& i_other)
   {
     d_xMin = std::min(d_xMin, i_other.d_xMin);
@@ -33,12 +41,39 @@ namespace Dx
     d_zMax = std::max(d_zMax, i_other.d_zMax);
   }
 
+  bool Aabb::intersect(const Sdk::RayF& i_ray) const
+  {
+    double tx1 = (d_xMin - i_ray.getPoint().x) * i_ray.getDirInv().x;
+    double tx2 = (d_xMax - i_ray.getPoint().x) * i_ray.getDirInv().x;
 
-  float Aabb::getMinX() const { return d_xMin; }
-  float Aabb::getMaxX() const { return d_xMax; }
-  float Aabb::getMinY() const { return d_yMin; }
-  float Aabb::getMaxY() const { return d_yMax; }
-  float Aabb::getMinZ() const { return d_zMin; }
-  float Aabb::getMaxZ() const { return d_zMax; }
+    double tmin = std::min(tx1, tx2);
+    double tmax = std::max(tx1, tx2);
+
+    double ty1 = (d_yMin - i_ray.getPoint().y) * i_ray.getDirInv().y;
+    double ty2 = (d_yMax - i_ray.getPoint().y) * i_ray.getDirInv().y;
+
+    tmin = std::max(tmin, std::min(ty1, ty2));
+    tmax = std::min(tmax, std::max(ty1, ty2));
+
+    double tz1 = (d_zMin - i_ray.getPoint().z) * i_ray.getDirInv().z;
+    double tz2 = (d_zMax - i_ray.getPoint().z) * i_ray.getDirInv().z;
+
+    tmin = std::max(tmin, std::min(tz1, tz2));
+    tmax = std::min(tmax, std::max(tz1, tz2));
+
+    return tmax >= tmin;
+  }
+
+  void Aabb::translate(const Sdk::Vector3F& i_translation)
+  {
+    d_xMin += i_translation.x;
+    d_xMax += i_translation.x;
+
+    d_yMin += i_translation.y;
+    d_yMax += i_translation.y;
+
+    d_zMin += i_translation.z;
+    d_zMax += i_translation.z;
+  }
 
 } // ns Dx

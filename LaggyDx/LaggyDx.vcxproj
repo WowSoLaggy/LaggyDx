@@ -160,6 +160,7 @@
     <ClInclude Include="ActionType.h" />
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="Obb.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Checkbox.h" />
     <ClInclude Include="ColliderBase.h" />
@@ -282,6 +283,7 @@
     <ClCompile Include="MeshUtils.cpp" />
     <ClCompile Include="miniz.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Obb.cpp" />
     <ClCompile Include="Object3.cpp" />
     <ClCompile Include="ofbx.cpp" />
     <ClCompile Include="OfbxSceneWrapper.cpp" />
