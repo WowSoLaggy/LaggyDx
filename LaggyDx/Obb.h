@@ -20,7 +20,7 @@ namespace Dx
     void setAabb(Aabb i_aabb);
     void setRotation(Sdk::Vector3F i_rotation);
 
-    bool intersect(Sdk::RayF i_ray) const;
+    std::optional<double> intersect(Sdk::RayF i_ray) const;
 
   private:
     Aabb d_aabb;

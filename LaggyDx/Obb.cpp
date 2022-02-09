@@ -61,7 +61,7 @@ namespace Dx
   }
 
 
-  bool Obb::intersect(Sdk::RayF i_ray) const
+  std::optional<double> Obb::intersect(Sdk::RayF i_ray) const
   {
     i_ray.translate(-d_translation);
     return d_aabb.intersect(rotateRayZ(i_ray, -d_rotation.z));

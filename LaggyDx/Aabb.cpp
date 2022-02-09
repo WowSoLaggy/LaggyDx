@@ -41,7 +41,7 @@ namespace Dx
     d_zMax = std::max(d_zMax, i_other.d_zMax);
   }
 
-  bool Aabb::intersect(const Sdk::RayF& i_ray) const
+  std::optional<double> Aabb::intersect(const Sdk::RayF& i_ray) const
   {
     double tx1 = (d_xMin - i_ray.getPoint().x) * i_ray.getDirInv().x;
     double tx2 = (d_xMax - i_ray.getPoint().x) * i_ray.getDirInv().x;
@@ -61,7 +61,10 @@ namespace Dx
     tmin = std::max(tmin, std::min(tz1, tz2));
     tmax = std::min(tmax, std::max(tz1, tz2));
 
-    return tmax >= tmin;
+    if (tmax >= tmin)
+      return tmin;
+    else
+      return std::nullopt;
   }
 
   void Aabb::translate(const Sdk::Vector3F& i_translation)

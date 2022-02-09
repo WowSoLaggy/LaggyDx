@@ -23,7 +23,7 @@ namespace Dx
     float getMaxZ() const;
 
     void mergeWith(const Aabb& i_other);
-    bool intersect(const Sdk::RayF& i_ray) const;
+    std::optional<double> intersect(const Sdk::RayF& i_ray) const;
     void translate(const Sdk::Vector3F& i_translation);
 
   private:
