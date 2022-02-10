@@ -13,9 +13,7 @@ namespace Dx
 {
   namespace
   {
-    std::vector<VertexTypePosTexNorm> getVertices(
-      const ofbx::Geometry& i_geometry,
-      const float i_unitScale)
+    std::vector<VertexTypePosTexNorm> getVertices(const ofbx::Geometry& i_geometry)
     {
       const int vertexCount = i_geometry.getVertexCount();
       const auto* vertices = i_geometry.getVertices();
@@ -29,8 +27,6 @@ namespace Dx
         VertexTypePosTexNorm vert;
 
         vert.position = { (float)vertices[i].x, (float)vertices[i].y, (float)vertices[i].z };
-        if (i_unitScale != 1.0f)
-          vert.position = vert.position / i_unitScale;
 
         if (normals)
           vert.normal = { (float)normals[i].x, (float)normals[i].y, (float)normals[i].z };
@@ -60,9 +56,9 @@ namespace Dx
       return inds;
     }
 
-    Shape3d getShape(const ofbx::Geometry& i_geometry, const float i_scaleFactor)
+    Shape3d getShape(const ofbx::Geometry& i_geometry)
     {
-      auto verts = getVertices(i_geometry, i_scaleFactor);
+      auto verts = getVertices(i_geometry);
       auto inds = getIndices(i_geometry);
       return Shape3d(std::move(verts), std::move(inds));
     }
@@ -130,7 +126,7 @@ namespace Dx
       const auto* geometry = fbxMesh->getGeometry();
       CONTRACT_ASSERT(geometry);
 
-      const auto shape = getShape(*geometry, scene->getGlobalSettings()->UnitScaleFactor);
+      const auto shape = getShape(*geometry);
       auto mesh = createMeshFromShape(shape, i_renderDevice);
 
       mesh.setMaterials(std::make_unique<MaterialSequence>(getMaterialsFromMesh(*fbxMesh)));
