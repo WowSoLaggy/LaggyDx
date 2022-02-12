@@ -26,6 +26,7 @@ namespace Dx
     , d_camera(i_camera)
     , d_pixelShader(i_resourceController.getPsResource("SimpleShader.ps.hlsl"))
     , d_vertexShader(i_resourceController.getVsResource("SimpleShader.vs.hlsl"))
+    , d_emptyTexture(i_resourceController.getTextureResource("white.png"))
   {
     createBuffers();
   }
@@ -178,13 +179,13 @@ namespace Dx
 
   void SimpleRenderer::setTexture(const IObject3& i_object)
   {
-    if (const auto* textureResource = dynamic_cast<const TextureResource*>(i_object.getTextureResource()))
-    {
-      auto* texturePtr = textureResource->getTexturePtr();
+    auto* texturePtr = static_cast<const TextureResource&>(d_emptyTexture).getTexturePtr();
 
-      const auto& renderDevice = dynamic_cast<const RenderDevice&>(d_renderDevice);
-      renderDevice.getDeviceContextPtr()->PSSetShaderResources(0, 1, &texturePtr);
-    }
+    if (const auto* textureResource = dynamic_cast<const TextureResource*>(i_object.getTextureResource()))
+      texturePtr = textureResource->getTexturePtr();
+
+    const auto& renderDevice = dynamic_cast<const RenderDevice&>(d_renderDevice);
+    renderDevice.getDeviceContextPtr()->PSSetShaderResources(0, 1, &texturePtr);
   }
 
   void SimpleRenderer::setTexture(const Material& i_material)
