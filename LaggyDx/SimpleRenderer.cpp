@@ -24,9 +24,9 @@ namespace Dx
     : d_renderDevice(i_renderDevice)
     , d_resourceController(i_resourceController)
     , d_camera(i_camera)
-    , d_pixelShader(i_resourceController.getPsResource("SimpleShader.ps.hlsl"))
-    , d_vertexShader(i_resourceController.getVsResource("SimpleShader.vs.hlsl"))
-    , d_emptyTexture(i_resourceController.getTextureResource("white.png"))
+    , d_pixelShader(i_resourceController.getPs("SimpleShader.ps.hlsl"))
+    , d_vertexShader(i_resourceController.getVs("SimpleShader.vs.hlsl"))
+    , d_emptyTexture(i_resourceController.getTexture("white.png"))
   {
     createBuffers();
   }
@@ -193,7 +193,7 @@ namespace Dx
     if (!i_material.textureName.empty())
     {
       const auto& texture = dynamic_cast<const TextureResource&>(
-        d_resourceController.getTextureResource(i_material.textureName));
+        d_resourceController.getTexture(i_material.textureName));
       auto* texturePtr = texture.getTexturePtr();
 
       const auto& renderDevice = dynamic_cast<const RenderDevice&>(d_renderDevice);

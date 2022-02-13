@@ -23,7 +23,7 @@ namespace Dx
   void Object2Base::setTexture(const std::string& i_textureName)
   {
     const auto& rc = Game::get().getResourceController();
-    const auto& texture = rc.getTextureResource(i_textureName);
+    const auto& texture = rc.getTexture(i_textureName);
     d_sprite.setTexture(texture);
     d_sprite.setSize(texture.getDescription().size());
 

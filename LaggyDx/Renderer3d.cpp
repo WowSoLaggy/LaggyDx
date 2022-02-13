@@ -61,9 +61,9 @@ namespace Dx
     auto& resourceController = dynamic_cast<ResourceController&>(d_resourceController);
 
     const auto& psResource = dynamic_cast<const PsResource&>(
-      resourceController.getPsResource("TextureLightPS.ps"));
+      resourceController.getPs("TextureLightPS.ps"));
     const auto& vsResource = dynamic_cast<const VsResource&>(
-      resourceController.getVsResource("TextureLightVS.vs"));
+      resourceController.getVs("TextureLightVS.vs"));
 
     auto* samplerState = psResource.getSampleStatePtr();
 

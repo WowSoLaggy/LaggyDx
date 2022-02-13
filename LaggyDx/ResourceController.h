@@ -14,12 +14,14 @@ namespace Dx
     ResourceController(IRenderDevice& i_renderDevice, fs::path i_resourcesFolder);
     virtual ~ResourceController() override;
 
-    virtual const IMeshResourceCmo& getMeshResourceCmo(const std::string& i_resourceName) const override;
-    virtual const ITextureResource& getTextureResource(const std::string& i_resourceName) const override;
-    virtual const IPsResource& getPsResource(const std::string& i_resourceName) const override;
-    virtual const IVsResource& getVsResource(const std::string& i_resourceName) const override;
-    virtual const IFontResource& getFontResource(const std::string& i_resourceName) const override;
-    virtual const IFbxResource& getFbxResource(const std::string& i_resourceName) const override;
+    virtual bool hasResource(const fs::path& i_name) const override;
+
+    virtual const IMeshResourceCmo& getMeshCmo(const fs::path& i_name) const override;
+    virtual const ITextureResource& getTexture(const fs::path& i_name) const override;
+    virtual const IPsResource& getPs(const fs::path& i_name) const override;
+    virtual const IVsResource& getVs(const fs::path& i_name) const override;
+    virtual const IFontResource& getFont(const fs::path& i_name) const override;
+    virtual const IFbxResource& getFbx(const fs::path& i_name) const override;
 
     virtual void loadResources() const override;
     virtual void unloadResources() const override;

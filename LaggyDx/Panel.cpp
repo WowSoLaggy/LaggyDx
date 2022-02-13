@@ -10,7 +10,7 @@ namespace Dx
   void Panel::setTexture(const std::string& i_textureName)
   {
     const auto& rc = Game::get().getResourceController();
-    d_sprite.setTexture(rc.getTextureResource(i_textureName));
+    d_sprite.setTexture(rc.getTexture(i_textureName));
   }
 
 

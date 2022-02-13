@@ -14,12 +14,14 @@ namespace Dx
   public:
     virtual ~IResourceController() = default;
 
-    virtual const IMeshResourceCmo& getMeshResourceCmo(const std::string& i_resourceName) const = 0;
-    virtual const ITextureResource& getTextureResource(const std::string& i_resourceName) const = 0;
-    virtual const IPsResource& getPsResource(const std::string& i_resourceName) const = 0;
-    virtual const IVsResource& getVsResource(const std::string& i_resourceName) const = 0;
-    virtual const IFontResource& getFontResource(const std::string& i_resourceName) const = 0;
-    virtual const IFbxResource& getFbxResource(const std::string& i_resourceName) const = 0;
+    virtual bool hasResource(const fs::path& i_name) const = 0;
+
+    virtual const IMeshResourceCmo& getMeshCmo(const fs::path& i_name) const = 0;
+    virtual const ITextureResource& getTexture(const fs::path& i_name) const = 0;
+    virtual const IPsResource& getPs(const fs::path& i_name) const = 0;
+    virtual const IVsResource& getVs(const fs::path& i_name) const = 0;
+    virtual const IFontResource& getFont(const fs::path& i_name) const = 0;
+    virtual const IFbxResource& getFbx(const fs::path& i_name) const = 0;
 
     virtual void loadResources() const = 0;
     virtual void unloadResources() const = 0;

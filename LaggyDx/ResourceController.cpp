@@ -11,6 +11,7 @@
 #include "VsHlslResource.h"
 
 #include <LaggySdk/Contracts.h>
+#include <LaggySdk/Files.h>
 
 
 namespace Dx
@@ -33,13 +34,19 @@ namespace Dx
       return dynamic_cast<T&>(*it->second);
     }
 
+    template <typename T>
+    T& getResource(const ResourcesMap& i_map, const fs::path& i_name, const fs::path& i_assetsPath)
+    {
+      return getResource<T>(i_map, (i_assetsPath / i_name).string());
+    }
+
   } // anonymous NS
 
 
   ResourceController::ResourceController(IRenderDevice& i_renderDevice, fs::path i_resourcesFolder)
     : d_renderDevice(i_renderDevice)
-    , d_resourceFolder(std::move(i_resourcesFolder))
   {
+    d_resourceFolder = Sdk::getExeFolder() / i_resourcesFolder;
     indexResourcesInDir(d_resourceFolder);
   }
 
@@ -49,50 +56,51 @@ namespace Dx
   }
 
 
-  const IMeshResourceCmo& ResourceController::getMeshResourceCmo(const std::string& i_resourceName) const
+  bool ResourceController::hasResource(const fs::path& i_name) const
   {
-    const std::string fullName = (d_resourceFolder / i_resourceName).string();
-    auto& res = getResource<IMeshResourceCmo>(d_resources, fullName);
+    const auto it = d_resources.find((d_resourceFolder / i_name).string());
+    return it != d_resources.end();
+  }
+
+
+  const IMeshResourceCmo& ResourceController::getMeshCmo(const fs::path& i_name) const
+  {
+    auto& res = getResource<IMeshResourceCmo>(d_resources, i_name, d_resourceFolder);
     loadResource(res);
     return res;
   }
 
-  const ITextureResource& ResourceController::getTextureResource(const std::string& i_resourceName) const
+  const ITextureResource& ResourceController::getTexture(const fs::path& i_name) const
   {
-    const std::string fullName = (d_resourceFolder / i_resourceName).string();
-    auto& res = getResource<ITextureResource>(d_resources, fullName);
+    auto& res = getResource<ITextureResource>(d_resources, i_name, d_resourceFolder);
     loadResource(res);
     return res;
   }
 
-  const IPsResource& ResourceController::getPsResource(const std::string& i_resourceName) const
+  const IPsResource& ResourceController::getPs(const fs::path& i_name) const
   {
-    const std::string fullName = (d_resourceFolder / i_resourceName).string();
-    auto& res = getResource<IPsResource>(d_resources, fullName);
+    auto& res = getResource<IPsResource>(d_resources, i_name, d_resourceFolder);
     loadResource(res);
     return res;
   }
 
-  const IVsResource& ResourceController::getVsResource(const std::string& i_resourceName) const
+  const IVsResource& ResourceController::getVs(const fs::path& i_name) const
   {
-    const std::string fullName = (d_resourceFolder / i_resourceName).string();
-    auto& res = getResource<IVsResource>(d_resources, fullName);
+    auto& res = getResource<IVsResource>(d_resources, i_name, d_resourceFolder);
     loadResource(res);
     return res;
   }
 
-  const IFontResource& ResourceController::getFontResource(const std::string& i_resourceName) const
+  const IFontResource& ResourceController::getFont(const fs::path& i_name) const
   {
-    const std::string fullName = (d_resourceFolder / i_resourceName).string();
-    auto& res = getResource<IFontResource>(d_resources, fullName);
+    auto& res = getResource<IFontResource>(d_resources, i_name, d_resourceFolder);
     loadResource(res);
     return res;
   }
 
-  const IFbxResource& ResourceController::getFbxResource(const std::string& i_resourceName) const
+  const IFbxResource& ResourceController::getFbx(const fs::path& i_name) const
   {
-    const std::string fullName = (d_resourceFolder / i_resourceName).string();
-    auto& res = getResource<IFbxResource>(d_resources, fullName);
+    auto& res = getResource<IFbxResource>(d_resources, i_name, d_resourceFolder);
     loadResource(res);
     return res;
   }
