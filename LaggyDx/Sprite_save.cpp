@@ -22,7 +22,7 @@ namespace Dx
   void Sprite::readFrom(std::istream& io_stream, IResourceController& i_resourceController)
   {
     const auto textureName = Sdk::readString(io_stream);
-    setTexture(&i_resourceController.getTextureResource(textureName));
+    setTexture(&i_resourceController.getTexture(textureName));
 
     io_stream >> d_position;
     io_stream >> d_size;

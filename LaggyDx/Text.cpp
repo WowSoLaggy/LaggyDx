@@ -20,7 +20,7 @@ namespace Dx
 
   void Text::setFont(const std::string& i_fontName)
   {
-    d_fontResource = &Game::get().getResourceController().getFontResource(i_fontName);
+    d_fontResource = &Game::get().getResourceController().getFont(i_fontName);
   }
 
   const IFontResource* Text::getFontResource() const

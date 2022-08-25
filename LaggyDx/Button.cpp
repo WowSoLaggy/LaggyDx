@@ -92,7 +92,7 @@ namespace Dx
   void Button::updateTexture()
   {
     const auto& rc = Game::get().getResourceController();
-    d_sprite.setTexture(rc.getTextureResource(d_textures[d_state]));
+    d_sprite.setTexture(rc.getTexture(d_textures[d_state]));
     d_sprite.resetSizeToTexture();
 
     setSize(d_sprite.getSize().getVector<float>());
