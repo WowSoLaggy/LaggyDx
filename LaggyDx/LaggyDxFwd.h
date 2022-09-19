@@ -88,17 +88,6 @@ struct ID3D11Buffer;
 struct ID3D10Blob;
 
 
-namespace DirectX
-{
-  class Model;
-  class SpriteFont;
-  class SpriteBatch;
-  struct XMMATRIX;
-
-  struct VertexPositionColor;
-
-} // ns DirectX
-
 namespace ofbx
 {
   struct IScene;
