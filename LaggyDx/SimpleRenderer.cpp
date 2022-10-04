@@ -43,7 +43,7 @@ namespace Dx
   }
 
 
-  void SimpleRenderer::draw(const IObject3& i_object)
+  void SimpleRenderer::draw(const IObject3& i_object) const
   {
     setRenderStates();
     setShaders();
@@ -104,13 +104,13 @@ namespace Dx
   }
 
 
-  void SimpleRenderer::setRenderStates()
+  void SimpleRenderer::setRenderStates() const
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
     renderDevice.resetState();
   }
 
-  void SimpleRenderer::setShaders()
+  void SimpleRenderer::setShaders() const
   {
     const auto& renderDevice = dynamic_cast<const RenderDevice&>(d_renderDevice);
 
@@ -124,7 +124,7 @@ namespace Dx
     renderDevice.getDeviceContextPtr()->PSSetSamplers(0, 1, &samplerState);
   }
 
-  void SimpleRenderer::setBuffers(const Mesh& i_mesh)
+  void SimpleRenderer::setBuffers(const Mesh& i_mesh) const
   {
     const auto& renderDevice = dynamic_cast<const RenderDevice&>(d_renderDevice);
 
@@ -143,7 +143,7 @@ namespace Dx
     renderDevice.getDeviceContextPtr()->IASetPrimitiveTopology(topology);
   }
 
-  void SimpleRenderer::setMatrices(const IObject3& i_object)
+  void SimpleRenderer::setMatrices(const IObject3& i_object) const
   {
     const auto& renderDevice = dynamic_cast<const RenderDevice&>(d_renderDevice);
 
@@ -177,7 +177,7 @@ namespace Dx
     renderDevice.getDeviceContextPtr()->VSSetConstantBuffers(0, 1, &d_matrixBuffer);
   }
 
-  void SimpleRenderer::setTexture(const IObject3& i_object)
+  void SimpleRenderer::setTexture(const IObject3& i_object) const
   {
     auto* texturePtr = static_cast<const TextureResource&>(d_emptyTexture).getTexturePtr();
 
@@ -188,7 +188,7 @@ namespace Dx
     renderDevice.getDeviceContextPtr()->PSSetShaderResources(0, 1, &texturePtr);
   }
 
-  void SimpleRenderer::setTexture(const Material& i_material)
+  void SimpleRenderer::setTexture(const Material& i_material) const
   {
     if (!i_material.textureName.empty())
     {
@@ -201,7 +201,7 @@ namespace Dx
     }
   }
 
-  void SimpleRenderer::setMaterial(const Material& i_material)
+  void SimpleRenderer::setMaterial(const Material& i_material) const
   {
     const auto& renderDevice = dynamic_cast<const RenderDevice&>(d_renderDevice);
 
@@ -223,7 +223,7 @@ namespace Dx
     renderDevice.getDeviceContextPtr()->PSSetConstantBuffers(0, 1, &d_lightBuffer);
   }
 
-  void SimpleRenderer::drawIndexed(const int i_count, const int i_startIndex)
+  void SimpleRenderer::drawIndexed(const int i_count, const int i_startIndex) const
   {
     const auto& renderDevice = dynamic_cast<const RenderDevice&>(d_renderDevice);
     renderDevice.getDeviceContextPtr()->DrawIndexed(i_count, i_startIndex, 0);

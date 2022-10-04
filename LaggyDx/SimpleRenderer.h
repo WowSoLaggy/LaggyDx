@@ -18,7 +18,7 @@ namespace Dx
 
     virtual void setDrawAabb(bool i_draw) override;
 
-    virtual void draw(const IObject3& i_object) override;
+    virtual void draw(const IObject3& i_object) const override;
 
   private:
     IRenderDevice& d_renderDevice;
@@ -36,14 +36,14 @@ namespace Dx
     void createBuffers();
     void deleteBuffers();
 
-    void setRenderStates();
-    void setShaders();
-    void setBuffers(const Mesh& i_mesh);
-    void setMatrices(const IObject3& i_object);
-    void setTexture(const IObject3& i_object);
-    void setTexture(const Material& i_material);
-    void setMaterial(const Material& i_material);
-    void drawIndexed(int i_count, int i_startIndex);
+    void setRenderStates() const;
+    void setShaders() const;
+    void setBuffers(const Mesh& i_mesh) const;
+    void setMatrices(const IObject3& i_object) const;
+    void setTexture(const IObject3& i_object) const;
+    void setTexture(const Material& i_material) const;
+    void setMaterial(const Material& i_material) const;
+    void drawIndexed(int i_count, int i_startIndex) const;
   };
 
 } // ns Dx
