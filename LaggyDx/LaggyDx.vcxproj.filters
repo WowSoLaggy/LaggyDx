@@ -31,9 +31,6 @@
     <Filter Include="src\Sprite">
       <UniqueIdentifier>{075f2697-8a25-4ff8-b92b-49631bf0b5dc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\InputControllers">
-      <UniqueIdentifier>{774b64b4-2f70-4ef3-b7fc-e1df3ea52038}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Animation3d">
       <UniqueIdentifier>{a2329c46-c70a-46b5-b051-a056fb7da2af}</UniqueIdentifier>
     </Filter>
@@ -96,6 +93,9 @@
     </Filter>
     <Filter Include="src\OfbxSceneWrapper">
       <UniqueIdentifier>{cc00dc88-33c3-464a-aa4c-b5e7ce755153}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\InputDevices">
+      <UniqueIdentifier>{774b64b4-2f70-4ef3-b7fc-e1df3ea52038}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -172,13 +172,13 @@
       <Filter>src\InputDevice</Filter>
     </ClInclude>
     <ClInclude Include="KeyboardState.h">
-      <Filter>src\InputControllers</Filter>
+      <Filter>src\InputDevices</Filter>
     </ClInclude>
     <ClInclude Include="Sprite.h">
       <Filter>src\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="MouseState.h">
-      <Filter>src\InputControllers</Filter>
+      <Filter>src\InputDevices</Filter>
     </ClInclude>
     <ClInclude Include="ITextureResource.h">
       <Filter>src\Resources\OtherResources</Filter>
@@ -202,16 +202,16 @@
       <Filter>src\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="KeyboardKeysState.h">
-      <Filter>src\InputControllers</Filter>
+      <Filter>src\InputDevices</Filter>
     </ClInclude>
     <ClInclude Include="KeyboardKeys.h">
-      <Filter>src\InputControllers</Filter>
+      <Filter>src\InputDevices</Filter>
     </ClInclude>
     <ClInclude Include="MouseKeysState.h">
-      <Filter>src\InputControllers</Filter>
+      <Filter>src\InputDevices</Filter>
     </ClInclude>
     <ClInclude Include="MouseKeys.h">
-      <Filter>src\InputControllers</Filter>
+      <Filter>src\InputDevices</Filter>
     </ClInclude>
     <ClInclude Include="Renderer2dGuard.h">
       <Filter>src\Renderers\Renderer2d</Filter>
@@ -250,7 +250,7 @@
       <Filter>src\Actions</Filter>
     </ClInclude>
     <ClInclude Include="KeyUtils.h">
-      <Filter>src\InputControllers</Filter>
+      <Filter>src\InputDevices</Filter>
     </ClInclude>
     <ClInclude Include="Colors.h">
       <Filter>src\Colors</Filter>
@@ -498,10 +498,10 @@
       <Filter>src\InputDevice</Filter>
     </ClCompile>
     <ClCompile Include="KeyboardState.cpp">
-      <Filter>src\InputControllers</Filter>
+      <Filter>src\InputDevices</Filter>
     </ClCompile>
     <ClCompile Include="MouseState.cpp">
-      <Filter>src\InputControllers</Filter>
+      <Filter>src\InputDevices</Filter>
     </ClCompile>
     <ClCompile Include="IAnimationController3d.cpp">
       <Filter>src\Animation3d</Filter>
@@ -546,7 +546,7 @@
       <Filter>src\Actions</Filter>
     </ClCompile>
     <ClCompile Include="KeyUtils.cpp">
-      <Filter>src\InputControllers</Filter>
+      <Filter>src\InputDevices</Filter>
     </ClCompile>
     <ClCompile Include="Colors.cpp">
       <Filter>src\Colors</Filter>
