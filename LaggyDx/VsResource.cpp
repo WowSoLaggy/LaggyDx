@@ -60,7 +60,10 @@ namespace Dx
   void VsResource::unload()
   {
     d_layout->Release();
+    d_layout = nullptr;
+
     d_vertexShader->Release();
+    d_vertexShader = nullptr;
   }
 
 } // ns Dx

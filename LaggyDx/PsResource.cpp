@@ -46,9 +46,9 @@ namespace Dx
   void PsResource::unload()
   {
     d_sampleState->Release();
-    d_pixelShader->Release();
-
     d_sampleState = nullptr;
+
+    d_pixelShader->Release();
     d_pixelShader = nullptr;
   }
 
