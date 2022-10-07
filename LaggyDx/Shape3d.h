@@ -3,11 +3,16 @@
 #include "Aabb.h"
 #include "IShape3d.h"
 
+#include <LaggySdk/Size.h>
+
 
 namespace Dx
 {
   class Shape3d : public IShape3d
   {
+  public:
+    static Shape3d plane(const Sdk::Size2I& i_size);
+
   public:
     Shape3d() = default;
     Shape3d(std::vector<VertexTypePosTexNorm> i_verts, std::vector<int> i_inds);
