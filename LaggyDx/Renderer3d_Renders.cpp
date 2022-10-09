@@ -2,7 +2,7 @@
 #include "Renderer3d.h"
 
 #include "AnimationController3d.h"
-#include "Camera.h"
+#include "ICamera.h"
 #include "IndexBuffer.h"
 #include "MaterialSequence.h"
 #include "MeshResourceCmo.h"
@@ -44,8 +44,6 @@ namespace Dx
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
     const auto& meshResourceCmo = dynamic_cast<const MeshResourceCmo&>(i_meshCmoResource);
-
-    auto& camera = dynamic_cast<const Camera&>(d_camera);
 
     auto animationTransform = XMMatrixIdentity();
     auto animationController = std::dynamic_pointer_cast<AnimationController3d>(i_animationController);
@@ -94,7 +92,7 @@ namespace Dx
     });
 
     meshResourceCmo.getModel().Draw(renderDevice.getDeviceContextPtr(), *d_commonStates,
-      worldMatrix, camera.getViewMatrix(), camera.getProjectionMatrix());
+      worldMatrix, d_camera.getViewMatrix(), d_camera.getProjectionMatrix());
   }
 
 } // ns Dx

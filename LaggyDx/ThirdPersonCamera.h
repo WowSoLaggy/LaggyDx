@@ -23,7 +23,6 @@ namespace Dx
     virtual void setPosition(Sdk::Vector3F i_pos) override;
 
   private:
-
     float d_yaw = 0.0;
     float d_pitch = 0.0;
     float d_distance = 0.0;

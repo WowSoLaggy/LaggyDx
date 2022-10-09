@@ -28,6 +28,9 @@ namespace Dx
     : d_viewportResolution(i_viewportResolution)
     , d_projectionMatrix(DirectX::XMMATRIX())
     , d_viewMatrix(DirectX::XMMATRIX())
+    , d_position{ 0.0f, 0.0f, 0.0f }
+    , d_lookAt{ 1.0f, 0.0f, 0.0f }
+    , d_up{ 0.0f, 1.0f, 0.0f }
   {
   }
 

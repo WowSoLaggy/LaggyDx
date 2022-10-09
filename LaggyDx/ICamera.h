@@ -12,6 +12,7 @@ namespace Dx
   class ICamera
   {
   public:
+    static std::unique_ptr<ICamera> createFirstPersonCamera(Sdk::Vector2I i_viewportResolution);
     static std::unique_ptr<ICamera> createThirdPersonCamera(Sdk::Vector2I i_viewportResolution);
 
   public:
