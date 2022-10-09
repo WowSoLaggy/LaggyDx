@@ -16,9 +16,9 @@ namespace Dx
         for (int x = 0; x < i_size.x; ++x)
         {
           Dx::VertexTypePosTexNorm p;
-          p.position = { (float)x, (float)y, 0.0f };
+          p.position = { (float)x, 0.0f, (float)y };
           p.texture = { (float)x, (float)y };
-          p.normal = { 0.0f, 0.0f, 1.0f };
+          p.normal = { 0.0f, 1.0f, 0.0f };
 
           verts[ind++] = std::move(p);
         }
