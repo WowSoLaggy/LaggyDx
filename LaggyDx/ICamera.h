@@ -12,11 +12,9 @@ namespace Dx
   class ICamera
   {
   public:
-
     static std::unique_ptr<ICamera> createThirdPersonCamera(Sdk::Vector2I i_viewportResolution);
 
   public:
-
     virtual ~ICamera() = default;
 
     virtual float getFovAngle() const = 0;
@@ -28,15 +26,6 @@ namespace Dx
     virtual float getViewportMaxZ() const = 0;
     virtual void setViewportMaxZ(float i_viewportMaxZ) = 0;
 
-    virtual float getYaw() const = 0;
-    virtual void setYaw(float i_yaw) = 0;
-
-    virtual float getPitch() const = 0;
-    virtual void setPitch(float i_pitch) = 0;
-
-    virtual float getDistance() const = 0;
-    virtual void setDistance(float i_distance) = 0;
-
     virtual Sdk::Vector3F getLookAt() const = 0;
     virtual void setLookAt(Sdk::Vector3F i_direction) = 0;
 
@@ -44,7 +33,7 @@ namespace Dx
     virtual void setUp(Sdk::Vector3F i_up) = 0;
 
     virtual Sdk::Vector3F getPosition() const = 0;
-    virtual void setPosition(const Sdk::Vector3F& i_pos) = 0;
+    virtual void setPosition(Sdk::Vector3F i_pos) = 0;
 
     virtual Sdk::Vector3F getLeft() const = 0;
     virtual Sdk::Vector3F getRight() const = 0;
