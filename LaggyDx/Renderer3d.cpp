@@ -89,9 +89,9 @@ namespace Dx
     renderDevice.getDeviceContextPtr()->Map(d_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
     auto* dataPtr = (MatrixBuffer*)mappedResource.pData;
-    dataPtr->world = worldMatrix;
-    dataPtr->view = viewMatrix;
-    dataPtr->projection = projectionMatrix;
+    dataPtr->world = std::move(worldMatrix);
+    dataPtr->view = std::move(viewMatrix);
+    dataPtr->projection = std::move(projectionMatrix);
 
     renderDevice.getDeviceContextPtr()->Unmap(d_matrixBuffer, 0);
 
