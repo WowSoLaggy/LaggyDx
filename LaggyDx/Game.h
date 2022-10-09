@@ -10,13 +10,15 @@
 #include "MouseState.h"
 #include "ObjectCollection.h"
 
+#include <LaggySdk/EventHandler.h>
 #include <LaggySdk/Timer.h>
+#include <LaggySdk/Vector.h>
 #include <LaggySdk/Window.h>
 
 
 namespace Dx
 {
-  class Game
+  class Game : public Sdk::EventHandler
   {
   public:
     static Game& get();
@@ -89,7 +91,7 @@ namespace Dx
     void handleKeyboard(const KeyboardState& i_keyboardState);
     void handleMouse(const MouseState& i_mouseState);
 
-    void onMouseMove();
+    void onMouseMove(Sdk::Vector2I i_move);
     void onMouseWheel(int i_distance);
     void onMouseClick(MouseKey i_key);
     void onMouseRelease(MouseKey i_key);

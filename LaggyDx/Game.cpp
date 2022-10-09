@@ -3,7 +3,9 @@
 
 #include "Form.h"
 #include "GameSettings.h"
+#include "GameEvents.h"
 #include "ICollider.h"
+#include "InputEvents.h"
 #include "IObject.h"
 #include "IObject2.h"
 #include "IObject3.h"
@@ -141,6 +143,7 @@ namespace Dx
 
   void Game::update(const double i_dt)
   {
+    notify(OnGameUpdate(i_dt));
     updateObjects(i_dt);
     updateGui(i_dt);
   }
@@ -203,18 +206,21 @@ namespace Dx
   {
     for (const auto key : getKeys(i_keyboardState.getPressedKeys()))
     {
+      notify(OnKeyPressedEvent(key));
       if (const auto* action = d_actionsMap.getAction(key, ActionType::OnPress))
         action->operator()();
     }
 
     for (const auto key : getKeys(i_keyboardState.getReleasedKeys()))
     {
+      notify(OnKeyReleasedEvent(key));
       if (const auto* action = d_actionsMap.getAction(key, ActionType::OnRelease))
         action->operator()();
     }
 
     for (const auto key : getKeys(i_keyboardState.getCurrentKeys()))
     {
+      notify(OnKeyCurrentEvent(key));
       if (const auto* action = d_actionsMap.getAction(key, ActionType::Continuous))
         action->operator()();
     }
@@ -223,7 +229,7 @@ namespace Dx
   void Game::handleMouse(const Dx::MouseState& i_mouseState)
   {
     if (i_mouseState.getPosition() != d_mouseState.getPosition())
-      onMouseMove();
+      onMouseMove(i_mouseState.getPosition() - d_mouseState.getPosition());
 
     if (i_mouseState.getWheelPositionChange() != 0)
       onMouseWheel(i_mouseState.getWheelPositionChange());
@@ -240,8 +246,9 @@ namespace Dx
     d_mouseState = i_mouseState;
   }
 
-  void Game::onMouseMove()
+  void Game::onMouseMove(Sdk::Vector2I i_move)
   {
+    notify(OnMouseMovedEvent(std::move(i_move)));
     getForm().onMouseMove();
   }
 
