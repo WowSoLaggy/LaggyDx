@@ -7,11 +7,11 @@
 
 namespace Dx
 {
-  class Camera : public ICamera
+  class ThirdPersonCamera : public ICamera
   {
   public:
 
-    Camera(Sdk::Vector2I i_viewportResolution);
+    ThirdPersonCamera(Sdk::Vector2I i_viewportResolution);
 
     virtual float getFovAngle() const override { return d_fovAngle; }
     virtual void setFovAngle(float i_fovAngle) override;

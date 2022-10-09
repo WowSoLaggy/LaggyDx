@@ -185,7 +185,7 @@
     <ClInclude Include="IGuiEffect.h" />
     <ClInclude Include="ImageAnimation.h" />
     <ClInclude Include="AnimationController3d.h" />
-    <ClInclude Include="Camera.h" />
+    <ClInclude Include="ThirdPersonCamera.h" />
     <ClInclude Include="FontResource.h" />
     <ClInclude Include="IAnimationController3d.h" />
     <ClInclude Include="IFontResource.h" />
@@ -290,7 +290,7 @@
     <ClCompile Include="PsHlslResource.cpp" />
     <ClCompile Include="Shape3d.cpp" />
     <ClCompile Include="VsBinResource.cpp" />
-    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ThirdPersonCamera.cpp" />
     <ClCompile Include="ColliderBase.cpp" />
     <ClCompile Include="CollisionFunctor.cpp" />
     <ClCompile Include="CollisionManager.cpp" />

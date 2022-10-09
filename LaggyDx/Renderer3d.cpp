@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Renderer3d.h"
 
-#include "Camera.h"
+#include "ICamera.h"
 #include "MaterialSequence.h"
 #include "PsResource.h"
 #include "RenderDevice.h"
@@ -76,15 +76,14 @@ namespace Dx
   void Renderer3d::setShaderMatrices(const Sdk::Vector3F& i_position, const Sdk::Vector3F& i_rotation)
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
-    auto& camera = dynamic_cast<const Camera&>(d_camera);
 
     auto worldMatrix =
       XMMatrixRotationRollPitchYaw(i_rotation.x, i_rotation.y, i_rotation.z) *
       XMMatrixTranslation(i_position.x, i_position.y, i_position.z);
 
     worldMatrix = XMMatrixTranspose(worldMatrix);
-    auto viewMatrix = XMMatrixTranspose(camera.getViewMatrix());
-    auto projectionMatrix = XMMatrixTranspose(camera.getProjectionMatrix());
+    auto viewMatrix = XMMatrixTranspose(d_camera.getViewMatrix());
+    auto projectionMatrix = XMMatrixTranspose(d_camera.getProjectionMatrix());
 
     D3D11_MAPPED_SUBRESOURCE mappedResource;
     renderDevice.getDeviceContextPtr()->Map(d_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);

@@ -7,9 +7,6 @@
     <Filter Include="src\RenderDevice">
       <UniqueIdentifier>{8cc891c0-3378-44db-a4cc-a3ce39f9bda1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Camera">
-      <UniqueIdentifier>{17410187-afc1-4479-b6d6-10092edbd729}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Resources">
       <UniqueIdentifier>{ddcb04d9-708b-4dbf-b638-236a1a041335}</UniqueIdentifier>
     </Filter>
@@ -97,6 +94,9 @@
     <Filter Include="src\InputDevices">
       <UniqueIdentifier>{774b64b4-2f70-4ef3-b7fc-e1df3ea52038}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Cameras">
+      <UniqueIdentifier>{17410187-afc1-4479-b6d6-10092edbd729}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -108,11 +108,11 @@
     <ClInclude Include="IRenderDevice.h">
       <Filter>src\RenderDevice</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>src\Camera</Filter>
+    <ClInclude Include="ThirdPersonCamera.h">
+      <Filter>src\Cameras</Filter>
     </ClInclude>
     <ClInclude Include="ICamera.h">
-      <Filter>src\Camera</Filter>
+      <Filter>src\Cameras</Filter>
     </ClInclude>
     <ClInclude Include="ResourceController.h">
       <Filter>src\Resources</Filter>
@@ -443,11 +443,11 @@
     <ClCompile Include="IRenderDevice.cpp">
       <Filter>src\RenderDevice</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>src\Camera</Filter>
+    <ClCompile Include="ThirdPersonCamera.cpp">
+      <Filter>src\Cameras</Filter>
     </ClCompile>
     <ClCompile Include="ICamera.cpp">
-      <Filter>src\Camera</Filter>
+      <Filter>src\Cameras</Filter>
     </ClCompile>
     <ClCompile Include="ResourceController.cpp">
       <Filter>src\Resources</Filter>

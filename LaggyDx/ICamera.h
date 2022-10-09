@@ -13,7 +13,7 @@ namespace Dx
   {
   public:
 
-    static std::unique_ptr<ICamera> createCamera(Sdk::Vector2I i_viewportResolution);
+    static std::unique_ptr<ICamera> createThirdPersonCamera(Sdk::Vector2I i_viewportResolution);
 
   public:
 
