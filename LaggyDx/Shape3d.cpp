@@ -6,16 +6,16 @@ namespace Dx
 {
   namespace
   {
-    std::vector<Dx::VertexTypePosTexNorm> generatePlaneVerts(const Sdk::Size2I& i_size)
+    std::vector<VertexTypePosTexNorm> generatePlaneVerts(const Sdk::Size2I& i_size)
     {
-      std::vector<Dx::VertexTypePosTexNorm> verts(i_size.x * i_size.y);
+      std::vector<VertexTypePosTexNorm> verts(i_size.x * i_size.y);
 
       int ind = 0;
       for (int y = 0; y < i_size.y; ++y)
       {
         for (int x = 0; x < i_size.x; ++x)
         {
-          Dx::VertexTypePosTexNorm p;
+          VertexTypePosTexNorm p;
           p.position = { (float)x, 0.0f, (float)y };
           p.texture = { (float)x, (float)y };
           p.normal = { 0.0f, 1.0f, 0.0f };
@@ -63,7 +63,7 @@ namespace Dx
   {
     auto verts = generatePlaneVerts(i_size);
     auto inds = generatePlaneInds(i_size);
-    return Dx::Shape3d(std::move(verts), std::move(inds));
+    return Shape3d(std::move(verts), std::move(inds));
   }
 
 

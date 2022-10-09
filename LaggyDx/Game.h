@@ -83,7 +83,7 @@ namespace Dx
     ActionsMap d_actionsMap;
     CollisionManager d_collisionManager;
 
-    Dx::MouseState d_mouseState;
+    MouseState d_mouseState;
 
     std::unique_ptr<IControl> d_form;
 

@@ -116,8 +116,11 @@ namespace Dx
       return false;
 
     CONTRACT_EXPECT(d_inputDevice);
-    if (!Sdk::handleMessages(std::bind(&Dx::IInputDevice::processMessage, std::ref(*d_inputDevice), std::placeholders::_1)))
+    if (!Sdk::handleMessages(
+      std::bind(&IInputDevice::processMessage, std::ref(*d_inputDevice), std::placeholders::_1)))
+    {
       return false;
+    }
 
     return true;
   }
@@ -202,7 +205,7 @@ namespace Dx
   }
 
 
-  void Game::handleKeyboard(const Dx::KeyboardState& i_keyboardState)
+  void Game::handleKeyboard(const KeyboardState& i_keyboardState)
   {
     for (const auto key : getKeys(i_keyboardState.getPressedKeys()))
     {
@@ -226,7 +229,7 @@ namespace Dx
     }
   }
 
-  void Game::handleMouse(const Dx::MouseState& i_mouseState)
+  void Game::handleMouse(const MouseState& i_mouseState)
   {
     if (i_mouseState.getPosition() != d_mouseState.getPosition())
       onMouseMove(i_mouseState.getPosition() - d_mouseState.getPosition());
@@ -237,9 +240,9 @@ namespace Dx
     for (const auto key : { MouseKey::Left, MouseKey::Right, MouseKey::Middle, MouseKey::X1, MouseKey::X2 })
     {
       const auto state = i_mouseState.getButtonState(key);
-      if (state == Dx::MouseButtonState::Pressed)
+      if (state == MouseButtonState::Pressed)
         onMouseClick(key);
-      else if (state == Dx::MouseButtonState::Released)
+      else if (state == MouseButtonState::Released)
         onMouseRelease(key);
     }
 

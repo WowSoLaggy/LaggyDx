@@ -41,7 +41,7 @@ namespace Dx
     memcpy(&keys, &state, sizeof(keys));
 
     d_mouseState.update(keys);
-    d_mouseState.setMode(static_cast<Dx::MouseMode>(state.positionMode));
+    d_mouseState.setMode(static_cast<MouseMode>(state.positionMode));
 
     return d_mouseState;
   }

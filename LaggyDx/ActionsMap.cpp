@@ -4,30 +4,30 @@
 
 namespace Dx
 {
-  bool ActionsMap::isKeyBinded(const Dx::KeyboardKey i_key, ActionType i_actionType) const
+  bool ActionsMap::isKeyBinded(const KeyboardKey i_key, ActionType i_actionType) const
   {
     const auto it = d_keyboardMap.find(std::make_pair(i_key, i_actionType));
     return it != d_keyboardMap.cend();
   }
 
-  bool ActionsMap::isKeyBinded(const Dx::MouseKey i_key, ActionType i_actionType) const
+  bool ActionsMap::isKeyBinded(const MouseKey i_key, ActionType i_actionType) const
   {
     const auto it = d_mouseMap.find(std::make_pair(i_key, i_actionType));
     return it != d_mouseMap.cend();
   }
 
 
-  void ActionsMap::setAction(const Dx::KeyboardKey i_key, Action i_action, const ActionType i_actionType)
+  void ActionsMap::setAction(const KeyboardKey i_key, Action i_action, const ActionType i_actionType)
   {
     d_keyboardMap[std::make_pair(i_key, i_actionType)] = std::move(i_action);
   }
 
-  void ActionsMap::setAction(const Dx::MouseKey i_key, Action i_action, ActionType i_actionType)
+  void ActionsMap::setAction(const MouseKey i_key, Action i_action, ActionType i_actionType)
   {
     d_mouseMap[std::make_pair(i_key, i_actionType)] = std::move(i_action);
   }
 
-  const Action* ActionsMap::getAction(const Dx::KeyboardKey i_key, const ActionType i_actionType) const
+  const Action* ActionsMap::getAction(const KeyboardKey i_key, const ActionType i_actionType) const
   {
     const auto it = d_keyboardMap.find(std::make_pair(i_key, i_actionType));
     if (it == d_keyboardMap.cend())
@@ -36,7 +36,7 @@ namespace Dx
     return &it->second;
   }
 
-  const Action* ActionsMap::getAction(const Dx::MouseKey i_key, ActionType i_actionType) const
+  const Action* ActionsMap::getAction(const MouseKey i_key, ActionType i_actionType) const
   {
     const auto it = d_mouseMap.find(std::make_pair(i_key, i_actionType));
     if (it == d_mouseMap.cend())

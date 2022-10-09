@@ -11,15 +11,15 @@ namespace Dx
   class KeyEvent : public Sdk::IEvent
   {
   public:
-    KeyEvent(Dx::KeyboardKey i_key)
+    KeyEvent(KeyboardKey i_key)
       : d_key(i_key)
     {
     }
 
-    Dx::KeyboardKey key() const { return d_key; }
+    KeyboardKey key() const { return d_key; }
 
   private:
-    const Dx::KeyboardKey d_key;
+    const KeyboardKey d_key;
   };
 
   class OnKeyPressedEvent : public KeyEvent
