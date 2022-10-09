@@ -44,6 +44,7 @@ namespace Dx
     virtual void setUp(Sdk::Vector3F i_up) = 0;
 
     virtual Sdk::Vector3F getPosition() const = 0;
+    virtual void setPosition(const Sdk::Vector3F& i_pos) = 0;
 
     virtual Sdk::Vector3F getLeft() const = 0;
     virtual Sdk::Vector3F getRight() const = 0;

@@ -113,6 +113,12 @@ namespace Dx
     return d_lookAt + relativePosition;
   }
 
+  void Camera::setPosition(const Sdk::Vector3F& i_pos)
+  {
+    const auto diff = i_pos - getPosition();
+    setLookAt(getLookAt() + diff);
+  }
+
 
   Sdk::Vector3F Camera::getLeft() const
   {

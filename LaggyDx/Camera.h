@@ -38,6 +38,7 @@ namespace Dx
     virtual void setUp(Sdk::Vector3F i_up) override;
 
     virtual Sdk::Vector3F getPosition() const override;
+    virtual void setPosition(const Sdk::Vector3F& i_pos) override;
 
     virtual Sdk::Vector3F getLeft() const override;
     virtual Sdk::Vector3F getRight() const override;
