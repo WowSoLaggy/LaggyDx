@@ -44,12 +44,12 @@ namespace Dx
         for (int x = 0; x < i_size.x - 1; ++x)
         {
           inds[ind++] = x + y * i_size.x;
-          inds[ind++] = (x + 1) + y * i_size.x;
           inds[ind++] = x + (y + 1) * i_size.x;
+          inds[ind++] = (x + 1) + y * i_size.x;
 
           inds[ind++] = (x + 1) + y * i_size.x;
-          inds[ind++] = (x + 1) + (y + 1) * i_size.x;
           inds[ind++] = x + (y + 1) * i_size.x;
+          inds[ind++] = (x + 1) + (y + 1) * i_size.x;
         }
       }
 
