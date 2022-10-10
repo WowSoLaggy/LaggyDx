@@ -32,6 +32,8 @@ namespace Dx
     , d_lookAt{ 1.0f, 0.0f, 0.0f }
     , d_up{ 0.0f, 1.0f, 0.0f }
   {
+    updateProjectionMatrix();
+    updateViewMatrix();
   }
 
 
