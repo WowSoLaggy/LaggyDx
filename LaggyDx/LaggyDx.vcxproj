@@ -162,6 +162,8 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="CameraBase.h" />
     <ClInclude Include="FirstPersonCamera.h" />
+    <ClInclude Include="GameEvents.h" />
+    <ClInclude Include="InputEvents.h" />
     <ClInclude Include="Obb.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Checkbox.h" />

@@ -432,6 +432,12 @@
     <ClInclude Include="Obb.h">
       <Filter>src\Collisions</Filter>
     </ClInclude>
+    <ClInclude Include="InputEvents.h">
+      <Filter>src\InputDevices</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEvents.h">
+      <Filter>src\Game</Filter>
+    </ClInclude>
     <ClInclude Include="FirstPersonCamera.h">
       <Filter>src\Cameras</Filter>
     </ClInclude>
