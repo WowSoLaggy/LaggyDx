@@ -36,6 +36,8 @@ namespace Dx
     MouseButtonState getButtonState(MouseKey i_key) const;
 
     const Sdk::Vector2I& getPosition() const { return d_mousePosition; }
+    void resetPosition() { d_mousePosition = {}; }
+
     int getWheelPosition() const { return d_wheelPosition; }
     int getWheelPositionChange() const { return d_wheelPositionChange; }
 

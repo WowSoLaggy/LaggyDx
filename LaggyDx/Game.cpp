@@ -227,24 +227,29 @@ namespace Dx
     }
   }
 
-  void Game::handleMouse(const MouseState& i_mouseState)
+  void Game::handleMouse(MouseState i_mouseState)
   {
-    if (i_mouseState.getPosition() != d_mouseState.getPosition())
-      onMouseMove(i_mouseState.getPosition() - d_mouseState.getPosition());
-
-    if (i_mouseState.getWheelPositionChange() != 0)
-      onMouseWheel(i_mouseState.getWheelPositionChange());
-
-    for (const auto key : { MouseKey::Left, MouseKey::Right, MouseKey::Middle, MouseKey::X1, MouseKey::X2 })
+    if (d_mouseState)
     {
-      const auto state = i_mouseState.getButtonState(key);
-      if (state == MouseButtonState::Pressed)
-        onMouseClick(key);
-      else if (state == MouseButtonState::Released)
-        onMouseRelease(key);
+      if (i_mouseState.getPosition() != d_mouseState->getPosition())
+        onMouseMove(i_mouseState.getPosition() - d_mouseState->getPosition());
+
+      if (i_mouseState.getWheelPositionChange() != 0)
+        onMouseWheel(i_mouseState.getWheelPositionChange());
+
+      for (const auto key : { MouseKey::Left, MouseKey::Right, MouseKey::Middle, MouseKey::X1, MouseKey::X2 })
+      {
+        const auto state = i_mouseState.getButtonState(key);
+        if (state == MouseButtonState::Pressed)
+          onMouseClick(key);
+        else if (state == MouseButtonState::Released)
+          onMouseRelease(key);
+      }
     }
 
-    d_mouseState = i_mouseState;
+    d_mouseState = std::move(i_mouseState);
+    if (d_mouseState->getMode() == MouseMode::Relative)
+      d_mouseState->resetPosition();
   }
 
   void Game::onMouseMove(Sdk::Vector2I i_move)

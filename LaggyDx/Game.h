@@ -66,6 +66,11 @@ namespace Dx
     virtual void renderObject(const IObject& i_obj);
     virtual void renderGui();
 
+    virtual void onMouseMove(Sdk::Vector2I i_move);
+    virtual void onMouseWheel(int i_distance);
+    virtual void onMouseClick(MouseKey i_key);
+    virtual void onMouseRelease(MouseKey i_key);
+
   private:
     static Game* s_this;
 
@@ -83,18 +88,13 @@ namespace Dx
     ActionsMap d_actionsMap;
     CollisionManager d_collisionManager;
 
-    MouseState d_mouseState;
+    std::optional<MouseState> d_mouseState;
 
     std::unique_ptr<IControl> d_form;
 
     void mainloop();
     void handleKeyboard(const KeyboardState& i_keyboardState);
-    void handleMouse(const MouseState& i_mouseState);
-
-    void onMouseMove(Sdk::Vector2I i_move);
-    void onMouseWheel(int i_distance);
-    void onMouseClick(MouseKey i_key);
-    void onMouseRelease(MouseKey i_key);
+    void handleMouse(MouseState i_mouseState);
   };
 
 } // ns Dx
