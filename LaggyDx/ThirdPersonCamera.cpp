@@ -12,7 +12,6 @@ namespace Dx
     , d_pitch(Sdk::degToRad(45.0f))
     , d_distance(10)
   {
-    updateProjectionMatrix();
     updateViewMatrix();
   }
 
