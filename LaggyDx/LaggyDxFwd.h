@@ -8,6 +8,8 @@ namespace Dx
   class RenderDevice;
   class IRenderDevice;
   class ICamera;
+  class FirstPersonCamera;
+  class ThirdPersonCamera;
   class IRenderer;
   class IRenderer2d;
   class IRenderer3d;
