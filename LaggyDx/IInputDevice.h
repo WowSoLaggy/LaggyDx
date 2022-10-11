@@ -23,6 +23,11 @@ namespace Dx
 
     virtual void showCursor() = 0;
     virtual void hideCursor() = 0;
+    virtual void switchCursorVisibility(bool i_show) = 0;
+    virtual bool isCursorShown() = 0;
+
+    virtual void setMouseAbsoluteMode() = 0;
+    virtual void setMouseRelativeMode() = 0;
 
     virtual const Sdk::Vector2I& getMousePosition() const = 0;
   };

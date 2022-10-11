@@ -20,10 +20,16 @@ namespace Dx
 
     virtual void showCursor() override;
     virtual void hideCursor() override;
+    virtual void switchCursorVisibility(bool i_show) override;
+    virtual bool isCursorShown() override;
+
+    virtual void setMouseAbsoluteMode() override;
+    virtual void setMouseRelativeMode() override;
 
     virtual const Sdk::Vector2I& getMousePosition() const override;
 
   private:
+    bool d_cursorShown = true;
 
     std::unique_ptr<Mouse> d_mouse;
     MouseState d_mouseState;

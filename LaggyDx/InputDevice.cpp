@@ -8,7 +8,7 @@ namespace Dx
   {
     d_mouse = std::make_unique<Mouse>();
     d_mouse->SetWindow(i_hWnd);
-    d_mouse->SetVisible(false);
+    hideCursor();
     d_mouse->SetMode(Mouse::Mode::MODE_ABSOLUTE);
 
     d_keyboard = std::make_unique<Keyboard>();
@@ -17,7 +17,7 @@ namespace Dx
 
   InputDevice::~InputDevice()
   {
-    d_mouse->SetVisible(true);
+    showCursor();
   }
 
 
@@ -56,11 +56,37 @@ namespace Dx
   void InputDevice::showCursor()
   {
     d_mouse->SetVisible(true);
+    d_cursorShown = true;
   }
 
   void InputDevice::hideCursor()
   {
     d_mouse->SetVisible(false);
+    d_cursorShown = false;
+  }
+
+  void InputDevice::switchCursorVisibility(const bool i_show)
+  {
+    if (i_show)
+      showCursor();
+    else
+      hideCursor();
+  }
+
+  bool InputDevice::isCursorShown()
+  {
+    return d_cursorShown;
+  }
+
+
+  void InputDevice::setMouseAbsoluteMode()
+  {
+    d_mouse->SetMode(Mouse::Mode::MODE_ABSOLUTE);
+  }
+
+  void InputDevice::setMouseRelativeMode()
+  {
+    d_mouse->SetMode(Mouse::Mode::MODE_RELATIVE);
   }
 
 } // ns Dx
