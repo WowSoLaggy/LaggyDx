@@ -432,6 +432,9 @@
     <ClInclude Include="Obb.h">
       <Filter>src\Collisions</Filter>
     </ClInclude>
+    <ClInclude Include="FirstPersonCamera.h">
+      <Filter>src\Cameras</Filter>
+    </ClInclude>
     <ClInclude Include="CameraBase.h">
       <Filter>src\Cameras</Filter>
     </ClInclude>
@@ -670,6 +673,9 @@
     </ClCompile>
     <ClCompile Include="Obb.cpp">
       <Filter>src\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="FirstPersonCamera.cpp">
+      <Filter>src\Cameras</Filter>
     </ClCompile>
     <ClCompile Include="CameraBase.cpp">
       <Filter>src\Cameras</Filter>
