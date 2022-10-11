@@ -2,6 +2,8 @@
 
 #include "ICamera.h"
 
+#include <LaggySdk/Math.h>
+
 
 namespace Dx
 {
@@ -44,7 +46,7 @@ namespace Dx
     void updateViewMatrix();
 
   private:
-    float d_fovAngle = (float)DirectX::XM_PI / 4.0f;
+    float d_fovAngle = (float)Sdk::Pi / 4.0f;
     float d_viewportMinZ = 0.1f;
     float d_viewportMaxZ = 1000.0f;
 
