@@ -33,8 +33,6 @@ namespace Dx
     const auto hres = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
     CONTRACT_ASSERT(hres == S_OK);
 
-    Sdk::randomize();
-
     const Sdk::Vector2I resolution = { i_gameSettings.screenWidth, i_gameSettings.screenHeight };
 
     d_window = std::make_unique<Sdk::Window>(resolution, i_gameSettings.applicationName);
