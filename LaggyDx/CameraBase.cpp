@@ -112,6 +112,11 @@ namespace Dx
     return -getUp();
   }
 
+  Sdk::Vector3F CameraBase::getWorldDown() const
+  {
+    return -getWorldUp();
+  }
+
 
   void CameraBase::updateProjectionMatrix()
   {

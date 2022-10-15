@@ -42,6 +42,7 @@ namespace Dx
     virtual Sdk::Vector3F getBackward() const = 0;
     virtual Sdk::Vector3F getUp() const = 0;
     virtual Sdk::Vector3F getDown() const = 0;
+    virtual Sdk::Vector3F getWorldDown() const = 0;
 
     virtual Sdk::Vector2F worldToScreen(const Sdk::Vector3F& i_point) const = 0;
     virtual Sdk::RayF screenToWorld(const Sdk::Vector2I& i_point) const = 0;

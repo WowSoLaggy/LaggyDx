@@ -36,6 +36,7 @@ namespace Dx
     virtual Sdk::Vector3F getBackward() const override;
     virtual Sdk::Vector3F getUp() const override;
     virtual Sdk::Vector3F getDown() const override;
+    virtual Sdk::Vector3F getWorldDown() const override;
 
     virtual Sdk::Vector2F worldToScreen(const Sdk::Vector3F& i_point) const override;
     virtual Sdk::RayF screenToWorld(const Sdk::Vector2I& i_point) const override;
