@@ -94,6 +94,9 @@
     <Filter Include="src\InputDevices">
       <UniqueIdentifier>{774b64b4-2f70-4ef3-b7fc-e1df3ea52038}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\InputControllers">
+      <UniqueIdentifier>{71d18a63-491b-4b0a-9547-2346a414a9da}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Cameras">
       <UniqueIdentifier>{17410187-afc1-4479-b6d6-10092edbd729}</UniqueIdentifier>
     </Filter>
@@ -432,6 +435,12 @@
     <ClInclude Include="Obb.h">
       <Filter>src\Collisions</Filter>
     </ClInclude>
+    <ClInclude Include="IInputController.h">
+      <Filter>src\InputControllers</Filter>
+    </ClInclude>
+    <ClInclude Include="FirstPersonController.h">
+      <Filter>src\InputControllers</Filter>
+    </ClInclude>
     <ClInclude Include="InputEvents.h">
       <Filter>src\InputDevices</Filter>
     </ClInclude>
@@ -679,6 +688,9 @@
     </ClCompile>
     <ClCompile Include="Obb.cpp">
       <Filter>src\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="FirstPersonController.cpp">
+      <Filter>src\InputControllers</Filter>
     </ClCompile>
     <ClCompile Include="FirstPersonCamera.cpp">
       <Filter>src\Cameras</Filter>

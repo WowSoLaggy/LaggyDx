@@ -44,6 +44,7 @@ namespace Dx
   struct KeyboardKeysState;
   class MouseState;
   struct MousePosition;
+  class IInputController;
 
   class Sprite;
   class AnimatedSprite;
