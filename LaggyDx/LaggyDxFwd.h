@@ -90,6 +90,17 @@ namespace Dx
 struct ID3D11Buffer;
 struct ID3D10Blob;
 
+struct ID3D11PixelShader;
+struct ID3D11SamplerState;
+struct ID3D11VertexShader;
+struct ID3D11InputLayout;
+
+
+namespace DirectX
+{
+  struct XMMATRIX;
+}
+
 
 namespace ofbx
 {

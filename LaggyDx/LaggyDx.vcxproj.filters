@@ -91,6 +91,12 @@
     <Filter Include="src\OfbxSceneWrapper">
       <UniqueIdentifier>{cc00dc88-33c3-464a-aa4c-b5e7ce755153}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Shaders">
+      <UniqueIdentifier>{ad92b70c-58a2-4873-9424-36eb52cc8f47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Shaders\OceanShader">
+      <UniqueIdentifier>{a0693b33-64d3-4cb9-b259-dc1226f47c80}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\InputDevices">
       <UniqueIdentifier>{774b64b4-2f70-4ef3-b7fc-e1df3ea52038}</UniqueIdentifier>
     </Filter>
@@ -435,6 +441,9 @@
     <ClInclude Include="Obb.h">
       <Filter>src\Collisions</Filter>
     </ClInclude>
+    <ClInclude Include="OceanShader.h">
+      <Filter>src\Shaders\OceanShader</Filter>
+    </ClInclude>
     <ClInclude Include="IInputController.h">
       <Filter>src\InputControllers</Filter>
     </ClInclude>
@@ -689,6 +698,9 @@
     <ClCompile Include="Obb.cpp">
       <Filter>src\Collisions</Filter>
     </ClCompile>
+    <ClCompile Include="OceanShader.cpp">
+      <Filter>src\Shaders\OceanShader</Filter>
+    </ClCompile>
     <ClCompile Include="FirstPersonController.cpp">
       <Filter>src\InputControllers</Filter>
     </ClCompile>
@@ -698,5 +710,13 @@
     <ClCompile Include="CameraBase.cpp">
       <Filter>src\Cameras</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="OceanShader.ps.hlsl">
+      <Filter>src\Shaders\OceanShader</Filter>
+    </FxCompile>
+    <FxCompile Include="OceanShader.vs.hlsl">
+      <Filter>src\Shaders\OceanShader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

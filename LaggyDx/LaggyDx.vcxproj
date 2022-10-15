@@ -237,6 +237,7 @@
     <ClInclude Include="Object2Base.h" />
     <ClInclude Include="Object3.h" />
     <ClInclude Include="ObjectCollection.h" />
+    <ClInclude Include="OceanShader.h" />
     <ClInclude Include="ofbx.h" />
     <ClInclude Include="OfbxSceneWrapper.h" />
     <ClInclude Include="Panel.h" />
@@ -294,6 +295,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Obb.cpp" />
     <ClCompile Include="Object3.cpp" />
+    <ClCompile Include="OceanShader.cpp" />
     <ClCompile Include="ofbx.cpp" />
     <ClCompile Include="OfbxSceneWrapper.cpp" />
     <ClCompile Include="PsHlslResource.cpp" />
@@ -367,6 +369,24 @@
     <ProjectReference Include="..\..\LaggySdk\LaggySdk\LaggySdk.vcxproj">
       <Project>{26f606c5-4239-49f0-b3d4-c358526c2325}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="OceanShader.ps.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <VariableName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">g_oceanPs</VariableName>
+      <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generated/Ocean.gen.ps.h</HeaderFileOutput>
+    </FxCompile>
+    <FxCompile Include="OceanShader.vs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <VariableName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">g_oceanVs</VariableName>
+      <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generated/Ocean.gen.vs.h</HeaderFileOutput>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
