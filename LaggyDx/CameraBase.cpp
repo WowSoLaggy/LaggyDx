@@ -30,7 +30,7 @@ namespace Dx
     , d_viewMatrix(DirectX::XMMATRIX())
     , d_position{ 0.0f, 0.0f, 0.0f }
     , d_lookAt{ 1.0f, 0.0f, 0.0f }
-    , d_up{ 0.0f, 1.0f, 0.0f }
+    , d_worldUp{ 0.0f, 1.0f, 0.0f }
   {
     updateProjectionMatrix();
     updateViewMatrix();
@@ -62,10 +62,10 @@ namespace Dx
     updateViewMatrix();
   }
 
-  void CameraBase::setUp(Sdk::Vector3F i_up)
+  void CameraBase::setWorldUp(Sdk::Vector3F i_up)
   {
     i_up.normalize();
-    d_up = std::move(i_up);
+    d_worldUp = std::move(i_up);
     updateViewMatrix();
   }
 
@@ -78,7 +78,7 @@ namespace Dx
 
   Sdk::Vector3F CameraBase::getLeft() const
   {
-    auto left = getUp();
+    auto left = getWorldUp();
     left = left.cross(getForward());
     left.normalize();
     return left;
@@ -110,7 +110,7 @@ namespace Dx
   void CameraBase::updateViewMatrix()
   {
     d_viewMatrix = XMMatrixLookAtRH(
-      toXmVector(getPosition()), toXmVector(getLookAt()), toXmVector(getUp()));
+      toXmVector(getPosition()), toXmVector(getLookAt()), toXmVector(getWorldUp()));
   }
 
 

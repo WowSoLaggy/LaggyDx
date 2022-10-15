@@ -24,8 +24,8 @@ namespace Dx
     virtual Sdk::Vector3F getLookAt() const override { return d_lookAt; }
     virtual void setLookAt(Sdk::Vector3F i_lookAt) override;
 
-    virtual Sdk::Vector3F getUp() const override { return d_up; }
-    virtual void setUp(Sdk::Vector3F i_up) override;
+    virtual Sdk::Vector3F getWorldUp() const override { return d_worldUp; }
+    virtual void setWorldUp(Sdk::Vector3F i_up) override;
 
     virtual Sdk::Vector3F getPosition() const override { return d_position; }
     virtual void setPosition(Sdk::Vector3F i_pos) override;
@@ -52,7 +52,7 @@ namespace Dx
 
     Sdk::Vector3F d_position;
     Sdk::Vector3F d_lookAt;
-    Sdk::Vector3F d_up;
+    Sdk::Vector3F d_worldUp;
 
     Sdk::Vector2I d_viewportResolution;
 

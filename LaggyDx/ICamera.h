@@ -30,8 +30,8 @@ namespace Dx
     virtual Sdk::Vector3F getLookAt() const = 0;
     virtual void setLookAt(Sdk::Vector3F i_direction) = 0;
 
-    virtual Sdk::Vector3F getUp() const = 0;
-    virtual void setUp(Sdk::Vector3F i_up) = 0;
+    virtual Sdk::Vector3F getWorldUp() const = 0;
+    virtual void setWorldUp(Sdk::Vector3F i_up) = 0;
 
     virtual Sdk::Vector3F getPosition() const = 0;
     virtual void setPosition(Sdk::Vector3F i_pos) = 0;

@@ -62,8 +62,8 @@ namespace Dx
     static const auto xVector = xmVec(1, 0, 0);
 
     const auto dir = i_lookAt - getPosition();
-    const float proj = dir.dot(getUp());
-    const auto upProjVector = getUp() * proj;
+    const float proj = dir.dot(getWorldUp());
+    const auto upProjVector = getWorldUp() * proj;
     const auto dirFlat = dir - upProjVector;
 
     XMFLOAT3 res;
