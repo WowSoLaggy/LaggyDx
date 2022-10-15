@@ -11,6 +11,7 @@
 #include "ObjectCollection.h"
 
 #include <LaggySdk/EventHandler.h>
+#include <LaggySdk/FpsCounter.h>
 #include <LaggySdk/Timer.h>
 #include <LaggySdk/Vector.h>
 #include <LaggySdk/Window.h>
@@ -49,6 +50,8 @@ namespace Dx
     [[nodiscard]] IControl& getForm();
     [[nodiscard]] const IControl& getForm() const;
 
+    [[nodiscard]] const Sdk::FpsCounter& getFpsCounter() const;
+
   protected:
     virtual void onGameStart();
     virtual void onGameEnd();
@@ -77,6 +80,7 @@ namespace Dx
     bool d_stop = false;
 
     Sdk::Timer d_timer;
+    Sdk::FpsCounter d_fpsCounter;
     std::unique_ptr<Sdk::Window> d_window;
     std::unique_ptr<IInputDevice> d_inputDevice;
     std::unique_ptr<IRenderDevice> d_renderDevice;
