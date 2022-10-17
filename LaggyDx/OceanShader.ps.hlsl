@@ -2,7 +2,7 @@ Texture2D shaderTexture;
 SamplerState SampleType;
 
 
-cbuffer LightBuffer
+cbuffer Lighting
 {
   float4 diffuseColor;
   float4 lightColor;

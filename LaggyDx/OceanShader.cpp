@@ -20,7 +20,7 @@ namespace Dx
 {
   namespace
   {
-    struct LightDescBuffer
+    struct Lighting
     {
       XMFLOAT4 diffuseColor;
       XMFLOAT4 lightColor;
@@ -191,7 +191,7 @@ namespace Dx
 
     D3D11_BUFFER_DESC lightBufferDesc;
     lightBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-    lightBufferDesc.ByteWidth = sizeof(LightDescBuffer);
+    lightBufferDesc.ByteWidth = sizeof(Lighting);
     lightBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
     lightBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
     lightBufferDesc.MiscFlags = 0;
@@ -305,7 +305,7 @@ namespace Dx
     D3D11_MAPPED_SUBRESOURCE mappedResource;
     d_renderDevice.getDeviceContextPtr()->Map(d_lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-    auto* dataPtr = (LightDescBuffer*)mappedResource.pData;
+    auto* dataPtr = (Lighting*)mappedResource.pData;
     dataPtr->diffuseColor = XMFLOAT4(
       i_material.diffuseColor.x,
       i_material.diffuseColor.y,
