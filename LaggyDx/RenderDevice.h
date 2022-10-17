@@ -18,7 +18,7 @@ namespace Dx
   class RenderDevice : public IRenderDevice
   {
   public:
-    RenderDevice(HWND i_hWnd, Sdk::Vector2I i_resolution);
+    RenderDevice(HWND i_hWnd, Sdk::Vector2I i_resolution, bool i_debugMode = false);
     virtual ~RenderDevice() override;
 
     virtual void beginScene() override;

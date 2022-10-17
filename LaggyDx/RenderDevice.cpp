@@ -4,7 +4,7 @@
 
 namespace Dx
 {
-  RenderDevice::RenderDevice(HWND i_hWnd, const Sdk::Vector2I i_resolution)
+  RenderDevice::RenderDevice(HWND i_hWnd, const Sdk::Vector2I i_resolution, const bool i_debugMode)
     : d_resolution(i_resolution)
     , d_hWnd(i_hWnd)
   {
@@ -139,8 +139,13 @@ namespace Dx
     // Set the feature level to DirectX 11
     D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_0;
 
+    UINT flags = 0;
+    if (i_debugMode)
+      flags |= D3D11_CREATE_DEVICE_DEBUG;
+
     // Create the swap chain, Direct3D device, and Direct3D device context
-    result = D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, 0, &featureLevel, 1,
+    result = D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL,
+      flags, &featureLevel, 1,
       D3D11_SDK_VERSION, &swapChainDesc, &d_swapChain, &d_device, NULL, &d_deviceContext);
     CONTRACT_ASSERT(!FAILED(result));
 
