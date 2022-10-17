@@ -82,6 +82,7 @@ namespace Dx
   IControl& Game::getForm() { return *d_form; }
   const IControl& Game::getForm() const { return *d_form; }
 
+  double Game::getGlobalTime() const { return d_globalTime; }
   const Sdk::FpsCounter& Game::getFpsCounter() const { return d_fpsCounter; }
 
 
@@ -128,6 +129,7 @@ namespace Dx
   void Game::mainloop()
   {
     double dt = d_timer.restart();
+    d_globalTime += dt;
     d_fpsCounter.udpate(dt);
 
     handleKeyboard(d_inputDevice->checkKeyboard());

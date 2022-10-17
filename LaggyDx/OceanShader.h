@@ -14,11 +14,12 @@ namespace Dx
       const IResourceController& i_resourceController);
     ~OceanShader();
 
-    void setDrawAabb(bool i_draw);
-
+    void setGlobalTime(double i_time);
     void draw(const IObject3& i_object) const;
 
   private:
+    double d_globalTime = 0;
+
     RenderDevice& d_renderDevice;
     const IResourceController& d_resourceController;
     const ICamera& d_camera;
@@ -26,8 +27,8 @@ namespace Dx
 
     ID3D11Buffer* d_matrixBuffer = nullptr;
     ID3D11Buffer* d_lightBuffer = nullptr;
-
-    bool d_drawAabb = false;
+    ID3D11Buffer* d_globalBuffer = nullptr;
+    ID3D11Buffer* d_windBuffer = nullptr;
 
     ID3D11PixelShader* d_pixelShader = nullptr;
     ID3D11SamplerState* d_sampleState = nullptr;
@@ -42,8 +43,9 @@ namespace Dx
 
     void setRenderStates() const;
     void setShaders() const;
-    void setBuffers(const Mesh& i_mesh) const;
-    void setMatrices(const IObject3& i_object) const;
+    void setGeometryBuffers(const Mesh& i_mesh) const;
+    void setXfmMatrices(const IObject3& i_object) const;
+    void setCBuffers() const;
     void setTexture(const IObject3& i_object) const;
     void setTexture(const Material& i_material) const;
     void setMaterial(const Material& i_material) const;

@@ -5,6 +5,18 @@ cbuffer MatrixBuffer
   matrix projectionMatrix;
 };
 
+cbuffer GlobalCBuffer
+{
+  float time;
+  float3 _reserved;
+};
+
+cbuffer WindCBuffer
+{
+  float3 windDirection;
+  float windSpeed;
+};
+
 
 struct VertexInputType
 {
@@ -28,15 +40,17 @@ PixelInputType main(VertexInputType input)
   // Change the position vector to be 4 units for proper matrix calculations.
   input.position.w = 1.0f;
 
-  input.position.y = sin(input.position.x) * sin(input.position.z);
+  float3 offset = windDirection * windSpeed * time;
+
+  input.position.y = sin(input.position.x + offset.x) * sin(input.position.z + offset.z);
 
   output.position = mul(input.position, worldMatrix);
   output.position = mul(output.position, viewMatrix);
   output.position = mul(output.position, projectionMatrix);
 
-  output.normal.x = -cos(input.position.x) * sin(input.position.z);
+  output.normal.x = -cos(input.position.x + offset.x) * sin(input.position.z + offset.z);
   output.normal.y = 1;
-  output.normal.z = -sin(input.position.x) * cos(input.position.z);
+  output.normal.z = -sin(input.position.x + offset.x) * cos(input.position.z + offset.z);
   output.normal = normalize(output.normal);
 
   output.tex = input.tex;

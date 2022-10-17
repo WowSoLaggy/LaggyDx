@@ -28,6 +28,18 @@ namespace Dx
       float ambientStrength{ 0 };
     };
 
+    struct GlobalCBuffer
+    {
+      float time{ 0 };
+      XMFLOAT3 _reserved{ 0, 0, 0 };
+    };
+
+    struct WindCBuffer
+    {
+      XMFLOAT3 direction{ 0, 0, 0 };
+      float speed{ 0 };
+    };
+
     DirectX::XMFLOAT3 getNormalized(Sdk::Vector3F i_input)
     {
       i_input.normalize();
@@ -57,9 +69,9 @@ namespace Dx
   }
 
 
-  void OceanShader::setDrawAabb(bool i_draw)
+  void OceanShader::setGlobalTime(const double i_time)
   {
-    d_drawAabb = i_draw;
+    d_globalTime = i_time;
   }
 
 
@@ -67,12 +79,13 @@ namespace Dx
   {
     setRenderStates();
     setShaders();
-    setMatrices(i_object);
+    setXfmMatrices(i_object);
+    setCBuffers();
     setTexture(i_object);
 
     auto drawMesh = [&](const auto& i_mesh)
     {
-      setBuffers(i_mesh);
+      setGeometryBuffers(i_mesh);
 
       for (const auto& materialSpan : i_mesh.getMaterials().getMaterialSpans())
       {
@@ -84,9 +97,6 @@ namespace Dx
 
     for (const auto& mesh : i_object.getModel().getMeshes())
       drawMesh(mesh);
-
-    if (d_drawAabb)
-      drawMesh(i_object.getModel().getAabbMesh());
   }
 
 
@@ -197,15 +207,23 @@ namespace Dx
 
     createBuffer(sizeof(MatrixBuffer), &d_matrixBuffer);
     createBuffer(sizeof(LightingCBuffer), &d_lightBuffer);
+    createBuffer(sizeof(GlobalCBuffer), &d_globalBuffer);
+    createBuffer(sizeof(WindCBuffer), &d_windBuffer);
   }
 
   void OceanShader::disposeBuffers()
   {
-    d_matrixBuffer->Release();
-    d_matrixBuffer = nullptr;
+    d_windBuffer->Release();
+    d_windBuffer = nullptr;
+
+    d_globalBuffer->Release();
+    d_globalBuffer = nullptr;
 
     d_lightBuffer->Release();
     d_lightBuffer = nullptr;
+
+    d_matrixBuffer->Release();
+    d_matrixBuffer = nullptr;
   }
 
 
@@ -222,7 +240,7 @@ namespace Dx
     d_renderDevice.getDeviceContextPtr()->PSSetSamplers(0, 1, &d_sampleState);
   }
 
-  void OceanShader::setBuffers(const Mesh& i_mesh) const
+  void OceanShader::setGeometryBuffers(const Mesh& i_mesh) const
   {
     auto* vbPtr = i_mesh.getVertexBuffer().getPtr();
     unsigned int stride = i_mesh.getVertexBuffer().getStride();
@@ -239,7 +257,7 @@ namespace Dx
     d_renderDevice.getDeviceContextPtr()->IASetPrimitiveTopology(topology);
   }
 
-  void OceanShader::setMatrices(const IObject3& i_object) const
+  void OceanShader::setXfmMatrices(const IObject3& i_object) const
   {
     auto getWorldMatrixTransposed = [&]()
     {
@@ -269,6 +287,36 @@ namespace Dx
     d_renderDevice.getDeviceContextPtr()->Unmap(d_matrixBuffer, 0);
 
     d_renderDevice.getDeviceContextPtr()->VSSetConstantBuffers(0, 1, &d_matrixBuffer);
+  }
+
+  void OceanShader::setCBuffers() const
+  {
+    // Global
+    {
+      D3D11_MAPPED_SUBRESOURCE mappedResource;
+      d_renderDevice.getDeviceContextPtr()->Map(d_globalBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+      auto* dataPtr = (GlobalCBuffer*)mappedResource.pData;
+      dataPtr->time = (float)d_globalTime;
+
+      d_renderDevice.getDeviceContextPtr()->Unmap(d_globalBuffer, 0);
+      d_renderDevice.getDeviceContextPtr()->VSSetConstantBuffers(1, 1, &d_globalBuffer);
+    }
+
+    // Wind
+    {
+      static const auto WindDirection = getNormalized({ 1.0f, 0.0f, 0.5f });
+
+      D3D11_MAPPED_SUBRESOURCE mappedResource;
+      d_renderDevice.getDeviceContextPtr()->Map(d_windBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+      auto* dataPtr = (WindCBuffer*)mappedResource.pData;
+      dataPtr->direction = WindDirection;
+      dataPtr->speed = 2.0f;
+
+      d_renderDevice.getDeviceContextPtr()->Unmap(d_windBuffer, 0);
+      d_renderDevice.getDeviceContextPtr()->VSSetConstantBuffers(2, 1, &d_windBuffer);
+    }
   }
 
   void OceanShader::setTexture(const IObject3& i_object) const

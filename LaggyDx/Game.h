@@ -50,6 +50,7 @@ namespace Dx
     [[nodiscard]] IControl& getForm();
     [[nodiscard]] const IControl& getForm() const;
 
+    [[nodiscard]] double getGlobalTime() const;
     [[nodiscard]] const Sdk::FpsCounter& getFpsCounter() const;
 
   protected:
@@ -80,6 +81,7 @@ namespace Dx
     bool d_stop = false;
 
     Sdk::Timer d_timer;
+    double d_globalTime = 0;
     Sdk::FpsCounter d_fpsCounter;
     std::unique_ptr<Sdk::Window> d_window;
     std::unique_ptr<IInputDevice> d_inputDevice;
