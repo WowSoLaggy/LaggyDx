@@ -18,6 +18,25 @@
 
 namespace Dx
 {
+  namespace
+  {
+    struct LightDescBuffer
+    {
+      XMFLOAT4 diffuseColor;
+      XMFLOAT4 lightColor;
+      XMFLOAT3 lightDirection;
+      float ambientStrength;
+    };
+
+    DirectX::XMFLOAT3 getNormalized(Sdk::Vector3F i_input)
+    {
+      i_input.normalize();
+      return { i_input.x, i_input.y, i_input.z };
+    }
+
+  } // anonym NS
+
+
   OceanShader::OceanShader(
     IRenderDevice& i_renderDevice,
     const ICamera& i_camera,
@@ -172,14 +191,17 @@ namespace Dx
 
     D3D11_BUFFER_DESC lightBufferDesc;
     lightBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-    lightBufferDesc.ByteWidth = sizeof(LightBuffer);
+    lightBufferDesc.ByteWidth = sizeof(LightDescBuffer);
     lightBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
     lightBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
     lightBufferDesc.MiscFlags = 0;
     lightBufferDesc.StructureByteStride = 0;
 
-    d_renderDevice.getDevicePtr()->CreateBuffer(&matrixBufferDesc, nullptr, &d_matrixBuffer);
-    d_renderDevice.getDevicePtr()->CreateBuffer(&lightBufferDesc, nullptr, &d_lightBuffer);
+    HRESULT hRes = d_renderDevice.getDevicePtr()->CreateBuffer(&matrixBufferDesc, nullptr, &d_matrixBuffer);
+    CONTRACT_ASSERT(!FAILED(hRes));
+
+    hRes = d_renderDevice.getDevicePtr()->CreateBuffer(&lightBufferDesc, nullptr, &d_lightBuffer);
+    CONTRACT_ASSERT(!FAILED(hRes));
   }
 
   void OceanShader::disposeBuffers()
@@ -278,17 +300,19 @@ namespace Dx
 
   void OceanShader::setMaterial(const Material& i_material) const
   {
+    static const auto LightDirection = getNormalized({ 0.0f, -1.0f, 0.0f });
+
     D3D11_MAPPED_SUBRESOURCE mappedResource;
     d_renderDevice.getDeviceContextPtr()->Map(d_lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-    auto* dataPtr = (LightBuffer*)mappedResource.pData;
+    auto* dataPtr = (LightDescBuffer*)mappedResource.pData;
     dataPtr->diffuseColor = XMFLOAT4(
       i_material.diffuseColor.x,
       i_material.diffuseColor.y,
       i_material.diffuseColor.z,
       i_material.diffuseColor.w);
     dataPtr->lightColor = { 1.0f, 1.0f, 1.0f, 1.0f };
-    dataPtr->lightDirection = { 1.0f, -1.0f, -1.0f };
+    dataPtr->lightDirection = LightDirection;
     dataPtr->ambientStrength = 0.3f;
 
     d_renderDevice.getDeviceContextPtr()->Unmap(d_lightBuffer, 0);
