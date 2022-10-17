@@ -181,27 +181,22 @@ namespace Dx
 
   void OceanShader::createBuffers()
   {
-    D3D11_BUFFER_DESC matrixBufferDesc;
-    matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-    matrixBufferDesc.ByteWidth = sizeof(MatrixBuffer);
-    matrixBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-    matrixBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    matrixBufferDesc.MiscFlags = 0;
-    matrixBufferDesc.StructureByteStride = 0;
+    auto createBuffer = [&](const int i_sizeOf, ID3D11Buffer** i_buf)
+    {
+      D3D11_BUFFER_DESC desc;
+      desc.Usage = D3D11_USAGE_DYNAMIC;
+      desc.ByteWidth = i_sizeOf;
+      desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+      desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+      desc.MiscFlags = 0;
+      desc.StructureByteStride = 0;
 
-    D3D11_BUFFER_DESC lightBufferDesc;
-    lightBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-    lightBufferDesc.ByteWidth = sizeof(LightingCBuffer);
-    lightBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-    lightBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    lightBufferDesc.MiscFlags = 0;
-    lightBufferDesc.StructureByteStride = 0;
+      HRESULT hRes = d_renderDevice.getDevicePtr()->CreateBuffer(&desc, nullptr, i_buf);
+      CONTRACT_ASSERT(!FAILED(hRes));
+    };
 
-    HRESULT hRes = d_renderDevice.getDevicePtr()->CreateBuffer(&matrixBufferDesc, nullptr, &d_matrixBuffer);
-    CONTRACT_ASSERT(!FAILED(hRes));
-
-    hRes = d_renderDevice.getDevicePtr()->CreateBuffer(&lightBufferDesc, nullptr, &d_lightBuffer);
-    CONTRACT_ASSERT(!FAILED(hRes));
+    createBuffer(sizeof(MatrixBuffer), &d_matrixBuffer);
+    createBuffer(sizeof(LightingCBuffer), &d_lightBuffer);
   }
 
   void OceanShader::disposeBuffers()
