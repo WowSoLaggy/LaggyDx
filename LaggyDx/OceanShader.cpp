@@ -20,12 +20,12 @@ namespace Dx
 {
   namespace
   {
-    struct Lighting
+    struct LightingCBuffer
     {
-      XMFLOAT4 diffuseColor;
-      XMFLOAT4 lightColor;
-      XMFLOAT3 lightDirection;
-      float ambientStrength;
+      XMFLOAT4 diffuseColor{ 0, 0, 0 ,0 };
+      XMFLOAT4 lightColor{ 0, 0, 0, 0 };
+      XMFLOAT3 lightDirection{ 0, 0, 0 };
+      float ambientStrength{ 0 };
     };
 
     DirectX::XMFLOAT3 getNormalized(Sdk::Vector3F i_input)
@@ -191,7 +191,7 @@ namespace Dx
 
     D3D11_BUFFER_DESC lightBufferDesc;
     lightBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-    lightBufferDesc.ByteWidth = sizeof(Lighting);
+    lightBufferDesc.ByteWidth = sizeof(LightingCBuffer);
     lightBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
     lightBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
     lightBufferDesc.MiscFlags = 0;
@@ -305,7 +305,7 @@ namespace Dx
     D3D11_MAPPED_SUBRESOURCE mappedResource;
     d_renderDevice.getDeviceContextPtr()->Map(d_lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-    auto* dataPtr = (Lighting*)mappedResource.pData;
+    auto* dataPtr = (LightingCBuffer*)mappedResource.pData;
     dataPtr->diffuseColor = XMFLOAT4(
       i_material.diffuseColor.x,
       i_material.diffuseColor.y,
