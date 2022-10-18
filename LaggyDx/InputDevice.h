@@ -13,7 +13,7 @@ namespace Dx
     InputDevice(HWND i_hWnd);
     virtual ~InputDevice() override;
 
-    virtual void processMessage(const Sdk::Message& i_inputMessage) override;
+    virtual Sdk::HandleResult processMessage(const Sdk::Message& i_inputMessage) override;
 
     virtual const MouseState& checkMouse() override;
     virtual const KeyboardState& checkKeyboard() override;

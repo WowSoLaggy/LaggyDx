@@ -2,6 +2,7 @@
 
 #include "LaggyDxFwd.h"
 
+#include <LaggySdk/HandleResult.h>
 #include <LaggySdk/SdkFwd.h>
 #include <LaggySdk/Vector.h>
 
@@ -16,7 +17,7 @@ namespace Dx
   public:
     virtual ~IInputDevice() = default;
 
-    virtual void processMessage(const Sdk::Message& i_inputMessage) = 0;
+    virtual Sdk::HandleResult processMessage(const Sdk::Message& i_inputMessage) = 0;
 
     virtual const MouseState& checkMouse() = 0;
     virtual const KeyboardState& checkKeyboard() = 0;

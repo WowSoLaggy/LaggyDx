@@ -6,20 +6,24 @@
 
 namespace Dx
 {
-  void InputDevice::processMessage(const Sdk::Message& i_inputMessage)
+  Sdk::HandleResult InputDevice::processMessage(const Sdk::Message& i_inputMessage)
   {
     switch (i_inputMessage.message)
     {
+    case WM_QUIT:
+      return Sdk::HandleResult::Quit;
+
+    case WM_SETFOCUS:
+    case WM_KILLFOCUS:
+      return Sdk::HandleResult::StopProcessing;
+
+    case WM_ACTIVATE:
     case WM_ACTIVATEAPP:
-      Keyboard::ProcessMessage(
-        static_cast<UINT>(i_inputMessage.message),
-        static_cast<WPARAM>(i_inputMessage.wParam),
-        static_cast<LPARAM>(i_inputMessage.lParam));
       Mouse::ProcessMessage(
         static_cast<UINT>(i_inputMessage.message),
         static_cast<WPARAM>(i_inputMessage.wParam),
         static_cast<LPARAM>(i_inputMessage.lParam));
-      break;
+      return Sdk::HandleResult::StopProcessing;
 
     case WM_INPUT:
     case WM_MOUSEMOVE:
@@ -37,7 +41,7 @@ namespace Dx
         static_cast<UINT>(i_inputMessage.message),
         static_cast<WPARAM>(i_inputMessage.wParam),
         static_cast<LPARAM>(i_inputMessage.lParam));
-      break;
+      return Sdk::HandleResult::DispatchFurther;
 
     case WM_KEYDOWN:
     case WM_SYSKEYDOWN:
@@ -47,8 +51,10 @@ namespace Dx
         static_cast<UINT>(i_inputMessage.message),
         static_cast<WPARAM>(i_inputMessage.wParam),
         static_cast<LPARAM>(i_inputMessage.lParam));
-      break;
+      return Sdk::HandleResult::DispatchFurther;
     }
+
+    return Sdk::HandleResult::DispatchFurther;
   }
 
 } // ns Dx
