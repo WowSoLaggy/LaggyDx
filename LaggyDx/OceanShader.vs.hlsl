@@ -8,7 +8,9 @@ cbuffer MatrixBuffer
 cbuffer GlobalCBuffer
 {
   float time;
-  float3 _reserved;
+  float textureCoef;
+  float4 waterColor;
+  float2 _reserved;
 };
 
 cbuffer WindCBuffer
@@ -53,7 +55,7 @@ PixelInputType main(VertexInputType input)
   output.normal.z = -sin(input.position.x + offset.x) * cos(input.position.z + offset.z);
   output.normal = normalize(output.normal);
 
-  output.tex = input.tex;
+  output.tex = input.tex + offset.xz * textureCoef;
 
   return output;
 }

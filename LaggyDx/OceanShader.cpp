@@ -31,7 +31,8 @@ namespace Dx
     struct GlobalCBuffer
     {
       float time{ 0 };
-      XMFLOAT3 _reserved{ 0, 0, 0 };
+      float textureCoef{ 0 };
+      XMFLOAT2 _reserved{ 0, 0 };
     };
 
     struct WindCBuffer
@@ -44,6 +45,11 @@ namespace Dx
     {
       i_input.normalize();
       return { i_input.x, i_input.y, i_input.z };
+    }
+
+    DirectX::XMFLOAT4 getXmfloat4(Sdk::Vector4F i_input)
+    {
+      return { i_input.x, i_input.y, i_input.z, i_input.w };
     }
 
   } // anonym NS
@@ -72,6 +78,11 @@ namespace Dx
   void OceanShader::setGlobalTime(const double i_time)
   {
     d_globalTime = i_time;
+  }
+
+  void OceanShader::setTextureCoef(const double i_coef)
+  {
+    d_textureCoef = i_coef;
   }
 
 
@@ -298,6 +309,7 @@ namespace Dx
 
       auto* dataPtr = (GlobalCBuffer*)mappedResource.pData;
       dataPtr->time = (float)d_globalTime;
+      dataPtr->textureCoef = (float)d_textureCoef;
 
       d_renderDevice.getDeviceContextPtr()->Unmap(d_globalBuffer, 0);
       d_renderDevice.getDeviceContextPtr()->VSSetConstantBuffers(1, 1, &d_globalBuffer);

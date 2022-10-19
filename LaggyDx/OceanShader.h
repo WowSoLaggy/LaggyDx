@@ -15,10 +15,12 @@ namespace Dx
     ~OceanShader();
 
     void setGlobalTime(double i_time);
+    void setTextureCoef(double i_coef);
     void draw(const IObject3& i_object) const;
 
   private:
     double d_globalTime = 0;
+    double d_textureCoef = 0;
 
     RenderDevice& d_renderDevice;
     const IResourceController& d_resourceController;
