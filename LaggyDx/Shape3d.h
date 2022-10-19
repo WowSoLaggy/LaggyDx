@@ -13,7 +13,8 @@ namespace Dx
   public:
     /// \param i_size - number of points in each dimension (not real world size!)
     /// \param i_dist - distance between two adjacent points
-    static Shape3d plane(const Sdk::Size2I& i_size, float i_dist = 1.0f);
+    /// \param i_textureCoef - additional multiplier of texture coords
+    static Shape3d plane(const Sdk::Size2I& i_size, float i_dist = 1.0f, float i_textureCoef = 1.0f);
 
   public:
     Shape3d() = default;
