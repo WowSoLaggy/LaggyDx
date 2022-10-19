@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KeyboardKeys.h"
+#include "MouseState.h"
 
 #include <LaggySdk/IEvent.h>
 #include <LaggySdk/Vector.h>
@@ -53,6 +54,21 @@ namespace Dx
 
   private:
     const Sdk::Vector2I d_move;
+  };
+
+
+  class MouseModeChangedEvent : public Sdk::IEvent
+  {
+  public:
+    MouseModeChangedEvent(MouseMode i_mode)
+      : d_mode(i_mode)
+    {
+    }
+
+    MouseMode getMode() const { return d_mode; }
+
+  private:
+    const MouseMode d_mode = MouseMode::Absolute;
   };
 
 } // ns Dx

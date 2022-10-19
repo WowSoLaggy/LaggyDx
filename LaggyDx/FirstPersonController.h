@@ -2,6 +2,7 @@
 
 #include "IInputController.h"
 #include "LaggyDxFwd.h"
+#include "MouseMode.h"
 
 #include <LaggySdk/EventHandler.h>
 #include <LaggySdk/Vector.h>
@@ -24,7 +25,7 @@ namespace Dx
     Game& d_game;
     FirstPersonCamera& d_camera;
 
-    bool d_wasCursorOriginallyShown = false;
+    MouseMode d_originalMouseMode = MouseMode::Absolute;
 
     bool d_moveLeft = false;
     bool d_moveRight = false;

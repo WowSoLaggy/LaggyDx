@@ -31,6 +31,8 @@ namespace Dx
     void run();
     void stop();
 
+    void processEvent(const Sdk::IEvent& i_event) override;
+
     [[nodiscard]] IInputDevice& getInputDevice();
     [[nodiscard]] const IInputDevice& getInputDevice() const;
     [[nodiscard]] IRenderDevice& getRenderDevice();
@@ -94,13 +96,14 @@ namespace Dx
     ActionsMap d_actionsMap;
     CollisionManager d_collisionManager;
 
-    std::optional<MouseState> d_mouseState;
+    MouseState d_mouseState;
 
     std::unique_ptr<IControl> d_form;
 
     void mainloop();
     void handleKeyboard(const KeyboardState& i_keyboardState);
     void handleMouse(MouseState i_mouseState);
+    void resetRelativeMouseState();
   };
 
 } // ns Dx

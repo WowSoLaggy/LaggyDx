@@ -462,6 +462,9 @@
     <ClInclude Include="CameraBase.h">
       <Filter>src\Cameras</Filter>
     </ClInclude>
+    <ClInclude Include="MouseMode.h">
+      <Filter>src\InputDevices</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

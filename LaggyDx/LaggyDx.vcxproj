@@ -166,6 +166,7 @@
     <ClInclude Include="GameEvents.h" />
     <ClInclude Include="IInputController.h" />
     <ClInclude Include="InputEvents.h" />
+    <ClInclude Include="MouseMode.h" />
     <ClInclude Include="Obb.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Checkbox.h" />

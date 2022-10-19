@@ -48,6 +48,7 @@ namespace Dx
 
     d_inputDevice = IInputDevice::create(d_window->getHWnd());
     CONTRACT_ENSURE(d_inputDevice);
+    connectTo(*d_inputDevice);
 
     d_form = std::make_unique<Form>();
 
@@ -86,6 +87,16 @@ namespace Dx
   const Sdk::FpsCounter& Game::getFpsCounter() const { return d_fpsCounter; }
 
 
+  void Game::processEvent(const Sdk::IEvent& i_event)
+  {
+    if (const auto* event = dynamic_cast<const MouseModeChangedEvent*>(&i_event))
+    {
+      if (event->getMode() == MouseMode::Relative)
+        resetRelativeMouseState();
+    }
+  }
+
+
   void Game::run()
   {
     onGameStart();
@@ -102,6 +113,7 @@ namespace Dx
   {
     d_stop = true;
   }
+
 
   void Game::onGameStart()
   {
@@ -234,27 +246,26 @@ namespace Dx
 
   void Game::handleMouse(MouseState i_mouseState)
   {
-    if (d_mouseState)
+    if (
+      i_mouseState.getMode() == d_mouseState.getMode() &&
+      i_mouseState.getPosition() != d_mouseState.getPosition())
+      onMouseMove(i_mouseState.getPosition() - d_mouseState.getPosition());
+
+    if (i_mouseState.getWheelPositionChange() != 0)
+      onMouseWheel(i_mouseState.getWheelPositionChange());
+
+    for (const auto key : { MouseKey::Left, MouseKey::Right, MouseKey::Middle, MouseKey::X1, MouseKey::X2 })
     {
-      if (i_mouseState.getPosition() != d_mouseState->getPosition())
-        onMouseMove(i_mouseState.getPosition() - d_mouseState->getPosition());
-
-      if (i_mouseState.getWheelPositionChange() != 0)
-        onMouseWheel(i_mouseState.getWheelPositionChange());
-
-      for (const auto key : { MouseKey::Left, MouseKey::Right, MouseKey::Middle, MouseKey::X1, MouseKey::X2 })
-      {
-        const auto state = i_mouseState.getButtonState(key);
-        if (state == MouseButtonState::Pressed)
-          onMouseClick(key);
-        else if (state == MouseButtonState::Released)
-          onMouseRelease(key);
-      }
+      const auto state = i_mouseState.getButtonState(key);
+      if (state == MouseButtonState::Pressed)
+        onMouseClick(key);
+      else if (state == MouseButtonState::Released)
+        onMouseRelease(key);
     }
 
     d_mouseState = std::move(i_mouseState);
-    if (d_mouseState->getMode() == MouseMode::Relative)
-      d_mouseState->resetPosition();
+    if (d_mouseState.getMode() == MouseMode::Relative)
+      resetRelativeMouseState();
   }
 
   void Game::onMouseMove(Sdk::Vector2I i_move)
@@ -284,6 +295,13 @@ namespace Dx
 
     if (const auto* action = d_actionsMap.getAction(i_key, ActionType::OnRelease))
       action->operator()();
+  }
+
+
+  void Game::resetRelativeMouseState()
+  {
+    d_mouseState.setMode(MouseMode::Relative);
+    d_mouseState.resetPosition();
   }
 
 } // ns Dx

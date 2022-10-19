@@ -1,5 +1,6 @@
 #pragma once
 
+#include "MouseMode.h"
 #include "MouseKeys.h"
 #include "MouseKeysState.h"
 
@@ -8,12 +9,6 @@
 
 namespace Dx
 {
-  enum class MouseMode
-  {
-    Absolute = 0,
-    Relative = 1,
-  };
-
   enum class MouseButtonState
   {
     Up        = 0,  // Button is up

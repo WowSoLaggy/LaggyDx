@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "InputDevice.h"
 
+#include "Game.h"
+#include "InputEvents.h"
+
 
 namespace Dx
 {
@@ -8,8 +11,9 @@ namespace Dx
   {
     d_mouse = std::make_unique<Mouse>();
     d_mouse->SetWindow(i_hWnd);
+    
     hideCursor();
-    d_mouse->SetMode(Mouse::Mode::MODE_ABSOLUTE);
+    setMouseAbsoluteMode();
 
     d_keyboard = std::make_unique<Keyboard>();
     d_keyboardState.reset();
@@ -81,12 +85,36 @@ namespace Dx
 
   void InputDevice::setMouseAbsoluteMode()
   {
-    d_mouse->SetMode(Mouse::Mode::MODE_ABSOLUTE);
+    setMouseMode(MouseMode::Absolute);
   }
 
   void InputDevice::setMouseRelativeMode()
   {
-    d_mouse->SetMode(Mouse::Mode::MODE_RELATIVE);
+    setMouseMode(MouseMode::Relative);
+  }
+
+  void InputDevice::setMouseMode(const MouseMode i_mode)
+  {
+    if (i_mode == getMouseMode())
+      return;
+
+    d_mouseMode = i_mode;
+
+    notify(MouseModeChangedEvent(getMouseMode()));
+
+    try
+    {
+      d_mouse->SetMode(static_cast<DirectX::Mouse::Mode>(d_mouseMode));
+    }
+    catch (std::system_error&)
+    {
+      // May throw on killing app (invalid window handler to send event to) - that's fine, ignore
+    }
+  }
+
+  MouseMode InputDevice::getMouseMode() const
+  {
+    return d_mouseMode;
   }
 
 } // ns Dx

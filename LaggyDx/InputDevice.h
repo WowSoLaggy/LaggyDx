@@ -25,18 +25,20 @@ namespace Dx
 
     virtual void setMouseAbsoluteMode() override;
     virtual void setMouseRelativeMode() override;
+    virtual void setMouseMode(MouseMode i_mode) override;
+    virtual MouseMode getMouseMode() const override;
 
     virtual const Sdk::Vector2I& getMousePosition() const override;
 
   private:
     bool d_cursorShown = true;
+    MouseMode d_mouseMode = MouseMode::Absolute;
 
     std::unique_ptr<Mouse> d_mouse;
     MouseState d_mouseState;
 
     std::unique_ptr<Keyboard> d_keyboard;
     KeyboardState d_keyboardState;
-
   };
 
 } // ns Dx

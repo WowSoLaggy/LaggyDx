@@ -13,19 +13,17 @@ namespace Dx
     : d_game(i_game)
     , d_camera(dynamic_cast<FirstPersonCamera&>(i_camera))
   {
-    connectTo(d_game);
-
-    d_wasCursorOriginallyShown = d_game.getInputDevice().isCursorShown();
-
-    d_game.getInputDevice().hideCursor();
+    d_originalMouseMode = d_game.getInputDevice().getMouseMode();
     d_game.getInputDevice().setMouseRelativeMode();
+
+    connectTo(d_game);
   }
 
   FirstPersonController::~FirstPersonController()
   {
-    d_game.getInputDevice().switchCursorVisibility(d_wasCursorOriginallyShown);
-
     disconnectFrom(d_game);
+    
+    d_game.getInputDevice().setMouseMode(d_originalMouseMode);
   }
 
 
