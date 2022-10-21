@@ -68,6 +68,9 @@ namespace Dx
   class IControl;
   class Label;
   class Panel;
+  class Layout;
+  class Button;
+  class Checkbox;
 
   class IGuiEffect;
 

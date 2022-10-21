@@ -35,30 +35,65 @@ namespace Dx
   
   void Layout::onChildrenChanged()
   {
-    const auto size = getSize();
-    const float xCenter = size.x / 2.0f + getPosition().x;
-    float yNext = size.y + getPosition().y - d_offsetFromBorder;
+    rearrange();
+  }
 
-    const int childrenCount = (int)getChildren().size();
-    for (int i = (int)getChildren().size() - 1; i >= 0; --i)
+  void Layout::rearrange()
+  {
+    if (d_align != LayoutAlign::TopLeft)
+    {
+      // Sorry, we don't support anything else so far
+      CONTRACT_ASSERT(false);
+    }
+
+    float yNext = 0;
+    for (int i = 0; i < (int)getChildren().size(); ++i)
     {
       auto& ctrl = dynamic_cast<IControl&>(*getChildren()[i]);
-      const float x = xCenter - ctrl.getSize().x / 2.0f;
-      yNext = yNext - ctrl.getSize().y;
-      ctrl.setPosition({ x, yNext });
-      yNext -= d_offset;
+      ctrl.setPosition({ 0, yNext });
+      yNext += ctrl.getSize().y + d_offsetBetweenElements;
+    }
+
+    const auto bordersOffset = Sdk::Vector2F{ (float)d_offsetFromBorder, (float)d_offsetFromBorder };
+    for (int i = 0; i < (int)getChildren().size(); ++i)
+    {
+      auto& ctrl = dynamic_cast<IControl&>(*getChildren()[i]);
+      ctrl.setPosition(ctrl.getPositionRelative() + bordersOffset);
     }
   }
 
 
-  void Layout::setOffset(int i_offset)
+  void Layout::setOffsetBetweenElements(const int i_offset)
   {
-    d_offset = i_offset;
+    d_offsetBetweenElements = i_offset;
+    rearrange();
   }
 
-  void Layout::setOffsetFromBorder(int i_offsetFromBorder)
+  int Layout::getOffsetBetweenElements() const
   {
-    d_offsetFromBorder = i_offsetFromBorder;
+    return d_offsetBetweenElements;
+  }
+
+  void Layout::setOffsetFromBorder(const int i_offset)
+  {
+    d_offsetFromBorder = i_offset;
+    rearrange();
+  }
+
+  int Layout::getOffsetFromBorder() const
+  {
+    return d_offsetFromBorder;
+  }
+
+  void Layout::setAlign(LayoutAlign i_align)
+  {
+    d_align = i_align;
+    rearrange();
+  }
+
+  LayoutAlign Layout::getAlign() const
+  {
+    return d_align;
   }
 
 

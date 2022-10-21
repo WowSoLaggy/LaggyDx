@@ -5,6 +5,12 @@
 
 namespace Dx
 {
+  enum class LayoutAlign
+  {
+    TopLeft,
+    BottomCenter,
+  };
+
   class Layout : public Control
   {
   public:
@@ -12,16 +18,25 @@ namespace Dx
     virtual void removeChild(TreeNode& i_child) override;
     virtual void removeChildren() override;
 
-    void setOffset(int i_offset);
-    void setOffsetFromBorder(int i_offsetFromBorder);
+    void setOffsetBetweenElements(int i_offset);
+    int getOffsetBetweenElements() const;
+
+    void setOffsetFromBorder(int i_offset);
+    int getOffsetFromBorder() const;
+
+    void setAlign(LayoutAlign i_align);
+    LayoutAlign getAlign() const;
 
     virtual void processEvent(const Sdk::IEvent& i_event) override;
 
   private:
-    int d_offset = 0;
+    int d_offsetBetweenElements = 0;
     int d_offsetFromBorder = 0;
 
+    LayoutAlign d_align = LayoutAlign::TopLeft;
+
     void onChildrenChanged();
+    void rearrange();
   };
 
 } // ns Dx
