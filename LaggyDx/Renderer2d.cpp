@@ -126,7 +126,7 @@ namespace Dx
     const auto& fontResource = dynamic_cast<const FontResource&>(i_fontResource);
 
     fontResource.getSpriteFont()->DrawString(&d_spriteBatch,
-                                             Sdk::getWString(i_text).c_str(),
+                                             Sdk::s2ws(i_text).c_str(),
                                              XMFLOAT2(d_translation.x, d_translation.y),
                                              { i_color.x, i_color.y, i_color.z, i_color.w },
                                              0,

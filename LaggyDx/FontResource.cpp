@@ -32,7 +32,7 @@ namespace Dx
   {
     CONTRACT_EXPECT(d_spriteFont);
 
-    const auto stringSize = d_spriteFont->MeasureString(Sdk::getWString(i_string).c_str());
+    const auto stringSize = d_spriteFont->MeasureString(Sdk::s2ws(i_string).c_str());
     return { Sdk::Vector2I::zero(), { (int)XMVectorGetX(stringSize), (int)XMVectorGetY(stringSize) } };
   }
 } // ns Dx
