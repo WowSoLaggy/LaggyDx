@@ -16,7 +16,7 @@ namespace Dx
 
   void Checkbox::render(IRenderer2d& i_renderer) const
   {
-    i_renderer.setTranslation(getPosition());
+    i_renderer.setTranslation(getPositionAbsolute());
     i_renderer.renderSprite(d_sprite);
   }
 

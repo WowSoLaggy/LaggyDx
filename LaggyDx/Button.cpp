@@ -17,10 +17,10 @@ namespace Dx
 
   void Button::render(IRenderer2d& i_renderer) const
   {
-    i_renderer.setTranslation(getPosition());
+    i_renderer.setTranslation(getPositionAbsolute());
     i_renderer.renderSprite(d_sprite);
 
-    d_text.render(i_renderer, getPosition() + d_textOffset);
+    d_text.render(i_renderer, getPositionAbsolute() + d_textOffset);
   }
 
 

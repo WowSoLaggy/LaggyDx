@@ -8,11 +8,15 @@
 namespace Dx
 {
   void Control::setPosition(Sdk::Vector2F i_position) { d_position = std::move(i_position); }
-  Sdk::Vector2F Control::getPosition() const
+  Sdk::Vector2F Control::getPositionAbsolute() const
   {
     if (const auto* parentControl = dynamic_cast<const Control*>(getParent()))
-      return d_position + parentControl->getPosition();
+      return d_position + parentControl->getPositionAbsolute();
     else
+      return d_position;
+  }
+  Sdk::Vector2F Control::getPositionRelative() const
+  {
       return d_position;
   }
 
@@ -25,7 +29,7 @@ namespace Dx
 
   Sdk::RectF Control::getRect() const
   {
-    return Sdk::RectF(getPosition(), getPosition() + getSize());
+    return Sdk::RectF(getPositionAbsolute(), getPositionAbsolute() + getSize());
   }
 
   void Control::setOpacity(const double i_opacity) { d_opacity = i_opacity; }

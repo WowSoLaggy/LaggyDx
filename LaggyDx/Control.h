@@ -9,7 +9,8 @@ namespace Dx
   {
   public:
     virtual void setPosition(Sdk::Vector2F i_position) override;
-    virtual Sdk::Vector2F getPosition() const override;
+    virtual Sdk::Vector2F getPositionAbsolute() const override;
+    virtual Sdk::Vector2F getPositionRelative() const override;
 
     virtual void setSize(Sdk::Vector2F i_size) override;
     virtual Sdk::Vector2F getSize() const override;

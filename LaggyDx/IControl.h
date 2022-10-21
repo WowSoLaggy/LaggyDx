@@ -18,7 +18,8 @@ namespace Dx
     virtual void update(double i_dt) = 0;
 
     virtual void setPosition(Sdk::Vector2F i_position) = 0;
-    virtual Sdk::Vector2F getPosition() const = 0;
+    virtual Sdk::Vector2F getPositionAbsolute() const = 0;
+    virtual Sdk::Vector2F getPositionRelative() const = 0;
 
     virtual void setSize(Sdk::Vector2F i_size) = 0;
     virtual Sdk::Vector2F getSize() const = 0;
