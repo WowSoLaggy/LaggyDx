@@ -2,12 +2,21 @@
 #include "Text.h"
 
 #include "Game.h"
+#include "IFontResource.h"
 #include "IRenderer2d.h"
 #include "IResourceController.h"
 
 
 namespace Dx
 {
+  Sdk::Vector2F Text::getSize() const
+  {
+    if (!d_fontResource)
+      return {};
+
+    return d_fontResource->getStringRect(d_text).size().getVector<float>() * d_scale;
+  }
+
   void Text::setText(std::string i_text)
   {
     d_text = std::move(i_text);

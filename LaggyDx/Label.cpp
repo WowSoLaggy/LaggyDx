@@ -6,6 +6,11 @@
 
 namespace Dx
 {
+  Sdk::Vector2F Label::getSize() const
+  {
+    return d_text.getSize();
+  }
+
   void Label::setText(std::string i_text)
   {
     d_text.setText(i_text);

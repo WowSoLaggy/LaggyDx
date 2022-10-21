@@ -9,6 +9,8 @@ namespace Dx
   class Label : public Control
   {
   public:
+    virtual Sdk::Vector2F getSize() const override;
+
     virtual void setText(std::string i_text);
     const std::string& getText() const;
 

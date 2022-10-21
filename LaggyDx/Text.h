@@ -10,6 +10,8 @@ namespace Dx
   class Text
   {
   public:
+    Sdk::Vector2F getSize() const;
+
     void setText(std::string i_text);
     const std::string& getText() const;
 
