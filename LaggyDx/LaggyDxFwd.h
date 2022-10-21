@@ -71,6 +71,7 @@ namespace Dx
   class Layout;
   class Button;
   class Checkbox;
+  class Slider;
 
   class IGuiEffect;
 

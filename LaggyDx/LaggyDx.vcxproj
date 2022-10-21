@@ -192,6 +192,7 @@
     <ClInclude Include="IGuiEffect.h" />
     <ClInclude Include="ImageAnimation.h" />
     <ClInclude Include="AnimationController3d.h" />
+    <ClInclude Include="Slider.h" />
     <ClInclude Include="ThirdPersonCamera.h" />
     <ClInclude Include="FontResource.h" />
     <ClInclude Include="IAnimationController3d.h" />
@@ -301,6 +302,7 @@
     <ClCompile Include="OfbxSceneWrapper.cpp" />
     <ClCompile Include="PsHlslResource.cpp" />
     <ClCompile Include="Shape3d.cpp" />
+    <ClCompile Include="Slider.cpp" />
     <ClCompile Include="VsBinResource.cpp" />
     <ClCompile Include="ThirdPersonCamera.cpp" />
     <ClCompile Include="ColliderBase.cpp" />

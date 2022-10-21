@@ -465,6 +465,9 @@
     <ClInclude Include="MouseMode.h">
       <Filter>src\InputDevices</Filter>
     </ClInclude>
+    <ClInclude Include="Slider.h">
+      <Filter>src\Gui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -712,6 +715,9 @@
     </ClCompile>
     <ClCompile Include="CameraBase.cpp">
       <Filter>src\Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="Slider.cpp">
+      <Filter>src\Gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
