@@ -31,6 +31,10 @@ namespace Dx
     const IFontResource* d_fontResource = nullptr;
     Sdk::Vector4F d_color = Sdk::Vector4F::identity();
     float d_scale = 1.0f;
+    
+    mutable std::optional<Sdk::Vector2F> d_sizeCache;
+    void invalidateSizeCache();
+    void calcSizeCache() const;
   };
 
 } // Dx

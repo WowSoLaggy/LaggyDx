@@ -9,17 +9,34 @@
 
 namespace Dx
 {
+  void Text::render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_position) const
+  {
+    CONTRACT_ASSERT(!d_text.empty() || d_fontResource);
+
+    if (d_fontResource && !d_text.empty())
+    {
+      i_renderer.setTranslation(i_position);
+      i_renderer.renderText(d_text, *d_fontResource, d_color, d_scale);
+    }
+  }
+
+
   Sdk::Vector2F Text::getSize() const
   {
     if (!d_fontResource)
       return {};
 
-    return d_fontResource->getStringRect(d_text).size().getVector<float>() * d_scale;
+    if (!d_sizeCache)
+      calcSizeCache();
+
+    return *d_sizeCache;
   }
+
 
   void Text::setText(std::string i_text)
   {
     d_text = std::move(i_text);
+    invalidateSizeCache();
   }
 
   const std::string& Text::getText() const
@@ -30,6 +47,7 @@ namespace Dx
   void Text::setFont(const std::string& i_fontName)
   {
     d_fontResource = &Game::get().getResourceController().getFont(i_fontName);
+    invalidateSizeCache();
   }
 
   const IFontResource* Text::getFontResource() const
@@ -52,6 +70,7 @@ namespace Dx
   void Text::setScale(const float i_scale)
   {
     d_scale = i_scale;
+    invalidateSizeCache();
   }
 
   float Text::getScale() const
@@ -60,13 +79,14 @@ namespace Dx
   }
 
 
-  void Text::render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_position) const
+  void Text::invalidateSizeCache()
   {
-    if (d_fontResource && !d_text.empty())
-    {
-      i_renderer.setTranslation(i_position);
-      i_renderer.renderText(d_text, *d_fontResource, d_color, d_scale);
-    }
+    d_sizeCache.reset();
+  }
+
+  void Text::calcSizeCache() const
+  {
+    d_sizeCache = d_fontResource->getStringRect(d_text).size().getVector<float>() * d_scale;
   }
 
 } // Dx
