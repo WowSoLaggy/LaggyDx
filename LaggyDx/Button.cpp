@@ -26,7 +26,7 @@ namespace Dx
 
   void Button::onMouseMove()
   {
-    const auto mousePos = Game::get().getInputDevice().getMousePosition();
+    const auto& mousePos = Game::get().getInputDevice().getMousePosition();
     if (getRect().getRect<int>().containsPoint(mousePos))
     {
       if (d_state == ButtonState::Normal)
@@ -43,7 +43,7 @@ namespace Dx
   {
     if (i_key == MouseKey::Left)
     {
-      const auto mousePos = Game::get().getInputDevice().getMousePosition();
+      const auto& mousePos = Game::get().getInputDevice().getMousePosition();
       if (getRect().getRect<int>().containsPoint(mousePos))
         setState(ButtonState::Pressed);
     }
@@ -53,7 +53,7 @@ namespace Dx
   {
     if (i_key == MouseKey::Left && d_state == ButtonState::Pressed)
     {
-      const auto mousePos = Game::get().getInputDevice().getMousePosition();
+      const auto& mousePos = Game::get().getInputDevice().getMousePosition();
       if (getRect().getRect<int>().containsPoint(mousePos))
       {
         setState(ButtonState::Hover);
