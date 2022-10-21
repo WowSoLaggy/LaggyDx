@@ -4,12 +4,15 @@
 #include "Game.h"
 
 #include <LaggySdk/Math.h>
+#include <LaggySdk/StringUtils.h>
 
 
 namespace Dx
 {
   Slider::Slider()
   {
+    setLabelsScale(0.6f);
+
     setLength(128);
     setMinValue(0);
     setMaxValue(100);
@@ -19,20 +22,38 @@ namespace Dx
 
   void Slider::render(IRenderer2d& i_renderer) const
   {
-    i_renderer.setTranslation(getPositionAbsolute());
+    const auto pos = getPositionAbsolute();
+
+    i_renderer.setTranslation(pos);
 
     i_renderer.renderSprite(d_spriteLeftSide);
     i_renderer.renderSprite(d_spriteBack);
     i_renderer.renderSprite(d_spriteRightSide);
     i_renderer.renderSprite(d_spriteSlider);
+
+    if (d_showLabelMin)
+      d_textMin.render(i_renderer, pos + d_textMinPosition);
+    if (d_showLabelMax)
+      d_textMax.render(i_renderer, pos + d_textMaxPosition);
+    if (d_showLabelCurrent)
+      d_textCurrent.render(i_renderer, pos + d_textCurrentPosition);
   }
 
 
   Sdk::Vector2F Slider::getSize() const
   {
-    return Sdk::Vector2I{
+    auto size = Sdk::Vector2I{
       d_spriteLeftSide.getSize().x + d_spriteBack.getSize().x + d_spriteRightSide.getSize().x,
       d_spriteSlider.getSize().y }.getVector<float>();
+
+    if (d_showLabelMin)
+      size.y = std::max(size.y, getLabelMinPosition().y + d_textMin.getSize().y);
+    if (d_showLabelMax)
+      size.y = std::max(size.y, getLabelMaxPosition().y + d_textMax.getSize().y);
+    if (d_showLabelCurrent)
+      size.y = std::max(size.y, getLabelCurrentPosition().y + d_textCurrent.getSize().y);
+
+    return size;
   }
 
   Sdk::Vector2I Slider::getSidesSize() const
@@ -109,6 +130,22 @@ namespace Dx
   }
 
 
+  void Slider::setFont(const std::string& i_fontName)
+  {
+    d_textMin.setFont(i_fontName);
+    d_textMax.setFont(i_fontName);
+    d_textCurrent.setFont(i_fontName);
+  }
+
+  void Slider::setLabelsScale(float i_scale)
+  {
+    d_textMin.setScale(i_scale);
+    d_textMax.setScale(i_scale);
+    d_textCurrent.setScale(i_scale);
+    updateLabelsPosition();
+  }
+
+
   void Slider::setLength(const int i_length)
   {
     d_length = i_length;
@@ -124,6 +161,7 @@ namespace Dx
       d_maxValue = d_minValue + std::numeric_limits<double>::epsilon();
 
     updateSliderPosition();
+    updateLabelMinText();
   }
 
   void Slider::setMaxValue(const double i_maxValue)
@@ -134,12 +172,15 @@ namespace Dx
       d_minValue = d_maxValue - std::numeric_limits<double>::epsilon();
 
     updateSliderPosition();
+    updateLabelMaxText();
   }
 
   void Slider::setCurrentValue(const double i_currentValue)
   {
     d_currentValue = Sdk::clamp(i_currentValue, d_minValue, d_maxValue);
+    
     updateSliderPosition();
+    updateLabelCurrentText();
   }
 
   void Slider::setRelativeValue(double i_relativeValue)
@@ -168,6 +209,7 @@ namespace Dx
     d_spriteBack.setPosition({ backStart, yOffset });
     d_spriteRightSide.setPosition({ backEnd, yOffset });
 
+    updateLabelsPosition();
     updateSliderPosition();
   }
 
@@ -196,6 +238,109 @@ namespace Dx
       d_spriteBack.getPosition().x;
 
     setRelativeValue(getSliderRatio(mouseX));
+  }
+
+
+  bool Slider::getShowLabelMin() const { return d_showLabelMin; }
+  bool Slider::getShowLabelMax() const { return d_showLabelMax; }
+  bool Slider::getShowLabelCurrent() const { return d_showLabelCurrent; }
+
+  void Slider::setShowLabelMin(const bool i_show) { d_showLabelMin = i_show; }
+  void Slider::setShowLabelMax(const bool i_show) { d_showLabelMax = i_show; }
+  void Slider::setShowLabelCurrent(const bool i_show) { d_showLabelCurrent = i_show; }
+  void Slider::setShowAllLabels(const bool i_show)
+  {
+    setShowLabelMin(i_show);
+    setShowLabelMax(i_show);
+    setShowLabelCurrent(i_show);
+  }
+  
+
+  void Slider::setLabelsPrecision(const int i_digits)
+  {
+    d_labelsPrecision = i_digits;
+    updateLabelsText();
+  }
+
+  int Slider::getLabelsPrecision() const
+  {
+    return d_labelsPrecision;
+  }
+
+
+  Sdk::Vector2I Slider::getLabelMinPosition() const
+  {
+    const int textSizeHalfX = (int)(d_textMin.getSize().x / 2);
+    return { 0, d_spriteSlider.getSize().y };
+  }
+
+  Sdk::Vector2I Slider::getLabelMaxPosition() const
+  {
+    const int textSizeX = (int)d_textMax.getSize().x;
+    const int rightSideEndX = d_spriteRightSide.getPosition().x + d_spriteRightSide.getSize().x;
+    return { rightSideEndX - textSizeX, d_spriteSlider.getSize().y };
+  }
+
+  Sdk::Vector2I Slider::getLabelCurrentPosition() const
+  {
+    const int textSizeHalfX = (int)(d_textCurrent.getSize().x / 2);
+    const int barCenterX = d_spriteBack.getPosition().x + d_spriteBack.getSize().x / 2;
+    return { barCenterX - textSizeHalfX, d_spriteSlider.getSize().y };
+  }
+
+
+  void Slider::updateLabelMinPosition()
+  {
+    d_textMinPosition = getLabelMinPosition().getVector<float>();
+  }
+
+  void Slider::updateLabelMaxPosition()
+  {
+    d_textMaxPosition = getLabelMaxPosition().getVector<float>();
+  }
+
+  void Slider::updateLabelCurrentPosition()
+  {
+    d_textCurrentPosition = getLabelCurrentPosition().getVector<float>();
+  }
+
+  void Slider::updateLabelsPosition()
+  {
+    updateLabelMinPosition();
+    updateLabelMaxPosition();
+    updateLabelCurrentPosition();
+  }
+
+
+  void Slider::updateLabelMinText()
+  {
+    d_textMin.setText(getLabelString(d_minValue));
+    updateLabelMinPosition();
+  }
+
+  void Slider::updateLabelMaxText()
+  {
+    d_textMax.setText(getLabelString(d_maxValue));
+    updateLabelMaxPosition();
+  }
+
+  void Slider::updateLabelCurrentText()
+  {
+    d_textCurrent.setText(getLabelString(d_currentValue));
+    updateLabelCurrentPosition();
+  }
+
+  void Slider::updateLabelsText()
+  {
+    updateLabelMinText();
+    updateLabelMaxText();
+    updateLabelCurrentText();
+  }
+
+
+  std::string Slider::getLabelString(double i_value) const
+  {
+    return Sdk::toString(i_value, d_labelsPrecision);
   }
 
 } // ns Dx
