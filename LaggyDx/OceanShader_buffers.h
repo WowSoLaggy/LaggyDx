@@ -15,7 +15,8 @@ namespace Dx
   {
     float time{ 0 };
     float textureCoef{ 0 };
-    XMFLOAT2 _reserved{ 0, 0 };
+    float wavesAmplitude{ 0 };
+    float wavesLength{ 0 };
   };
 
   struct WindCBuffer

@@ -11,8 +11,6 @@ namespace Dx
 {
   Slider::Slider()
   {
-    setLabelsScale(0.6f);
-
     setLength(128);
     setMinValue(0);
     setMaxValue(100);

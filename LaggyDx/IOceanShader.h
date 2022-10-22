@@ -22,6 +22,8 @@ namespace Dx
     virtual void setTextureCoef(double i_coef) = 0;
     virtual void setWindDirection(Sdk::Vector2D i_direction) = 0;
     virtual void setWindSpeed(double i_speed) = 0;
+    virtual void setWavesAmplitude(double i_amp) = 0;
+    virtual void setWavesLength(double i_length) = 0;
     
     virtual void draw(const IObject3& i_object) const = 0;
   };

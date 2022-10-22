@@ -74,6 +74,16 @@ namespace Dx
     d_windCBuffer.speed = (float)i_speed;
   }
 
+  void OceanShader::setWavesAmplitude(const double i_amp)
+  {
+    d_globalCBuffer.wavesAmplitude = (float)i_amp;
+  }
+
+  void OceanShader::setWavesLength(const double i_length)
+  {
+    d_globalCBuffer.wavesLength = (float)i_length;
+  }
+
 
   void OceanShader::draw(const IObject3& i_object) const
   {

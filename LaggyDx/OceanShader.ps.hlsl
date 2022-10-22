@@ -24,7 +24,7 @@ float4 main(PixelInputType input) : SV_TARGET
   float4 textureColor = diffuseColor;
   
   // Use this for picking from texture
-  // textureColor = shaderTexture.Sample(SampleType, input.tex);
+  //textureColor = shaderTexture.Sample(SampleType, input.tex);
 
   float lightAmount = saturate(abs(dot(input.normal, -lightDirection)));
   textureColor.rgb *= lightAmount;
