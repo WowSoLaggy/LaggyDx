@@ -7,6 +7,8 @@
 
 namespace Dx
 {
+  using OnValueChangedHandler = std::function<void(double)>;
+
   class Slider : public Control
   {
   public:
@@ -51,6 +53,9 @@ namespace Dx
     void setLabelsPrecision(int i_digits);
     int getLabelsPrecision() const;
 
+    void callOnValueChanged();
+    void setOnValueChangedHandler(OnValueChangedHandler i_onValueChangedHandler);
+
   private:
     Sprite d_spriteBack;
     Sprite d_spriteSlider;
@@ -75,6 +80,8 @@ namespace Dx
     double d_minValue = 0;
     double d_maxValue = 0;
     double d_currentValue = 0;
+
+    OnValueChangedHandler d_onValueChangedHandler;
 
     void rearrange();
     void updateSliderPosition();

@@ -177,10 +177,14 @@ namespace Dx
 
   void Slider::setCurrentValue(const double i_currentValue)
   {
+    if (i_currentValue == d_currentValue)
+      return;
+
     d_currentValue = Sdk::clamp(i_currentValue, d_minValue, d_maxValue);
     
     updateSliderPosition();
     updateLabelCurrentText();
+    callOnValueChanged();
   }
 
   void Slider::setRelativeValue(double i_relativeValue)
@@ -265,6 +269,18 @@ namespace Dx
   int Slider::getLabelsPrecision() const
   {
     return d_labelsPrecision;
+  }
+
+
+  void Slider::callOnValueChanged()
+  {
+    if (d_onValueChangedHandler)
+      d_onValueChangedHandler(getCurrentValue());
+  }
+
+  void Slider::setOnValueChangedHandler(OnValueChangedHandler i_onValueChangedHandler)
+  {
+    d_onValueChangedHandler = std::move(i_onValueChangedHandler);
   }
 
 
