@@ -20,31 +20,10 @@ namespace Dx
 {
   namespace
   {
-    struct LightingCBuffer
-    {
-      XMFLOAT4 diffuseColor{ 0, 0, 0 ,0 };
-      XMFLOAT4 lightColor{ 0, 0, 0, 0 };
-      XMFLOAT3 lightDirection{ 0, 0, 0 };
-      float ambientStrength{ 0 };
-    };
-
-    struct GlobalCBuffer
-    {
-      float time{ 0 };
-      float textureCoef{ 0 };
-      XMFLOAT2 _reserved{ 0, 0 };
-    };
-
-    struct WindCBuffer
-    {
-      XMFLOAT3 direction{ 0, 0, 0 };
-      float speed{ 0 };
-    };
-
-    DirectX::XMFLOAT3 getNormalized(Sdk::Vector3F i_input)
+    DirectX::XMFLOAT3 getNormalized(Sdk::Vector3D i_input)
     {
       i_input.normalize();
-      return { i_input.x, i_input.y, i_input.z };
+      return { (float)i_input.x, (float)i_input.y, (float)i_input.z };
     }
 
     DirectX::XMFLOAT4 getXmfloat4(Sdk::Vector4F i_input)
@@ -77,12 +56,22 @@ namespace Dx
 
   void OceanShader::setGlobalTime(const double i_time)
   {
-    d_globalTime = i_time;
+    d_globalCBuffer.time = (float)i_time;
   }
 
   void OceanShader::setTextureCoef(const double i_coef)
   {
-    d_textureCoef = i_coef;
+    d_globalCBuffer.textureCoef = (float)i_coef;
+  }
+
+  void OceanShader::setWindDirection(Sdk::Vector2D i_direction)
+  {
+    d_windCBuffer.direction = getNormalized({ i_direction.x, 0, i_direction.y });
+  }
+
+  void OceanShader::setWindSpeed(const double i_speed)
+  {
+    d_windCBuffer.speed = (float)i_speed;
   }
 
 
@@ -308,8 +297,7 @@ namespace Dx
       d_renderDevice.getDeviceContextPtr()->Map(d_globalBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
       auto* dataPtr = (GlobalCBuffer*)mappedResource.pData;
-      dataPtr->time = (float)d_globalTime;
-      dataPtr->textureCoef = (float)d_textureCoef;
+      *dataPtr = d_globalCBuffer;
 
       d_renderDevice.getDeviceContextPtr()->Unmap(d_globalBuffer, 0);
       d_renderDevice.getDeviceContextPtr()->VSSetConstantBuffers(1, 1, &d_globalBuffer);
@@ -323,8 +311,7 @@ namespace Dx
       d_renderDevice.getDeviceContextPtr()->Map(d_windBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
       auto* dataPtr = (WindCBuffer*)mappedResource.pData;
-      dataPtr->direction = WindDirection;
-      dataPtr->speed = 2.0f;
+      *dataPtr = d_windCBuffer;
 
       d_renderDevice.getDeviceContextPtr()->Unmap(d_windBuffer, 0);
       d_renderDevice.getDeviceContextPtr()->VSSetConstantBuffers(2, 1, &d_windBuffer);

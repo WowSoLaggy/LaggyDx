@@ -1,26 +1,30 @@
 #pragma once
 
-#include "LaggyDxFwd.h"
+#include "IOceanShader.h"
+#include "OceanShader_buffers.h"
 
 
 namespace Dx
 {
-  class OceanShader
+  class OceanShader : public IOceanShader
   {
   public:
     OceanShader(
       IRenderDevice& i_renderDevice,
       const ICamera& i_camera,
       const IResourceController& i_resourceController);
-    ~OceanShader();
+    virtual ~OceanShader() override;
 
-    void setGlobalTime(double i_time);
-    void setTextureCoef(double i_coef);
-    void draw(const IObject3& i_object) const;
+    virtual void setGlobalTime(double i_time) override;
+    virtual void setTextureCoef(double i_coef) override;
+    virtual void setWindDirection(Sdk::Vector2D i_direction) override;
+    virtual void setWindSpeed(double i_speed) override;
+
+    virtual void draw(const IObject3& i_object) const override;
 
   private:
-    double d_globalTime = 0;
-    double d_textureCoef = 0;
+    GlobalCBuffer d_globalCBuffer;
+    WindCBuffer d_windCBuffer;
 
     RenderDevice& d_renderDevice;
     const IResourceController& d_resourceController;
