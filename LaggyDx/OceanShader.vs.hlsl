@@ -9,7 +9,7 @@ cbuffer GlobalCBuffer
 {
   float time;
   float textureCoef;
-  float wavesAmplitude;
+  float wavesSteepness;
   float wavesLength;
 };
 
@@ -48,11 +48,16 @@ PixelInputType main(VertexInputType input)
 
   float k = 2 * PI / wavesLength;
   float f = k * (input.position.x + windSpeed * time);
-  float3 tangent = normalize(float3(1, k * wavesAmplitude * cos(f), 0));
+  float a = wavesSteepness / k;
+  float3 tangent = normalize(float3(
+    1 - wavesSteepness * sin(f),
+    wavesSteepness * cos(f),
+    0));
 
   //
 
-  input.position.y += wavesAmplitude * sin(f);
+  input.position.x += a * cos(f);
+  input.position.y += a * sin(f);
 
   output.normal = float3(-tangent.y, tangent.x, 0);
 

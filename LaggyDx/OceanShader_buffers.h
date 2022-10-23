@@ -15,7 +15,7 @@ namespace Dx
   {
     float time{ 0 };
     float textureCoef{ 0 };
-    float wavesAmplitude{ 0 };
+    float wavesSteepness{ 0 };
     float wavesLength{ 0 };
   };
 
