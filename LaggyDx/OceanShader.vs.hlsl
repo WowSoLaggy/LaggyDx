@@ -14,7 +14,9 @@ cbuffer GlobalCBuffer
 
 cbuffer WaveCBuffer
 {
-  float4 wave;
+  float4 wave1;
+  float4 wave2;
+  float4 wave3;
 };
 
 
@@ -73,7 +75,9 @@ PixelInputType main(VertexInputType input)
   float3 tangent = float3(1, 0, 0);
   float3 binormal = float3(0, 0, 1);
   
-  p += gerstnerWave(wave, p, tangent, binormal);
+  p += gerstnerWave(wave1, p, tangent, binormal);
+  //p += gerstnerWave(wave2, p, tangent, binormal);
+  //p += gerstnerWave(wave3, p, tangent, binormal);
 
   float3 normal = normalize(cross(binormal, tangent));
 

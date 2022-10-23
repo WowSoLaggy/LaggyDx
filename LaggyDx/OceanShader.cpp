@@ -71,21 +71,24 @@ namespace Dx
   }
 
 
-  void OceanShader::setWindDirection(Sdk::Vector2D i_direction)
+  void OceanShader::setWindDirection(int i_waveIndex, Sdk::Vector2D i_direction)
   {
     const auto normalizedDirection = getNormalized(i_direction);
-    d_waveCBuffer.wave.x = normalizedDirection.x;
-    d_waveCBuffer.wave.y = normalizedDirection.y;
+    auto& wave = getWaveByIndex(i_waveIndex);
+    wave.x = normalizedDirection.x;
+    wave.y = normalizedDirection.y;
   }
 
-  void OceanShader::setWavesSteepness(const double i_steepness)
+  void OceanShader::setWavesSteepness(int i_waveIndex, const double i_steepness)
   {
-    d_waveCBuffer.wave.z = (float)i_steepness;
+    auto& wave = getWaveByIndex(i_waveIndex);
+    wave.z = (float)i_steepness;
   }
 
-  void OceanShader::setWavesLength(const double i_length)
+  void OceanShader::setWavesLength(int i_waveIndex, const double i_length)
   {
-    d_waveCBuffer.wave.w = (float)i_length;
+    auto& wave = getWaveByIndex(i_waveIndex);
+    wave.w = (float)i_length;
   }
 
 
@@ -377,6 +380,19 @@ namespace Dx
   void OceanShader::drawIndexed(const int i_count, const int i_startIndex) const
   {
     d_renderDevice.getDeviceContextPtr()->DrawIndexed(i_count, i_startIndex, 0);
+  }
+
+
+  XMFLOAT4& OceanShader::getWaveByIndex(int i_waveIndex)
+  {
+    if (i_waveIndex == 1)
+      return d_waveCBuffer.wave1;
+    else if (i_waveIndex == 2)
+      return d_waveCBuffer.wave2;
+    else if (i_waveIndex == 3)
+      return d_waveCBuffer.wave3;
+
+    CONTRACT_EXPECT(false);
   }
 
 } // ns Dx

@@ -20,7 +20,9 @@ namespace Dx
 
   struct WaveCBuffer
   {
-    XMFLOAT4 wave{ 0, 0, 0, 0 };
+    XMFLOAT4 wave1{ 0, 0, 0, 0 };
+    XMFLOAT4 wave2{ 0, 0, 0, 0 };
+    XMFLOAT4 wave3{ 0, 0, 0, 0 };
   };
 
 } //ns Dx

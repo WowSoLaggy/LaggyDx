@@ -18,9 +18,9 @@ namespace Dx
     virtual void setGlobalTime(double i_time) override;
     virtual void setTextureCoef(double i_coef) override;
 
-    virtual void setWindDirection(Sdk::Vector2D i_direction) override;
-    virtual void setWavesSteepness(double i_steepness) override;
-    virtual void setWavesLength(double i_length) override;
+    virtual void setWindDirection(int i_waveIndex, Sdk::Vector2D i_direction) override;
+    virtual void setWavesSteepness(int i_waveIndex, double i_steepness) override;
+    virtual void setWavesLength(int i_waveIndex, double i_length) override;
 
     virtual void draw(const IObject3& i_object) const override;
 
@@ -58,6 +58,8 @@ namespace Dx
     void setTexture(const Material& i_material) const;
     void setMaterial(const Material& i_material) const;
     void drawIndexed(int i_count, int i_startIndex) const;
+
+    XMFLOAT4& getWaveByIndex(int i_waveIndex);
   };
 
 } // ns Dx
