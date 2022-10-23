@@ -20,6 +20,12 @@ namespace Dx
 {
   namespace
   {
+    DirectX::XMFLOAT2 getNormalized(Sdk::Vector2D i_input)
+    {
+      i_input.normalize();
+      return { (float)i_input.x, (float)i_input.y };
+    }
+
     DirectX::XMFLOAT3 getNormalized(Sdk::Vector3D i_input)
     {
       i_input.normalize();
@@ -66,7 +72,7 @@ namespace Dx
 
   void OceanShader::setWindDirection(Sdk::Vector2D i_direction)
   {
-    d_windCBuffer.direction = getNormalized({ i_direction.x, 0, i_direction.y });
+    d_windCBuffer.direction = getNormalized(i_direction);
   }
 
   void OceanShader::setWavesSteepness(const double i_steepness)
@@ -310,8 +316,6 @@ namespace Dx
 
     // Wind
     {
-      static const auto WindDirection = getNormalized({ 1.0f, 0.0f, 0.5f });
-
       D3D11_MAPPED_SUBRESOURCE mappedResource;
       d_renderDevice.getDeviceContextPtr()->Map(d_windBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 

@@ -21,8 +21,8 @@ namespace Dx
 
   struct WindCBuffer
   {
-    XMFLOAT3 direction{ 0, 0, 0 };
-    float _reserved{ 0 };
+    XMFLOAT2 direction{ 0, 0 };
+    XMFLOAT2 _reserved{ 0, 0 };
   };
 
 } //ns Dx
