@@ -21,9 +21,14 @@ namespace Dx
     float getYaw() const;
     float getPitch() const;
 
+    void setCameraSpeed(double i_speed);
+    double getCameraSpeed() const;
+
   private:
     Game& d_game;
     FirstPersonCamera& d_camera;
+
+    double d_cameraSpeed = 5.0;
 
     MouseMode d_originalMouseMode = MouseMode::Absolute;
 

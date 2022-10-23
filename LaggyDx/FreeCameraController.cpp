@@ -75,18 +75,16 @@ namespace Dx
 
   void FreeCameraController::onGameUpdate(double i_dt)
   {
-    constexpr float MoveSpeed = 5.0f;
-
     if (d_moveLeft && !d_moveRight)
     {
       auto pos = d_camera.getPosition();
-      pos += d_camera.getLeft() * (float)i_dt * MoveSpeed;
+      pos += d_camera.getLeft() * (float)i_dt * (float)getCameraSpeed();
       d_camera.setPosition(pos);
     }
     else if (d_moveRight && !d_moveLeft)
     {
       auto pos = d_camera.getPosition();
-      pos += d_camera.getRight() * (float)i_dt * MoveSpeed;
+      pos += d_camera.getRight() * (float)i_dt * (float)getCameraSpeed();
       d_camera.setPosition(pos);
     }
 
@@ -94,13 +92,13 @@ namespace Dx
     if (d_moveForward && !d_moveBackward)
     {
       auto pos = d_camera.getPosition();
-      pos += d_camera.getForward() * (float)i_dt * MoveSpeed;
+      pos += d_camera.getForward() * (float)i_dt * (float)getCameraSpeed();
       d_camera.setPosition(pos);
     }
     else if (d_moveBackward && !d_moveForward)
     {
       auto pos = d_camera.getPosition();
-      pos += d_camera.getBackward() * (float)i_dt * MoveSpeed;
+      pos += d_camera.getBackward() * (float)i_dt * (float)getCameraSpeed();
       d_camera.setPosition(pos);
     }
 
@@ -108,13 +106,13 @@ namespace Dx
     if (d_moveUp && !d_moveDown)
     {
       auto pos = d_camera.getPosition();
-      pos += d_camera.getWorldUp() * (float)i_dt * MoveSpeed;
+      pos += d_camera.getWorldUp() * (float)i_dt * (float)getCameraSpeed();
       d_camera.setPosition(pos);
     }
     else if (d_moveDown && !d_moveUp)
     {
       auto pos = d_camera.getPosition();
-      pos += d_camera.getWorldDown() * (float)i_dt * MoveSpeed;
+      pos += d_camera.getWorldDown() * (float)i_dt * (float)getCameraSpeed();
       d_camera.setPosition(pos);
     }
   }
@@ -187,6 +185,17 @@ namespace Dx
   float FreeCameraController::getPitch() const
   {
     return d_camera.getPitch();
+  }
+
+
+  void FreeCameraController::setCameraSpeed(const double i_speed)
+  {
+    d_cameraSpeed = i_speed;
+  }
+
+  double FreeCameraController::getCameraSpeed() const
+  {
+    return d_cameraSpeed;
   }
 
 } // ns Dx
