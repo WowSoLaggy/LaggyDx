@@ -16,7 +16,7 @@ cbuffer GlobalCBuffer
 cbuffer WindCBuffer
 {
   float3 windDirection;
-  float windSpeed;
+  float _reserved;
 };
 
 
@@ -47,7 +47,8 @@ PixelInputType main(VertexInputType input)
   //
 
   float k = 2 * PI / wavesLength;
-  float f = k * (input.position.x + windSpeed * time);
+  float c = sqrt(9.81 / k);
+  float f = k * (input.position.x + c * time);
   float a = wavesSteepness / k;
   float3 tangent = normalize(float3(
     1 - wavesSteepness * sin(f),

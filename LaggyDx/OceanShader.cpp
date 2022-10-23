@@ -69,11 +69,6 @@ namespace Dx
     d_windCBuffer.direction = getNormalized({ i_direction.x, 0, i_direction.y });
   }
 
-  void OceanShader::setWindSpeed(const double i_speed)
-  {
-    d_windCBuffer.speed = (float)i_speed;
-  }
-
   void OceanShader::setWavesSteepness(const double i_steepness)
   {
     d_globalCBuffer.wavesSteepness = (float)i_steepness;

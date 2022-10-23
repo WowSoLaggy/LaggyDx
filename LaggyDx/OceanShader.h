@@ -18,7 +18,6 @@ namespace Dx
     virtual void setGlobalTime(double i_time) override;
     virtual void setTextureCoef(double i_coef) override;
     virtual void setWindDirection(Sdk::Vector2D i_direction) override;
-    virtual void setWindSpeed(double i_speed) override;
     virtual void setWavesSteepness(double i_steepness) override;
     virtual void setWavesLength(double i_length) override;
 
