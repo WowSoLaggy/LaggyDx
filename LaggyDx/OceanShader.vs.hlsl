@@ -9,14 +9,12 @@ cbuffer GlobalCBuffer
 {
   float time;
   float textureCoef;
-  float wavesSteepness;
-  float wavesLength;
+  float2 _reserved;
 };
 
-cbuffer WindCBuffer
+cbuffer WaveCBuffer
 {
-  float2 windDirection;
-  float2 _reserved;
+  float4 wave;
 };
 
 
@@ -36,36 +34,52 @@ struct PixelInputType
 
 static const float PI = 3.14159265f;
 
+
+float3 gerstnerWave(float4 wave, float3 p, inout float3 tangent, inout float3 binormal)
+{
+  float steepness = wave.z;
+  float waveLength = wave.w;
+  
+  float k = 2 * PI / waveLength;
+  float c = sqrt(9.81 / k);
+  float2 d = wave.xy;
+  float f = k * (dot(d, p.xz) + c * time);
+  float a = steepness / k;
+  
+  tangent += float3(
+    -d.x * d.x * steepness * sin(f),
+    d.x * steepness * cos(f),
+    -d.x * d.y * steepness * sin(f));
+  binormal += float3(
+    -d.x * d.y * steepness * sin(f),
+    d.y * steepness * cos(f),
+    -d.y * d.y * steepness * sin(f));
+  
+  return float3(
+    d.x * a * cos(f),
+    a * sin(f),
+    d.y * a * cos(f));
+}
+
+
 PixelInputType main(VertexInputType input)
 {
   PixelInputType output;
-  // Change the position vector to be 4 units for proper matrix calculations.
-  input.position.w = 1.0f;
-  output.normal = input.normal;
   output.tex = input.tex;
 
   //
+  
+  float3 p = input.position.xyz;
+  float3 tangent = float3(1, 0, 0);
+  float3 binormal = float3(0, 0, 1);
+  
+  p += gerstnerWave(wave, p, tangent, binormal);
 
-  float k = 2 * PI / wavesLength;
-  float c = sqrt(9.81 / k);
-  float f = k * (dot(windDirection, input.position.xz) + c * time);
-  float a = wavesSteepness / k;
-  float3 tangent = float3(
-    1 - windDirection.x * windDirection.x * wavesSteepness * sin(f),
-    windDirection.x * wavesSteepness * cos(f),
-    -windDirection.x * windDirection.y * wavesSteepness * sin(f));
-  float3 binormal = float3(
-    -windDirection.x * windDirection.y * wavesSteepness * sin(f),
-    windDirection.y * wavesSteepness * cos(f),
-    1 - windDirection.y * windDirection.y * wavesSteepness * sin(f));
   float3 normal = normalize(cross(binormal, tangent));
 
   //
 
-  input.position.x += windDirection.x * a * cos(f);
-  input.position.y += a * sin(f);
-  input.position.z += windDirection.y * a * cos(f);
-
+  input.position.xyz = p;
   output.normal = normal;
 
   //

@@ -20,6 +20,7 @@ namespace Dx
 
     virtual void setGlobalTime(double i_time) = 0;
     virtual void setTextureCoef(double i_coef) = 0;
+
     virtual void setWindDirection(Sdk::Vector2D i_direction) = 0;
     virtual void setWavesSteepness(double i_steepness) = 0;
     virtual void setWavesLength(double i_length) = 0;

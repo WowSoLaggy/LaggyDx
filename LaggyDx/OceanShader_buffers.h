@@ -15,14 +15,12 @@ namespace Dx
   {
     float time{ 0 };
     float textureCoef{ 0 };
-    float wavesSteepness{ 0 };
-    float wavesLength{ 0 };
+    XMFLOAT2 _reserved{ 0, 0 };
   };
 
-  struct WindCBuffer
+  struct WaveCBuffer
   {
-    XMFLOAT2 direction{ 0, 0 };
-    XMFLOAT2 _reserved{ 0, 0 };
+    XMFLOAT4 wave{ 0, 0, 0, 0 };
   };
 
 } //ns Dx

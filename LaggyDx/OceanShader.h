@@ -17,6 +17,7 @@ namespace Dx
 
     virtual void setGlobalTime(double i_time) override;
     virtual void setTextureCoef(double i_coef) override;
+
     virtual void setWindDirection(Sdk::Vector2D i_direction) override;
     virtual void setWavesSteepness(double i_steepness) override;
     virtual void setWavesLength(double i_length) override;
@@ -25,7 +26,7 @@ namespace Dx
 
   private:
     GlobalCBuffer d_globalCBuffer;
-    WindCBuffer d_windCBuffer;
+    WaveCBuffer d_waveCBuffer;
 
     RenderDevice& d_renderDevice;
     const IResourceController& d_resourceController;
@@ -35,7 +36,7 @@ namespace Dx
     ID3D11Buffer* d_matrixBuffer = nullptr;
     ID3D11Buffer* d_lightBuffer = nullptr;
     ID3D11Buffer* d_globalBuffer = nullptr;
-    ID3D11Buffer* d_windBuffer = nullptr;
+    ID3D11Buffer* d_waveBuffer = nullptr;
 
     ID3D11PixelShader* d_pixelShader = nullptr;
     ID3D11SamplerState* d_sampleState = nullptr;

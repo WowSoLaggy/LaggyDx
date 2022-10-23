@@ -70,19 +70,22 @@ namespace Dx
     d_globalCBuffer.textureCoef = (float)i_coef;
   }
 
+
   void OceanShader::setWindDirection(Sdk::Vector2D i_direction)
   {
-    d_windCBuffer.direction = getNormalized(i_direction);
+    const auto normalizedDirection = getNormalized(i_direction);
+    d_waveCBuffer.wave.x = normalizedDirection.x;
+    d_waveCBuffer.wave.y = normalizedDirection.y;
   }
 
   void OceanShader::setWavesSteepness(const double i_steepness)
   {
-    d_globalCBuffer.wavesSteepness = (float)i_steepness;
+    d_waveCBuffer.wave.z = (float)i_steepness;
   }
 
   void OceanShader::setWavesLength(const double i_length)
   {
-    d_globalCBuffer.wavesLength = (float)i_length;
+    d_waveCBuffer.wave.w = (float)i_length;
   }
 
 
@@ -219,13 +222,13 @@ namespace Dx
     createBuffer(sizeof(MatrixBuffer), &d_matrixBuffer);
     createBuffer(sizeof(LightingCBuffer), &d_lightBuffer);
     createBuffer(sizeof(GlobalCBuffer), &d_globalBuffer);
-    createBuffer(sizeof(WindCBuffer), &d_windBuffer);
+    createBuffer(sizeof(WaveCBuffer), &d_waveBuffer);
   }
 
   void OceanShader::disposeBuffers()
   {
-    d_windBuffer->Release();
-    d_windBuffer = nullptr;
+    d_waveBuffer->Release();
+    d_waveBuffer = nullptr;
 
     d_globalBuffer->Release();
     d_globalBuffer = nullptr;
@@ -317,13 +320,13 @@ namespace Dx
     // Wind
     {
       D3D11_MAPPED_SUBRESOURCE mappedResource;
-      d_renderDevice.getDeviceContextPtr()->Map(d_windBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+      d_renderDevice.getDeviceContextPtr()->Map(d_waveBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-      auto* dataPtr = (WindCBuffer*)mappedResource.pData;
-      *dataPtr = d_windCBuffer;
+      auto* dataPtr = (WaveCBuffer*)mappedResource.pData;
+      *dataPtr = d_waveCBuffer;
 
-      d_renderDevice.getDeviceContextPtr()->Unmap(d_windBuffer, 0);
-      d_renderDevice.getDeviceContextPtr()->VSSetConstantBuffers(2, 1, &d_windBuffer);
+      d_renderDevice.getDeviceContextPtr()->Unmap(d_waveBuffer, 0);
+      d_renderDevice.getDeviceContextPtr()->VSSetConstantBuffers(2, 1, &d_waveBuffer);
     }
   }
 
