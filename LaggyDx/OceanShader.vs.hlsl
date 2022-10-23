@@ -76,8 +76,8 @@ PixelInputType main(VertexInputType input)
   float3 binormal = float3(0, 0, 1);
   
   p += gerstnerWave(wave1, p, tangent, binormal);
-  //p += gerstnerWave(wave2, p, tangent, binormal);
-  //p += gerstnerWave(wave3, p, tangent, binormal);
+  p += gerstnerWave(wave2, p, tangent, binormal);
+  p += gerstnerWave(wave3, p, tangent, binormal);
 
   float3 normal = normalize(cross(binormal, tangent));
 

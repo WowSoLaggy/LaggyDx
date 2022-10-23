@@ -137,7 +137,7 @@ namespace Dx
     swapChainDesc.SampleDesc.Count = static_cast<int>(c_msaaMode);
 
     // Set the feature level to DirectX 11
-    D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_0;
+    D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_1;
 
     UINT flags = 0;
     if (i_debugMode)
