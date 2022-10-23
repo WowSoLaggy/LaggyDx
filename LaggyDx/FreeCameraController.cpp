@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "FirstPersonController.h"
+#include "FreeCameraController.h"
 
 #include "FirstPersonCamera.h"
 #include "Game.h"
@@ -9,7 +9,7 @@
 
 namespace Dx
 {
-  FirstPersonController::FirstPersonController(Game& i_game, ICamera& i_camera)
+  FreeCameraController::FreeCameraController(Game& i_game, ICamera& i_camera)
     : d_game(i_game)
     , d_camera(dynamic_cast<FirstPersonCamera&>(i_camera))
   {
@@ -19,7 +19,7 @@ namespace Dx
     connectTo(d_game);
   }
 
-  FirstPersonController::~FirstPersonController()
+  FreeCameraController::~FreeCameraController()
   {
     disconnectFrom(d_game);
     
@@ -27,7 +27,7 @@ namespace Dx
   }
 
 
-  void FirstPersonController::processEvent(const Sdk::IEvent& i_event)
+  void FreeCameraController::processEvent(const Sdk::IEvent& i_event)
   {
     if (const auto* event = dynamic_cast<const OnGameUpdate*>(&i_event))
     {
@@ -73,7 +73,7 @@ namespace Dx
   }
 
 
-  void FirstPersonController::onGameUpdate(double i_dt)
+  void FreeCameraController::onGameUpdate(double i_dt)
   {
     constexpr float MoveSpeed = 5.0f;
 
@@ -120,7 +120,7 @@ namespace Dx
   }
 
 
-  void FirstPersonController::onMouseMoved(const Sdk::Vector2I& i_move)
+  void FreeCameraController::onMouseMoved(const Sdk::Vector2I& i_move)
   {
     constexpr float Sensitivity = 0.01f;
 
@@ -129,62 +129,62 @@ namespace Dx
   }
 
 
-  void FirstPersonController::onStartMoveLeft()
+  void FreeCameraController::onStartMoveLeft()
   {
     d_moveLeft = true;
   }
-  void FirstPersonController::onStopMoveLeft()
+  void FreeCameraController::onStopMoveLeft()
   {
     d_moveLeft = false;
   }
-  void FirstPersonController::onStartMoveRight()
+  void FreeCameraController::onStartMoveRight()
   {
     d_moveRight = true;
   }
-  void FirstPersonController::onStopMoveRight()
+  void FreeCameraController::onStopMoveRight()
   {
     d_moveRight = false;
   }
-  void FirstPersonController::onStartMoveForward()
+  void FreeCameraController::onStartMoveForward()
   {
     d_moveForward = true;
   }
-  void FirstPersonController::onStopMoveForward()
+  void FreeCameraController::onStopMoveForward()
   {
     d_moveForward = false;
   }
-  void FirstPersonController::onStartMoveBackward()
+  void FreeCameraController::onStartMoveBackward()
   {
     d_moveBackward = true;
   }
-  void FirstPersonController::onStopMoveBackward()
+  void FreeCameraController::onStopMoveBackward()
   {
     d_moveBackward = false;
   }
-  void FirstPersonController::onStartMoveUp()
+  void FreeCameraController::onStartMoveUp()
   {
     d_moveUp = true;
   }
-  void FirstPersonController::onStopMoveUp()
+  void FreeCameraController::onStopMoveUp()
   {
     d_moveUp = false;
   }
-  void FirstPersonController::onStartMoveDown()
+  void FreeCameraController::onStartMoveDown()
   {
     d_moveDown = true;
   }
-  void FirstPersonController::onStopMoveDown()
+  void FreeCameraController::onStopMoveDown()
   {
     d_moveDown = false;
   }
 
 
-  float FirstPersonController::getYaw() const
+  float FreeCameraController::getYaw() const
   {
     return d_camera.getYaw();
   }
 
-  float FirstPersonController::getPitch() const
+  float FreeCameraController::getPitch() const
   {
     return d_camera.getPitch();
   }

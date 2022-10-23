@@ -162,7 +162,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="CameraBase.h" />
     <ClInclude Include="FirstPersonCamera.h" />
-    <ClInclude Include="FirstPersonController.h" />
+    <ClInclude Include="FreeCameraController.h" />
     <ClInclude Include="GameEvents.h" />
     <ClInclude Include="IInputController.h" />
     <ClInclude Include="InputEvents.h" />
@@ -290,7 +290,7 @@
     <ClCompile Include="Checkbox.cpp" />
     <ClCompile Include="FbxResource.cpp" />
     <ClCompile Include="FirstPersonCamera.cpp" />
-    <ClCompile Include="FirstPersonController.cpp" />
+    <ClCompile Include="FreeCameraController.cpp" />
     <ClCompile Include="IOceanShader.cpp" />
     <ClCompile Include="ISimpleRenderer.cpp" />
     <ClCompile Include="Layout.cpp" />

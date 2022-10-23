@@ -447,7 +447,7 @@
     <ClInclude Include="IInputController.h">
       <Filter>src\InputControllers</Filter>
     </ClInclude>
-    <ClInclude Include="FirstPersonController.h">
+    <ClInclude Include="FreeCameraController.h">
       <Filter>src\InputControllers</Filter>
     </ClInclude>
     <ClInclude Include="InputEvents.h">
@@ -713,7 +713,7 @@
     <ClCompile Include="OceanShader.cpp">
       <Filter>src\Shaders\OceanShader</Filter>
     </ClCompile>
-    <ClCompile Include="FirstPersonController.cpp">
+    <ClCompile Include="FreeCameraController.cpp">
       <Filter>src\InputControllers</Filter>
     </ClCompile>
     <ClCompile Include="FirstPersonCamera.cpp">
