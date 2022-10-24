@@ -11,7 +11,7 @@ namespace Dx
 {
   void Text::render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_position) const
   {
-    CONTRACT_ASSERT(!d_text.empty() || d_fontResource);
+    CONTRACT_ASSERT(d_text.empty() || d_fontResource);
 
     if (d_fontResource && !d_text.empty())
     {

@@ -102,9 +102,14 @@ namespace Dx
 
   void Button::updateTextOffset()
   {
-    const auto selfSize = d_sprite.getSize();
+    if (d_text.getText().empty() || !d_text.getFontResource())
+      return;
+
     const auto textSize = d_text.getFontResource()->getStringRect(d_text.getText());
-    d_textOffset = { (float)(selfSize.x - textSize.width()) / 2, (float)(selfSize.y - textSize.height()) / 2 };
+    d_textOffset = {
+      (float)(d_sprite.getSize().x - textSize.width()) / 2,
+      (float)(d_sprite.getSize().y - textSize.height()) / 2
+    };
   }
 
   void Button::setState(ButtonState i_state)
