@@ -6,6 +6,13 @@
 
 namespace Dx
 {
+  void Layout::processEvent(const Sdk::IEvent& i_event)
+  {
+    if (dynamic_cast<const ControlSizeChangedEvent*>(&i_event))
+      onChildrenChanged();
+  }
+
+
   void Layout::addChild(std::shared_ptr<Sdk::TreeNode> i_child)
   {
     auto* childControl = dynamic_cast<IControl*>(i_child.get());
@@ -77,6 +84,9 @@ namespace Dx
     default:
       CONTRACT_ASSERT(false);
     }
+
+    if (getDynamicSizeX() || getDynamicSizeY())
+      calculateDynamicSize();
   }
 
 
@@ -114,10 +124,45 @@ namespace Dx
   }
 
 
-  void Layout::processEvent(const Sdk::IEvent& i_event)
+  void Layout::setDynamicSizeX(bool i_dynamic)
   {
-    if (dynamic_cast<const ControlSizeChangedEvent*>(&i_event))
-      onChildrenChanged();
+    d_dynamicSizeX = i_dynamic;
+  }
+
+  void Layout::setDynamicSizeY(bool i_dynamic)
+  {
+    d_dynamicSizeY = i_dynamic;
+  }
+
+  bool Layout::getDynamicSizeX() const
+  {
+    return d_dynamicSizeX;
+  }
+
+  bool Layout::getDynamicSizeY() const
+  {
+    return d_dynamicSizeY;
+  }
+
+
+  void Layout::calculateDynamicSize()
+  {
+    Sdk::RectF rect;
+    for (auto& ctrlNode : getChildren())
+    {
+      auto& ctrl = dynamic_cast<IControl&>(*ctrlNode);
+      rect = addRects(rect, ctrl.getRectRelative());
+    }
+
+    rect.expand(getOffsetFromBorder());
+    
+    auto size = rect.size();
+    if (!getDynamicSizeX())
+      size.x = getSize().x;
+    if (!getDynamicSizeY())
+      size.y = getSize().y;
+
+    setSize(size);
   }
 
 } // ns Dx
