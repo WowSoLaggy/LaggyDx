@@ -40,7 +40,7 @@ namespace Dx
 
   void Layout::rearrange()
   {
-    if (d_align != LayoutAlign::TopLeft)
+    if (d_align != LayoutAlign::TopToBottom_LeftSide)
     {
       // Sorry, we don't support anything else so far
       CONTRACT_ASSERT(false);

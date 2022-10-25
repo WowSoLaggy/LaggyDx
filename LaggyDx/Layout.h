@@ -7,8 +7,7 @@ namespace Dx
 {
   enum class LayoutAlign
   {
-    TopLeft,
-    BottomCenter,
+    TopToBottom_LeftSide,
   };
 
   class Layout : public Control
@@ -33,7 +32,7 @@ namespace Dx
     int d_offsetBetweenElements = 0;
     int d_offsetFromBorder = 0;
 
-    LayoutAlign d_align = LayoutAlign::TopLeft;
+    LayoutAlign d_align = LayoutAlign::TopToBottom_LeftSide;
 
     void onChildrenChanged();
     void rearrange();
