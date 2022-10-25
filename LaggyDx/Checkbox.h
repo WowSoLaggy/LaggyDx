@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Label.h"
+#include "Control.h"
 #include "Sprite.h"
 
 

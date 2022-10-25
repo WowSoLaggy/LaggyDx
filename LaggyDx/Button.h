@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Control.h"
-#include "Text.h"
 #include "Sprite.h"
+#include "Text.h"
 
 
 namespace Dx
