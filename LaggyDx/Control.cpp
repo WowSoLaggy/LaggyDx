@@ -27,7 +27,7 @@ namespace Dx
   }
   Sdk::Vector2F Control::getSize() const { return d_size; }
 
-  Sdk::RectF Control::getRect() const
+  Sdk::RectF Control::getRectAbsolute() const
   {
     return Sdk::RectF(getPositionAbsolute(), getPositionAbsolute() + getSize());
   }

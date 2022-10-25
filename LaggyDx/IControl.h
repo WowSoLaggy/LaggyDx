@@ -24,7 +24,7 @@ namespace Dx
     virtual void setSize(Sdk::Vector2F i_size) = 0;
     virtual Sdk::Vector2F getSize() const = 0;
 
-    virtual Sdk::RectF getRect() const = 0;
+    virtual Sdk::RectF getRectAbsolute() const = 0;
 
     virtual void setOpacity(double i_opacity) = 0;
     virtual double getOpacity() const = 0;

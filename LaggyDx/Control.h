@@ -15,7 +15,7 @@ namespace Dx
     virtual void setSize(Sdk::Vector2F i_size) override;
     virtual Sdk::Vector2F getSize() const override;
 
-    virtual Sdk::RectF getRect() const override;
+    virtual Sdk::RectF getRectAbsolute() const override;
 
     virtual void setOpacity(double i_opacity) override;
     virtual double getOpacity() const override;

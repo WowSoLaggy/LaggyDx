@@ -24,7 +24,7 @@ namespace Dx
   void Checkbox::onMouseMove()
   {
     const auto& mousePos = Game::get().getInputDevice().getMousePosition();
-    if (getRect().getRect<int>().containsPoint(mousePos))
+    if (getRectAbsolute().getRect<int>().containsPoint(mousePos))
     {
       if (d_state == CheckboxState::Normal || d_state == CheckboxState::Ticked)
         setState(isChecked() ? CheckboxState::HoverTicked : CheckboxState::HoverUnticked);
@@ -41,7 +41,7 @@ namespace Dx
     if (i_key == MouseKey::Left)
     {
       const auto& mousePos = Game::get().getInputDevice().getMousePosition();
-      if (getRect().getRect<int>().containsPoint(mousePos))
+      if (getRectAbsolute().getRect<int>().containsPoint(mousePos))
       {
         setState(isChecked() ? CheckboxState::HoverUnticked : CheckboxState::HoverTicked);
         onCheck();
