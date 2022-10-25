@@ -28,6 +28,9 @@ namespace Dx
     void setText(std::string i_text);
     void setFont(const std::string& i_fontName);
 
+    void setTextScale(float i_scale);
+    float getTextScale() const;
+
     void onPress();
     void setOnPress(std::function<void()> i_onPress);
 

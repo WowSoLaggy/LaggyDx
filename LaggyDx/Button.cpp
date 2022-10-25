@@ -74,6 +74,19 @@ namespace Dx
   void Button::setFont(const std::string& i_fontName)
   {
     d_text.setFont(i_fontName);
+    updateTextOffset();
+  }
+
+
+  void Button::setTextScale(const float i_scale)
+  {
+    d_text.setScale(i_scale);
+    updateTextOffset();
+  }
+
+  float Button::getTextScale() const
+  {
+    return d_text.getScale();
   }
 
 
@@ -105,10 +118,10 @@ namespace Dx
     if (d_text.getText().empty() || !d_text.getFontResource())
       return;
 
-    const auto textSize = d_text.getFontResource()->getStringRect(d_text.getText());
+    const auto textSize = d_text.getSize();
     d_textOffset = {
-      (float)(d_sprite.getSize().x - textSize.width()) / 2,
-      (float)(d_sprite.getSize().y - textSize.height()) / 2
+      (float)((float)d_sprite.getSize().x - textSize.x) / 2,
+      (float)((float)d_sprite.getSize().y - textSize.y) / 2
     };
   }
 
