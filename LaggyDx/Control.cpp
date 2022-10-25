@@ -31,6 +31,10 @@ namespace Dx
   {
     return Sdk::RectF(getPositionAbsolute(), getPositionAbsolute() + getSize());
   }
+  Sdk::RectF Control::getRectRelative() const
+  {
+    return Sdk::RectF(getPositionRelative(), getPositionRelative() + getSize());
+  }
 
   void Control::setOpacity(const double i_opacity) { d_opacity = i_opacity; }
   double Control::getOpacity() const { return d_opacity; }
