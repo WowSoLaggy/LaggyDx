@@ -474,6 +474,9 @@
     <ClInclude Include="OceanShader_buffers.h">
       <Filter>src\Shaders\OceanShader</Filter>
     </ClInclude>
+    <ClInclude Include="RadioButton.h">
+      <Filter>src\Gui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -727,6 +730,9 @@
     </ClCompile>
     <ClCompile Include="IOceanShader.cpp">
       <Filter>src\Shaders\OceanShader</Filter>
+    </ClCompile>
+    <ClCompile Include="RadioButton.cpp">
+      <Filter>src\Gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -194,6 +194,7 @@
     <ClInclude Include="ImageAnimation.h" />
     <ClInclude Include="AnimationController3d.h" />
     <ClInclude Include="OceanShader_buffers.h" />
+    <ClInclude Include="RadioButton.h" />
     <ClInclude Include="Slider.h" />
     <ClInclude Include="ThirdPersonCamera.h" />
     <ClInclude Include="FontResource.h" />
@@ -304,6 +305,7 @@
     <ClCompile Include="ofbx.cpp" />
     <ClCompile Include="OfbxSceneWrapper.cpp" />
     <ClCompile Include="PsHlslResource.cpp" />
+    <ClCompile Include="RadioButton.cpp" />
     <ClCompile Include="Shape3d.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="VsBinResource.cpp" />

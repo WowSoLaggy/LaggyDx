@@ -72,6 +72,7 @@ namespace Dx
   class Button;
   class Checkbox;
   class Slider;
+  class RadioButton;
 
   class IGuiEffect;
 
