@@ -40,12 +40,12 @@ namespace Dx
 
   void Layout::rearrange()
   {
+    const auto bordersOffset = Sdk::Vector2F{ (float)d_offsetFromBorder, (float)d_offsetFromBorder };
+
     switch (d_align)
     {
     case LayoutAlign::TopToBottom_LeftSide:
     {
-      const auto bordersOffset = Sdk::Vector2F{ (float)d_offsetFromBorder, (float)d_offsetFromBorder };
-
       float yNext = 0;
       for (auto& ctrlNode : getChildren())
       {
@@ -55,6 +55,21 @@ namespace Dx
         ctrl.setPosition(newPos);
 
         yNext += ctrl.getSize().y + d_offsetBetweenElements;
+      }
+
+      break;
+    }
+    case LayoutAlign::LeftToRight_TopSide:
+    {
+      float xNext = 0;
+      for (auto& ctrlNode : getChildren())
+      {
+        auto& ctrl = dynamic_cast<IControl&>(*ctrlNode);
+
+        const auto newPos = bordersOffset + Sdk::Vector2F{ xNext, 0 };
+        ctrl.setPosition(newPos);
+
+        xNext += ctrl.getSize().x + d_offsetBetweenElements;
       }
 
       break;
