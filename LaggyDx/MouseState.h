@@ -11,7 +11,7 @@ namespace Dx
 {
   enum class MouseButtonState
   {
-    Up        = 0,  // Button is up
+    Up        = 0,  // Button is up (not pressed)
     Held      = 1,  // Button is held down
     Released  = 2,  // Button was just released
     Pressed   = 3,  // Buton was just pressed
