@@ -106,6 +106,9 @@
     <Filter Include="src\Cameras">
       <UniqueIdentifier>{17410187-afc1-4479-b6d6-10092edbd729}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Geometry">
+      <UniqueIdentifier>{88c6daf1-713b-4421-a0ba-01089c6296ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -480,6 +483,9 @@
     <ClInclude Include="RadioGroup.h">
       <Filter>src\Gui</Filter>
     </ClInclude>
+    <ClInclude Include="Geometry.h">
+      <Filter>src\Geometry</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -739,6 +745,9 @@
     </ClCompile>
     <ClCompile Include="RadioGroup.cpp">
       <Filter>src\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometry.cpp">
+      <Filter>src\Geometry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
