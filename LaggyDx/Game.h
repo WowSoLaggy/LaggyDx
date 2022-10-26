@@ -55,6 +55,8 @@ namespace Dx
     [[nodiscard]] double getGlobalTime() const;
     [[nodiscard]] const Sdk::FpsCounter& getFpsCounter() const;
 
+    [[nodiscard]] const MouseState& getMouseState() const;
+
   protected:
     virtual void onGameStart();
     virtual void onGameEnd();

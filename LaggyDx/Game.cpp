@@ -86,6 +86,8 @@ namespace Dx
   double Game::getGlobalTime() const { return d_globalTime; }
   const Sdk::FpsCounter& Game::getFpsCounter() const { return d_fpsCounter; }
 
+  const MouseState& Game::getMouseState() const { return d_mouseState; }
+
 
   void Game::processEvent(const Sdk::IEvent& i_event)
   {
