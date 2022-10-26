@@ -10,6 +10,8 @@ namespace Dx
   {
     if (dynamic_cast<const ControlSizeChangedEvent*>(&i_event))
       onChildrenChanged();
+    else if (dynamic_cast<const ControlVisibilityChangedEvent*>(&i_event))
+      onChildrenChanged();
   }
 
 
@@ -57,6 +59,8 @@ namespace Dx
       for (auto& ctrlNode : getChildren())
       {
         auto& ctrl = dynamic_cast<IControl&>(*ctrlNode);
+        if (!ctrl.getVisible())
+          continue;
 
         const auto newPos = bordersOffset + Sdk::Vector2F{ 0, yNext };
         ctrl.setPosition(newPos);
@@ -72,6 +76,8 @@ namespace Dx
       for (auto& ctrlNode : getChildren())
       {
         auto& ctrl = dynamic_cast<IControl&>(*ctrlNode);
+        if (!ctrl.getVisible())
+          continue;
 
         const auto newPos = bordersOffset + Sdk::Vector2F{ xNext, 0 };
         ctrl.setPosition(newPos);
@@ -151,7 +157,8 @@ namespace Dx
     for (auto& ctrlNode : getChildren())
     {
       auto& ctrl = dynamic_cast<IControl&>(*ctrlNode);
-      rect = addRects(rect, ctrl.getRectRelative());
+      if (ctrl.getVisible())
+        rect = addRects(rect, ctrl.getRectRelative());
     }
 
     rect.expand(getOffsetFromBorder());

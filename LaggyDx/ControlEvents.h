@@ -11,6 +11,10 @@ namespace Dx
   {
   };
 
+  class ControlVisibilityChangedEvent : public Sdk::IEvent
+  {
+  };
+
 
   class RadioButtonCheckEvent : public Sdk::IEvent
   {

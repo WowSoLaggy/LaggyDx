@@ -39,7 +39,11 @@ namespace Dx
   void Control::setOpacity(const double i_opacity) { d_opacity = i_opacity; }
   double Control::getOpacity() const { return d_opacity; }
 
-  void Control::setVisible(bool i_visible) { d_visible = i_visible; }
+  void Control::setVisible(bool i_visible)
+  {
+    d_visible = i_visible;
+    notify(ControlVisibilityChangedEvent());
+  }
   bool Control::getVisible() const { return d_visible; }
 
 
