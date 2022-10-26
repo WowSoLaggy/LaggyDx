@@ -22,11 +22,16 @@ namespace Dx
     virtual void setWavesSteepness(int i_waveIndex, double i_steepness) override;
     virtual void setWavesLength(int i_waveIndex, double i_length) override;
 
+    virtual void setLightDirection(Sdk::Vector3D i_direction) override;
+    virtual void setLightColor(const Sdk::Vector4D& i_color) override;
+    virtual void setAmbientStrength(double i_strength) override;
+
     virtual void draw(const IObject3& i_object) const override;
 
   private:
     GlobalCBuffer d_globalCBuffer;
     WaveCBuffer d_waveCBuffer;
+    LightCBuffer d_lightCBuffer;
 
     RenderDevice& d_renderDevice;
     const IResourceController& d_resourceController;

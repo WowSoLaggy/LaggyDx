@@ -24,6 +24,10 @@ namespace Dx
     virtual void setWindDirection(int i_waveIndex, Sdk::Vector2D i_direction) = 0;
     virtual void setWavesSteepness(int i_waveIndex, double i_steepness) = 0;
     virtual void setWavesLength(int i_waveIndex, double i_length) = 0;
+
+    virtual void setLightDirection(Sdk::Vector3D i_direction) = 0;
+    virtual void setLightColor(const Sdk::Vector4D& i_color) = 0;
+    virtual void setAmbientStrength(double i_strength) = 0;
     
     virtual void draw(const IObject3& i_object) const = 0;
   };

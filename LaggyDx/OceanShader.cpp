@@ -32,9 +32,14 @@ namespace Dx
       return { (float)i_input.x, (float)i_input.y, (float)i_input.z };
     }
 
-    DirectX::XMFLOAT4 getXmfloat4(Sdk::Vector4F i_input)
+    DirectX::XMFLOAT4 getXmfloat4(const Sdk::Vector4F& i_input)
     {
       return { i_input.x, i_input.y, i_input.z, i_input.w };
+    }
+
+    DirectX::XMFLOAT4 getXmfloat4(const Sdk::Vector4D& i_input)
+    {
+      return getXmfloat4(i_input.getVector<float>());
     }
 
   } // anonym NS
@@ -73,7 +78,7 @@ namespace Dx
 
   void OceanShader::setWindDirection(int i_waveIndex, Sdk::Vector2D i_direction)
   {
-    const auto normalizedDirection = getNormalized(i_direction);
+    const auto normalizedDirection = getNormalized(std::move(i_direction));
     auto& wave = getWaveByIndex(i_waveIndex);
     wave.x = normalizedDirection.x;
     wave.y = normalizedDirection.y;
@@ -89,6 +94,22 @@ namespace Dx
   {
     auto& wave = getWaveByIndex(i_waveIndex);
     wave.w = (float)i_length;
+  }
+
+
+  void OceanShader::setLightDirection(Sdk::Vector3D i_direction)
+  {
+    d_lightCBuffer.lightDirection = getNormalized(std::move(i_direction));
+  }
+
+  void OceanShader::setLightColor(const Sdk::Vector4D& i_color)
+  {
+    d_lightCBuffer.lightColor = getXmfloat4(i_color);
+  }
+
+  void OceanShader::setAmbientStrength(const double i_strength)
+  {
+    d_lightCBuffer.ambientStrength = (float)i_strength;
   }
 
 
@@ -223,21 +244,21 @@ namespace Dx
     };
 
     createBuffer(sizeof(MatrixBuffer), &d_matrixBuffer);
-    createBuffer(sizeof(LightingCBuffer), &d_lightBuffer);
     createBuffer(sizeof(GlobalCBuffer), &d_globalBuffer);
     createBuffer(sizeof(WaveCBuffer), &d_waveBuffer);
+    createBuffer(sizeof(LightCBuffer), &d_lightBuffer);
   }
 
   void OceanShader::disposeBuffers()
   {
+    d_lightBuffer->Release();
+    d_lightBuffer = nullptr;
+
     d_waveBuffer->Release();
     d_waveBuffer = nullptr;
 
     d_globalBuffer->Release();
     d_globalBuffer = nullptr;
-
-    d_lightBuffer->Release();
-    d_lightBuffer = nullptr;
 
     d_matrixBuffer->Release();
     d_matrixBuffer = nullptr;
@@ -357,23 +378,18 @@ namespace Dx
 
   void OceanShader::setMaterial(const Material& i_material) const
   {
-    static const auto LightDirection = getNormalized({ 0.0f, -1.0f, 0.0f });
-
     D3D11_MAPPED_SUBRESOURCE mappedResource;
     d_renderDevice.getDeviceContextPtr()->Map(d_lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-    auto* dataPtr = (LightingCBuffer*)mappedResource.pData;
+    auto* dataPtr = (LightCBuffer*)mappedResource.pData;
+    *dataPtr = d_lightCBuffer;
     dataPtr->diffuseColor = XMFLOAT4(
       i_material.diffuseColor.x,
       i_material.diffuseColor.y,
       i_material.diffuseColor.z,
       i_material.diffuseColor.w);
-    dataPtr->lightColor = { 1.0f, 1.0f, 1.0f, 1.0f };
-    dataPtr->lightDirection = LightDirection;
-    dataPtr->ambientStrength = 0.3f;
 
     d_renderDevice.getDeviceContextPtr()->Unmap(d_lightBuffer, 0);
-
     d_renderDevice.getDeviceContextPtr()->PSSetConstantBuffers(0, 1, &d_lightBuffer);
   }
 
