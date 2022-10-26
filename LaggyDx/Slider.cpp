@@ -70,6 +70,9 @@ namespace Dx
 
   void Slider::onMouseClick(MouseKey i_key)
   {
+    if (i_key != MouseKey::Left)
+      return;
+
     const auto mousePos = Game::get().getInputDevice().getMousePosition() - getPositionAbsolute().getVector<int>();
     
     if (d_spriteSlider.getRect().containsPoint(mousePos))
