@@ -26,6 +26,8 @@ namespace Dx
     virtual void setLightColor(const Sdk::Vector4D& i_color) override;
     virtual void setAmbientStrength(double i_strength) override;
 
+    virtual void setCameraPosition(const Sdk::Vector3D& i_cameraPos) override;
+
     virtual void draw(const IObject3& i_object) const override;
 
   private:

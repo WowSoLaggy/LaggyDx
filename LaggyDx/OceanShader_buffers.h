@@ -7,7 +7,8 @@ namespace Dx
   {
     float time{ 0 };
     float textureCoef{ 0 };
-    XMFLOAT2 _reserved{ 0, 0 };
+    XMFLOAT3 cameraPos{ 0, 0, 0 };
+    XMFLOAT3 _reserved{ 0, 0, 0 };
   };
 
   struct WaveCBuffer
