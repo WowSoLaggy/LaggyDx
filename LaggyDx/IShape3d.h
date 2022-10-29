@@ -17,6 +17,8 @@ namespace Dx
     static std::unique_ptr<IShape3d> plane(
       const Sdk::Size2I& i_size, float i_dist = 1.0f, float i_textureCoef = 1.0f);
 
+    static std::unique_ptr<IShape3d> cube(float i_size);
+
   public:
     virtual ~IShape3d() = default;
 
