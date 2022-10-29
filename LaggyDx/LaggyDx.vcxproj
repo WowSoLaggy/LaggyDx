@@ -168,6 +168,7 @@
     <ClInclude Include="IInputController.h" />
     <ClInclude Include="InputEvents.h" />
     <ClInclude Include="IOceanShader.h" />
+    <ClInclude Include="ISimpleShader.h" />
     <ClInclude Include="MouseMode.h" />
     <ClInclude Include="Obb.h" />
     <ClInclude Include="Button.h" />
@@ -197,6 +198,7 @@
     <ClInclude Include="RadioButton.h" />
     <ClInclude Include="RadioGroup.h" />
     <ClInclude Include="ShadersUtils.h" />
+    <ClInclude Include="SimpleShader.h" />
     <ClInclude Include="Slider.h" />
     <ClInclude Include="ThirdPersonCamera.h" />
     <ClInclude Include="FontResource.h" />
@@ -298,6 +300,7 @@
     <ClCompile Include="IOceanShader.cpp" />
     <ClCompile Include="IShape3d.cpp" />
     <ClCompile Include="ISimpleRenderer.cpp" />
+    <ClCompile Include="ISimpleShader.cpp" />
     <ClCompile Include="Layout.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshUtils.cpp" />
@@ -313,6 +316,7 @@
     <ClCompile Include="RadioGroup.cpp" />
     <ClCompile Include="ShadersUtils.cpp" />
     <ClCompile Include="Shape3d.cpp" />
+    <ClCompile Include="SimpleShader.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="VsBinResource.cpp" />
     <ClCompile Include="ThirdPersonCamera.cpp" />
@@ -402,6 +406,24 @@
       <VariableName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">g_oceanVs</VariableName>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generated/Ocean.gen.vs.h</HeaderFileOutput>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="SimpleShader.ps.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generated/Simple.gen.ps.h</HeaderFileOutput>
+      <VariableName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">g_simplePs</VariableName>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="SimpleShader.vs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <VariableName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">g_simpleVs</VariableName>
+      <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generated/Simple.gen.vs.h</HeaderFileOutput>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

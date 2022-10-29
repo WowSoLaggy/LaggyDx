@@ -109,6 +109,9 @@
     <Filter Include="src\Geometry">
       <UniqueIdentifier>{88c6daf1-713b-4421-a0ba-01089c6296ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Shaders\SimpleShader">
+      <UniqueIdentifier>{fada97ef-76ea-44c4-b6c0-75d90eff8c1d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -480,6 +483,12 @@
     <ClInclude Include="Geometry.h">
       <Filter>src\Geometry</Filter>
     </ClInclude>
+    <ClInclude Include="SimpleShader.h">
+      <Filter>src\Shaders\SimpleShader</Filter>
+    </ClInclude>
+    <ClInclude Include="ISimpleShader.h">
+      <Filter>src\Shaders\SimpleShader</Filter>
+    </ClInclude>
     <ClInclude Include="ShaderBuffers.h">
       <Filter>src\Shaders</Filter>
     </ClInclude>
@@ -749,6 +758,12 @@
     <ClCompile Include="Geometry.cpp">
       <Filter>src\Geometry</Filter>
     </ClCompile>
+    <ClCompile Include="SimpleShader.cpp">
+      <Filter>src\Shaders\SimpleShader</Filter>
+    </ClCompile>
+    <ClCompile Include="ISimpleShader.cpp">
+      <Filter>src\Shaders\SimpleShader</Filter>
+    </ClCompile>
     <ClCompile Include="ShadersUtils.cpp">
       <Filter>src\Shaders</Filter>
     </ClCompile>
@@ -762,6 +777,12 @@
     </FxCompile>
     <FxCompile Include="OceanShader.vs.hlsl">
       <Filter>src\Shaders\OceanShader</Filter>
+    </FxCompile>
+    <FxCompile Include="SimpleShader.ps.hlsl">
+      <Filter>src\Shaders\SimpleShader</Filter>
+    </FxCompile>
+    <FxCompile Include="SimpleShader.vs.hlsl">
+      <Filter>src\Shaders\SimpleShader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
