@@ -483,6 +483,9 @@
     <ClInclude Include="ShaderBuffers.h">
       <Filter>src\Shaders</Filter>
     </ClInclude>
+    <ClInclude Include="ShadersUtils.h">
+      <Filter>src\Shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -745,6 +748,9 @@
     </ClCompile>
     <ClCompile Include="Geometry.cpp">
       <Filter>src\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadersUtils.cpp">
+      <Filter>src\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="IShape3d.cpp">
       <Filter>src\Shapes</Filter>

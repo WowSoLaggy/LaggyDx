@@ -196,6 +196,7 @@
     <ClInclude Include="AnimationController3d.h" />
     <ClInclude Include="RadioButton.h" />
     <ClInclude Include="RadioGroup.h" />
+    <ClInclude Include="ShadersUtils.h" />
     <ClInclude Include="Slider.h" />
     <ClInclude Include="ThirdPersonCamera.h" />
     <ClInclude Include="FontResource.h" />
@@ -310,6 +311,7 @@
     <ClCompile Include="PsHlslResource.cpp" />
     <ClCompile Include="RadioButton.cpp" />
     <ClCompile Include="RadioGroup.cpp" />
+    <ClCompile Include="ShadersUtils.cpp" />
     <ClCompile Include="Shape3d.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="VsBinResource.cpp" />
