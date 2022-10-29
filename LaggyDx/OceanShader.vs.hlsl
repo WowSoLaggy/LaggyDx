@@ -33,6 +33,7 @@ struct PixelInputType
   float4 position : SV_POSITION;
   float2 tex : TEXCOORD0;
   float3 normal : NORMAL;
+  float3 viewDirection : TEXCOORD1;
 };
 
 static const float PI = 3.14159265f;
@@ -70,7 +71,7 @@ PixelInputType main(VertexInputType input)
   PixelInputType output;
   output.tex = input.tex;
 
-  //
+  // WAVES
   
   float3 p = input.position.xyz;
   float3 tangent = float3(1, 0, 0);
@@ -80,18 +81,22 @@ PixelInputType main(VertexInputType input)
   p += gerstnerWave(wave2, p, tangent, binormal);
   p += gerstnerWave(wave3, p, tangent, binormal);
 
+  // NORMAL
+
   float3 normal = normalize(cross(binormal, tangent));
-
-  //
-
-  input.position.xyz = p;
   output.normal = normal;
 
-  //
+  // XFMS
 
+  input.position.xyz = p;
   output.position = mul(input.position, worldMatrix);
   output.position = mul(output.position, viewMatrix);
   output.position = mul(output.position, projectionMatrix);
+  
+  // VIEW DIRECTION
+  
+  float4 worldPosition = mul(input.position, worldMatrix);
+  output.viewDirection = normalize(cameraPos - worldPosition.xyz);
 
   return output;
 }
