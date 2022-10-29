@@ -153,9 +153,6 @@
     <ClInclude Include="IndexBuffer.h">
       <Filter>src\Buffers</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderBuffers.h">
-      <Filter>src\Buffers</Filter>
-    </ClInclude>
     <ClInclude Include="FontResource.h">
       <Filter>src\Resources\OtherResources</Filter>
     </ClInclude>
@@ -474,9 +471,6 @@
     <ClInclude Include="IOceanShader.h">
       <Filter>src\Shaders\OceanShader</Filter>
     </ClInclude>
-    <ClInclude Include="OceanShader_buffers.h">
-      <Filter>src\Shaders\OceanShader</Filter>
-    </ClInclude>
     <ClInclude Include="RadioButton.h">
       <Filter>src\Gui</Filter>
     </ClInclude>
@@ -485,6 +479,9 @@
     </ClInclude>
     <ClInclude Include="Geometry.h">
       <Filter>src\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderBuffers.h">
+      <Filter>src\Shaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

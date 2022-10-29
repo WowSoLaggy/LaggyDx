@@ -194,7 +194,6 @@
     <ClInclude Include="IGuiEffect.h" />
     <ClInclude Include="ImageAnimation.h" />
     <ClInclude Include="AnimationController3d.h" />
-    <ClInclude Include="OceanShader_buffers.h" />
     <ClInclude Include="RadioButton.h" />
     <ClInclude Include="RadioGroup.h" />
     <ClInclude Include="Slider.h" />

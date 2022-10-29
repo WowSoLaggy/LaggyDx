@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IOceanShader.h"
-#include "OceanShader_buffers.h"
+#include "ShaderBuffers.h"
 
 
 namespace Dx

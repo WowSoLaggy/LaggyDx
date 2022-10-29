@@ -84,7 +84,7 @@ namespace Dx
 
     D3D11_BUFFER_DESC lightBufferDesc;
     lightBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-    lightBufferDesc.ByteWidth = sizeof(LightBuffer);
+    lightBufferDesc.ByteWidth = sizeof(LightCBuffer);
     lightBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
     lightBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
     lightBufferDesc.MiscFlags = 0;
@@ -208,7 +208,7 @@ namespace Dx
     D3D11_MAPPED_SUBRESOURCE mappedResource;
     renderDevice.getDeviceContextPtr()->Map(d_lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-    auto* dataPtr = (LightBuffer*)mappedResource.pData;
+    auto* dataPtr = (LightCBuffer*)mappedResource.pData;
     dataPtr->diffuseColor = XMFLOAT4(
       i_material.diffuseColor.x,
       i_material.diffuseColor.y,
