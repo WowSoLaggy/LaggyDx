@@ -29,8 +29,6 @@ namespace Dx
     virtual void setLightColor(const Sdk::Vector4D& i_color) = 0;
     virtual void setAmbientStrength(double i_strength) = 0;
 
-    virtual void setCameraPosition(const Sdk::Vector3D& i_cameraPos) = 0;
-    
     virtual void draw(const IObject3& i_object) const = 0;
   };
 

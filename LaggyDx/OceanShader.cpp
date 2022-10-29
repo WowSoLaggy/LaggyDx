@@ -123,12 +123,6 @@ namespace Dx
   }
 
 
-  void OceanShader::setCameraPosition(const Sdk::Vector3D& i_cameraPos)
-  {
-    d_globalCBuffer.cameraPos = getXmfloat3(i_cameraPos);
-  }
-
-
   void OceanShader::draw(const IObject3& i_object) const
   {
     setRenderStates();
@@ -352,6 +346,7 @@ namespace Dx
 
       auto* dataPtr = (GlobalCBuffer*)mappedResource.pData;
       *dataPtr = d_globalCBuffer;
+      dataPtr->cameraPos = getXmfloat3(d_camera.getPosition());
 
       d_renderDevice.getDeviceContextPtr()->Unmap(d_globalBuffer, 0);
       d_renderDevice.getDeviceContextPtr()->VSSetConstantBuffers(1, 1, &d_globalBuffer);
