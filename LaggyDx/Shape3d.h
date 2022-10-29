@@ -3,19 +3,11 @@
 #include "Aabb.h"
 #include "IShape3d.h"
 
-#include <LaggySdk/Size.h>
-
 
 namespace Dx
 {
   class Shape3d : public IShape3d
   {
-  public:
-    /// \param i_size - number of points in each dimension (not real world size!)
-    /// \param i_dist - distance between two adjacent points
-    /// \param i_textureCoef - additional multiplier of texture coords
-    static Shape3d plane(const Sdk::Size2I& i_size, float i_dist = 1.0f, float i_textureCoef = 1.0f);
-
   public:
     Shape3d() = default;
     Shape3d(std::vector<VertexTypePosTexNorm> i_verts, std::vector<int> i_inds);

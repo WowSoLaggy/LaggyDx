@@ -746,6 +746,9 @@
     <ClCompile Include="Geometry.cpp">
       <Filter>src\Geometry</Filter>
     </ClCompile>
+    <ClCompile Include="IShape3d.cpp">
+      <Filter>src\Shapes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="OceanShader.ps.hlsl">
