@@ -182,6 +182,7 @@ namespace Dx
     };
 
     createBuffer(sizeof(MatrixBuffer), &d_matrixBuffer);
+    createBuffer(sizeof(CameraCBuffer), &d_cameraBuffer);
     createBuffer(sizeof(LightCBuffer), &d_lightBuffer);
   }
 
@@ -189,6 +190,9 @@ namespace Dx
   {
     d_lightBuffer->Release();
     d_lightBuffer = nullptr;
+
+    d_cameraBuffer->Release();
+    d_cameraBuffer = nullptr;
 
     d_matrixBuffer->Release();
     d_matrixBuffer = nullptr;
@@ -259,6 +263,17 @@ namespace Dx
 
   void SimpleShader::setCBuffers() const
   {
+    // Camera
+    {
+      D3D11_MAPPED_SUBRESOURCE mappedResource;
+      d_renderDevice.getDeviceContextPtr()->Map(d_cameraBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+      auto* dataPtr = (CameraCBuffer*)mappedResource.pData;
+      dataPtr->cameraPos = getXmfloat3(d_camera.getPosition());
+
+      d_renderDevice.getDeviceContextPtr()->Unmap(d_cameraBuffer, 0);
+      d_renderDevice.getDeviceContextPtr()->VSSetConstantBuffers(1, 1, &d_cameraBuffer);
+    }
   }
 
   void SimpleShader::setTexture(const IObject3& i_object) const

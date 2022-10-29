@@ -217,6 +217,7 @@ namespace Dx
     };
 
     createBuffer(sizeof(MatrixBuffer), &d_matrixBuffer);
+    createBuffer(sizeof(CameraCBuffer), &d_cameraBuffer);
     createBuffer(sizeof(GlobalCBuffer), &d_globalBuffer);
     createBuffer(sizeof(WaveCBuffer), &d_waveBuffer);
     createBuffer(sizeof(LightCBuffer), &d_lightBuffer);
@@ -232,6 +233,9 @@ namespace Dx
 
     d_globalBuffer->Release();
     d_globalBuffer = nullptr;
+
+    d_cameraBuffer->Release();
+    d_cameraBuffer = nullptr;
 
     d_matrixBuffer->Release();
     d_matrixBuffer = nullptr;
@@ -309,10 +313,21 @@ namespace Dx
 
       auto* dataPtr = (GlobalCBuffer*)mappedResource.pData;
       *dataPtr = d_globalCBuffer;
-      dataPtr->cameraPos = getXmfloat3(d_camera.getPosition());
 
       d_renderDevice.getDeviceContextPtr()->Unmap(d_globalBuffer, 0);
       d_renderDevice.getDeviceContextPtr()->VSSetConstantBuffers(1, 1, &d_globalBuffer);
+    }
+
+    // Camera
+    {
+      D3D11_MAPPED_SUBRESOURCE mappedResource;
+      d_renderDevice.getDeviceContextPtr()->Map(d_cameraBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+      auto* dataPtr = (CameraCBuffer*)mappedResource.pData;
+      dataPtr->cameraPos = getXmfloat3(d_camera.getPosition());
+
+      d_renderDevice.getDeviceContextPtr()->Unmap(d_cameraBuffer, 0);
+      d_renderDevice.getDeviceContextPtr()->VSSetConstantBuffers(2, 1, &d_cameraBuffer);
     }
 
     // Wind
@@ -324,7 +339,7 @@ namespace Dx
       *dataPtr = d_waveCBuffer;
 
       d_renderDevice.getDeviceContextPtr()->Unmap(d_waveBuffer, 0);
-      d_renderDevice.getDeviceContextPtr()->VSSetConstantBuffers(2, 1, &d_waveBuffer);
+      d_renderDevice.getDeviceContextPtr()->VSSetConstantBuffers(3, 1, &d_waveBuffer);
     }
   }
 

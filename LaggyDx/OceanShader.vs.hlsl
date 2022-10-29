@@ -9,8 +9,13 @@ cbuffer GlobalCBuffer
 {
   float time;
   float textureCoef;
+  float2 _reserved;
+};
+
+cbuffer CameraCBuffer
+{
   float3 cameraPos;
-  float3 _reserved;
+  float _reserved1;
 };
 
 cbuffer WaveCBuffer

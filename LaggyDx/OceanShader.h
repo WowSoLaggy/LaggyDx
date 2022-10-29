@@ -39,6 +39,7 @@ namespace Dx
     const ITextureResource& d_emptyTexture;
 
     ID3D11Buffer* d_matrixBuffer = nullptr;
+    ID3D11Buffer* d_cameraBuffer = nullptr;
     ID3D11Buffer* d_lightBuffer = nullptr;
     ID3D11Buffer* d_globalBuffer = nullptr;
     ID3D11Buffer* d_waveBuffer = nullptr;

@@ -27,9 +27,11 @@ namespace Dx
     const ICamera& d_camera;
     const ITextureResource& d_emptyTexture;
 
+    CameraCBuffer d_cameraCBuffer;
     LightCBuffer d_lightCBuffer;
 
     ID3D11Buffer* d_matrixBuffer = nullptr;
+    ID3D11Buffer* d_cameraBuffer = nullptr;
     ID3D11Buffer* d_lightBuffer = nullptr;
 
     ID3D11PixelShader* d_pixelShader = nullptr;
