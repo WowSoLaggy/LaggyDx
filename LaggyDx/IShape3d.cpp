@@ -165,6 +165,18 @@ namespace Dx
       return inds;
     }
 
+    void invertVerts(std::vector<VertexTypePosTexNorm>& io_verts, std::vector<int>& io_inds)
+    {
+      // Make sure that the correct number of inds is passed
+      CONTRACT_EXPECT(io_inds.size() % 3 == 0);
+
+      for (int triIndex = 0; triIndex < (int)io_inds.size(); triIndex += 3)
+        std::swap(io_inds[triIndex + 1], io_inds[triIndex + 2]);
+
+      for (auto& vert : io_verts)
+        vert.normal *= -1;
+    }
+
   } // anonym NS
 
 
@@ -181,6 +193,15 @@ namespace Dx
   {
     auto verts = generateCubeVerts(i_size);
     auto inds = generateCubeInds();
+    return std::make_unique<Shape3d>(std::move(verts), std::move(inds));
+  }
+
+
+  std::unique_ptr<IShape3d> IShape3d::cubeInverted(const float i_size)
+  {
+    auto verts = generateCubeVerts(i_size);
+    auto inds = generateCubeInds();
+    invertVerts(verts, inds);
     return std::make_unique<Shape3d>(std::move(verts), std::move(inds));
   }
 

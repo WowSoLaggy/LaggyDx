@@ -19,6 +19,8 @@ namespace Dx
 
     static std::unique_ptr<IShape3d> cube(float i_size);
 
+    static std::unique_ptr<IShape3d> cubeInverted(float i_size);
+
   public:
     virtual ~IShape3d() = default;
 
