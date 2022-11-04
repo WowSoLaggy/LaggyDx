@@ -112,6 +112,9 @@
     <Filter Include="src\Shaders\SimpleShader">
       <UniqueIdentifier>{fada97ef-76ea-44c4-b6c0-75d90eff8c1d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Shaders\SkyboxShader">
+      <UniqueIdentifier>{3a3cbfb5-d121-455e-82a3-67fd23241634}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -495,6 +498,12 @@
     <ClInclude Include="ShadersUtils.h">
       <Filter>src\Shaders</Filter>
     </ClInclude>
+    <ClInclude Include="SkyboxShader.h">
+      <Filter>src\Shaders\SkyboxShader</Filter>
+    </ClInclude>
+    <ClInclude Include="ISkyboxShader.h">
+      <Filter>src\Shaders\SkyboxShader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -770,6 +779,12 @@
     <ClCompile Include="IShape3d.cpp">
       <Filter>src\Shapes</Filter>
     </ClCompile>
+    <ClCompile Include="SkyboxShader.cpp">
+      <Filter>src\Shaders\SkyboxShader</Filter>
+    </ClCompile>
+    <ClCompile Include="ISkyboxShader.cpp">
+      <Filter>src\Shaders\SkyboxShader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="OceanShader.ps.hlsl">
@@ -783,6 +798,12 @@
     </FxCompile>
     <FxCompile Include="SimpleShader.vs.hlsl">
       <Filter>src\Shaders\SimpleShader</Filter>
+    </FxCompile>
+    <FxCompile Include="SkyboxShader.ps.hlsl">
+      <Filter>src\Shaders\SkyboxShader</Filter>
+    </FxCompile>
+    <FxCompile Include="SkyboxShader.vs.hlsl">
+      <Filter>src\Shaders\SkyboxShader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
