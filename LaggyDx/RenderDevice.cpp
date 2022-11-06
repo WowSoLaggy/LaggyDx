@@ -407,9 +407,9 @@ namespace Dx
   }
 
 
-  void RenderDevice::setFillMode(FillMode i_fillMode)
+  void RenderDevice::setFillMode(const bool i_solid)
   {
-    d_rasterizerDescription.FillMode = (i_fillMode == FillMode::Solid) ? D3D11_FILL_SOLID : D3D11_FILL_WIREFRAME;
+    d_rasterizerDescription.FillMode = i_solid ? D3D11_FILL_SOLID : D3D11_FILL_WIREFRAME;
     applyRasterizerState();
   }
 

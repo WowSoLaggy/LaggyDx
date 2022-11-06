@@ -24,7 +24,7 @@ namespace Dx
     virtual void beginScene() override;
     virtual void endScene() override;
 
-    virtual void setFillMode(FillMode i_fillMode) override;
+    virtual void setFillMode(bool i_solid) override;
 
     virtual void setClearColor(const Sdk::Vector4F& i_clearColor) override;
 

@@ -6,13 +6,6 @@
 
 namespace Dx
 {
-  enum class FillMode
-  {
-    Solid,
-    Wire,
-  };
-
-
   class IRenderDevice : public Sdk::ILockable
   {
   public:
@@ -24,7 +17,9 @@ namespace Dx
     virtual void beginScene() = 0;
     virtual void endScene() = 0;
 
-    virtual void setFillMode(FillMode i_fillMode) = 0;
+    /// i_solid == true - solid
+    /// i_solid == false - wireframe
+    virtual void setFillMode(bool i_solid) = 0;
 
     virtual void setClearColor(const Sdk::Vector4F& i_clearColor) = 0;
 
