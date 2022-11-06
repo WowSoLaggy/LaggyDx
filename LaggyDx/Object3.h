@@ -13,9 +13,9 @@ namespace Dx
     virtual Sdk::Vector3F getPosition() const override;
     virtual Sdk::Vector3F getRotation() const override;
     virtual Sdk::Vector3F getScale() const override;
-    void setPosition(Sdk::Vector3F i_position);
-    void setRotation(Sdk::Vector3F i_rotation);
-    void setScale(Sdk::Vector3F i_scale);
+    virtual void setPosition(Sdk::Vector3F i_position) override;
+    virtual void setRotation(Sdk::Vector3F i_rotation) override;
+    virtual void setScale(Sdk::Vector3F i_scale) override;
 
     virtual const IModel& getModel() const override;
     virtual const ITextureResource* getTextureResource() const override;

@@ -15,6 +15,9 @@ namespace Dx
     virtual Sdk::Vector3F getPosition() const = 0;
     virtual Sdk::Vector3F getRotation() const = 0;
     virtual Sdk::Vector3F getScale() const = 0;
+    virtual void setPosition(Sdk::Vector3F i_position) = 0;
+    virtual void setRotation(Sdk::Vector3F i_rotation) = 0;
+    virtual void setScale(Sdk::Vector3F i_scale) = 0;
 
     virtual const IModel& getModel() const = 0;
     virtual const ITextureResource* getTextureResource() const = 0;
