@@ -24,7 +24,6 @@ namespace Dx
     virtual void beginScene() override;
     virtual void endScene() override;
 
-    virtual void switchFillMode() override;
     virtual void setFillMode(FillMode i_fillMode) override;
 
     virtual void setClearColor(const Sdk::Vector4F& i_clearColor) override;
@@ -34,27 +33,11 @@ namespace Dx
     ID3D11Device* getDevicePtr() const { return d_device; }
     ID3D11DeviceContext* getDeviceContextPtr() const { return d_deviceContext; }
 
-    void resetState();
-
-  private:
-    const bool c_vSyncEnabled = true;
-    const bool c_fullScreen = false;
-
-    enum class MsaaMode
-    {
-      None = 1,
-      Two = 2,
-      Four = 4,
-      Eight = 8,
-    };
-    const MsaaMode c_msaaMode = MsaaMode::Two;
-    const bool isMsaaEnabled() const { return c_msaaMode != MsaaMode::None; }
+    virtual void resetState() override;
 
   private:
     Sdk::Vector2I d_resolution;
     float d_clearColor[4] = { 0.396f, 0.612f, 0.937f, 1.0f };
-
-    FillMode d_fillMode = FillMode::Solid;
 
     HWND d_hWnd = nullptr;
 
@@ -69,6 +52,14 @@ namespace Dx
     ID3D11DepthStencilView* d_depthStencilView = nullptr;
     ID3D11RasterizerState* d_rasterState = nullptr;
     ID3D11BlendState* d_blendState = nullptr;
+
+    D3D11_RASTERIZER_DESC d_rasterizerDescription = {};
+    D3D11_DEPTH_STENCIL_DESC d_depthStencilDescription = {};
+    D3D11_BLEND_DESC d_blendDescription = {};
+
+    void applyRasterizerState();
+    void applyDepthStencilState();
+    void applyBlendState();
   };
 
 } // ns Dx

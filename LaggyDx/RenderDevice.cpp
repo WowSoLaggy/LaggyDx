@@ -4,6 +4,84 @@
 
 namespace Dx
 {
+  namespace
+  {
+    const bool c_vSyncEnabled = true;
+    const bool c_fullScreen = false;
+
+    enum class MsaaMode
+    {
+      None = 1,
+      Two = 2,
+      Four = 4,
+      Eight = 8,
+    };
+    const MsaaMode c_msaaMode = MsaaMode::Two;
+    const bool isMsaaEnabled() { return c_msaaMode != MsaaMode::None; }
+    
+    
+    D3D11_RASTERIZER_DESC getDefaultRasterizerDescription()
+    {
+      D3D11_RASTERIZER_DESC rasterizerDescription = {};
+
+      rasterizerDescription.FillMode = D3D11_FILL_SOLID;
+      rasterizerDescription.CullMode = D3D11_CULL_BACK;
+      rasterizerDescription.FrontCounterClockwise = true;
+      rasterizerDescription.DepthBias = 0;
+      rasterizerDescription.DepthBiasClamp = 0.0f;
+      rasterizerDescription.SlopeScaledDepthBias = 0.0f;
+      rasterizerDescription.DepthClipEnable = true;
+      rasterizerDescription.ScissorEnable = false;
+      rasterizerDescription.MultisampleEnable = isMsaaEnabled();
+      rasterizerDescription.AntialiasedLineEnable = false;
+
+      return rasterizerDescription;
+    }
+
+    D3D11_DEPTH_STENCIL_DESC getDefaultDepthStencilDescription()
+    {
+      D3D11_DEPTH_STENCIL_DESC depthStencilDescription = {};
+
+      // Set up the description of the stencil state
+      depthStencilDescription.DepthEnable = true;
+      depthStencilDescription.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+      depthStencilDescription.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+
+      depthStencilDescription.StencilEnable = FALSE;
+      depthStencilDescription.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
+      depthStencilDescription.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
+
+      depthStencilDescription.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+      depthStencilDescription.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+      depthStencilDescription.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+      depthStencilDescription.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+
+      depthStencilDescription.BackFace = depthStencilDescription.FrontFace;
+
+      return depthStencilDescription;
+    }
+
+    D3D11_BLEND_DESC getDefaultBlendDescription()
+    {
+      D3D11_BLEND_DESC blendDescription = {};
+
+      blendDescription.RenderTarget[0].BlendEnable = true;
+      blendDescription.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+      blendDescription.RenderTarget[0].SrcBlendAlpha = blendDescription.RenderTarget[0].SrcBlend;
+      blendDescription.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+      blendDescription.RenderTarget[0].DestBlendAlpha = blendDescription.RenderTarget[0].DestBlend;
+
+      blendDescription.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+      blendDescription.RenderTarget[0].BlendOpAlpha = blendDescription.RenderTarget[0].BlendOp;
+
+      blendDescription.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+      return blendDescription;
+    }
+
+  } // anonym NS
+
+
   RenderDevice::RenderDevice(HWND i_hWnd, const Sdk::Vector2I i_resolution, const bool i_debugMode)
     : d_resolution(i_resolution)
     , d_hWnd(i_hWnd)
@@ -297,79 +375,44 @@ namespace Dx
 
   void RenderDevice::resetState()
   {
-    // Setup the raster description which will determine how and what polygons will be drawn
-    D3D11_RASTERIZER_DESC rasterDesc = {};
-    rasterDesc.FillMode = (d_fillMode == FillMode::Solid) ? D3D11_FILL_SOLID : D3D11_FILL_WIREFRAME;
-    rasterDesc.CullMode = D3D11_CULL_BACK;
-    rasterDesc.FrontCounterClockwise = true;
-    rasterDesc.DepthBias = 0;
-    rasterDesc.DepthBiasClamp = 0.0f;
-    rasterDesc.SlopeScaledDepthBias = 0.0f;
-    rasterDesc.DepthClipEnable = true;
-    rasterDesc.ScissorEnable = false;
-    rasterDesc.MultisampleEnable = isMsaaEnabled();
-    rasterDesc.AntialiasedLineEnable = false;
+    d_rasterizerDescription = getDefaultRasterizerDescription();
+    applyRasterizerState();
 
-    // Create the rasterizer state from the description we just filled out
-    HRESULT result = d_device->CreateRasterizerState(&rasterDesc, &d_rasterState);
+    d_depthStencilDescription = getDefaultDepthStencilDescription();
+    applyDepthStencilState();
+    
+    d_blendDescription = getDefaultBlendDescription();
+    applyBlendState();
+  }
+
+  void RenderDevice::applyRasterizerState()
+  {
+    HRESULT result = d_device->CreateRasterizerState(&d_rasterizerDescription, &d_rasterState);
     CONTRACT_ASSERT(!FAILED(result));
     d_deviceContext->RSSetState(d_rasterState);
+  }
 
-    // Initialize the description of the stencil state
-    D3D11_DEPTH_STENCIL_DESC depthStencilDesc = {};
-
-    // Set up the description of the stencil state
-    depthStencilDesc.DepthEnable = true;
-    depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-    depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-
-    depthStencilDesc.StencilEnable = FALSE;
-    depthStencilDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
-    depthStencilDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
-
-    depthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-    depthStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
-    depthStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-    depthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
-
-    depthStencilDesc.BackFace = depthStencilDesc.FrontFace;
-
-    // Create the depth stencil state
-    result = d_device->CreateDepthStencilState(&depthStencilDesc, &d_depthStencilState);
+  void RenderDevice::applyDepthStencilState()
+  {
+    HRESULT result = d_device->CreateDepthStencilState(&d_depthStencilDescription, &d_depthStencilState);
     CONTRACT_ASSERT(!FAILED(result));
     d_deviceContext->OMSetDepthStencilState(d_depthStencilState, 1);
+  }
 
-    // Alpha blending
-
-    D3D11_BLEND_DESC blendStateDesc = {};
-
-    blendStateDesc.RenderTarget[0].BlendEnable = true;
-    blendStateDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-    blendStateDesc.RenderTarget[0].SrcBlendAlpha = blendStateDesc.RenderTarget[0].SrcBlend;
-    blendStateDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-    blendStateDesc.RenderTarget[0].DestBlendAlpha = blendStateDesc.RenderTarget[0].DestBlend;
-    
-    blendStateDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-    blendStateDesc.RenderTarget[0].BlendOpAlpha = blendStateDesc.RenderTarget[0].BlendOp;
-
-    blendStateDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
-
-    result = d_device->CreateBlendState(&blendStateDesc, &d_blendState);
+  void RenderDevice::applyBlendState()
+  {
+    HRESULT result = d_device->CreateBlendState(&d_blendDescription, &d_blendState);
     CONTRACT_ASSERT(!FAILED(result));
-
     d_deviceContext->OMSetBlendState(d_blendState, nullptr, 0xffffffff);
   }
 
 
-  void RenderDevice::switchFillMode()
-  {
-    d_fillMode = (d_fillMode == FillMode::Solid) ? FillMode::Wire : FillMode::Solid;
-  }
-
   void RenderDevice::setFillMode(FillMode i_fillMode)
   {
-    d_fillMode = i_fillMode;
+    d_rasterizerDescription.FillMode = (i_fillMode == FillMode::Solid) ? D3D11_FILL_SOLID : D3D11_FILL_WIREFRAME;
+    applyRasterizerState();
   }
+
 
   void RenderDevice::setClearColor(const Sdk::Vector4F& i_clearColor)
   {
