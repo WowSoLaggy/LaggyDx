@@ -181,7 +181,7 @@ namespace Dx
       CONTRACT_ASSERT(!FAILED(hRes));
     };
 
-    createBuffer(sizeof(MatrixBuffer), &d_matrixBuffer);
+    createBuffer(sizeof(MatrixCBuffer), &d_matrixBuffer);
     createBuffer(sizeof(CameraCBuffer), &d_cameraBuffer);
     createBuffer(sizeof(LightCBuffer), &d_lightBuffer);
   }
@@ -251,7 +251,7 @@ namespace Dx
     D3D11_MAPPED_SUBRESOURCE mappedResource;
     d_renderDevice.getDeviceContextPtr()->Map(d_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-    auto* dataPtr = (MatrixBuffer*)mappedResource.pData;
+    auto* dataPtr = (MatrixCBuffer*)mappedResource.pData;
     dataPtr->world = worldMatrix;
     dataPtr->view = viewMatrix;
     dataPtr->projection = projectionMatrix;

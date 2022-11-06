@@ -3,7 +3,7 @@
 
 namespace Dx
 {
-  struct MatrixBuffer
+  struct MatrixCBuffer
   {
     XMMATRIX world;
     XMMATRIX view;
