@@ -15,10 +15,6 @@ namespace Dx
       const IResourceController& i_resourceController);
     virtual ~SkyboxShader() override;
 
-    virtual void setLightDirection(Sdk::Vector3D i_direction) override;
-    virtual void setLightColor(const Sdk::Vector4D& i_color) override;
-    virtual void setAmbientStrength(double i_strength) override;
-
     virtual void draw(const IObject3& i_object) const override;
 
   private:
@@ -27,12 +23,7 @@ namespace Dx
     const ICamera& d_camera;
     const ITextureResource& d_emptyTexture;
 
-    CameraCBuffer d_cameraCBuffer;
-    LightCBuffer d_lightCBuffer;
-
     ID3D11Buffer* d_matrixBuffer = nullptr;
-    ID3D11Buffer* d_cameraBuffer = nullptr;
-    ID3D11Buffer* d_lightBuffer = nullptr;
 
     ID3D11PixelShader* d_pixelShader = nullptr;
     ID3D11SamplerState* d_sampleState = nullptr;

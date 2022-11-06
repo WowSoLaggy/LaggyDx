@@ -9,8 +9,8 @@
 #include "ShadersUtils.h"
 #include "TextureResource.h"
 
-#include "Generated/Simple.gen.ps.h"
-#include "Generated/Simple.gen.vs.h"
+#include "Generated/Skybox.gen.ps.h"
+#include "Generated/Skybox.gen.vs.h"
 
 
 namespace Dx
@@ -32,22 +32,6 @@ namespace Dx
   {
     disposeBuffers();
     disposeShaders();
-  }
-
-
-  void SkyboxShader::setLightDirection(Sdk::Vector3D i_direction)
-  {
-    d_lightCBuffer.lightDirection = getNormalized(std::move(i_direction));
-  }
-
-  void SkyboxShader::setLightColor(const Sdk::Vector4D& i_color)
-  {
-    d_lightCBuffer.lightColor = getXmfloat4(i_color);
-  }
-
-  void SkyboxShader::setAmbientStrength(const double i_strength)
-  {
-    d_lightCBuffer.ambientStrength = (float)i_strength;
   }
 
 
@@ -82,7 +66,7 @@ namespace Dx
 
     // PS
 
-    renderDevice.getDevicePtr()->CreatePixelShader(g_simplePs, sizeof(g_simplePs), NULL, &d_pixelShader);
+    renderDevice.getDevicePtr()->CreatePixelShader(g_skyboxPs, sizeof(g_skyboxPs), NULL, &d_pixelShader);
     CONTRACT_ASSERT(d_pixelShader != nullptr);
 
     // Sampler state
@@ -107,7 +91,7 @@ namespace Dx
 
     // VS
 
-    renderDevice.getDevicePtr()->CreateVertexShader(g_simpleVs, sizeof(g_simpleVs), NULL, &d_vertexShader);
+    renderDevice.getDevicePtr()->CreateVertexShader(g_skyboxVs, sizeof(g_skyboxVs), NULL, &d_vertexShader);
     CONTRACT_ASSERT(d_vertexShader != nullptr);
 
     // Input layout
@@ -141,7 +125,7 @@ namespace Dx
     unsigned int numElements = sizeof(polygonLayout) / sizeof(polygonLayout[0]);
 
     renderDevice.getDevicePtr()->CreateInputLayout(polygonLayout, numElements,
-      g_simpleVs, sizeof(g_simpleVs), &d_layout);
+      g_skyboxVs, sizeof(g_skyboxVs), &d_layout);
     CONTRACT_ASSERT(d_layout != nullptr);
   }
 
@@ -182,18 +166,10 @@ namespace Dx
     };
 
     createBuffer(sizeof(MatrixBuffer), &d_matrixBuffer);
-    createBuffer(sizeof(CameraCBuffer), &d_cameraBuffer);
-    createBuffer(sizeof(LightCBuffer), &d_lightBuffer);
   }
 
   void SkyboxShader::disposeBuffers()
   {
-    d_lightBuffer->Release();
-    d_lightBuffer = nullptr;
-
-    d_cameraBuffer->Release();
-    d_cameraBuffer = nullptr;
-
     d_matrixBuffer->Release();
     d_matrixBuffer = nullptr;
   }
@@ -202,6 +178,7 @@ namespace Dx
   void SkyboxShader::setRenderStates() const
   {
     d_renderDevice.resetState();
+    d_renderDevice.setDepthEnabled(false);
   }
 
   void SkyboxShader::setShaders() const
@@ -263,17 +240,6 @@ namespace Dx
 
   void SkyboxShader::setCBuffers() const
   {
-    // Camera
-    {
-      D3D11_MAPPED_SUBRESOURCE mappedResource;
-      d_renderDevice.getDeviceContextPtr()->Map(d_cameraBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-
-      auto* dataPtr = (CameraCBuffer*)mappedResource.pData;
-      dataPtr->cameraPos = getXmfloat3(d_camera.getPosition());
-
-      d_renderDevice.getDeviceContextPtr()->Unmap(d_cameraBuffer, 0);
-      d_renderDevice.getDeviceContextPtr()->VSSetConstantBuffers(1, 1, &d_cameraBuffer);
-    }
   }
 
   void SkyboxShader::setTexture(const IObject3& i_object) const
@@ -300,20 +266,6 @@ namespace Dx
 
   void SkyboxShader::setMaterial(const Material& i_material) const
   {
-    D3D11_MAPPED_SUBRESOURCE mappedResource;
-    d_renderDevice.getDeviceContextPtr()->Map(d_lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-
-    auto* dataPtr = (LightCBuffer*)mappedResource.pData;
-    *dataPtr = d_lightCBuffer;
-    dataPtr->diffuseColor = XMFLOAT4(
-      i_material.diffuseColor.x,
-      i_material.diffuseColor.y,
-      i_material.diffuseColor.z,
-      i_material.diffuseColor.w);
-    dataPtr->specularPower = i_material.specularPower;
-
-    d_renderDevice.getDeviceContextPtr()->Unmap(d_lightBuffer, 0);
-    d_renderDevice.getDeviceContextPtr()->PSSetConstantBuffers(0, 1, &d_lightBuffer);
   }
 
   void SkyboxShader::drawIndexed(const int i_count, const int i_startIndex) const
