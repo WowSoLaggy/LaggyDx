@@ -20,6 +20,7 @@ namespace Dx
     /// i_solid == true - solid
     /// i_solid == false - wireframe
     virtual void setFillMode(bool i_solid) = 0;
+    virtual void setDepthEnabled(bool i_enabled) = 0;
 
     virtual void setClearColor(const Sdk::Vector4F& i_clearColor) = 0;
 

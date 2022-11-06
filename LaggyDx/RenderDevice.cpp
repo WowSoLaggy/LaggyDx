@@ -413,6 +413,13 @@ namespace Dx
     applyRasterizerState();
   }
 
+  void RenderDevice::setDepthEnabled(const bool i_enabled)
+  {
+    d_depthStencilDescription.DepthEnable = i_enabled ? TRUE : FALSE;
+    d_depthStencilDescription.DepthWriteMask = i_enabled? D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK_ZERO;
+    applyDepthStencilState();
+  }
+
 
   void RenderDevice::setClearColor(const Sdk::Vector4F& i_clearColor)
   {
