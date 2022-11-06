@@ -6,6 +6,13 @@
 
 namespace Dx
 {
+  struct SkyboxColorsCbuffer
+  {
+    XMFLOAT4 colorZeroLevel{ 0, 0, 0 ,0 };
+    XMFLOAT4 colorTopLevel{ 0, 0, 0, 0 };
+  };
+
+
   class SkyboxShader : public ISkyboxShader
   {
   public:
@@ -15,6 +22,9 @@ namespace Dx
       const IResourceController& i_resourceController);
     virtual ~SkyboxShader() override;
 
+    virtual void setZeroLevelColor(const Sdk::Vector4F& i_color) override;
+    virtual void setTopLevelColor(const Sdk::Vector4F& i_color) override;
+
     virtual void draw(const IObject3& i_object) const override;
 
   private:
@@ -23,7 +33,10 @@ namespace Dx
     const ICamera& d_camera;
     const ITextureResource& d_emptyTexture;
 
+    SkyboxColorsCbuffer d_colorsCBuffer;
+
     ID3D11Buffer* d_matrixBuffer = nullptr;
+    ID3D11Buffer* d_colorsBuffer = nullptr;
 
     ID3D11PixelShader* d_pixelShader = nullptr;
     ID3D11SamplerState* d_sampleState = nullptr;

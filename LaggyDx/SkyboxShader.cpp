@@ -35,6 +35,17 @@ namespace Dx
   }
 
 
+  void SkyboxShader::setZeroLevelColor(const Sdk::Vector4F& i_color)
+  {
+    d_colorsCBuffer.colorZeroLevel = getXmfloat4(i_color);
+  }
+
+  void SkyboxShader::setTopLevelColor(const Sdk::Vector4F& i_color)
+  {
+    d_colorsCBuffer.colorTopLevel = getXmfloat4(i_color);
+  }
+
+
   void SkyboxShader::draw(const IObject3& i_object) const
   {
     setRenderStates();
@@ -166,10 +177,14 @@ namespace Dx
     };
 
     createBuffer(sizeof(MatrixCBuffer), &d_matrixBuffer);
+    createBuffer(sizeof(SkyboxColorsCbuffer), &d_colorsBuffer);
   }
 
   void SkyboxShader::disposeBuffers()
   {
+    d_colorsBuffer->Release();
+    d_colorsBuffer = nullptr;
+
     d_matrixBuffer->Release();
     d_matrixBuffer = nullptr;
   }
@@ -240,6 +255,16 @@ namespace Dx
 
   void SkyboxShader::setCBuffers() const
   {
+    {
+      D3D11_MAPPED_SUBRESOURCE mappedResource;
+      d_renderDevice.getDeviceContextPtr()->Map(d_colorsBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+      auto* dataPtr = (SkyboxColorsCbuffer*)mappedResource.pData;
+      *dataPtr = d_colorsCBuffer;
+
+      d_renderDevice.getDeviceContextPtr()->Unmap(d_colorsBuffer, 0);
+      d_renderDevice.getDeviceContextPtr()->PSSetConstantBuffers(0, 1, &d_colorsBuffer);
+    }
   }
 
   void SkyboxShader::setTexture(const IObject3& i_object) const
