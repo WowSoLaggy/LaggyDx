@@ -32,11 +32,13 @@ PixelInputType main(VertexInputType input)
 {
   PixelInputType output;
   output.tex = input.tex;
-  output.normal = input.normal;
 
   output.position = mul(input.position, worldMatrix);
   output.position = mul(output.position, viewMatrix);
   output.position = mul(output.position, projectionMatrix);
+  
+  // Directions shall ignore translations during xfms, hence w = 0.0f
+  output.normal = normalize(mul(float4(input.normal.xyz, 0.0f), worldMatrix));
   
   // VIEW DIRECTION
   
