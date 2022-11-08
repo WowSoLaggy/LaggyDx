@@ -78,8 +78,8 @@ namespace Dx
 
   Sdk::Vector3F CameraBase::getLeft() const
   {
-    auto left = getWorldUp();
-    left = left.cross(getForward());
+    auto left = getWorldUp().cross(getForward());
+    left.normalize();
     return left;
   }
 
@@ -102,8 +102,8 @@ namespace Dx
 
   Sdk::Vector3F CameraBase::getUp() const
   {
-    const auto right = getRight();
-    const auto up = right.cross(getForward());
+    auto up = getRight().cross(getForward());
+    up.normalize();
     return up;
   }
 
