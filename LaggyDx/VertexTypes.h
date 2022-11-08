@@ -5,11 +5,11 @@
 
 namespace Dx
 {
-  struct VertexTypePosTexNorm
+  struct VertexPosNormText
   {
     Sdk::Vector3F position;
-    Sdk::Vector2F texture;
     Sdk::Vector3F normal;
+    Sdk::Vector2F texture;
   };
 
 } // ns Dx

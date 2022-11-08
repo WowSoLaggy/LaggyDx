@@ -67,7 +67,7 @@ namespace Dx
 
   void MeshLoader::loadInfoFromObjFile(
     const std::string& i_modelPath,
-    std::vector<VertexTypePosTexNorm>& o_vertices, std::vector<int>& o_indices,
+    std::vector<VertexPosNormText>& o_vertices, std::vector<int>& o_indices,
     MaterialSequence& o_matSequence)
   {
     o_vertices.clear();
@@ -133,7 +133,7 @@ namespace Dx
           if (it == trioMap.end())
           {
             Sdk::Vector2F uv = (texCoordIndex == -1) ? Sdk::Vector2F{ 0.0f, 0.0f } : texCoords[texCoordIndex];
-            o_vertices.push_back({ positions[posIndex], uv, normals[normIndex] });
+            o_vertices.push_back({ positions[posIndex], normals[normIndex], uv });
             trioMap[trio] = nextIndex;
             o_indices.push_back(nextIndex);
             ++nextIndex;

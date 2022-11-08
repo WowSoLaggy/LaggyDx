@@ -11,17 +11,17 @@ namespace Dx
 {
   namespace
   {
-    std::vector<VertexTypePosTexNorm> generatePlaneVerts(
+    std::vector<VertexPosNormText> generatePlaneVerts(
       const Sdk::Size2I& i_size, const float i_dist, const float i_textureCoef)
     {
-      std::vector<VertexTypePosTexNorm> verts(i_size.x * i_size.y);
+      std::vector<VertexPosNormText> verts(i_size.x * i_size.y);
 
       int ind = 0;
       for (int y = 0; y < i_size.y; ++y)
       {
         for (int x = 0; x < i_size.x; ++x)
         {
-          VertexTypePosTexNorm p;
+          VertexPosNormText p;
           p.position = { (float)x * i_dist, 0.0f, (float)y * i_dist };
           p.texture = { (float)x * i_dist * i_textureCoef, (float)y * i_dist * i_textureCoef };
           p.normal = { 0.0f, 1.0f, 0.0f };
@@ -63,9 +63,9 @@ namespace Dx
     }
 
 
-    std::vector<VertexTypePosTexNorm> generateCubeVerts(const float i_size)
+    std::vector<VertexPosNormText> generateCubeVerts(const float i_size)
     {
-      std::vector<VertexTypePosTexNorm> verts(6 * 4);
+      std::vector<VertexPosNormText> verts(6 * 4);
 
       Sdk::Vector3F normal;
       int ind = 0;
@@ -168,7 +168,7 @@ namespace Dx
       return inds;
     }
 
-    void invertVerts(std::vector<VertexTypePosTexNorm>& io_verts, std::vector<int>& io_inds)
+    void invertVerts(std::vector<VertexPosNormText>& io_verts, std::vector<int>& io_inds)
     {
       // Make sure that the correct number of inds is passed
       CONTRACT_EXPECT(io_inds.size() % 3 == 0);
@@ -181,12 +181,12 @@ namespace Dx
     }
 
 
-    std::vector<VertexTypePosTexNorm> generateSphereVerts(
+    std::vector<VertexPosNormText> generateSphereVerts(
       const float i_radius, const int i_stackCount, const int i_sliceCount)
     {
-      std::vector<VertexTypePosTexNorm> verts;
+      std::vector<VertexPosNormText> verts;
 
-      VertexTypePosTexNorm northPole;
+      VertexPosNormText northPole;
       northPole.position = { 0, i_radius, 0 };
       northPole.normal = { 0, 1.0f, 0 };
       verts.push_back(std::move(northPole));
@@ -203,14 +203,14 @@ namespace Dx
           const auto pos = getVectorByYawAndPitch(
             thetaStep * slice, phiStep * stack - Sdk::PiHalf) * i_radius;
 
-          VertexTypePosTexNorm p;
+          VertexPosNormText p;
           p.position = pos.getVector<float>();
           p.normal = Sdk::normalize(p.position);
           verts.push_back(std::move(p));
         }
       }
 
-      VertexTypePosTexNorm southPole;
+      VertexPosNormText southPole;
       southPole.position = { 0, -i_radius, 0 };
       southPole.normal = { 0, -1.0f, 0 };
       verts.push_back(std::move(southPole));

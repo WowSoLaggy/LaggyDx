@@ -4,17 +4,17 @@
 
 namespace Dx
 {
-  Shape3d::Shape3d(std::vector<VertexTypePosTexNorm> i_verts, std::vector<int> i_inds)
+  Shape3d::Shape3d(std::vector<VertexPosNormText> i_verts, std::vector<int> i_inds)
   {
     setVerts(std::move(i_verts));
     setInds(std::move(i_inds));
   }
 
 
-  const std::vector<VertexTypePosTexNorm>& Shape3d::getVerts() const { return d_verts; }
+  const std::vector<VertexPosNormText>& Shape3d::getVerts() const { return d_verts; }
   const std::vector<int>& Shape3d::getInds() const { return d_inds; }
 
-  void Shape3d::setVerts(std::vector<VertexTypePosTexNorm> i_verts)
+  void Shape3d::setVerts(std::vector<VertexPosNormText> i_verts)
   {
     d_verts = std::move(i_verts);
     calculateAabb();

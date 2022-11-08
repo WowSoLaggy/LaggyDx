@@ -29,15 +29,15 @@ cbuffer WaveCBuffer
 struct VertexInputType
 {
   float4 position : POSITION;
+  float4 normal : NORMAL;
   float2 tex : TEXCOORD0;
-  float3 normal : NORMAL;
 };
 
 struct PixelInputType
 {
   float4 position : SV_POSITION;
+  float4 normal : NORMAL;
   float2 tex : TEXCOORD0;
-  float3 normal : NORMAL;
   float3 viewDirection : TEXCOORD1;
 };
 
@@ -89,7 +89,7 @@ PixelInputType main(VertexInputType input)
   // NORMAL
 
   float3 normal = normalize(cross(binormal, tangent));
-  output.normal = normal;
+  output.normal = float4(normal, 1.0f);
 
   // XFMS
 

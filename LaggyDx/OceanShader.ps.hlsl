@@ -16,8 +16,8 @@ cbuffer LightingCBuffer
 struct PixelInputType
 {
   float4 position : SV_POSITION;
+  float4 normal : NORMAL;
   float2 tex : TEXCOORD0;
-  float3 normal : NORMAL;
   float3 viewDirection : TEXCOORD1;
 };
 
@@ -31,12 +31,12 @@ float4 main(PixelInputType input) : SV_TARGET
 
   // DIFFUSE
   
-  float lightAmount = saturate(dot(input.normal, -lightDirection));
+  float lightAmount = saturate(dot(input.normal.xyz, -lightDirection));
   textureColor.rgb *= lightAmount;
   
   // SPECULAR
   
-  float3 reflection = reflect(lightDirection, input.normal);
+  float3 reflection = reflect(lightDirection, input.normal.xyz);
   float dotProduct = saturate(dot(reflection, input.viewDirection));
   float specularValue = pow(dotProduct, specularPower);
   float4 specular = float4(specularValue, specularValue, specularValue, 1.0);

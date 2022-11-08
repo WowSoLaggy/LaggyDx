@@ -29,7 +29,7 @@ namespace Dx
   public:
     virtual ~IShape3d() = default;
 
-    virtual const std::vector<VertexTypePosTexNorm>& getVerts() const = 0;
+    virtual const std::vector<VertexPosNormText>& getVerts() const = 0;
     virtual const std::vector<int>& getInds() const = 0;
     virtual const Aabb& getAabb() const = 0;
   };

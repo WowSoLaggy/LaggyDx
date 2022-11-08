@@ -22,12 +22,12 @@ namespace Dx
   {
     Mesh mesh;
 
-    std::vector<VertexTypePosTexNorm> verts;
+    std::vector<VertexPosNormText> verts;
     std::vector<int> inds;
 
     auto add = [&](Sdk::Vector3F i_pos)
     {
-      VertexTypePosTexNorm vert;
+      VertexPosNormText vert;
       vert.position = std::move(i_pos);
       verts.push_back(std::move(vert));
     };
