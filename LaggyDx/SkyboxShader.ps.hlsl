@@ -19,6 +19,6 @@ struct PixelInputType
 
 float4 main(PixelInputType input) : SV_TARGET
 {
-  float alpha = saturate(input.height - 0.5f) * 2;
+  float alpha = saturate(input.height);
   return (1 - alpha) * colorZeroLevel + alpha * colorTopLevel;
 }
