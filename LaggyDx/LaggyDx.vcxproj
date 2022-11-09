@@ -169,7 +169,7 @@
     <ClInclude Include="InputEvents.h" />
     <ClInclude Include="IOceanShader.h" />
     <ClInclude Include="ISimpleShader.h" />
-    <ClInclude Include="ISkyboxShader.h" />
+    <ClInclude Include="ISkydomeShader.h" />
     <ClInclude Include="MouseMode.h" />
     <ClInclude Include="Obb.h" />
     <ClInclude Include="Button.h" />
@@ -200,7 +200,7 @@
     <ClInclude Include="RadioGroup.h" />
     <ClInclude Include="ShadersUtils.h" />
     <ClInclude Include="SimpleShader.h" />
-    <ClInclude Include="SkyboxShader.h" />
+    <ClInclude Include="SkydomeShader.h" />
     <ClInclude Include="Slider.h" />
     <ClInclude Include="ThirdPersonCamera.h" />
     <ClInclude Include="FontResource.h" />
@@ -303,7 +303,7 @@
     <ClCompile Include="IShape3d.cpp" />
     <ClCompile Include="ISimpleRenderer.cpp" />
     <ClCompile Include="ISimpleShader.cpp" />
-    <ClCompile Include="ISkyboxShader.cpp" />
+    <ClCompile Include="ISkydomeShader.cpp" />
     <ClCompile Include="Layout.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshUtils.cpp" />
@@ -320,7 +320,7 @@
     <ClCompile Include="ShadersUtils.cpp" />
     <ClCompile Include="Shape3d.cpp" />
     <ClCompile Include="SimpleShader.cpp" />
-    <ClCompile Include="SkyboxShader.cpp" />
+    <ClCompile Include="SkydomeShader.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="VsBinResource.cpp" />
     <ClCompile Include="ThirdPersonCamera.cpp" />
@@ -429,23 +429,23 @@
       <VariableName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">g_simpleVs</VariableName>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generated/Simple.gen.vs.h</HeaderFileOutput>
     </FxCompile>
-    <FxCompile Include="SkyboxShader.ps.hlsl">
+    <FxCompile Include="SkydomeShader.ps.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <VariableName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">g_skyboxPs</VariableName>
-      <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generated/Skybox.gen.ps.h</HeaderFileOutput>
+      <VariableName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">g_skydomePs</VariableName>
+      <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generated/Skydome.gen.ps.h</HeaderFileOutput>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="SkyboxShader.vs.hlsl">
+    <FxCompile Include="SkydomeShader.vs.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <VariableName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">g_skyboxVs</VariableName>
-      <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generated/Skybox.gen.vs.h</HeaderFileOutput>
+      <VariableName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">g_skydomeVs</VariableName>
+      <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generated/Skydome.gen.vs.h</HeaderFileOutput>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,26 +1,26 @@
 #pragma once
 
-#include "ISkyboxShader.h"
+#include "ISkydomeShader.h"
 #include "ShaderBuffers.h"
 
 
 namespace Dx
 {
-  struct SkyboxColorsCbuffer
+  struct SkydomeColorsCbuffer
   {
     XMFLOAT4 colorZeroLevel{ 0, 0, 0 ,0 };
     XMFLOAT4 colorTopLevel{ 0, 0, 0, 0 };
   };
 
 
-  class SkyboxShader : public ISkyboxShader
+  class SkydomeShader : public ISkydomeShader
   {
   public:
-    SkyboxShader(
+    SkydomeShader(
       IRenderDevice& i_renderDevice,
       const ICamera& i_camera,
       const IResourceController& i_resourceController);
-    virtual ~SkyboxShader() override;
+    virtual ~SkydomeShader() override;
 
     virtual void setZeroLevelColor(const Sdk::Vector4F& i_color) override;
     virtual void setTopLevelColor(const Sdk::Vector4F& i_color) override;
@@ -33,7 +33,7 @@ namespace Dx
     const ICamera& d_camera;
     const ITextureResource& d_emptyTexture;
 
-    SkyboxColorsCbuffer d_colorsCBuffer;
+    SkydomeColorsCbuffer d_colorsCBuffer;
 
     ID3D11Buffer* d_matrixBuffer = nullptr;
     ID3D11Buffer* d_colorsBuffer = nullptr;

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "SkyboxShader.h"
+#include "SkydomeShader.h"
 
 #include "ICamera.h"
 #include "IObject3.h"
@@ -9,13 +9,13 @@
 #include "ShadersUtils.h"
 #include "TextureResource.h"
 
-#include "Generated/Skybox.gen.ps.h"
-#include "Generated/Skybox.gen.vs.h"
+#include "Generated/Skydome.gen.ps.h"
+#include "Generated/Skydome.gen.vs.h"
 
 
 namespace Dx
 {
-  SkyboxShader::SkyboxShader(
+  SkydomeShader::SkydomeShader(
     IRenderDevice& i_renderDevice,
     const ICamera& i_camera,
     const IResourceController& i_resourceController)
@@ -28,25 +28,25 @@ namespace Dx
     createBuffers();
   }
 
-  SkyboxShader::~SkyboxShader()
+  SkydomeShader::~SkydomeShader()
   {
     disposeBuffers();
     disposeShaders();
   }
 
 
-  void SkyboxShader::setZeroLevelColor(const Sdk::Vector4F& i_color)
+  void SkydomeShader::setZeroLevelColor(const Sdk::Vector4F& i_color)
   {
     d_colorsCBuffer.colorZeroLevel = getXmfloat4(i_color);
   }
 
-  void SkyboxShader::setTopLevelColor(const Sdk::Vector4F& i_color)
+  void SkydomeShader::setTopLevelColor(const Sdk::Vector4F& i_color)
   {
     d_colorsCBuffer.colorTopLevel = getXmfloat4(i_color);
   }
 
 
-  void SkyboxShader::draw(const IObject3& i_object) const
+  void SkydomeShader::draw(const IObject3& i_object) const
   {
     setRenderStates();
     setShaders();
@@ -71,13 +71,13 @@ namespace Dx
   }
 
 
-  void SkyboxShader::createShaders()
+  void SkydomeShader::createShaders()
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
 
     // PS
 
-    renderDevice.getDevicePtr()->CreatePixelShader(g_skyboxPs, sizeof(g_skyboxPs), NULL, &d_pixelShader);
+    renderDevice.getDevicePtr()->CreatePixelShader(g_skydomePs, sizeof(g_skydomePs), NULL, &d_pixelShader);
     CONTRACT_ASSERT(d_pixelShader != nullptr);
 
     // Sampler state
@@ -102,7 +102,7 @@ namespace Dx
 
     // VS
 
-    renderDevice.getDevicePtr()->CreateVertexShader(g_skyboxVs, sizeof(g_skyboxVs), NULL, &d_vertexShader);
+    renderDevice.getDevicePtr()->CreateVertexShader(g_skydomeVs, sizeof(g_skydomeVs), NULL, &d_vertexShader);
     CONTRACT_ASSERT(d_vertexShader != nullptr);
 
     // Input layout
@@ -136,11 +136,11 @@ namespace Dx
     unsigned int numElements = sizeof(polygonLayout) / sizeof(polygonLayout[0]);
 
     renderDevice.getDevicePtr()->CreateInputLayout(polygonLayout, numElements,
-      g_skyboxVs, sizeof(g_skyboxVs), &d_layout);
+      g_skydomeVs, sizeof(g_skydomeVs), &d_layout);
     CONTRACT_ASSERT(d_layout != nullptr);
   }
 
-  void SkyboxShader::disposeShaders()
+  void SkydomeShader::disposeShaders()
   {
     // VS
 
@@ -160,7 +160,7 @@ namespace Dx
   }
 
 
-  void SkyboxShader::createBuffers()
+  void SkydomeShader::createBuffers()
   {
     auto createBuffer = [&](const int i_sizeOf, ID3D11Buffer** i_buf)
     {
@@ -177,10 +177,10 @@ namespace Dx
     };
 
     createBuffer(sizeof(MatrixCBuffer), &d_matrixBuffer);
-    createBuffer(sizeof(SkyboxColorsCbuffer), &d_colorsBuffer);
+    createBuffer(sizeof(SkydomeColorsCbuffer), &d_colorsBuffer);
   }
 
-  void SkyboxShader::disposeBuffers()
+  void SkydomeShader::disposeBuffers()
   {
     d_colorsBuffer->Release();
     d_colorsBuffer = nullptr;
@@ -190,13 +190,13 @@ namespace Dx
   }
 
 
-  void SkyboxShader::setRenderStates() const
+  void SkydomeShader::setRenderStates() const
   {
     d_renderDevice.resetState();
     d_renderDevice.setDepthEnabled(false);
   }
 
-  void SkyboxShader::setShaders() const
+  void SkydomeShader::setShaders() const
   {
     d_renderDevice.getDeviceContextPtr()->IASetInputLayout(d_layout);
     d_renderDevice.getDeviceContextPtr()->VSSetShader(d_vertexShader, nullptr, 0);
@@ -204,7 +204,7 @@ namespace Dx
     d_renderDevice.getDeviceContextPtr()->PSSetSamplers(0, 1, &d_sampleState);
   }
 
-  void SkyboxShader::setGeometryBuffers(const Mesh& i_mesh) const
+  void SkydomeShader::setGeometryBuffers(const Mesh& i_mesh) const
   {
     auto* vbPtr = i_mesh.getVertexBuffer().getPtr();
     unsigned int stride = i_mesh.getVertexBuffer().getStride();
@@ -221,7 +221,7 @@ namespace Dx
     d_renderDevice.getDeviceContextPtr()->IASetPrimitiveTopology(topology);
   }
 
-  void SkyboxShader::setXfmMatrices(const IObject3& i_object) const
+  void SkydomeShader::setXfmMatrices(const IObject3& i_object) const
   {
     auto getWorldMatrixTransposed = [&]()
     {
@@ -253,13 +253,13 @@ namespace Dx
     d_renderDevice.getDeviceContextPtr()->VSSetConstantBuffers(0, 1, &d_matrixBuffer);
   }
 
-  void SkyboxShader::setCBuffers() const
+  void SkydomeShader::setCBuffers() const
   {
     {
       D3D11_MAPPED_SUBRESOURCE mappedResource;
       d_renderDevice.getDeviceContextPtr()->Map(d_colorsBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-      auto* dataPtr = (SkyboxColorsCbuffer*)mappedResource.pData;
+      auto* dataPtr = (SkydomeColorsCbuffer*)mappedResource.pData;
       *dataPtr = d_colorsCBuffer;
 
       d_renderDevice.getDeviceContextPtr()->Unmap(d_colorsBuffer, 0);
@@ -267,7 +267,7 @@ namespace Dx
     }
   }
 
-  void SkyboxShader::setTexture(const IObject3& i_object) const
+  void SkydomeShader::setTexture(const IObject3& i_object) const
   {
     auto* texturePtr = static_cast<const TextureResource&>(d_emptyTexture).getTexturePtr();
 
@@ -277,7 +277,7 @@ namespace Dx
     d_renderDevice.getDeviceContextPtr()->PSSetShaderResources(0, 1, &texturePtr);
   }
 
-  void SkyboxShader::setTexture(const Material& i_material) const
+  void SkydomeShader::setTexture(const Material& i_material) const
   {
     if (!i_material.textureName.empty())
     {
@@ -289,11 +289,11 @@ namespace Dx
     }
   }
 
-  void SkyboxShader::setMaterial(const Material& i_material) const
+  void SkydomeShader::setMaterial(const Material& i_material) const
   {
   }
 
-  void SkyboxShader::drawIndexed(const int i_count, const int i_startIndex) const
+  void SkydomeShader::drawIndexed(const int i_count, const int i_startIndex) const
   {
     d_renderDevice.getDeviceContextPtr()->DrawIndexed(i_count, i_startIndex, 0);
   }

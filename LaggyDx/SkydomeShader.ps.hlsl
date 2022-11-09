@@ -2,7 +2,7 @@ Texture2D shaderTexture;
 SamplerState SampleType;
 
 
-cbuffer SkyboxColorsCBuffer
+cbuffer SkydomeColorsCbuffer
 {
   float4 colorZeroLevel;
   float4 colorTopLevel;

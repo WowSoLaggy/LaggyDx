@@ -7,16 +7,16 @@
 
 namespace Dx
 {
-  class ISkyboxShader
+  class ISkydomeShader
   {
   public:
-    static std::unique_ptr<ISkyboxShader> create(
+    static std::unique_ptr<ISkydomeShader> create(
       IRenderDevice& i_renderDevice,
       const ICamera& i_camera,
       const IResourceController& i_resourceController);
 
   public:
-    virtual ~ISkyboxShader() = default;
+    virtual ~ISkydomeShader() = default;
 
     virtual void setZeroLevelColor(const Sdk::Vector4F& i_color) = 0;
     virtual void setTopLevelColor(const Sdk::Vector4F& i_color) = 0;
