@@ -304,4 +304,13 @@ namespace Dx
     return std::make_unique<Shape3d>(std::move(verts), std::move(inds));
   }
 
+
+  std::unique_ptr<IShape3d> IShape3d::sphereInverted(float i_radius, int i_stackCount, int i_sliceCount)
+  {
+    auto verts = generateSphereVerts(i_radius, i_stackCount, i_sliceCount);
+    auto inds = generateSphereInds(i_stackCount, i_sliceCount);
+    invertVerts(verts, inds);
+    return std::make_unique<Shape3d>(std::move(verts), std::move(inds));
+  }
+
 } // ns Dx

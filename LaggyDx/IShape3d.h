@@ -26,6 +26,11 @@ namespace Dx
     /// \param i_sliceCount - number of divisions by longitude (from west to east)
     static std::unique_ptr<IShape3d> sphere(float i_radius, int i_stackCount, int i_sliceCount);
 
+    /// \param i_radius - radius
+    /// \param i_stackCount - number of divisions by latitude (from north to south)
+    /// \param i_sliceCount - number of divisions by longitude (from west to east)
+    static std::unique_ptr<IShape3d> sphereInverted(float i_radius, int i_stackCount, int i_sliceCount);
+
   public:
     virtual ~IShape3d() = default;
 
