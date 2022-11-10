@@ -12,6 +12,13 @@ namespace Dx
     XMFLOAT4 colorTopLevel{ 0, 0, 0, 0 };
   };
 
+  struct ViewSunDirsCBuffer
+  {
+    XMFLOAT3 viewDirection{ 0, 0, 0 };
+    XMFLOAT3 sunDirection{ 0, 0, 0 };
+    XMFLOAT2 _reserved{ 0, 0 };
+  };
+
 
   class SkydomeShader : public ISkydomeShader
   {
@@ -25,18 +32,26 @@ namespace Dx
     virtual void setZeroLevelColor(const Sdk::Vector4F& i_color) override;
     virtual void setTopLevelColor(const Sdk::Vector4F& i_color) override;
 
+    virtual void setViewDirection(Sdk::Vector3D i_viewDir) override;
+    virtual void setSunDirection(Sdk::Vector3D i_sunDir) override;
+
     virtual void draw(const IObject3& i_object) const override;
 
   private:
     RenderDevice& d_renderDevice;
     const IResourceController& d_resourceController;
     const ICamera& d_camera;
-    const ITextureResource& d_emptyTexture;
+
+    const ITextureResource& d_mainTexture;
+    const ITextureResource& d_horizonHazeTexture;
+    const ITextureResource& d_aroundSunTexture;
 
     SkydomeColorsCbuffer d_colorsCBuffer;
+    ViewSunDirsCBuffer d_viewSunDirsCBuffer;
 
     ID3D11Buffer* d_matrixBuffer = nullptr;
     ID3D11Buffer* d_colorsBuffer = nullptr;
+    ID3D11Buffer* d_viewSunDirsBuffer = nullptr;
 
     ID3D11PixelShader* d_pixelShader = nullptr;
     ID3D11SamplerState* d_sampleState = nullptr;
@@ -54,9 +69,7 @@ namespace Dx
     void setGeometryBuffers(const Mesh& i_mesh) const;
     void setXfmMatrices(const IObject3& i_object) const;
     void setCBuffers() const;
-    void setTexture(const IObject3& i_object) const;
-    void setTexture(const Material& i_material) const;
-    void setMaterial(const Material& i_material) const;
+    void setTextures() const;
     void drawIndexed(int i_count, int i_startIndex) const;
   };
 

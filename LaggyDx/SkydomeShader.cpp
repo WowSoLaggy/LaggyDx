@@ -22,7 +22,9 @@ namespace Dx
     : d_renderDevice(dynamic_cast<RenderDevice&>(i_renderDevice))
     , d_camera(i_camera)
     , d_resourceController(i_resourceController)
-    , d_emptyTexture(i_resourceController.getTexture("white.png"))
+    , d_mainTexture(i_resourceController.getTexture("sky_main.png"))
+    , d_horizonHazeTexture(i_resourceController.getTexture("sky_horizon_haze.png"))
+    , d_aroundSunTexture(i_resourceController.getTexture("sky_around_sun.png"))
   {
     createShaders();
     createBuffers();
@@ -46,24 +48,31 @@ namespace Dx
   }
 
 
+  void SkydomeShader::setViewDirection(Sdk::Vector3D i_viewDir)
+  {
+    d_viewSunDirsCBuffer.viewDirection = getNormalized(std::move(i_viewDir));
+  }
+
+  void SkydomeShader::setSunDirection(Sdk::Vector3D i_sunDir)
+  {
+    d_viewSunDirsCBuffer.sunDirection = getNormalized(std::move(i_sunDir));
+  }
+
+
   void SkydomeShader::draw(const IObject3& i_object) const
   {
     setRenderStates();
     setShaders();
     setXfmMatrices(i_object);
     setCBuffers();
-    setTexture(i_object);
+    setTextures();
 
     auto drawMesh = [&](const auto& i_mesh)
     {
       setGeometryBuffers(i_mesh);
 
       for (const auto& materialSpan : i_mesh.getMaterials().getMaterialSpans())
-      {
-        setTexture(materialSpan.material);
-        setMaterial(materialSpan.material);
         drawIndexed(materialSpan.count, materialSpan.startIndex);
-      }
     };
 
     for (const auto& mesh : i_object.getModel().getMeshes())
@@ -82,11 +91,11 @@ namespace Dx
 
     // Sampler state
 
-    D3D11_SAMPLER_DESC samplerDesc;
+    D3D11_SAMPLER_DESC samplerDesc = {};
     samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-    samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-    samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-    samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+    samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+    samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+    samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
     samplerDesc.MipLODBias = 0.0f;
     samplerDesc.MaxAnisotropy = 1;
     samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
@@ -178,15 +187,20 @@ namespace Dx
 
     createBuffer(sizeof(MatrixCBuffer), &d_matrixBuffer);
     createBuffer(sizeof(SkydomeColorsCbuffer), &d_colorsBuffer);
+    createBuffer(sizeof(ViewSunDirsCBuffer), &d_viewSunDirsBuffer);
   }
 
   void SkydomeShader::disposeBuffers()
   {
-    d_colorsBuffer->Release();
-    d_colorsBuffer = nullptr;
+    auto releaseBuffer = [](ID3D11Buffer** i_buf)
+    {
+      (*i_buf)->Release();
+      *i_buf = nullptr;
+    };
 
-    d_matrixBuffer->Release();
-    d_matrixBuffer = nullptr;
+    releaseBuffer(&d_viewSunDirsBuffer);
+    releaseBuffer(&d_colorsBuffer);
+    releaseBuffer(&d_matrixBuffer);
   }
 
 
@@ -255,6 +269,7 @@ namespace Dx
 
   void SkydomeShader::setCBuffers() const
   {
+    // Colors
     {
       D3D11_MAPPED_SUBRESOURCE mappedResource;
       d_renderDevice.getDeviceContextPtr()->Map(d_colorsBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
@@ -265,32 +280,29 @@ namespace Dx
       d_renderDevice.getDeviceContextPtr()->Unmap(d_colorsBuffer, 0);
       d_renderDevice.getDeviceContextPtr()->PSSetConstantBuffers(0, 1, &d_colorsBuffer);
     }
-  }
 
-  void SkydomeShader::setTexture(const IObject3& i_object) const
-  {
-    auto* texturePtr = static_cast<const TextureResource&>(d_emptyTexture).getTexturePtr();
-
-    if (const auto* textureResource = dynamic_cast<const TextureResource*>(i_object.getTextureResource()))
-      texturePtr = textureResource->getTexturePtr();
-
-    d_renderDevice.getDeviceContextPtr()->PSSetShaderResources(0, 1, &texturePtr);
-  }
-
-  void SkydomeShader::setTexture(const Material& i_material) const
-  {
-    if (!i_material.textureName.empty())
+    // ViewSunDirections
     {
-      const auto& texture = dynamic_cast<const TextureResource&>(
-        d_resourceController.getTexture(i_material.textureName));
-      auto* texturePtr = texture.getTexturePtr();
+      D3D11_MAPPED_SUBRESOURCE mappedResource;
+      d_renderDevice.getDeviceContextPtr()->Map(d_viewSunDirsBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-      d_renderDevice.getDeviceContextPtr()->PSSetShaderResources(0, 1, &texturePtr);
+      auto* dataPtr = (ViewSunDirsCBuffer*)mappedResource.pData;
+      *dataPtr = d_viewSunDirsCBuffer;
+      dataPtr->viewDirection = getXmfloat3(d_camera.getForward());
+
+      d_renderDevice.getDeviceContextPtr()->Unmap(d_viewSunDirsBuffer, 0);
+      d_renderDevice.getDeviceContextPtr()->PSSetConstantBuffers(1, 1, &d_viewSunDirsBuffer);
     }
   }
 
-  void SkydomeShader::setMaterial(const Material& i_material) const
+  void SkydomeShader::setTextures() const
   {
+    auto* textureMainPtr = static_cast<const TextureResource&>(d_mainTexture).getTexturePtr();
+    auto* textureHorizonHazePtr = static_cast<const TextureResource&>(d_horizonHazeTexture).getTexturePtr();
+    auto* textureAroundSunPtr = static_cast<const TextureResource&>(d_aroundSunTexture).getTexturePtr();
+
+    ID3D11ShaderResourceView* textures[] = { textureMainPtr, textureHorizonHazePtr, textureAroundSunPtr };
+    d_renderDevice.getDeviceContextPtr()->PSSetShaderResources(0, 3, textures);
   }
 
   void SkydomeShader::drawIndexed(const int i_count, const int i_startIndex) const

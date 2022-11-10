@@ -1,11 +1,21 @@
-Texture2D shaderTexture;
 SamplerState SampleType;
 
+Texture2D skyMainTexture : register(t0);
+Texture2D skyHorizonHazeTexture : register(t1);
+Texture2D skyAroundSunTexture : register(t2);
 
-cbuffer SkydomeColorsCbuffer
+
+cbuffer SkydomeColorsCbuffer : register(b0)
 {
   float4 colorZeroLevel;
   float4 colorTopLevel;
+};
+
+cbuffer ViewSunDirsCBuffer : register(b1)
+{
+  float3 viewDirection;
+  float3 sunDirection;
+  float2 _reserved;
 };
 
 
@@ -19,6 +29,15 @@ struct PixelInputType
 
 float4 main(PixelInputType input) : SV_TARGET
 {
-  float alpha = saturate(input.height);
-  return (1 - alpha) * colorZeroLevel + alpha * colorTopLevel;
+  float sunViewDot = dot(sunDirection, viewDirection);
+  float sunZenithDot = sunDirection.y;
+  float viewZenithDot = viewDirection.y;
+  
+  float sunViewDot01 = (sunViewDot + 1.0f) * 0.5f;
+  float sunZenithDot01 = (sunZenithDot + 1.0f) * 0.5f;
+  
+  float4 sunZenithColor = skyMainTexture.Sample(SampleType, float2(sunZenithDot01, 0.5f));
+  
+  return float4(sunDirection.z, sunDirection.z, sunDirection.z, 1);
+  //return sunZenithColor;
 }
