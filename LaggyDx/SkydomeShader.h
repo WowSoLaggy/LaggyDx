@@ -15,8 +15,9 @@ namespace Dx
   struct ViewSunDirsCBuffer
   {
     XMFLOAT3 viewDirection{ 0, 0, 0 };
+    float _reserved1{ 0 };
     XMFLOAT3 sunDirection{ 0, 0, 0 };
-    XMFLOAT2 _reserved{ 0, 0 };
+    float _reserved2{ 0 };
   };
 
 

@@ -15,7 +15,6 @@ cbuffer ViewSunDirsCBuffer : register(b1)
 {
   float3 viewDirection;
   float3 sunDirection;
-  float2 _reserved;
 };
 
 
@@ -38,6 +37,5 @@ float4 main(PixelInputType input) : SV_TARGET
   
   float4 sunZenithColor = skyMainTexture.Sample(SampleType, float2(sunZenithDot01, 0.5f));
   
-  return float4(sunDirection.z, sunDirection.z, sunDirection.z, 1);
-  //return sunZenithColor;
+  return sunZenithColor;
 }
