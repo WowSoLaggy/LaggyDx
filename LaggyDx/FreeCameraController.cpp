@@ -6,6 +6,8 @@
 #include "GameEvents.h"
 #include "InputEvents.h"
 
+#include <LaggySdk/Math.h>
+
 
 namespace Dx
 {
@@ -121,9 +123,15 @@ namespace Dx
   void FreeCameraController::onMouseMoved(const Sdk::Vector2I& i_move)
   {
     constexpr float Sensitivity = 0.01f;
+    constexpr float MaxPitch = Sdk::degToRad<float>(89.0f);
 
-    d_camera.setYaw(d_camera.getYaw() + (float)i_move.x * Sensitivity);
-    d_camera.setPitch(d_camera.getPitch() - (float)i_move.y * Sensitivity);
+    const float newYaw = d_camera.getYaw() + (float)i_move.x * Sensitivity;
+    const float newPitch = Sdk::clamp(
+      d_camera.getPitch() - (float)i_move.y * Sensitivity,
+      -MaxPitch, MaxPitch);
+
+    d_camera.setYaw(newYaw);
+    d_camera.setPitch(newPitch);
   }
 
 
