@@ -317,7 +317,6 @@
     <ClCompile Include="PsHlslResource.cpp" />
     <ClCompile Include="RadioButton.cpp" />
     <ClCompile Include="RadioGroup.cpp" />
-    <ClCompile Include="ShadersUtils.cpp" />
     <ClCompile Include="Shape3d.cpp" />
     <ClCompile Include="SimpleShader.cpp" />
     <ClCompile Include="SkydomeShader.cpp" />

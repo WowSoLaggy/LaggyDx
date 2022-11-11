@@ -50,12 +50,12 @@ namespace Dx
 
   void SkydomeShader::setViewDirection(Sdk::Vector3D i_viewDir)
   {
-    d_viewSunDirsCBuffer.viewDirection = getNormalized(std::move(i_viewDir));
+    d_viewSunDirsCBuffer.viewDirection = getXmfloat3Norm(std::move(i_viewDir));
   }
 
   void SkydomeShader::setSunDirection(Sdk::Vector3D i_sunDir)
   {
-    d_viewSunDirsCBuffer.sunDirection = getNormalized(std::move(i_sunDir));
+    d_viewSunDirsCBuffer.sunDirection = getXmfloat3Norm(std::move(i_sunDir));
   }
 
 

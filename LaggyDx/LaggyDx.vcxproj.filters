@@ -773,9 +773,6 @@
     <ClCompile Include="ISimpleShader.cpp">
       <Filter>src\Shaders\SimpleShader</Filter>
     </ClCompile>
-    <ClCompile Include="ShadersUtils.cpp">
-      <Filter>src\Shaders</Filter>
-    </ClCompile>
     <ClCompile Include="IShape3d.cpp">
       <Filter>src\Shapes</Filter>
     </ClCompile>

@@ -51,7 +51,7 @@ namespace Dx
 
   void OceanShader::setWindDirection(int i_waveIndex, Sdk::Vector2D i_direction)
   {
-    const auto normalizedDirection = getNormalized(std::move(i_direction));
+    const auto normalizedDirection = getXmfloat2Norm(std::move(i_direction));
     auto& wave = getWaveByIndex(i_waveIndex);
     wave.x = normalizedDirection.x;
     wave.y = normalizedDirection.y;
@@ -72,7 +72,7 @@ namespace Dx
 
   void OceanShader::setLightDirection(Sdk::Vector3D i_direction)
   {
-    d_lightCBuffer.lightDirection = getNormalized(std::move(i_direction));
+    d_lightCBuffer.lightDirection = getXmfloat3Norm(std::move(i_direction));
   }
 
   void OceanShader::setLightColor(const Sdk::Vector4D& i_color)

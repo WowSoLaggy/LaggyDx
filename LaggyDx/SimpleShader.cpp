@@ -37,7 +37,7 @@ namespace Dx
 
   void SimpleShader::setLightDirection(Sdk::Vector3D i_direction)
   {
-    d_lightCBuffer.lightDirection = getNormalized(std::move(i_direction));
+    d_lightCBuffer.lightDirection = getXmfloat3Norm(std::move(i_direction));
   }
 
   void SimpleShader::setLightColor(const Sdk::Vector4D& i_color)
