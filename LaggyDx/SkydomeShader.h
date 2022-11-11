@@ -14,7 +14,7 @@ namespace Dx
 
   struct ViewSunDirsCBuffer
   {
-    XMFLOAT3 viewDirection{ 0, 0, 0 };
+    XMFLOAT3 cameraPosition{ 0, 0, 0 };
     float _reserved1{ 0 };
     XMFLOAT3 sunDirection{ 0, 0, 0 };
     float _reserved2{ 0 };
@@ -33,7 +33,6 @@ namespace Dx
     virtual void setZeroLevelColor(const Sdk::Vector4F& i_color) override;
     virtual void setTopLevelColor(const Sdk::Vector4F& i_color) override;
 
-    virtual void setViewDirection(Sdk::Vector3D i_viewDir) override;
     virtual void setSunDirection(Sdk::Vector3D i_sunDir) override;
 
     virtual void draw(const IObject3& i_object) const override;

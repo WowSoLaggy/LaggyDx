@@ -48,11 +48,6 @@ namespace Dx
   }
 
 
-  void SkydomeShader::setViewDirection(Sdk::Vector3D i_viewDir)
-  {
-    d_viewSunDirsCBuffer.viewDirection = getXmfloat3Norm(std::move(i_viewDir));
-  }
-
   void SkydomeShader::setSunDirection(Sdk::Vector3D i_sunDir)
   {
     d_viewSunDirsCBuffer.sunDirection = getXmfloat3Norm(std::move(i_sunDir));
@@ -288,7 +283,7 @@ namespace Dx
 
       auto* dataPtr = (ViewSunDirsCBuffer*)mappedResource.pData;
       *dataPtr = d_viewSunDirsCBuffer;
-      dataPtr->viewDirection = getXmfloat3(d_camera.getForward());
+      dataPtr->cameraPosition = getXmfloat3(d_camera.getPosition());
 
       d_renderDevice.getDeviceContextPtr()->Unmap(d_viewSunDirsBuffer, 0);
       d_renderDevice.getDeviceContextPtr()->PSSetConstantBuffers(1, 1, &d_viewSunDirsBuffer);

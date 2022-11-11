@@ -21,7 +21,6 @@ namespace Dx
     virtual void setZeroLevelColor(const Sdk::Vector4F& i_color) = 0;
     virtual void setTopLevelColor(const Sdk::Vector4F& i_color) = 0;
 
-    virtual void setViewDirection(Sdk::Vector3D i_viewDir) = 0;
     virtual void setSunDirection(Sdk::Vector3D i_sunDir) = 0;
 
     virtual void draw(const IObject3& i_object) const = 0;
