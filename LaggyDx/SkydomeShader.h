@@ -9,7 +9,7 @@ namespace Dx
   struct SkydomeSettings
   {
     XMFLOAT3 cameraPosition{ 0, 0, 0 };
-    float _reserved1{ 0 };
+    float sunRadius{ 0 };
     XMFLOAT3 sunDirection{ 0, 0, 0 };
     float _reserved2{ 0 };
   };
@@ -25,6 +25,7 @@ namespace Dx
     virtual ~SkydomeShader() override;
 
     virtual void setSunDirection(Sdk::Vector3D i_sunDir) override;
+    virtual void setSunRadius(float i_radius) override;
 
     virtual void draw(const IObject3& i_object) const override;
 

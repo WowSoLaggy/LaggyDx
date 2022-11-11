@@ -19,6 +19,7 @@ namespace Dx
     virtual ~ISkydomeShader() = default;
 
     virtual void setSunDirection(Sdk::Vector3D i_sunDir) = 0;
+    virtual void setSunRadius(float i_radius) = 0;
 
     virtual void draw(const IObject3& i_object) const = 0;
   };

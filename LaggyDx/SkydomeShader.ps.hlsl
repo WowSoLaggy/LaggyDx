@@ -8,6 +8,7 @@ Texture2D skyAroundSunTexture : register(t2);
 cbuffer SkydomeSettings : register(b1)
 {
   float3 cameraPosition;
+  float sunRadius;
   float3 sunDirection;
 };
 
@@ -44,7 +45,7 @@ float4 main(PixelInputType input) : SV_TARGET
   float vzMask = pow(saturate(1.0f - viewZenithDot), 4);
   float svMask = pow(saturate(sunViewDot), 4);
   
-  float sunMask = getSunMask(sunViewDot, 0.03f);
+  float sunMask = getSunMask(sunViewDot, sunRadius);
   float4 sunColor = float4(1, 1, 1, 1) * sunMask;
   
   return sunZenithColor + vzMask * viewZenithColor + svMask * sunViewColor + sunColor;
