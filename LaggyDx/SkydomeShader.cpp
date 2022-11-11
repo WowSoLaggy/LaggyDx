@@ -37,20 +37,9 @@ namespace Dx
   }
 
 
-  void SkydomeShader::setZeroLevelColor(const Sdk::Vector4F& i_color)
-  {
-    d_colorsCBuffer.colorZeroLevel = getXmfloat4(i_color);
-  }
-
-  void SkydomeShader::setTopLevelColor(const Sdk::Vector4F& i_color)
-  {
-    d_colorsCBuffer.colorTopLevel = getXmfloat4(i_color);
-  }
-
-
   void SkydomeShader::setSunDirection(Sdk::Vector3D i_sunDir)
   {
-    d_viewSunDirsCBuffer.sunDirection = getXmfloat3Norm(std::move(i_sunDir));
+    d_skyDomeSettings.sunDirection = getXmfloat3Norm(std::move(i_sunDir));
   }
 
 
@@ -181,8 +170,7 @@ namespace Dx
     };
 
     createBuffer(sizeof(MatrixCBuffer), &d_matrixBuffer);
-    createBuffer(sizeof(SkydomeColorsCbuffer), &d_colorsBuffer);
-    createBuffer(sizeof(ViewSunDirsCBuffer), &d_viewSunDirsBuffer);
+    createBuffer(sizeof(SkydomeSettings), &d_skyDomeBuffer);
   }
 
   void SkydomeShader::disposeBuffers()
@@ -193,8 +181,7 @@ namespace Dx
       *i_buf = nullptr;
     };
 
-    releaseBuffer(&d_viewSunDirsBuffer);
-    releaseBuffer(&d_colorsBuffer);
+    releaseBuffer(&d_skyDomeBuffer);
     releaseBuffer(&d_matrixBuffer);
   }
 
@@ -264,29 +251,16 @@ namespace Dx
 
   void SkydomeShader::setCBuffers() const
   {
-    // Colors
     {
       D3D11_MAPPED_SUBRESOURCE mappedResource;
-      d_renderDevice.getDeviceContextPtr()->Map(d_colorsBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+      d_renderDevice.getDeviceContextPtr()->Map(d_skyDomeBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-      auto* dataPtr = (SkydomeColorsCbuffer*)mappedResource.pData;
-      *dataPtr = d_colorsCBuffer;
-
-      d_renderDevice.getDeviceContextPtr()->Unmap(d_colorsBuffer, 0);
-      d_renderDevice.getDeviceContextPtr()->PSSetConstantBuffers(0, 1, &d_colorsBuffer);
-    }
-
-    // ViewSunDirections
-    {
-      D3D11_MAPPED_SUBRESOURCE mappedResource;
-      d_renderDevice.getDeviceContextPtr()->Map(d_viewSunDirsBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-
-      auto* dataPtr = (ViewSunDirsCBuffer*)mappedResource.pData;
-      *dataPtr = d_viewSunDirsCBuffer;
+      auto* dataPtr = (SkydomeSettings*)mappedResource.pData;
+      *dataPtr = d_skyDomeSettings;
       dataPtr->cameraPosition = getXmfloat3(d_camera.getPosition());
 
-      d_renderDevice.getDeviceContextPtr()->Unmap(d_viewSunDirsBuffer, 0);
-      d_renderDevice.getDeviceContextPtr()->PSSetConstantBuffers(1, 1, &d_viewSunDirsBuffer);
+      d_renderDevice.getDeviceContextPtr()->Unmap(d_skyDomeBuffer, 0);
+      d_renderDevice.getDeviceContextPtr()->PSSetConstantBuffers(1, 1, &d_skyDomeBuffer);
     }
   }
 

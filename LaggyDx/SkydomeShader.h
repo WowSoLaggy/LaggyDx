@@ -6,13 +6,7 @@
 
 namespace Dx
 {
-  struct SkydomeColorsCbuffer
-  {
-    XMFLOAT4 colorZeroLevel{ 0, 0, 0 ,0 };
-    XMFLOAT4 colorTopLevel{ 0, 0, 0, 0 };
-  };
-
-  struct ViewSunDirsCBuffer
+  struct SkydomeSettings
   {
     XMFLOAT3 cameraPosition{ 0, 0, 0 };
     float _reserved1{ 0 };
@@ -30,9 +24,6 @@ namespace Dx
       const IResourceController& i_resourceController);
     virtual ~SkydomeShader() override;
 
-    virtual void setZeroLevelColor(const Sdk::Vector4F& i_color) override;
-    virtual void setTopLevelColor(const Sdk::Vector4F& i_color) override;
-
     virtual void setSunDirection(Sdk::Vector3D i_sunDir) override;
 
     virtual void draw(const IObject3& i_object) const override;
@@ -46,12 +37,11 @@ namespace Dx
     const ITextureResource& d_horizonHazeTexture;
     const ITextureResource& d_aroundSunTexture;
 
-    SkydomeColorsCbuffer d_colorsCBuffer;
-    ViewSunDirsCBuffer d_viewSunDirsCBuffer;
+    SkydomeSettings d_skyDomeSettings;
 
     ID3D11Buffer* d_matrixBuffer = nullptr;
     ID3D11Buffer* d_colorsBuffer = nullptr;
-    ID3D11Buffer* d_viewSunDirsBuffer = nullptr;
+    ID3D11Buffer* d_skyDomeBuffer = nullptr;
 
     ID3D11PixelShader* d_pixelShader = nullptr;
     ID3D11SamplerState* d_sampleState = nullptr;

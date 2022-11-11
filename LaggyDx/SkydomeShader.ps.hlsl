@@ -5,13 +5,7 @@ Texture2D skyHorizonHazeTexture : register(t1);
 Texture2D skyAroundSunTexture : register(t2);
 
 
-cbuffer SkydomeColorsCbuffer : register(b0)
-{
-  float4 colorZeroLevel;
-  float4 colorTopLevel;
-};
-
-cbuffer ViewSunDirsCBuffer : register(b1)
+cbuffer SkydomeSettings : register(b1)
 {
   float3 cameraPosition;
   float3 sunDirection;
