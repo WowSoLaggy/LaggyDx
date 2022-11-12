@@ -42,9 +42,14 @@ namespace Dx
     d_skyDomeSettings.sunDirection = getXmfloat3Norm(std::move(i_sunDir));
   }
 
-  void SkydomeShader::setSunRadius(const float i_radius)
+  void SkydomeShader::setSunRadiusInternal(const float i_radius)
   {
-    d_skyDomeSettings.sunRadius = i_radius;
+    d_skyDomeSettings.sunRadiusInternal = i_radius;
+  }
+
+  void SkydomeShader::setSunRadiusExternal(const float i_radius)
+  {
+    d_skyDomeSettings.sunRadiusExternal = i_radius;
   }
 
 

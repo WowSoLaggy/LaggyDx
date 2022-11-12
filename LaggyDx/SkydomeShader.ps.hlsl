@@ -8,8 +8,9 @@ Texture2D skyAroundSunTexture : register(t2);
 cbuffer SkydomeSettings : register(b1)
 {
   float3 cameraPosition;
-  float sunRadius;
+  float sunRadiusInternal;
   float3 sunDirection;
+  float sunRadiusExternal;
 };
 
 
@@ -20,10 +21,11 @@ struct PixelInputType
 };
 
 
-float getSunMask(float sunViewDot, float sunRadius)
+float getSunMask(float sunViewDot)
 {
-  float stepRadius = 1 - sunRadius * sunRadius;
-  return step(stepRadius, sunViewDot);
+  float stepRadiusInternal = 1 - sunRadiusInternal * sunRadiusInternal;
+  float stepRadiusExternal = 1 - sunRadiusExternal * sunRadiusExternal;
+  return smoothstep(stepRadiusExternal, stepRadiusInternal, sunViewDot);
 }
 
 
@@ -45,7 +47,7 @@ float4 main(PixelInputType input) : SV_TARGET
   float vzMask = pow(saturate(1.0f - viewZenithDot), 4);
   float svMask = pow(saturate(sunViewDot), 4);
   
-  float sunMask = getSunMask(sunViewDot, sunRadius);
+  float sunMask = getSunMask(sunViewDot);
   float4 sunColor = float4(1, 1, 1, 1) * sunMask;
   
   return sunZenithColor + vzMask * viewZenithColor + svMask * sunViewColor + sunColor;
