@@ -1,30 +1,26 @@
 #pragma once
 
-#include "Aabb.h"
-#include "IndexBuffer.h"
-#include "MaterialSequence.h"
-#include "TopologyTypes.h"
-#include "VertexBuffer.h"
+#include "IMesh.h"
 
 
 namespace Dx
 {
-  class Mesh
+  class Mesh : public IMesh
   {
   public:
-    const VertexBuffer& getVertexBuffer() const;
-    const IndexBuffer& getIndexBuffer() const;
-    const IMaterialSequence& getMaterials() const;
+    virtual const VertexBuffer& getVertexBuffer() const override;
+    virtual const IndexBuffer& getIndexBuffer() const override;
+    virtual const IMaterialSequence& getMaterials() const override;
 
-    void setVertexBuffer(std::unique_ptr<VertexBuffer> i_vb);
-    void setIndexBuffer(std::unique_ptr<IndexBuffer> i_ib);
-    void setMaterials(std::unique_ptr<MaterialSequence> i_mats);
+    virtual void setVertexBuffer(std::unique_ptr<VertexBuffer> i_vb) override;
+    virtual void setIndexBuffer(std::unique_ptr<IndexBuffer> i_ib) override;
+    virtual void setMaterials(std::unique_ptr<MaterialSequence> i_mats) override;
 
-    void setAabb(Aabb i_aabb);
-    const Aabb& getAabb() const;
+    virtual void setAabb(Aabb i_aabb) override;
+    virtual const Aabb& getAabb() const override;
 
-    void setTopology(Topology i_topology);
-    Topology getTopology() const;
+    virtual void setTopology(Topology i_topology) override;
+    virtual Topology getTopology() const override;
 
   private:
     std::unique_ptr<VertexBuffer> d_vertexBuffer;

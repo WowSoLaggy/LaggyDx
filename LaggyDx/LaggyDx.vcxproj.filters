@@ -504,6 +504,9 @@
     <ClInclude Include="ISkydomeShader.h">
       <Filter>src\Shaders\SkydomeShader</Filter>
     </ClInclude>
+    <ClInclude Include="IMesh.h">
+      <Filter>src\Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

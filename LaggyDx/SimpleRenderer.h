@@ -38,7 +38,7 @@ namespace Dx
 
     void setRenderStates() const;
     void setShaders() const;
-    void setBuffers(const Mesh& i_mesh) const;
+    void setBuffers(const IMesh& i_mesh) const;
     void setMatrices(const IObject3& i_object) const;
     void setTexture(const IObject3& i_object) const;
     void setTexture(const Material& i_material) const;

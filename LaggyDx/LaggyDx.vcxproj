@@ -166,6 +166,7 @@
     <ClInclude Include="GameEvents.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="IInputController.h" />
+    <ClInclude Include="IMesh.h" />
     <ClInclude Include="InputEvents.h" />
     <ClInclude Include="IOceanShader.h" />
     <ClInclude Include="ISimpleShader.h" />

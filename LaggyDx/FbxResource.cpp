@@ -129,7 +129,7 @@ namespace Dx
       const auto shape = getShape(*geometry);
       auto mesh = createMeshFromShape(shape, i_renderDevice);
 
-      mesh.setMaterials(std::make_unique<MaterialSequence>(getMaterialsFromMesh(*fbxMesh)));
+      mesh->setMaterials(std::make_unique<MaterialSequence>(getMaterialsFromMesh(*fbxMesh)));
 
       model.addMesh(std::move(mesh));
     }

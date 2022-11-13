@@ -9,18 +9,18 @@
 
 namespace Dx
 {
-  Mesh createMeshFromShape(const IShape3d& i_shape, IRenderDevice& i_renderDevice)
+  std::unique_ptr<IMesh> createMeshFromShape(const IShape3d& i_shape, IRenderDevice& i_renderDevice)
   {
-    Mesh mesh;
-    mesh.setVertexBuffer(std::make_unique<VertexBuffer>(i_renderDevice, i_shape.getVerts()));
-    mesh.setIndexBuffer(std::make_unique<IndexBuffer>(i_renderDevice, i_shape.getInds()));
-    mesh.setAabb(i_shape.getAabb());
+    auto mesh = std::make_unique<Mesh>();
+    mesh->setVertexBuffer(std::make_unique<VertexBuffer>(i_renderDevice, i_shape.getVerts()));
+    mesh->setIndexBuffer(std::make_unique<IndexBuffer>(i_renderDevice, i_shape.getInds()));
+    mesh->setAabb(i_shape.getAabb());
     return mesh;
   }
 
-  Mesh createMeshFromAabb(const Aabb& i_aabb, IRenderDevice& i_renderDevice)
+  std::unique_ptr<IMesh> createMeshFromAabb(const Aabb& i_aabb, IRenderDevice& i_renderDevice)
   {
-    Mesh mesh;
+    auto mesh = std::make_unique<Mesh>();
 
     std::vector<VertexPosNormText> verts;
     std::vector<int> inds;
@@ -56,9 +56,9 @@ namespace Dx
 
     // misc
 
-    mesh.setVertexBuffer(std::make_unique<VertexBuffer>(i_renderDevice, verts));
-    mesh.setIndexBuffer(std::make_unique<IndexBuffer>(i_renderDevice, inds));
-    mesh.setAabb(i_aabb);
+    mesh->setVertexBuffer(std::make_unique<VertexBuffer>(i_renderDevice, verts));
+    mesh->setIndexBuffer(std::make_unique<IndexBuffer>(i_renderDevice, inds));
+    mesh->setAabb(i_aabb);
 
     MaterialSpan matSpan;
     matSpan.startIndex = 0;
@@ -67,9 +67,9 @@ namespace Dx
 
     MaterialSequence matSeq;
     matSeq.add(std::move(matSpan));
-    mesh.setMaterials(std::make_unique<MaterialSequence>(std::move(matSeq)));
+    mesh->setMaterials(std::make_unique<MaterialSequence>(std::move(matSeq)));
 
-    mesh.setTopology(Topology::LineList);
+    mesh->setTopology(Topology::LineList);
 
     return mesh;
   }

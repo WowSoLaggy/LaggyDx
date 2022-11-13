@@ -6,13 +6,17 @@
 
 namespace Dx
 {
-  const std::vector<Mesh>& Model::getMeshes() const { return d_meshes; }
+  const std::vector<std::unique_ptr<IMesh>>& Model::getMeshes() const { return d_meshes; }
   const AnimationsMap& Model::getAnimations() const { return d_animations; }
   const Aabb& Model::getAabb() const { return d_aabb; }
-  const Mesh& Model::getAabbMesh() const { return d_aabbMesh; }
+  const IMesh& Model::getAabbMesh() const
+  {
+    CONTRACT_EXPECT(d_aabbMesh);
+    return *d_aabbMesh;
+  }
 
 
-  void Model::addMesh(Mesh i_mesh)
+  void Model::addMesh(std::unique_ptr<IMesh> i_mesh)
   {
     d_meshes.push_back(std::move(i_mesh));
     updateAabb();
@@ -31,10 +35,10 @@ namespace Dx
     if (d_meshes.empty())
       return;
 
-    d_aabb = d_meshes.front().getAabb();
+    d_aabb = d_meshes.front()->getAabb();
 
     for (const auto& mesh : d_meshes)
-      d_aabb.mergeWith(mesh.getAabb());
+      d_aabb.mergeWith(mesh->getAabb());
   }
 
   void Model::createAabbMesh(IRenderDevice& i_renderDevice)

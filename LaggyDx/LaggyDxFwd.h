@@ -86,6 +86,7 @@ namespace Dx
 
   class IModel;
   class Model;
+  class IMesh;
   class Mesh;
 
   class Aabb;

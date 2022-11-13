@@ -72,7 +72,7 @@ namespace Dx
     };
 
     for (const auto& mesh : i_object.getModel().getMeshes())
-      drawMesh(mesh);
+      drawMesh(*mesh);
   }
 
 
@@ -212,7 +212,7 @@ namespace Dx
     d_renderDevice.getDeviceContextPtr()->PSSetSamplers(0, 1, &d_sampleState);
   }
 
-  void SimpleShader::setGeometryBuffers(const Mesh& i_mesh) const
+  void SimpleShader::setGeometryBuffers(const IMesh& i_mesh) const
   {
     auto* vbPtr = i_mesh.getVertexBuffer().getPtr();
     unsigned int stride = i_mesh.getVertexBuffer().getStride();

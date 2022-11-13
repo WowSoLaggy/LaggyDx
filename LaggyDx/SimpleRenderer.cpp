@@ -63,7 +63,7 @@ namespace Dx
     };
 
     for (const auto& mesh : i_object.getModel().getMeshes())
-      drawMesh(mesh);
+      drawMesh(*mesh);
 
     if (d_drawAabb)
       drawMesh(i_object.getModel().getAabbMesh());
@@ -124,7 +124,7 @@ namespace Dx
     renderDevice.getDeviceContextPtr()->PSSetSamplers(0, 1, &samplerState);
   }
 
-  void SimpleRenderer::setBuffers(const Mesh& i_mesh) const
+  void SimpleRenderer::setBuffers(const IMesh& i_mesh) const
   {
     const auto& renderDevice = dynamic_cast<const RenderDevice&>(d_renderDevice);
 
