@@ -49,6 +49,12 @@ namespace Dx
   }
 
 
+  void OceanShader::setWaterColor(const Sdk::Vector4D& i_color)
+  {
+    d_lightCBuffer.diffuseColor = getXmfloat4(i_color);
+  }
+
+
   void OceanShader::setWindDirection(int i_waveIndex, Sdk::Vector2D i_direction)
   {
     const auto normalizedDirection = getXmfloat2Norm(std::move(i_direction));
@@ -372,11 +378,6 @@ namespace Dx
 
     auto* dataPtr = (LightCBuffer*)mappedResource.pData;
     *dataPtr = d_lightCBuffer;
-    dataPtr->diffuseColor = XMFLOAT4(
-      i_material.diffuseColor.x,
-      i_material.diffuseColor.y,
-      i_material.diffuseColor.z,
-      i_material.diffuseColor.w);
     dataPtr->specularPower = i_material.specularPower;
 
     d_renderDevice.getDeviceContextPtr()->Unmap(d_lightBuffer, 0);
