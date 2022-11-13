@@ -209,7 +209,6 @@
     <ClInclude Include="IFontResource.h" />
     <ClInclude Include="IInputDevice.h" />
     <ClInclude Include="ImageDescription.h" />
-    <ClInclude Include="IMaterialSequence.h" />
     <ClInclude Include="IMeshResourceCmo.h" />
     <ClInclude Include="IModel.h" />
     <ClInclude Include="IndexBuffer.h" />
@@ -235,7 +234,6 @@
     <ClInclude Include="Layout.h" />
     <ClInclude Include="LoadableResource.h" />
     <ClInclude Include="Material.h" />
-    <ClInclude Include="MaterialSequence.h" />
     <ClInclude Include="MaterialSpan.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshLoader.h" />
@@ -347,7 +345,6 @@
     <ClCompile Include="KinematicCollider.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="LoadableResource.cpp" />
-    <ClCompile Include="MaterialSequence.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
     <ClCompile Include="MeshResourceCmo.cpp" />
     <ClCompile Include="MouseState.cpp" />

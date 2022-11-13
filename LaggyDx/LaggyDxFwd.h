@@ -34,8 +34,6 @@ namespace Dx
 
   struct Material;
   struct MaterialSpan;
-  class IMaterialSequence;
-  class MaterialSequence;
 
   class IAnimationController3d;
 

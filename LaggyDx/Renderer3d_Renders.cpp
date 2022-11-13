@@ -4,7 +4,6 @@
 #include "AnimationController3d.h"
 #include "ICamera.h"
 #include "IndexBuffer.h"
-#include "MaterialSequence.h"
 #include "MeshResourceCmo.h"
 #include "RenderDevice.h"
 #include "ResourceController.h"

@@ -2,7 +2,6 @@
 
 #include "IndexBuffer.h"
 #include "IObject3.h"
-#include "MaterialSequence.h"
 #include "VertexBuffer.h"
 
 namespace Dx

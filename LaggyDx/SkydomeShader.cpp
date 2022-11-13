@@ -65,7 +65,7 @@ namespace Dx
     {
       setGeometryBuffers(i_mesh);
 
-      for (const auto& materialSpan : i_mesh.getMaterials().getMaterialSpans())
+      for (const auto& materialSpan : i_mesh.getMaterials())
         drawIndexed(materialSpan.count, materialSpan.startIndex);
     };
 

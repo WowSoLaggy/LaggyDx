@@ -9,12 +9,23 @@
 
 namespace Dx
 {
-  std::unique_ptr<IMesh> createMeshFromShape(const IShape3d& i_shape, IRenderDevice& i_renderDevice)
+  std::unique_ptr<IMesh> createMeshFromShape(
+    const IShape3d& i_shape, IRenderDevice& i_renderDevice, const bool i_addDefaultMaterial)
   {
     auto mesh = std::make_unique<Mesh>();
     mesh->setVertexBuffer(std::make_unique<VertexBuffer>(i_renderDevice, i_shape.getVerts()));
     mesh->setIndexBuffer(std::make_unique<IndexBuffer>(i_renderDevice, i_shape.getInds()));
     mesh->setAabb(i_shape.getAabb());
+
+    if (i_addDefaultMaterial)
+    {
+      MaterialSpan matSpan;
+      matSpan.startIndex = 0;
+      matSpan.count = (int)i_shape.getInds().size();
+      matSpan.material.textureName = "white.png";
+      mesh->getMaterials().push_back(std::move(matSpan));
+    }
+
     return mesh;
   }
 
@@ -65,9 +76,7 @@ namespace Dx
     matSpan.count = (int)inds.size();
     matSpan.material.textureName = "white.png";
 
-    MaterialSequence matSeq;
-    matSeq.add(std::move(matSpan));
-    mesh->setMaterials(std::make_unique<MaterialSequence>(std::move(matSeq)));
+    mesh->getMaterials().push_back(std::move(matSpan));
 
     mesh->setTopology(Topology::LineList);
 

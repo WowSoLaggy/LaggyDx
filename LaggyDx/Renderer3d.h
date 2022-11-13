@@ -2,6 +2,7 @@
 
 #include "IRenderer3d.h"
 #include "LaggyDxFwd.h"
+#include "MaterialSpan.h"
 
 
 namespace Dx

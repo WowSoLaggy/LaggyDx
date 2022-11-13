@@ -2,7 +2,6 @@
 #include "OceanShader.h"
 
 #include "ICamera.h"
-#include "IMaterialSequence.h"
 #include "IndexBuffer.h"
 #include "IObject3.h"
 #include "IResourceController.h"
@@ -104,7 +103,7 @@ namespace Dx
     {
       setGeometryBuffers(i_mesh);
 
-      for (const auto& materialSpan : i_mesh.getMaterials().getMaterialSpans())
+      for (const auto& materialSpan : i_mesh.getMaterials())
       {
         setTexture(materialSpan.material);
         setMaterial(materialSpan.material);

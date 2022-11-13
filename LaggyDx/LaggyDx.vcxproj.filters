@@ -147,9 +147,6 @@
     <ClInclude Include="VertexTypes.h">
       <Filter>src\Model</Filter>
     </ClInclude>
-    <ClInclude Include="MaterialSequence.h">
-      <Filter>src\Model</Filter>
-    </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>src\Model</Filter>
     </ClInclude>
@@ -384,9 +381,6 @@
     <ClInclude Include="miniz.h">
       <Filter>libs</Filter>
     </ClInclude>
-    <ClInclude Include="IMaterialSequence.h">
-      <Filter>src\Model</Filter>
-    </ClInclude>
     <ClInclude Include="Object3.h">
       <Filter>src\Objects</Filter>
     </ClInclude>
@@ -534,9 +528,6 @@
       <Filter>src\Resources\OtherResources</Filter>
     </ClCompile>
     <ClCompile Include="MeshLoader.cpp">
-      <Filter>src\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="MaterialSequence.cpp">
       <Filter>src\Model</Filter>
     </ClCompile>
     <ClCompile Include="VertexBuffer.cpp">

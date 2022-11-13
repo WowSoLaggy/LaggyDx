@@ -63,7 +63,7 @@ namespace Dx
       return Shape3d(std::move(verts), std::move(inds));
     }
 
-    MaterialSequence getMaterialsFromMesh(const ofbx::Mesh& i_mesh)
+    MaterialSpan getMaterialsFromMesh(const ofbx::Mesh& i_mesh)
     {
       auto toColor = [](const ofbx::Color& i_color)
       {
@@ -93,9 +93,7 @@ namespace Dx
         matSpan.material.diffuseColor = toColor(meshMaterial->getDiffuseColor());
       }
 
-      MaterialSequence matSeq;
-      matSeq.add(matSpan);
-      return matSeq;
+      return matSpan;
     }
 
   } // anonym NS
@@ -127,9 +125,8 @@ namespace Dx
       CONTRACT_ASSERT(geometry);
 
       const auto shape = getShape(*geometry);
-      auto mesh = createMeshFromShape(shape, i_renderDevice);
-
-      mesh->setMaterials(std::make_unique<MaterialSequence>(getMaterialsFromMesh(*fbxMesh)));
+      auto mesh = createMeshFromShape(shape, i_renderDevice, false);
+      mesh->getMaterials().push_back(getMaterialsFromMesh(*fbxMesh));
 
       model.addMesh(std::move(mesh));
     }

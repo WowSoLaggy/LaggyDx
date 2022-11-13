@@ -2,7 +2,7 @@
 #include "Renderer3d.h"
 
 #include "ICamera.h"
-#include "MaterialSequence.h"
+#include "MaterialSpan.h"
 #include "PsResource.h"
 #include "RenderDevice.h"
 #include "ResourceController.h"
