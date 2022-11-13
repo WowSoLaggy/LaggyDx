@@ -7,7 +7,7 @@ namespace Dx
   {
   public:
     Action() = default;
-    explicit Action(std::function<void()> i_fun);
+    Action(std::function<void()> i_fun);
 
     void operator()() const;
 
