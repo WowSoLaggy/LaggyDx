@@ -94,6 +94,14 @@ namespace Dx
     return model;
   }
 
+
+  std::unique_ptr<IObject3> createObjectFromShape(
+    const IShape3d& i_shape, IRenderDevice& i_renderDevice, bool i_addDefaultMaterial)
+  {
+    auto mesh = createMeshFromShape(i_shape, i_renderDevice, i_addDefaultMaterial);
+    return createObjectFromMesh(std::move(mesh));
+  }
+
   std::unique_ptr<IObject3> createObjectFromModel(std::unique_ptr<IModel> i_model)
   {
     auto object = std::make_unique<Object3>();
