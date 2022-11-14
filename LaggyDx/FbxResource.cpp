@@ -104,10 +104,9 @@ namespace Dx
   {
   }
 
-  const IModel& FbxResource::getModel() const
+  std::shared_ptr<IModel> FbxResource::getModel() const
   {
-    CONTRACT_ASSERT(d_model);
-    return *d_model;
+    return d_model;
   }
 
   void FbxResource::load(IRenderDevice& i_renderDevice)

@@ -23,7 +23,7 @@ namespace Dx
     return d_textureResource;
   }
 
-  void Object3::setModel(const IModel& i_model) { d_model = &i_model; }
+  void Object3::setModel(std::shared_ptr<IModel> i_model) { d_model = i_model; }
   void Object3::setTextureResource(const ITextureResource& i_textureResource) { d_textureResource = &i_textureResource; }
 
 } // ns Dx

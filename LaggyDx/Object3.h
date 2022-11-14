@@ -19,7 +19,7 @@ namespace Dx
     virtual const IModel& getModel() const override;
     virtual const ITextureResource* getTextureResource() const override;
     
-    void setModel(const IModel& i_model);
+    void setModel(std::shared_ptr<IModel> i_model);
     void setTextureResource(const ITextureResource& i_textureResource);
 
   private:
@@ -27,7 +27,7 @@ namespace Dx
     Sdk::Vector3F d_rotation;
     Sdk::Vector3F d_scale = Sdk::Vector3F::identity();
 
-    const IModel* d_model = nullptr;
+    std::shared_ptr<IModel> d_model = nullptr;
     const ITextureResource* d_textureResource = nullptr;
   };
 
