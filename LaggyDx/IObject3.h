@@ -21,6 +21,9 @@ namespace Dx
 
     virtual const IModel& getModel() const = 0;
     virtual const ITextureResource* getTextureResource() const = 0;
+
+    virtual void setModel(std::shared_ptr<IModel> i_model) = 0;
+    virtual void setTextureResource(const ITextureResource& i_textureResource) = 0;
   };
 
 } // ns Dx

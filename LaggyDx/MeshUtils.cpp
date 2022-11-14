@@ -4,6 +4,9 @@
 #include "Aabb.h"
 #include "IShape3d.h"
 #include "IndexBuffer.h"
+#include "Mesh.h"
+#include "Model.h"
+#include "Object3.h"
 #include "VertexBuffer.h"
 
 
@@ -81,6 +84,28 @@ namespace Dx
     mesh->setTopology(Topology::LineList);
 
     return mesh;
+  }
+
+
+  std::unique_ptr<IModel> createModelFromMesh(std::unique_ptr<IMesh> i_mesh)
+  {
+    auto model = std::make_unique<Model>();
+    model->addMesh(std::move(i_mesh));
+    return model;
+  }
+
+  std::unique_ptr<IObject3> createObjectFromModel(std::unique_ptr<IModel> i_model)
+  {
+    auto object = std::make_unique<Object3>();
+    object->setModel(std::move(i_model));
+    return object;
+  }
+
+  std::unique_ptr<IObject3> createObjectFromMesh(std::unique_ptr<IMesh> i_mesh)
+  {
+    auto object = std::make_unique<Object3>();
+    object->setModel(createModelFromMesh(std::move(i_mesh)));
+    return object;
   }
 
 } // ns Dx
