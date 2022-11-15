@@ -91,6 +91,12 @@ namespace Dx
   }
 
 
+  void OceanShader::setFillMode(bool i_solid)
+  {
+    d_solidFillMode = i_solid;
+  }
+
+
   void OceanShader::draw(const IObject3& i_object) const
   {
     setRenderStates();
@@ -250,6 +256,8 @@ namespace Dx
   void OceanShader::setRenderStates() const
   {
     d_renderDevice.resetState();
+    if (!d_solidFillMode)
+      d_renderDevice.setFillMode(false);
   }
 
   void OceanShader::setShaders() const

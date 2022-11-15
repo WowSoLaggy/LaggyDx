@@ -28,6 +28,8 @@ namespace Dx
     virtual void setLightColor(const Sdk::Vector4D& i_color) override;
     virtual void setAmbientStrength(double i_strength) override;
 
+    virtual void setFillMode(bool i_solid) override;
+
     virtual void draw(const IObject3& i_object) const override;
 
   private:
@@ -50,6 +52,8 @@ namespace Dx
     ID3D11SamplerState* d_sampleState = nullptr;
     ID3D11VertexShader* d_vertexShader = nullptr;
     ID3D11InputLayout* d_layout = nullptr;
+
+    bool d_solidFillMode = true;
 
     void createShaders();
     void disposeShaders();
