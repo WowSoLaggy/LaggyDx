@@ -501,6 +501,9 @@
     <ClInclude Include="IMesh.h">
       <Filter>src\Model</Filter>
     </ClInclude>
+    <ClInclude Include="ShapesUtils.h">
+      <Filter>src\Shapes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -775,6 +778,9 @@
     </ClCompile>
     <ClCompile Include="ISkydomeShader.cpp">
       <Filter>src\Shaders\SkydomeShader</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapesUtils.cpp">
+      <Filter>src\Shapes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
