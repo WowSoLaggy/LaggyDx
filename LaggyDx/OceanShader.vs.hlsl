@@ -44,7 +44,7 @@ struct PixelInputType
 static const float PI = 3.14159265f;
 
 
-float3 gerstnerWave(float4 wave, float3 p, inout float3 tangent, inout float3 binormal)
+float3 gerstnerWave(float4 wave, float3 pos, inout float3 tangent, inout float3 binormal)
 {
   float steepness = wave.z;
   float waveLength = wave.w;
@@ -52,7 +52,7 @@ float3 gerstnerWave(float4 wave, float3 p, inout float3 tangent, inout float3 bi
   float k = 2 * PI / waveLength;
   float c = sqrt(9.81 / k);
   float2 d = wave.xy;
-  float f = k * (dot(d, p.xz) + c * time);
+  float f = k * (dot(d, pos.xz) + c * time);
   float a = steepness / k;
   
   tangent += float3(
@@ -76,15 +76,19 @@ PixelInputType main(VertexInputType input)
   PixelInputType output;
   output.tex = input.tex;
 
+  // VIEW DIRECTION
+  
+  float3 worldPosition = mul(input.position, worldMatrix).xyz;
+  output.viewDirection = normalize(cameraPos - worldPosition.xyz);
+  
   // WAVES
   
-  float3 p = input.position.xyz;
   float3 tangent = float3(1, 0, 0);
   float3 binormal = float3(0, 0, 1);
   
-  p += gerstnerWave(wave1, p, tangent, binormal);
-  p += gerstnerWave(wave2, p, tangent, binormal);
-  p += gerstnerWave(wave3, p, tangent, binormal);
+  worldPosition += gerstnerWave(wave1, worldPosition, tangent, binormal);
+  worldPosition += gerstnerWave(wave2, worldPosition, tangent, binormal);
+  worldPosition += gerstnerWave(wave3, worldPosition, tangent, binormal);
 
   // NORMAL
 
@@ -93,15 +97,9 @@ PixelInputType main(VertexInputType input)
 
   // XFMS
 
-  input.position.xyz = p;
-  output.position = mul(input.position, worldMatrix);
-  output.position = mul(output.position, viewMatrix);
+  input.position.xyz = worldPosition;
+  output.position = mul(input.position, viewMatrix);
   output.position = mul(output.position, projectionMatrix);
   
-  // VIEW DIRECTION
-  
-  float4 worldPosition = mul(input.position, worldMatrix);
-  output.viewDirection = normalize(cameraPos - worldPosition.xyz);
-
   return output;
 }
