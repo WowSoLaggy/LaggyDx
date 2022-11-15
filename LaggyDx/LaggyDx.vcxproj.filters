@@ -779,7 +779,7 @@
     <ClCompile Include="Shape.cpp">
       <Filter>src\Shapes\2d</Filter>
     </ClCompile>
-    <ClCompile Include="IShape3d.cpp">
+    <ClCompile Include="IShape3d_planes.cpp">
       <Filter>src\Shapes\3d</Filter>
     </ClCompile>
     <ClCompile Include="Shape3d.cpp">
