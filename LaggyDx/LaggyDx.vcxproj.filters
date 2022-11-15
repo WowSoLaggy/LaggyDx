@@ -788,6 +788,9 @@
     <ClCompile Include="ShapesUtils.cpp">
       <Filter>src\Shapes\3d</Filter>
     </ClCompile>
+    <ClCompile Include="IShape3d_spheroids.cpp">
+      <Filter>src\Shapes\3d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="OceanShader.ps.hlsl">
