@@ -16,4 +16,11 @@ namespace Dx
       vert.normal *= -1;
   }
 
+
+  void translateVerts(std::vector<VertexPosNormText>& io_verts, const Sdk::Vector3F& i_translation)
+  {
+    for (auto& vert : io_verts)
+      vert.position += i_translation;
+  }
+
 } // Dx
