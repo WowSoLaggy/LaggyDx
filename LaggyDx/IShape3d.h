@@ -15,11 +15,12 @@ namespace Dx
     /// \param i_dist - distance between two adjacent points
     /// \param i_textureCoef - additional multiplier of texture coords
     static std::unique_ptr<IShape3d> plane(
-      const Sdk::Size2I& i_size, float i_dist = 1.0f, float i_textureCoef = 1.0f);
+      const Sdk::Size2I& i_ptsCount, float i_dist = 1.0f, float i_textureCoef = 1.0f);
 
     static std::unique_ptr<IShape3d> cube(float i_size);
 
     static std::unique_ptr<IShape3d> cubeInverted(float i_size);
+
 
     /// \param i_radius - radius
     /// \param i_stackCount - number of divisions by latitude (from north to south)

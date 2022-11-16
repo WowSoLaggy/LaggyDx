@@ -9,18 +9,18 @@ namespace Dx
   namespace
   {
     std::vector<VertexPosNormText> generatePlaneVerts(
-      const Sdk::Size2I& i_size, const float i_dist, const float i_textureCoef)
+      const Sdk::Size2I& i_ptsCount, const float i_dist, const float i_textureCoef)
     {
-      std::vector<VertexPosNormText> verts(i_size.x * i_size.y);
+      std::vector<VertexPosNormText> verts(i_ptsCount.x * i_ptsCount.y);
 
       int ind = 0;
-      for (int y = 0; y < i_size.y; ++y)
+      for (int y = 0; y < i_ptsCount.y; ++y)
       {
-        for (int x = 0; x < i_size.x; ++x)
+        for (int x = 0; x < i_ptsCount.x; ++x)
         {
           VertexPosNormText p;
-          p.position = { (float)x * i_dist, 0.0f, (float)y * i_dist };
-          p.texture = { (float)x * i_dist * i_textureCoef, (float)y * i_dist * i_textureCoef };
+          p.position = { i_dist * x, 0.0f, i_dist * y };
+          p.texture = { p.position.x * i_textureCoef, p.position.y * i_textureCoef };
           p.normal = { 0.0f, 1.0f, 0.0f };
 
           verts[ind++] = std::move(p);
@@ -63,10 +63,10 @@ namespace Dx
 
 
   std::unique_ptr<IShape3d> IShape3d::plane(
-    const Sdk::Size2I& i_size, const float i_dist, const float i_textureCoef)
+    const Sdk::Size2I& i_ptsCount, const float i_dist, const float i_textureCoef)
   {
-    auto verts = generatePlaneVerts(i_size, i_dist, i_textureCoef);
-    auto inds = generatePlaneInds(i_size);
+    auto verts = generatePlaneVerts(i_ptsCount, i_dist, i_textureCoef);
+    auto inds = generatePlaneInds(i_ptsCount);
     return std::make_unique<Shape3d>(std::move(verts), std::move(inds));
   }
 
