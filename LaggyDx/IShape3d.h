@@ -16,6 +16,16 @@ namespace Dx
     /// \param i_textureCoef - additional multiplier of texture coords
     static std::unique_ptr<IShape3d> plane(
       const Sdk::Size2I& i_ptsCount, float i_dist = 1.0f, float i_textureCoef = 1.0f);
+    
+    /// Creates plane shape of @i_size number of points and @i_dist distance between them.
+    /// Then all borders are divided twice along the border
+    /// @i_borderMultiplier shall be greater than 1
+    /// \param i_size - number of points in each dimension (not real world size!)
+    /// \param i_dist - distance between two adjacent points
+    /// \param i_textureCoef - additional multiplier of texture coords
+    static std::unique_ptr<IShape3d> planeTesselatedBorder(
+      const Sdk::Size2I& i_ptsCount, float i_dist = 1.0f, float i_textureCoef = 1.0f);
+
 
     static std::unique_ptr<IShape3d> cube(float i_size);
 
