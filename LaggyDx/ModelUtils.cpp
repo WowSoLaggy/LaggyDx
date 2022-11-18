@@ -116,4 +116,14 @@ namespace Dx
     return object;
   }
 
+
+  void setColorOfAllMaterials(const IModel& i_model, const Sdk::Vector4F& i_color)
+  {
+    for (auto& mesh : i_model.getMeshes())
+    {
+      for (auto& mat : mesh->getMaterials())
+        mat.material.diffuseColor = i_color;
+    }
+  }
+
 } // ns Dx

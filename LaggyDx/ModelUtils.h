@@ -20,4 +20,7 @@ namespace Dx
   std::unique_ptr<IObject3> createObjectFromMesh(std::unique_ptr<IMesh> i_mesh);
 
 
+  void setColorOfAllMaterials(const IModel& i_model, const Sdk::Vector4F& i_color);
+
+
 } // ns Dx
