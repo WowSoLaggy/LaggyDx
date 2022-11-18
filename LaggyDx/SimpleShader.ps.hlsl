@@ -24,10 +24,10 @@ struct PixelInputType
 
 float4 main(PixelInputType input) : SV_TARGET
 {
-  float4 textureColor = diffuseColor;
+  float4 textureColor = shaderTexture.Sample(SampleType, input.tex);
+  textureColor = saturate(pow(textureColor, 1 / 2.2));
   
-  // Use this for picking from texture
-  //textureColor = shaderTexture.Sample(SampleType, input.tex);
+  textureColor *= diffuseColor;
 
   // DIFFUSE
   
