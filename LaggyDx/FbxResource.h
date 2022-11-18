@@ -16,7 +16,7 @@ namespace Dx
     virtual void load(IRenderDevice& i_renderDevice) override;
     virtual void unload() override;
 
-    std::shared_ptr<IModel> getModel() const;
+    virtual std::shared_ptr<IModel> getModel() const override;
 
   private:
     const fs::path d_filePath;
