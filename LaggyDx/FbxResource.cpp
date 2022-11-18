@@ -2,7 +2,7 @@
 #include "FbxResource.h"
 
 #include "IndexBuffer.h"
-#include "MeshUtils.h"
+#include "ModelUtils.h"
 #include "OfbxSceneWrapper.h"
 #include "Shape3d.h"
 #include "VertexBuffer.h"

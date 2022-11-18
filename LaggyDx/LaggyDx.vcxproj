@@ -239,7 +239,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="MeshResourceCmo.h" />
-    <ClInclude Include="MeshUtils.h" />
+    <ClInclude Include="ModelUtils.h" />
     <ClInclude Include="miniz.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="MouseKeys.h" />
@@ -308,7 +308,7 @@
     <ClCompile Include="ISkydomeShader.cpp" />
     <ClCompile Include="Layout.cpp" />
     <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="MeshUtils.cpp" />
+    <ClCompile Include="ModelUtils.cpp" />
     <ClCompile Include="miniz.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Obb.cpp" />

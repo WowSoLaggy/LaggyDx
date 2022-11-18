@@ -420,7 +420,7 @@
     <ClInclude Include="Aabb.h">
       <Filter>src\Collisions</Filter>
     </ClInclude>
-    <ClInclude Include="MeshUtils.h">
+    <ClInclude Include="ModelUtils.h">
       <Filter>src\Model</Filter>
     </ClInclude>
     <ClInclude Include="TopologyTypes.h">
@@ -725,7 +725,7 @@
     <ClCompile Include="Aabb.cpp">
       <Filter>src\Collisions</Filter>
     </ClCompile>
-    <ClCompile Include="MeshUtils.cpp">
+    <ClCompile Include="ModelUtils.cpp">
       <Filter>src\Model</Filter>
     </ClCompile>
     <ClCompile Include="Checkbox.cpp">

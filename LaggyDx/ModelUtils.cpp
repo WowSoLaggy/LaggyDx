@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "MeshUtils.h"
+#include "ModelUtils.h"
 
 #include "Aabb.h"
 #include "IShape3d.h"
