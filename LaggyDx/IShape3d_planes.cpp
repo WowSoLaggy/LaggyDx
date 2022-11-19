@@ -21,8 +21,8 @@ namespace Dx
         {
           VertexPosNormText p;
           p.position = { i_dist * x, 0.0f, i_dist * y };
-          p.texture = { p.position.x * i_textureCoef, p.position.y * i_textureCoef };
           p.normal = { 0.0f, 1.0f, 0.0f };
+          p.texture = { p.position.x * i_textureCoef, p.position.z * i_textureCoef };
 
           verts[ind++] = std::move(p);
         }
