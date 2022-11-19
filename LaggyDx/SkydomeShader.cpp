@@ -81,7 +81,8 @@ namespace Dx
 
     // PS
 
-    renderDevice.getDevicePtr()->CreatePixelShader(g_skydomePs, sizeof(g_skydomePs), NULL, &d_pixelShader);
+    HRESULT hRes = renderDevice.getDevicePtr()->CreatePixelShader(g_skydomePs, sizeof(g_skydomePs), NULL, &d_pixelShader);
+    CONTRACT_ASSERT(!FAILED(hRes));
     CONTRACT_ASSERT(d_pixelShader != nullptr);
 
     // Sampler state
@@ -101,12 +102,14 @@ namespace Dx
     samplerDesc.MinLOD = 0;
     samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
-    renderDevice.getDevicePtr()->CreateSamplerState(&samplerDesc, &d_sampleState);
+    hRes = renderDevice.getDevicePtr()->CreateSamplerState(&samplerDesc, &d_sampleState);
+    CONTRACT_ASSERT(!FAILED(hRes));
     CONTRACT_ASSERT(d_sampleState != nullptr);
 
     // VS
 
-    renderDevice.getDevicePtr()->CreateVertexShader(g_skydomeVs, sizeof(g_skydomeVs), NULL, &d_vertexShader);
+    hRes = renderDevice.getDevicePtr()->CreateVertexShader(g_skydomeVs, sizeof(g_skydomeVs), NULL, &d_vertexShader);
+    CONTRACT_ASSERT(!FAILED(hRes));
     CONTRACT_ASSERT(d_vertexShader != nullptr);
 
     // Input layout
@@ -114,6 +117,7 @@ namespace Dx
     const auto& layout = getVertexLayout();
     hRes = renderDevice.getDevicePtr()->CreateInputLayout(layout.data(), (int)layout.size(),
       g_skydomeVs, sizeof(g_skydomeVs), &d_layout);
+    CONTRACT_ASSERT(!FAILED(hRes));
     CONTRACT_ASSERT(d_layout != nullptr);
   }
 
