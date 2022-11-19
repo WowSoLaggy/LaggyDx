@@ -26,6 +26,7 @@ namespace Dx
     , d_resourceController(i_resourceController)
     , d_camera(i_camera)
     , d_emptyTexture(i_resourceController.getTexture("white.png"))
+    , d_bumpTexture(i_resourceController.getTexture("bump.png"))
   {
     createShaders();
     createBuffers();
@@ -104,6 +105,7 @@ namespace Dx
     setShaders();
     setXfmMatrices(i_object);
     setCBuffers();
+    setBumpTexture();
     setTexture(i_object);
 
     auto drawMesh = [&](const auto& i_mesh)
@@ -332,6 +334,12 @@ namespace Dx
       d_renderDevice.getDeviceContextPtr()->Unmap(d_waveBuffer, 0);
       d_renderDevice.getDeviceContextPtr()->VSSetConstantBuffers(3, 1, &d_waveBuffer);
     }
+  }
+
+  void OceanShader::setBumpTexture() const
+  {
+    auto* texturePtr = static_cast<const TextureResource&>(d_bumpTexture).getTexturePtr();
+    d_renderDevice.getDeviceContextPtr()->PSSetShaderResources(1, 1, &texturePtr);
   }
 
   void OceanShader::setTexture(const IObject3& i_object) const

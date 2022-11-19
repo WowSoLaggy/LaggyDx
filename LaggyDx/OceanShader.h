@@ -41,6 +41,7 @@ namespace Dx
     const IResourceController& d_resourceController;
     const ICamera& d_camera;
     const ITextureResource& d_emptyTexture;
+    const ITextureResource& d_bumpTexture;
 
     ID3D11Buffer* d_matrixBuffer = nullptr;
     ID3D11Buffer* d_cameraBuffer = nullptr;
@@ -66,6 +67,7 @@ namespace Dx
     void setGeometryBuffers(const IMesh& i_mesh) const;
     void setXfmMatrices(const IObject3& i_object) const;
     void setCBuffers() const;
+    void setBumpTexture() const;
     void setTexture(const IObject3& i_object) const;
     void setTexture(const Material& i_material) const;
     void setMaterial(const Material& i_material) const;

@@ -1,5 +1,7 @@
-Texture2D shaderTexture;
 SamplerState SampleType;
+
+Texture2D objectTexture : register(t0);
+Texture2D bumpTexture : register(t1);
 
 
 cbuffer LightingCBuffer
@@ -24,19 +26,21 @@ struct PixelInputType
 
 float4 main(PixelInputType input) : SV_TARGET
 {
-  float4 textureColor = diffuseColor;
+  // NORMAL
   
-  // Use this for picking from texture
-  //textureColor = shaderTexture.Sample(SampleType, input.tex);
+  float4 normalMap = bumpTexture.Sample(SampleType, input.tex);
+  float3 normal = (normalMap.xyz * 2) - 1;
+  normal = input.normal.xyz;
 
   // DIFFUSE
   
-  float lightAmount = saturate(dot(input.normal.xyz, -lightDirection));
+  float4 textureColor = diffuseColor;
+  float lightAmount = saturate(dot(normal, -lightDirection));
   textureColor.rgb *= lightAmount;
   
   // SPECULAR
   
-  float3 reflection = reflect(lightDirection, input.normal.xyz);
+  float3 reflection = reflect(lightDirection, normal);
   float dotProduct = saturate(dot(reflection, input.viewDirection));
   float specularValue = pow(dotProduct, specularPower);
   float4 specular = float4(specularValue, specularValue, specularValue, 1.0);
