@@ -121,6 +121,9 @@
     <Filter Include="src\Shapes\3d">
       <UniqueIdentifier>{d8c65fa3-2217-4fd7-9d65-00719506dcc5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Vertices">
+      <UniqueIdentifier>{a236270b-d1ff-4f8c-aa4c-88734881b6e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -148,9 +151,6 @@
       <Filter>src\Resources\OtherResources</Filter>
     </ClInclude>
     <ClInclude Include="MeshLoader.h">
-      <Filter>src\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexTypes.h">
       <Filter>src\Model</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
@@ -510,6 +510,12 @@
     <ClInclude Include="ShapesUtils.h">
       <Filter>src\Shapes\3d</Filter>
     </ClInclude>
+    <ClInclude Include="VertexTypes.h">
+      <Filter>src\Vertices</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexLayout.h">
+      <Filter>src\Vertices</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -793,6 +799,9 @@
     </ClCompile>
     <ClCompile Include="IShape3d_cuboids.cpp">
       <Filter>src\Shapes\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexLayout.cpp">
+      <Filter>src\Vertices</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
