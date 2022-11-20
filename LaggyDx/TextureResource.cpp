@@ -112,14 +112,17 @@ namespace Dx
       const Sdk::Locker scopeLocker(renderDevice);
 
       ID3D11Texture2D* stagingTex = nullptr;
-      HRESULT hres = renderDevice.getDevicePtr()->CreateTexture2D(&readTexDesc, 0, &stagingTex);
+      HRESULT hRes = renderDevice.getDevicePtr()->CreateTexture2D(&readTexDesc, 0, &stagingTex);
+      CONTRACT_ASSERT(!FAILED(hRes));
+      CONTRACT_ASSERT(stagingTex != nullptr);
 
       ID3D11Texture2D* sourceTex = nullptr;
       d_texture->GetResource(reinterpret_cast<ID3D11Resource**>(&sourceTex));
 
       renderDevice.getDeviceContextPtr()->CopyResource(stagingTex, sourceTex);
 
-      auto res = renderDevice.getDeviceContextPtr()->Map(stagingTex, 0, D3D11_MAP::D3D11_MAP_READ, 0, &subres);
+      hRes = renderDevice.getDeviceContextPtr()->Map(stagingTex, 0, D3D11_MAP::D3D11_MAP_READ, 0, &subres);
+      CONTRACT_ASSERT(!FAILED(hRes));
 
       unsigned char* data = (unsigned char*)subres.pData;
       tempArray.resize(subres.DepthPitch, 0);
