@@ -161,6 +161,7 @@
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="CameraBase.h" />
+    <ClInclude Include="ChannelInfo.h" />
     <ClInclude Include="FirstPersonCamera.h" />
     <ClInclude Include="FreeCameraController.h" />
     <ClInclude Include="GameEvents.h" />

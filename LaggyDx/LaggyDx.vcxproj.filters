@@ -516,6 +516,9 @@
     <ClInclude Include="VertexLayout.h">
       <Filter>src\Vertices</Filter>
     </ClInclude>
+    <ClInclude Include="ChannelInfo.h">
+      <Filter>src\ImageUtils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

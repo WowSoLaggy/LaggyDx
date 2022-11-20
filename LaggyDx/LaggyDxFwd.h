@@ -48,6 +48,7 @@ namespace Dx
   class AnimatedSprite;
   struct ImageDescription;
   struct ImageAnimation;
+  class Channels;
   using Animations2Map = std::unordered_map<std::string, ImageAnimation>;
 
   class Game;
