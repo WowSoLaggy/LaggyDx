@@ -68,7 +68,7 @@ namespace Dx
   void MeshLoader::loadInfoFromObjFile(
     const std::string& i_modelPath,
     std::vector<VertexPosNormText>& o_vertices, std::vector<int>& o_indices,
-    MaterialSequence& o_matSequence)
+    std::vector<MaterialSpan>& o_matSequence)
   {
     o_vertices.clear();
     o_indices.clear();
@@ -162,13 +162,13 @@ namespace Dx
       {
         // Not the last element
         int count = std::next(it)->first - it->first;
-        o_matSequence.add({ material, it->first, count });
+        o_matSequence.push_back({ material, it->first, count });
       }
       else
       {
         // The last element
         int count = (int)o_indices.size() - it->first;
-        o_matSequence.add({ material, it->first, count });
+        o_matSequence.push_back({ material, it->first, count });
       }
     }
   }

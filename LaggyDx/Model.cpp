@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Model.h"
 
-#include "MeshUtils.h"
+#include "ModelUtils.h"
 
 
 namespace Dx

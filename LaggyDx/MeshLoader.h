@@ -1,6 +1,6 @@
 #pragma once
 
-#include "MaterialSequence.h"
+#include "MaterialSpan.h"
 #include "VertexTypes.h"
 
 
@@ -13,7 +13,7 @@ namespace Dx
     static void loadInfoFromObjFile(
       const std::string& i_modelPath,
       std::vector<VertexPosNormText>& o_vertices, std::vector<int>& o_indices,
-      MaterialSequence& o_matSequence);
+      std::vector<MaterialSpan>& o_matSequence);
   };
 
 } // ns Dx
