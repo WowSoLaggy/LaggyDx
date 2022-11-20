@@ -31,9 +31,6 @@
     <Filter Include="src\Animation3d">
       <UniqueIdentifier>{a2329c46-c70a-46b5-b051-a056fb7da2af}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Animation2d">
-      <UniqueIdentifier>{6c31fb6b-366b-4ff5-8667-b0241d849fd8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Projector">
       <UniqueIdentifier>{791c494e-f8ff-4638-afed-aef6b7308be4}</UniqueIdentifier>
     </Filter>
@@ -124,6 +121,9 @@
     <Filter Include="src\Vertices">
       <UniqueIdentifier>{a236270b-d1ff-4f8c-aa4c-88734881b6e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\ImageUtils">
+      <UniqueIdentifier>{6c31fb6b-366b-4ff5-8667-b0241d849fd8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -211,10 +211,10 @@
       <Filter>src\Animation3d</Filter>
     </ClInclude>
     <ClInclude Include="ImageDescription.h">
-      <Filter>src\Animation2d</Filter>
+      <Filter>src\ImageUtils</Filter>
     </ClInclude>
     <ClInclude Include="ImageAnimation.h">
-      <Filter>src\Animation2d</Filter>
+      <Filter>src\ImageUtils</Filter>
     </ClInclude>
     <ClInclude Include="AnimatedSprite.h">
       <Filter>src\Sprite</Filter>
