@@ -29,9 +29,9 @@ float4 main(PixelInputType input) : SV_TARGET
   // NORMAL
   
   float4 normalMap = bumpTexture.Sample(SampleType, input.tex);
-  float3 normal = normalMap.xzy * 2 - 0.5;
+  float3 normal = normalMap.xzy * 2 - 1;
   normal = normalize(input.normal.xyz + normal);
-
+  
   // DIFFUSE
   
   float4 textureColor = diffuseColor;
