@@ -35,19 +35,30 @@ namespace Dx
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
 
-    auto hresult = 1;
+    HRESULT hRes = 1;
     if (d_textureFilePath.extension() == ".dds")
     {
-      hresult = CreateDDSTextureFromFile(renderDevice.getDevicePtr(),
-        d_textureFilePath.wstring().c_str(), nullptr, &d_texture);
+      hRes = CreateDDSTextureFromFileEx(
+        renderDevice.getDevicePtr(),
+        d_textureFilePath.wstring().c_str(),
+        0,
+        D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE, 0, 0,
+        DDS_LOADER_IGNORE_SRGB,
+        nullptr, &d_texture,
+        nullptr);
     }
     else
     {
-      hresult = CreateWICTextureFromFile(renderDevice.getDevicePtr(),
-        d_textureFilePath.wstring().c_str(), nullptr, &d_texture);
+      hRes = CreateWICTextureFromFileEx(
+        renderDevice.getDevicePtr(),
+        d_textureFilePath.wstring().c_str(),
+        0,
+        D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE, 0, 0,
+        WIC_LOADER_IGNORE_SRGB,
+        nullptr, &d_texture);
     }
 
-    CONTRACT_EXPECT(hresult == 0);
+    CONTRACT_EXPECT(!FAILED(hRes));
     CONTRACT_EXPECT(d_texture);
   }
 
