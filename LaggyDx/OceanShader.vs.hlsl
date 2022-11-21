@@ -5,11 +5,9 @@ cbuffer MatrixBuffer
   matrix projectionMatrix;
 };
 
-cbuffer GlobalCBuffer
+cbuffer TimeCBuffer
 {
   float time;
-  float textureCoef;
-  float2 _reserved;
 };
 
 cbuffer CameraCBuffer

@@ -41,7 +41,7 @@ namespace Dx
 
   void OceanShader::setGlobalTime(const double i_time)
   {
-    d_globalCBuffer.time = (float)i_time;
+    d_timeCBuffer.time = (float)i_time;
   }
 
 
@@ -204,7 +204,7 @@ namespace Dx
 
     createBuffer(sizeof(MatrixCBuffer), &d_matrixBuffer);
     createBuffer(sizeof(CameraCBuffer), &d_cameraBuffer);
-    createBuffer(sizeof(GlobalCBuffer), &d_globalBuffer);
+    createBuffer(sizeof(TimeCBuffer), &d_timeBuffer);
     createBuffer(sizeof(WaveCBuffer), &d_waveBuffer);
     createBuffer(sizeof(LightCBuffer), &d_lightBuffer);
   }
@@ -294,13 +294,13 @@ namespace Dx
     // Global
     {
       D3D11_MAPPED_SUBRESOURCE mappedResource;
-      d_renderDevice.getDeviceContextPtr()->Map(d_globalBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+      d_renderDevice.getDeviceContextPtr()->Map(d_timeBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-      auto* dataPtr = (GlobalCBuffer*)mappedResource.pData;
-      *dataPtr = d_globalCBuffer;
+      auto* dataPtr = (TimeCBuffer*)mappedResource.pData;
+      *dataPtr = d_timeCBuffer;
 
-      d_renderDevice.getDeviceContextPtr()->Unmap(d_globalBuffer, 0);
-      d_renderDevice.getDeviceContextPtr()->VSSetConstantBuffers(1, 1, &d_globalBuffer);
+      d_renderDevice.getDeviceContextPtr()->Unmap(d_timeBuffer, 0);
+      d_renderDevice.getDeviceContextPtr()->VSSetConstantBuffers(1, 1, &d_timeBuffer);
     }
 
     // Camera

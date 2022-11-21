@@ -32,7 +32,7 @@ namespace Dx
     virtual void draw(const IObject3& i_object) const override;
 
   private:
-    GlobalCBuffer d_globalCBuffer;
+    TimeCBuffer d_timeCBuffer;
     WaveCBuffer d_waveCBuffer;
     LightCBuffer d_lightCBuffer;
 
@@ -45,7 +45,7 @@ namespace Dx
     ID3D11Buffer* d_matrixBuffer = nullptr;
     ID3D11Buffer* d_cameraBuffer = nullptr;
     ID3D11Buffer* d_lightBuffer = nullptr;
-    ID3D11Buffer* d_globalBuffer = nullptr;
+    ID3D11Buffer* d_timeBuffer = nullptr;
     ID3D11Buffer* d_waveBuffer = nullptr;
 
     ID3D11PixelShader* d_pixelShader = nullptr;

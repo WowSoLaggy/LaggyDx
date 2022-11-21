@@ -10,7 +10,7 @@ namespace Dx
     XMMATRIX projection;
   };
 
-  struct GlobalCBuffer
+  struct TimeCBuffer
   {
     float time{ 0 };
     XMFLOAT3 _reserved{ 0, 0, 0 };
