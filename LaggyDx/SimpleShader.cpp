@@ -167,14 +167,15 @@ namespace Dx
 
   void SimpleShader::disposeBuffers()
   {
-    d_lightBuffer->Release();
-    d_lightBuffer = nullptr;
+    auto releaseBuffer = [](ID3D11Buffer** i_buf)
+    {
+      (*i_buf)->Release();
+      *i_buf = nullptr;
+    };
 
-    d_cameraBuffer->Release();
-    d_cameraBuffer = nullptr;
-
-    d_matrixBuffer->Release();
-    d_matrixBuffer = nullptr;
+    releaseBuffer(&d_lightBuffer);
+    releaseBuffer(&d_cameraBuffer);
+    releaseBuffer(&d_matrixBuffer);
   }
 
 
