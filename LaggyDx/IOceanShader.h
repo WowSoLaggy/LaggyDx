@@ -19,7 +19,6 @@ namespace Dx
     virtual ~IOceanShader() = default;
 
     virtual void setGlobalTime(double i_time) = 0;
-    virtual void setTextureCoef(double i_coef) = 0;
 
     virtual void setWaterColor(const Sdk::Vector4D& i_color) = 0;
 

@@ -16,7 +16,6 @@ namespace Dx
     virtual ~OceanShader() override;
 
     virtual void setGlobalTime(double i_time) override;
-    virtual void setTextureCoef(double i_coef) override;
 
     virtual void setWaterColor(const Sdk::Vector4D& i_color) override;
 

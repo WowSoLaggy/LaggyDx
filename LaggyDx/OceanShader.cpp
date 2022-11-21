@@ -44,11 +44,6 @@ namespace Dx
     d_globalCBuffer.time = (float)i_time;
   }
 
-  void OceanShader::setTextureCoef(const double i_coef)
-  {
-    d_globalCBuffer.textureCoef = (float)i_coef;
-  }
-
 
   void OceanShader::setWaterColor(const Sdk::Vector4D& i_color)
   {
