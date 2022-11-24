@@ -6,6 +6,12 @@
 namespace Dx
 {
   template <typename T>
+  DirectX::XMFLOAT2 getXmfloat2(const Sdk::Vector2<T>& i_input)
+  {
+    return { (float)i_input.x, (float)i_input.y };
+  }
+
+  template <typename T>
   DirectX::XMFLOAT3 getXmfloat3(const Sdk::Vector3<T>& i_input)
   {
     return { (float)i_input.x, (float)i_input.y, (float)i_input.z };
@@ -28,7 +34,7 @@ namespace Dx
   DirectX::XMFLOAT2 getXmfloat2Norm(Sdk::Vector2<T> i_input)
   {
     i_input.normalize();
-    return { (float)i_input.x, (float)i_input.y };
+    return getXmfloat2(i_input);
   }
 
   template <typename T>
