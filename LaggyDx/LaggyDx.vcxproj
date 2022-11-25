@@ -282,7 +282,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextureResource.h" />
     <ClInclude Include="VertexBuffer.h" />
-    <ClInclude Include="VertexTypes.h" />
+    <ClInclude Include="VertexPosNormText.h" />
     <ClInclude Include="CollShapeMover.h" />
     <ClInclude Include="_ShaderUtils.h" />
   </ItemGroup>
@@ -327,6 +327,7 @@
     <ClCompile Include="SkydomeShader.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="VertexLayout.cpp" />
+    <ClCompile Include="VertexPosNormText.cpp" />
     <ClCompile Include="VsBinResource.cpp" />
     <ClCompile Include="ThirdPersonCamera.cpp" />
     <ClCompile Include="ColliderBase.cpp" />

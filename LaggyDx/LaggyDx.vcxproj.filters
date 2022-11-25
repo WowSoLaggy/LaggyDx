@@ -510,7 +510,7 @@
     <ClInclude Include="ShapesUtils.h">
       <Filter>src\Shapes\3d</Filter>
     </ClInclude>
-    <ClInclude Include="VertexTypes.h">
+    <ClInclude Include="VertexPosNormText.h">
       <Filter>src\Vertices</Filter>
     </ClInclude>
     <ClInclude Include="VertexLayout.h">
@@ -804,6 +804,9 @@
       <Filter>src\Shapes\3d</Filter>
     </ClCompile>
     <ClCompile Include="VertexLayout.cpp">
+      <Filter>src\Vertices</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexPosNormText.cpp">
       <Filter>src\Vertices</Filter>
     </ClCompile>
   </ItemGroup>

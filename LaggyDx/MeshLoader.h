@@ -1,7 +1,7 @@
 #pragma once
 
 #include "MaterialSpan.h"
-#include "VertexTypes.h"
+#include "VertexPosNormText.h"
 
 
 namespace Dx

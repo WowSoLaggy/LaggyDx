@@ -1,6 +1,6 @@
 #pragma once
 
-#include "VertexTypes.h"
+#include "VertexPosNormText.h"
 
 
 namespace Dx

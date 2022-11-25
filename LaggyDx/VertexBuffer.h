@@ -1,7 +1,7 @@
 #pragma once
 
 #include "LaggyDxFwd.h"
-#include "VertexTypes.h"
+#include "VertexPosNormText.h"
 
 
 namespace Dx
