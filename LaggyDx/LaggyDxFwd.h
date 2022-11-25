@@ -90,7 +90,7 @@ namespace Dx
 
   class Aabb;
 
-  class DynamicSurface;
+  class Roam;
   struct Tri;
 
 } // ns Dx

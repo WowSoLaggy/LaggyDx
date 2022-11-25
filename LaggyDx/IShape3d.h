@@ -43,7 +43,7 @@ namespace Dx
     static std::unique_ptr<IShape3d> sphereInverted(float i_radius, int i_stackCount, int i_sliceCount);
 
 
-    static std::unique_ptr<IShape3d> fromSurface(const DynamicSurface& i_surface);
+    static std::unique_ptr<IShape3d> fromRoam(const Roam& i_roam);
 
   public:
     virtual ~IShape3d() = default;

@@ -6,10 +6,10 @@
 
 namespace Dx
 {
-  class DynamicSurface
+  class Roam
   {
   public:
-    DynamicSurface(double i_size);
+    Roam(double i_size);
 
     const std::vector<VertexPosNormText>& getPoints() const;
     const std::vector<int>& getInds() const;
@@ -21,6 +21,9 @@ namespace Dx
     std::vector<VertexPosNormText> d_points;
     std::vector<int> d_inds;
 
+    void divideTri(std::shared_ptr<Tri> i_tri);
+
+    void setNormalsAndTexCoords();
     void collectInds();
     std::vector<int> collectInds(const Tri& i_tri);
   };
