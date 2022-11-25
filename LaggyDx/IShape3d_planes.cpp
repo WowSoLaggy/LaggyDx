@@ -22,7 +22,7 @@ namespace Dx
           VertexPosNormText p;
           p.position = { i_dist * x, 0.0f, i_dist * y };
           p.normal = { 0.0f, 1.0f, 0.0f };
-          p.texture = { p.position.x * i_textureCoef, p.position.z * i_textureCoef };
+          p.texture = Sdk::Vector2F{ p.position.x, p.position.z } * i_textureCoef; 
 
           verts[ind++] = std::move(p);
         }
@@ -70,8 +70,6 @@ namespace Dx
       {
         VertexPosNormText p0;
         p0.position = { i_dist * x, 0, 0 };
-        p0.texture = { p0.position.x * i_textureCoef, 0 };
-        p0.normal = { 0.0f, 1.0f, 0.0f };
         verts.push_back(std::move(p0));
       }
 
@@ -79,8 +77,6 @@ namespace Dx
       {
         VertexPosNormText p1;
         p1.position = { i_dist * x, 0, i_dist * (i_ptsCount.y - 1)};
-        p1.texture = { p1.position.x * i_textureCoef, p1.position.y * i_textureCoef };
-        p1.normal = { 0.0f, 1.0f, 0.0f };
         verts.push_back(std::move(p1));
       }
 
@@ -88,8 +84,6 @@ namespace Dx
       {
         VertexPosNormText p0;
         p0.position = { 0, 0, i_dist * y };
-        p0.texture = { 0, p0.position.y * i_textureCoef };
-        p0.normal = { 0.0f, 1.0f, 0.0f };
         verts.push_back(std::move(p0));
       }
 
@@ -97,9 +91,13 @@ namespace Dx
       {
         VertexPosNormText p1;
         p1.position = { i_dist * (i_ptsCount.x - 1), 0, i_dist * y };
-        p1.texture = { p1.position.x * i_textureCoef, p1.position.y * i_textureCoef };
-        p1.normal = { 0.0f, 1.0f, 0.0f };
         verts.push_back(std::move(p1));
+      }
+
+      for (auto& vert : verts)
+      {
+        vert.normal = { 0.0f, 1.0f, 0.0f };
+        vert.texture = Sdk::Vector2F{ vert.position.x, vert.position.z } * i_textureCoef;
       }
 
       return verts;
