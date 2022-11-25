@@ -13,7 +13,7 @@
 namespace Dx
 {
   std::unique_ptr<IMesh> createMeshFromShape(
-    const IShape3d& i_shape, IRenderDevice& i_renderDevice, const bool i_addDefaultMaterial)
+    const IShape3d& i_shape, const IRenderDevice& i_renderDevice, const bool i_addDefaultMaterial)
   {
     auto mesh = std::make_unique<Mesh>();
     mesh->setVertexBuffer(std::make_unique<VertexBuffer>(i_renderDevice, i_shape.getVerts()));
@@ -32,7 +32,7 @@ namespace Dx
     return mesh;
   }
 
-  std::unique_ptr<IMesh> createMeshFromAabb(const Aabb& i_aabb, IRenderDevice& i_renderDevice)
+  std::unique_ptr<IMesh> createMeshFromAabb(const Aabb& i_aabb, const IRenderDevice& i_renderDevice)
   {
     auto mesh = std::make_unique<Mesh>();
 
@@ -96,7 +96,7 @@ namespace Dx
 
 
   std::unique_ptr<IObject3> createObjectFromShape(
-    const IShape3d& i_shape, IRenderDevice& i_renderDevice, bool i_addDefaultMaterial)
+    const IShape3d& i_shape, const IRenderDevice& i_renderDevice, bool i_addDefaultMaterial)
   {
     auto mesh = createMeshFromShape(i_shape, i_renderDevice, i_addDefaultMaterial);
     return createObjectFromMesh(std::move(mesh));

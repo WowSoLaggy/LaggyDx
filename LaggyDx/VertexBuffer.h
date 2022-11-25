@@ -9,7 +9,7 @@ namespace Dx
   class VertexBuffer
   {
   public:
-    VertexBuffer(IRenderDevice& i_renderDevice, const std::vector<VertexPosNormText>& i_vertices);
+    VertexBuffer(const IRenderDevice& i_renderDevice, const std::vector<VertexPosNormText>& i_vertices);
     ~VertexBuffer();
 
     int getVerticeCount() const { return d_verticeCount; }

@@ -6,9 +6,9 @@
 
 namespace Dx
 {
-  VertexBuffer::VertexBuffer(IRenderDevice& i_renderDevice, const std::vector<VertexPosNormText>& i_vertices)
+  VertexBuffer::VertexBuffer(const IRenderDevice& i_renderDevice, const std::vector<VertexPosNormText>& i_vertices)
   {
-    auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
+    auto& renderDevice = dynamic_cast<const RenderDevice&>(i_renderDevice);
 
     d_verticeCount = (int)i_vertices.size();
 

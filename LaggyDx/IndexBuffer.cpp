@@ -6,9 +6,9 @@
 
 namespace Dx
 {
-  IndexBuffer::IndexBuffer(IRenderDevice& i_renderDevice, const std::vector<int>& i_indices)
+  IndexBuffer::IndexBuffer(const IRenderDevice& i_renderDevice, const std::vector<int>& i_indices)
   {
-    auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
+    auto& renderDevice = dynamic_cast<const RenderDevice&>(i_renderDevice);
 
     d_indexCount = (int)i_indices.size();
 
