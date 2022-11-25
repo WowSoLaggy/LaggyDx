@@ -124,6 +124,9 @@
     <Filter Include="src\ImageUtils">
       <UniqueIdentifier>{6c31fb6b-366b-4ff5-8667-b0241d849fd8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\DynamicSurface">
+      <UniqueIdentifier>{30e03394-03a0-4ecf-8ff5-8a32a4d2eb76}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -519,6 +522,9 @@
     <ClInclude Include="ChannelInfo.h">
       <Filter>src\ImageUtils</Filter>
     </ClInclude>
+    <ClInclude Include="DynamicSurface.h">
+      <Filter>src\DynamicSurface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -805,6 +811,12 @@
     </ClCompile>
     <ClCompile Include="VertexLayout.cpp">
       <Filter>src\Vertices</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicSurface.cpp">
+      <Filter>src\DynamicSurface</Filter>
+    </ClCompile>
+    <ClCompile Include="IShape3d.cpp">
+      <Filter>src\Shapes\3d</Filter>
     </ClCompile>
     <ClCompile Include="VertexPosNormText.cpp">
       <Filter>src\Vertices</Filter>

@@ -90,6 +90,9 @@ namespace Dx
 
   class Aabb;
 
+  class DynamicSurface;
+  struct Tri;
+
 } // ns Dx
 
 
