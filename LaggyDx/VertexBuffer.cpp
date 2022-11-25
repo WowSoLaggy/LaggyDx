@@ -25,7 +25,8 @@ namespace Dx
     vertexData.SysMemPitch = 0;
     vertexData.SysMemSlicePitch = 0;
 
-    renderDevice.getDevicePtr()->CreateBuffer(&vertexBufferDesc, &vertexData, &d_vertexBuffer);
+    HRESULT hRes = renderDevice.getDevicePtr()->CreateBuffer(&vertexBufferDesc, &vertexData, &d_vertexBuffer);
+    CONTRACT_ASSERT(!FAILED(hRes));
   }
 
   VertexBuffer::~VertexBuffer()

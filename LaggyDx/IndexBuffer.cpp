@@ -25,7 +25,8 @@ namespace Dx
     indexData.SysMemPitch = 0;
     indexData.SysMemSlicePitch = 0;
 
-    renderDevice.getDevicePtr()->CreateBuffer(&indexBufferDesc, &indexData, &d_indexBuffer);
+    HRESULT hRes = renderDevice.getDevicePtr()->CreateBuffer(&indexBufferDesc, &indexData, &d_indexBuffer);
+    CONTRACT_ASSERT(!FAILED(hRes));
   }
 
   IndexBuffer::~IndexBuffer()
