@@ -39,4 +39,13 @@ namespace Dx
     XMFLOAT3 _reserved{ 0, 0, 0 };
   };
 
+  struct TextureDisplacementCBuffer
+  {
+    XMFLOAT2 speed1{ 0, 0 };
+    XMFLOAT2 speed2{ 0, 0 };
+    float scale1{ 0 };
+    float scale2{ 0 };
+    XMFLOAT2 _reserved{ 0, 0 };
+  };
+
 } // ns Dx

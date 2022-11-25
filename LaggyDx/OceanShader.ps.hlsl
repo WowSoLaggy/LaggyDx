@@ -19,8 +19,9 @@ struct PixelInputType
 {
   float4 position : SV_POSITION;
   float4 normal : NORMAL;
-  float2 tex : TEXCOORD0;
-  float3 viewDirection : TEXCOORD1;
+  float2 tex1 : TEXCOORD0;
+  float2 tex2 : TEXCOORD1;
+  float3 viewDirection : TEXCOORD2;
 };
 
 
@@ -28,8 +29,8 @@ float4 main(PixelInputType input) : SV_TARGET
 {
   // NORMAL
   
-  float4 normalMap = bumpTexture.Sample(SampleType, input.tex);
-  float4 normalMap2 = bumpTexture.Sample(SampleType, input.tex / 2);
+  float4 normalMap = bumpTexture.Sample(SampleType, input.tex1);
+  float4 normalMap2 = bumpTexture.Sample(SampleType, input.tex2);
   float3 normal = normalMap.xzy * 2 - 1;
   float3 normal2 = normalMap2.xzy * 2 - 1;
   normal = normalize(input.normal.xyz + normal + normal2);

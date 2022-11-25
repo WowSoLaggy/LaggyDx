@@ -23,6 +23,15 @@ cbuffer WaveCBuffer
   float4 wave3;
 };
 
+cbuffer TextureDisplacementCBuffer
+{
+  float2 speed1;
+  float2 speed2;
+  float scale1;
+  float scale2;
+  float2 _reserved2;
+};
+
 
 struct VertexInputType
 {
@@ -35,8 +44,9 @@ struct PixelInputType
 {
   float4 position : SV_POSITION;
   float4 normal : NORMAL;
-  float2 tex : TEXCOORD0;
-  float3 viewDirection : TEXCOORD1;
+  float2 tex1 : TEXCOORD0;
+  float2 tex2 : TEXCOORD1;
+  float3 viewDirection : TEXCOORD2;
 };
 
 static const float PI = 3.14159265f;
@@ -72,8 +82,9 @@ float3 gerstnerWave(float4 wave, float3 pos, inout float3 tangent, inout float3 
 PixelInputType main(VertexInputType input)
 {
   PixelInputType output;
-  output.tex = input.tex;
-
+  output.tex1 = input.tex * scale1 + speed1 * time;
+  output.tex2 = input.tex * scale2 + speed2 * time;
+  
   // VIEW DIRECTION
   
   float3 worldPosition = mul(input.position, worldMatrix).xyz;

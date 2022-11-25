@@ -30,6 +30,10 @@ namespace Dx
     virtual void setLightColor(const Sdk::Vector4D& i_color) = 0;
     virtual void setAmbientStrength(double i_strength) = 0;
 
+    virtual void setTexturesDisplacementSettings(
+      double i_scale1, double i_scale2,
+      const Sdk::Vector2D& i_speed1, const Sdk::Vector2D& i_speed2) = 0;
+
     virtual void setFillMode(bool i_solid) = 0;
 
     virtual void draw(const IObject3& i_object) const = 0;

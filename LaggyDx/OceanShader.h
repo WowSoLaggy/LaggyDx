@@ -27,6 +27,10 @@ namespace Dx
     virtual void setLightColor(const Sdk::Vector4D& i_color) override;
     virtual void setAmbientStrength(double i_strength) override;
 
+    virtual void setTexturesDisplacementSettings(
+      double i_scale1, double i_scale2,
+      const Sdk::Vector2D& i_speed1, const Sdk::Vector2D& i_speed2) override;
+
     virtual void setFillMode(bool i_solid) override;
 
     virtual void draw(const IObject3& i_object) const override;
@@ -35,6 +39,7 @@ namespace Dx
     TimeCBuffer d_timeCBuffer;
     WaveCBuffer d_waveCBuffer;
     LightCBuffer d_lightCBuffer;
+    TextureDisplacementCBuffer d_texturesDisplacementCBuffer;
 
     RenderDevice& d_renderDevice;
     const IResourceController& d_resourceController;
@@ -47,6 +52,7 @@ namespace Dx
     ID3D11Buffer* d_lightBuffer = nullptr;
     ID3D11Buffer* d_timeBuffer = nullptr;
     ID3D11Buffer* d_waveBuffer = nullptr;
+    ID3D11Buffer* d_texturesDisplacementBuffer = nullptr;
 
     ID3D11PixelShader* d_pixelShader = nullptr;
     ID3D11SamplerState* d_sampleState = nullptr;

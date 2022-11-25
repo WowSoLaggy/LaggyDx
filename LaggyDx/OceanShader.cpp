@@ -88,6 +88,17 @@ namespace Dx
   }
 
 
+  void OceanShader::setTexturesDisplacementSettings(
+    const double i_scale1, const double i_scale2,
+    const Sdk::Vector2D& i_speed1, const Sdk::Vector2D& i_speed2)
+  {
+    d_texturesDisplacementCBuffer.scale1 = (float)i_scale1;
+    d_texturesDisplacementCBuffer.scale2 = (float)i_scale2;
+    d_texturesDisplacementCBuffer.speed1 = getXmfloat2(i_speed1);
+    d_texturesDisplacementCBuffer.speed2 = getXmfloat2(i_speed2);
+  }
+
+
   void OceanShader::setFillMode(bool i_solid)
   {
     d_solidFillMode = i_solid;
@@ -207,6 +218,7 @@ namespace Dx
     createBuffer(sizeof(TimeCBuffer), &d_timeBuffer);
     createBuffer(sizeof(WaveCBuffer), &d_waveBuffer);
     createBuffer(sizeof(LightCBuffer), &d_lightBuffer);
+    createBuffer(sizeof(LightCBuffer), &d_texturesDisplacementBuffer);
   }
 
   void OceanShader::disposeBuffers()
@@ -217,6 +229,7 @@ namespace Dx
       *i_buf = nullptr;
     };
 
+    releaseBuffer(&d_texturesDisplacementBuffer);
     releaseBuffer(&d_lightBuffer);
     releaseBuffer(&d_waveBuffer);
     releaseBuffer(&d_timeBuffer);
@@ -325,6 +338,20 @@ namespace Dx
 
       d_renderDevice.getDeviceContextPtr()->Unmap(d_waveBuffer, 0);
       d_renderDevice.getDeviceContextPtr()->VSSetConstantBuffers(3, 1, &d_waveBuffer);
+    }
+
+    // Textures displacement
+    {
+      D3D11_MAPPED_SUBRESOURCE mappedResource;
+      HRESULT hRes = d_renderDevice.getDeviceContextPtr()->Map(
+        d_texturesDisplacementBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+      CONTRACT_ASSERT(!FAILED(hRes));
+
+      auto* dataPtr = (TextureDisplacementCBuffer*)mappedResource.pData;
+      *dataPtr = d_texturesDisplacementCBuffer;
+
+      d_renderDevice.getDeviceContextPtr()->Unmap(d_texturesDisplacementBuffer, 0);
+      d_renderDevice.getDeviceContextPtr()->VSSetConstantBuffers(4, 1, &d_texturesDisplacementBuffer);
     }
   }
 
