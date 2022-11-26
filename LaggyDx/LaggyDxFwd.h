@@ -91,7 +91,7 @@ namespace Dx
   class Aabb;
 
   class Roam;
-  struct Tri;
+  class Tri;
 
 } // ns Dx
 

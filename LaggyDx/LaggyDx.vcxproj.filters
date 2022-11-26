@@ -525,6 +525,9 @@
     <ClInclude Include="Roam.h">
       <Filter>src\Roam</Filter>
     </ClInclude>
+    <ClInclude Include="Tri.h">
+      <Filter>src\Roam</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -820,6 +823,9 @@
     </ClCompile>
     <ClCompile Include="VertexPosNormText.cpp">
       <Filter>src\Vertices</Filter>
+    </ClCompile>
+    <ClCompile Include="Tri.cpp">
+      <Filter>src\Roam</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -276,6 +276,7 @@
     <ClInclude Include="StaticCollider.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="TopologyTypes.h" />
+    <ClInclude Include="Tri.h" />
     <ClInclude Include="VertexLayout.h" />
     <ClInclude Include="VsBinResource.h" />
     <ClInclude Include="VsHlslResource.h" />
@@ -329,6 +330,7 @@
     <ClCompile Include="SimpleShader.cpp" />
     <ClCompile Include="SkydomeShader.cpp" />
     <ClCompile Include="Slider.cpp" />
+    <ClCompile Include="Tri.cpp" />
     <ClCompile Include="VertexLayout.cpp" />
     <ClCompile Include="VertexPosNormText.cpp" />
     <ClCompile Include="VsBinResource.cpp" />

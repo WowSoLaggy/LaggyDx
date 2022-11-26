@@ -1,66 +1,53 @@
 #include "stdafx.h"
 #include "Roam.h"
 
+#include "Tri.h"
+
 #include <LaggySdk/VectorUtils.h>
 
 
 namespace Dx
 {
-  struct Tri
-  {
-    Tri(const int i_ind1, const int i_ind2, const int i_ind3)
-      : ind1(i_ind1)
-      , ind2(i_ind2)
-      , ind3(i_ind3)
-    {
-    }
-
-    const int ind1 = 0;
-    const int ind2 = 0;
-    const int ind3 = 0;
-
-    std::shared_ptr<Tri> parent;
-    std::shared_ptr<Tri> baseNeighbor;
-    std::shared_ptr<Tri> leftChild;
-    std::shared_ptr<Tri> rightChild;
-    std::shared_ptr<Tri> leftNeighbor;
-    std::shared_ptr<Tri> rightNeighbor;
-
-    int depth() const
-    {
-      if (parent)
-        return parent->depth() + 1;
-      return 1;
-    }
-  };
-
-
-  Roam::Roam(const double i_size)
+  Roam::Roam(const double i_size, DividerPredicate i_pred)
   {
     d_points.push_back(VertexPosNormText::pos({ 0, 0, 0 }));
     d_points.push_back(VertexPosNormText::pos({ 0, 0, (float)i_size }));
     d_points.push_back(VertexPosNormText::pos({ (float)i_size, 0, (float)i_size }));
     d_points.push_back(VertexPosNormText::pos({ (float)i_size, 0, 0 }));
 
-    tri1 = std::make_shared<Tri>(0, 1, 3);
-    tri2 = std::make_shared<Tri>(2, 3, 1);
+    d_root = std::make_shared<Tri>(0, 1, 3);
+    auto rootBase = std::make_shared<Tri>(2, 3, 1);
 
-    tri1->baseNeighbor = tri2;
-    tri2->baseNeighbor = tri1;
+    d_root->baseNeighbor = rootBase;
+    rootBase->baseNeighbor = d_root;
 
-    divideTri(tri1);
-    auto triLeft = tri1->leftChild;
-    auto triRight = tri1->rightChild;
-    for (int i = 0; i < 35; ++i)
-    {
-      divideTri(triLeft);
-      divideTri(triRight);
-      triLeft = triLeft->leftChild;
-      triRight = triRight->rightChild;
-    }
+    tesselate(i_pred);
 
     setNormalsAndTexCoords();
     collectInds();
+  }
+
+
+  void Roam::tesselate(DividerPredicate i_pred)
+  {
+    CONTRACT_EXPECT(d_root);
+    CONTRACT_EXPECT(d_root->baseNeighbor);
+
+    tesselate(d_root, i_pred);
+    tesselate(d_root->baseNeighbor, i_pred);
+  }
+
+  void Roam::tesselate(std::shared_ptr<Tri> i_tri, DividerPredicate i_pred)
+  {
+    CONTRACT_EXPECT(i_tri);
+
+    if (!i_pred(*i_tri, d_points))
+      return;
+
+    divideTri(i_tri);
+
+    tesselate(i_tri->leftChild, i_pred);
+    tesselate(i_tri->rightChild, i_pred);
   }
 
 
@@ -152,8 +139,11 @@ namespace Dx
 
   void Roam::collectInds()
   {
-    d_inds = collectInds(*tri1);
-    Sdk::mergeVectors(d_inds, collectInds(*tri2));
+    CONTRACT_EXPECT(d_root);
+    CONTRACT_EXPECT(d_root->baseNeighbor);
+
+    d_inds = collectInds(*d_root);
+    Sdk::mergeVectors(d_inds, collectInds(*d_root->baseNeighbor));
   }
 
   std::vector<int> Roam::collectInds(const Tri& i_tri)
