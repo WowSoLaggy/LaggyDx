@@ -44,10 +44,7 @@ namespace Dx
     ID3D11Buffer* d_colorsBuffer = nullptr;
     ID3D11Buffer* d_skyDomeBuffer = nullptr;
 
-    ID3D11PixelShader* d_pixelShader = nullptr;
     ID3D11SamplerState* d_sampleState = nullptr;
-    ID3D11VertexShader* d_vertexShader = nullptr;
-    ID3D11InputLayout* d_layout = nullptr;
 
     void createShaders();
     void disposeShaders();

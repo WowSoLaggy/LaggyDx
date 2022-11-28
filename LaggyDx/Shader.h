@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IShader.h"
+#include "ShaderWrapper.h"
 
 
 namespace Dx
@@ -17,9 +18,13 @@ namespace Dx
     virtual void setRenderStates() const;
     RenderDevice& getRenderDevice() const;
     
+    ShaderWrapper& getShaders();
+    const ShaderWrapper& getShaders() const;
+    
   private:
     bool d_solidFillMode = true;
     RenderDevice& d_renderDevice;
+    ShaderWrapper d_shaders;
   };
 
 } // ns Dx

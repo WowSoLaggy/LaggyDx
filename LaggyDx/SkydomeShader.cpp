@@ -77,14 +77,9 @@ namespace Dx
 
   void SkydomeShader::createShaders()
   {
-    // PS
+    getShaders().initVs(g_skydomeVs, sizeof(g_skydomeVs));
+    getShaders().initPs(g_skydomePs, sizeof(g_skydomePs));
 
-    HRESULT hRes = getRenderDevice().getDevicePtr()->CreatePixelShader(
-      g_skydomePs, sizeof(g_skydomePs), NULL, &d_pixelShader);
-    CONTRACT_ASSERT(!FAILED(hRes));
-    CONTRACT_ASSERT(d_pixelShader != nullptr);
-
-    // Sampler state
 
     D3D11_SAMPLER_DESC samplerDesc = {};
     samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
@@ -101,43 +96,15 @@ namespace Dx
     samplerDesc.MinLOD = 0;
     samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
-    hRes = getRenderDevice().getDevicePtr()->CreateSamplerState(&samplerDesc, &d_sampleState);
+    HRESULT hRes = getRenderDevice().getDevicePtr()->CreateSamplerState(&samplerDesc, &d_sampleState);
     CONTRACT_ASSERT(!FAILED(hRes));
     CONTRACT_ASSERT(d_sampleState != nullptr);
-
-    // VS
-
-    hRes = getRenderDevice().getDevicePtr()->CreateVertexShader(
-      g_skydomeVs, sizeof(g_skydomeVs), NULL, &d_vertexShader);
-    CONTRACT_ASSERT(!FAILED(hRes));
-    CONTRACT_ASSERT(d_vertexShader != nullptr);
-
-    // Input layout
-
-    const auto& layout = getVertexLayout();
-    hRes = getRenderDevice().getDevicePtr()->CreateInputLayout(layout.data(), (int)layout.size(),
-      g_skydomeVs, sizeof(g_skydomeVs), &d_layout);
-    CONTRACT_ASSERT(!FAILED(hRes));
-    CONTRACT_ASSERT(d_layout != nullptr);
   }
 
   void SkydomeShader::disposeShaders()
   {
-    // VS
-
-    d_layout->Release();
-    d_layout = nullptr;
-
-    d_vertexShader->Release();
-    d_vertexShader = nullptr;
-
-    // PS
-
     d_sampleState->Release();
     d_sampleState = nullptr;
-
-    d_pixelShader->Release();
-    d_pixelShader = nullptr;
   }
 
 
@@ -182,9 +149,9 @@ namespace Dx
 
   void SkydomeShader::setShaders() const
   {
-    getRenderDevice().getDeviceContextPtr()->IASetInputLayout(d_layout);
-    getRenderDevice().getDeviceContextPtr()->VSSetShader(d_vertexShader, nullptr, 0);
-    getRenderDevice().getDeviceContextPtr()->PSSetShader(d_pixelShader, nullptr, 0);
+    getRenderDevice().getDeviceContextPtr()->IASetInputLayout(getShaders().getLayout());
+    getRenderDevice().getDeviceContextPtr()->VSSetShader(getShaders().getVs(), nullptr, 0);
+    getRenderDevice().getDeviceContextPtr()->PSSetShader(getShaders().getPs(), nullptr, 0);
     getRenderDevice().getDeviceContextPtr()->PSSetSamplers(0, 1, &d_sampleState);
   }
 

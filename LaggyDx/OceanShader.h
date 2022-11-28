@@ -52,10 +52,7 @@ namespace Dx
     CBuffer d_waveBuffer;
     CBuffer d_texturesDisplacementBuffer;
 
-    ID3D11PixelShader* d_pixelShader = nullptr;
     ID3D11SamplerState* d_sampleState = nullptr;
-    ID3D11VertexShader* d_vertexShader = nullptr;
-    ID3D11InputLayout* d_layout = nullptr;
 
     void createShaders();
     void disposeShaders();

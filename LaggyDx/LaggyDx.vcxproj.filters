@@ -130,6 +130,9 @@
     <Filter Include="src\Shaders\CBuffer">
       <UniqueIdentifier>{cd6d12f2-e15e-4f56-81a2-d20c4b75804c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Shaders\ShaderWrapper">
+      <UniqueIdentifier>{2241df8e-c23b-4f22-8381-907fd07c6493}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -546,6 +549,9 @@
     <ClInclude Include="CBuffer.h">
       <Filter>src\Shaders\CBuffer</Filter>
     </ClInclude>
+    <ClInclude Include="ShaderWrapper.h">
+      <Filter>src\Shaders\ShaderWrapper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -853,6 +859,9 @@
     </ClCompile>
     <ClCompile Include="CBuffer.cpp">
       <Filter>src\Shaders\CBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderWrapper.cpp">
+      <Filter>src\Shaders\ShaderWrapper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

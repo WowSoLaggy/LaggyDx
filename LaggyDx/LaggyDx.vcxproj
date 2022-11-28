@@ -207,6 +207,7 @@
     <ClInclude Include="RadioGroup.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShadersUtils.h" />
+    <ClInclude Include="ShaderWrapper.h" />
     <ClInclude Include="ShapesUtils.h" />
     <ClInclude Include="SimpleShader.h" />
     <ClInclude Include="SkydomeShader.h" />
@@ -333,6 +334,7 @@
     <ClCompile Include="RadioButton.cpp" />
     <ClCompile Include="RadioGroup.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="ShaderWrapper.cpp" />
     <ClCompile Include="Shape3d.cpp" />
     <ClCompile Include="ShapesUtils.cpp" />
     <ClCompile Include="SimpleShader.cpp" />
