@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Shader.h"
 #include "LaggyDxFwd.h"
 
 #include <LaggySdk/Vector.h>
@@ -7,7 +8,7 @@
 
 namespace Dx
 {
-  class ISkydomeShader
+  class ISkydomeShader : public Shader
   {
   public:
     static std::unique_ptr<ISkydomeShader> create(
@@ -16,13 +17,11 @@ namespace Dx
       const IResourceController& i_resourceController);
 
   public:
-    virtual ~ISkydomeShader() = default;
+    using Shader::Shader;
 
     virtual void setSunDirection(Sdk::Vector3D i_sunDir) = 0;
     virtual void setSunRadiusInternal(float i_radius) = 0;
     virtual void setSunRadiusExternal(float i_radius) = 0;
-
-    virtual void draw(const IObject3& i_object) const = 0;
   };
 
 } // ns Dx

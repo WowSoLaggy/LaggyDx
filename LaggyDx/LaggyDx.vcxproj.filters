@@ -534,6 +534,12 @@
     <ClInclude Include="IBitmap.h">
       <Filter>src\Image</Filter>
     </ClInclude>
+    <ClInclude Include="IShader.h">
+      <Filter>src\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>src\Shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -835,6 +841,9 @@
     </ClCompile>
     <ClCompile Include="Bitmap.cpp">
       <Filter>src\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>src\Shaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -20,7 +20,7 @@ namespace Dx
     IRenderDevice& i_renderDevice,
     const ICamera& i_camera,
     const IResourceController& i_resourceController)
-    : d_renderDevice(dynamic_cast<RenderDevice&>(i_renderDevice))
+    : ISkydomeShader(i_renderDevice)
     , d_camera(i_camera)
     , d_resourceController(i_resourceController)
     , d_mainTexture(i_resourceController.getTexture("sky_main.png"))
@@ -77,11 +77,10 @@ namespace Dx
 
   void SkydomeShader::createShaders()
   {
-    auto& renderDevice = dynamic_cast<RenderDevice&>(d_renderDevice);
-
     // PS
 
-    HRESULT hRes = renderDevice.getDevicePtr()->CreatePixelShader(g_skydomePs, sizeof(g_skydomePs), NULL, &d_pixelShader);
+    HRESULT hRes = getRenderDevice().getDevicePtr()->CreatePixelShader(
+      g_skydomePs, sizeof(g_skydomePs), NULL, &d_pixelShader);
     CONTRACT_ASSERT(!FAILED(hRes));
     CONTRACT_ASSERT(d_pixelShader != nullptr);
 
@@ -102,20 +101,21 @@ namespace Dx
     samplerDesc.MinLOD = 0;
     samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
-    hRes = renderDevice.getDevicePtr()->CreateSamplerState(&samplerDesc, &d_sampleState);
+    hRes = getRenderDevice().getDevicePtr()->CreateSamplerState(&samplerDesc, &d_sampleState);
     CONTRACT_ASSERT(!FAILED(hRes));
     CONTRACT_ASSERT(d_sampleState != nullptr);
 
     // VS
 
-    hRes = renderDevice.getDevicePtr()->CreateVertexShader(g_skydomeVs, sizeof(g_skydomeVs), NULL, &d_vertexShader);
+    hRes = getRenderDevice().getDevicePtr()->CreateVertexShader(
+      g_skydomeVs, sizeof(g_skydomeVs), NULL, &d_vertexShader);
     CONTRACT_ASSERT(!FAILED(hRes));
     CONTRACT_ASSERT(d_vertexShader != nullptr);
 
     // Input layout
 
     const auto& layout = getVertexLayout();
-    hRes = renderDevice.getDevicePtr()->CreateInputLayout(layout.data(), (int)layout.size(),
+    hRes = getRenderDevice().getDevicePtr()->CreateInputLayout(layout.data(), (int)layout.size(),
       g_skydomeVs, sizeof(g_skydomeVs), &d_layout);
     CONTRACT_ASSERT(!FAILED(hRes));
     CONTRACT_ASSERT(d_layout != nullptr);
@@ -153,7 +153,7 @@ namespace Dx
       desc.MiscFlags = 0;
       desc.StructureByteStride = 0;
 
-      HRESULT hRes = d_renderDevice.getDevicePtr()->CreateBuffer(&desc, nullptr, i_buf);
+      HRESULT hRes = getRenderDevice().getDevicePtr()->CreateBuffer(&desc, nullptr, i_buf);
       CONTRACT_ASSERT(!FAILED(hRes));
     };
 
@@ -176,16 +176,16 @@ namespace Dx
 
   void SkydomeShader::setRenderStates() const
   {
-    d_renderDevice.resetState();
-    d_renderDevice.setDepthEnabled(false);
+    Shader::setRenderStates();
+    getRenderDevice().setDepthEnabled(false);
   }
 
   void SkydomeShader::setShaders() const
   {
-    d_renderDevice.getDeviceContextPtr()->IASetInputLayout(d_layout);
-    d_renderDevice.getDeviceContextPtr()->VSSetShader(d_vertexShader, nullptr, 0);
-    d_renderDevice.getDeviceContextPtr()->PSSetShader(d_pixelShader, nullptr, 0);
-    d_renderDevice.getDeviceContextPtr()->PSSetSamplers(0, 1, &d_sampleState);
+    getRenderDevice().getDeviceContextPtr()->IASetInputLayout(d_layout);
+    getRenderDevice().getDeviceContextPtr()->VSSetShader(d_vertexShader, nullptr, 0);
+    getRenderDevice().getDeviceContextPtr()->PSSetShader(d_pixelShader, nullptr, 0);
+    getRenderDevice().getDeviceContextPtr()->PSSetSamplers(0, 1, &d_sampleState);
   }
 
   void SkydomeShader::setGeometryBuffers(const IMesh& i_mesh) const
@@ -195,14 +195,14 @@ namespace Dx
     auto* ibPtr = i_mesh.getIndexBuffer().getPtr();
     unsigned int offset = 0;
 
-    d_renderDevice.getDeviceContextPtr()->IASetVertexBuffers(0, 1, &vbPtr, &stride, &offset);
-    d_renderDevice.getDeviceContextPtr()->IASetIndexBuffer(ibPtr, DXGI_FORMAT_R32_UINT, 0);
+    getRenderDevice().getDeviceContextPtr()->IASetVertexBuffers(0, 1, &vbPtr, &stride, &offset);
+    getRenderDevice().getDeviceContextPtr()->IASetIndexBuffer(ibPtr, DXGI_FORMAT_R32_UINT, 0);
 
     const auto topology = i_mesh.getTopology() == Topology::TriangleList
       ? D3D_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST
       : D3D_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINELIST;
 
-    d_renderDevice.getDeviceContextPtr()->IASetPrimitiveTopology(topology);
+    getRenderDevice().getDeviceContextPtr()->IASetPrimitiveTopology(topology);
   }
 
   void SkydomeShader::setXfmMatrices(const IObject3& i_object) const
@@ -225,30 +225,30 @@ namespace Dx
     const auto projectionMatrix = XMMatrixTranspose(d_camera.getProjectionMatrix());
 
     D3D11_MAPPED_SUBRESOURCE mappedResource;
-    d_renderDevice.getDeviceContextPtr()->Map(d_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+    getRenderDevice().getDeviceContextPtr()->Map(d_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
     auto* dataPtr = (MatrixCBuffer*)mappedResource.pData;
     dataPtr->world = worldMatrix;
     dataPtr->view = viewMatrix;
     dataPtr->projection = projectionMatrix;
 
-    d_renderDevice.getDeviceContextPtr()->Unmap(d_matrixBuffer, 0);
+    getRenderDevice().getDeviceContextPtr()->Unmap(d_matrixBuffer, 0);
 
-    d_renderDevice.getDeviceContextPtr()->VSSetConstantBuffers(0, 1, &d_matrixBuffer);
+    getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(0, 1, &d_matrixBuffer);
   }
 
   void SkydomeShader::setCBuffers() const
   {
     {
       D3D11_MAPPED_SUBRESOURCE mappedResource;
-      d_renderDevice.getDeviceContextPtr()->Map(d_skyDomeBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+      getRenderDevice().getDeviceContextPtr()->Map(d_skyDomeBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
       auto* dataPtr = (SkydomeSettings*)mappedResource.pData;
       *dataPtr = d_skyDomeSettings;
       dataPtr->cameraPosition = getXmfloat3(d_camera.getPosition());
 
-      d_renderDevice.getDeviceContextPtr()->Unmap(d_skyDomeBuffer, 0);
-      d_renderDevice.getDeviceContextPtr()->PSSetConstantBuffers(1, 1, &d_skyDomeBuffer);
+      getRenderDevice().getDeviceContextPtr()->Unmap(d_skyDomeBuffer, 0);
+      getRenderDevice().getDeviceContextPtr()->PSSetConstantBuffers(1, 1, &d_skyDomeBuffer);
     }
   }
 
@@ -259,12 +259,12 @@ namespace Dx
     auto* textureAroundSunPtr = static_cast<const TextureResource&>(d_aroundSunTexture).getTexturePtr();
 
     ID3D11ShaderResourceView* textures[] = { textureMainPtr, textureHorizonHazePtr, textureAroundSunPtr };
-    d_renderDevice.getDeviceContextPtr()->PSSetShaderResources(0, 3, textures);
+    getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 3, textures);
   }
 
   void SkydomeShader::drawIndexed(const int i_count, const int i_startIndex) const
   {
-    d_renderDevice.getDeviceContextPtr()->DrawIndexed(i_count, i_startIndex, 0);
+    getRenderDevice().getDeviceContextPtr()->DrawIndexed(i_count, i_startIndex, 0);
   }
 
 } // ns Dx

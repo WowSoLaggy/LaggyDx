@@ -31,8 +31,6 @@ namespace Dx
       double i_scale1, double i_scale2,
       const Sdk::Vector2D& i_speed1, const Sdk::Vector2D& i_speed2) override;
 
-    virtual void setFillMode(bool i_solid) override;
-
     virtual void draw(const IObject3& i_object) const override;
 
   private:
@@ -41,7 +39,6 @@ namespace Dx
     LightCBuffer d_lightCBuffer;
     TextureDisplacementCBuffer d_texturesDisplacementCBuffer;
 
-    RenderDevice& d_renderDevice;
     const IResourceController& d_resourceController;
     const ICamera& d_camera;
     const ITextureResource& d_emptyTexture;
@@ -59,15 +56,12 @@ namespace Dx
     ID3D11VertexShader* d_vertexShader = nullptr;
     ID3D11InputLayout* d_layout = nullptr;
 
-    bool d_solidFillMode = true;
-
     void createShaders();
     void disposeShaders();
 
     void createBuffers();
     void disposeBuffers();
 
-    void setRenderStates() const;
     void setShaders() const;
     void setGeometryBuffers(const IMesh& i_mesh) const;
     void setXfmMatrices(const IObject3& i_object) const;

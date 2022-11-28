@@ -164,6 +164,7 @@
     <ClInclude Include="CameraBase.h" />
     <ClInclude Include="ChannelInfo.h" />
     <ClInclude Include="IBitmap.h" />
+    <ClInclude Include="IShader.h" />
     <ClInclude Include="Roam.h" />
     <ClInclude Include="FirstPersonCamera.h" />
     <ClInclude Include="FreeCameraController.h" />
@@ -203,6 +204,7 @@
     <ClInclude Include="AnimationController3d.h" />
     <ClInclude Include="RadioButton.h" />
     <ClInclude Include="RadioGroup.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="ShadersUtils.h" />
     <ClInclude Include="ShapesUtils.h" />
     <ClInclude Include="SimpleShader.h" />
@@ -328,6 +330,7 @@
     <ClCompile Include="PsHlslResource.cpp" />
     <ClCompile Include="RadioButton.cpp" />
     <ClCompile Include="RadioGroup.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Shape3d.cpp" />
     <ClCompile Include="ShapesUtils.cpp" />
     <ClCompile Include="SimpleShader.cpp" />

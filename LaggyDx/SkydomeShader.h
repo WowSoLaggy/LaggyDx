@@ -31,7 +31,6 @@ namespace Dx
     virtual void draw(const IObject3& i_object) const override;
 
   private:
-    RenderDevice& d_renderDevice;
     const IResourceController& d_resourceController;
     const ICamera& d_camera;
 
@@ -56,7 +55,7 @@ namespace Dx
     void createBuffers();
     void disposeBuffers();
 
-    void setRenderStates() const;
+    virtual void setRenderStates() const override;
     void setShaders() const;
     void setGeometryBuffers(const IMesh& i_mesh) const;
     void setXfmMatrices(const IObject3& i_object) const;

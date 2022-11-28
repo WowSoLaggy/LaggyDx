@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Shader.h"
 #include "LaggyDxFwd.h"
 
 #include <LaggySdk/Vector.h>
@@ -7,7 +8,7 @@
 
 namespace Dx
 {
-  class IOceanShader
+  class IOceanShader : public Shader
   {
   public:
     static std::unique_ptr<IOceanShader> create(
@@ -16,7 +17,7 @@ namespace Dx
       const IResourceController& i_resourceController);
 
   public:
-    virtual ~IOceanShader() = default;
+    using Shader::Shader;
 
     virtual void setGlobalTime(double i_time) = 0;
 
@@ -33,10 +34,6 @@ namespace Dx
     virtual void setTexturesDisplacementSettings(
       double i_scale1, double i_scale2,
       const Sdk::Vector2D& i_speed1, const Sdk::Vector2D& i_speed2) = 0;
-
-    virtual void setFillMode(bool i_solid) = 0;
-
-    virtual void draw(const IObject3& i_object) const = 0;
   };
 
 } // ns Dx
