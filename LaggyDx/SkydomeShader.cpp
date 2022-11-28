@@ -157,7 +157,7 @@ namespace Dx
       CONTRACT_ASSERT(!FAILED(hRes));
     };
 
-    createBuffer(sizeof(MatrixCBuffer), &d_matrixBuffer);
+    createBuffer(sizeof(WorldViewProj), &d_matrixBuffer);
     createBuffer(sizeof(SkydomeSettings), &d_skyDomeBuffer);
   }
 
@@ -227,7 +227,7 @@ namespace Dx
     D3D11_MAPPED_SUBRESOURCE mappedResource;
     getRenderDevice().getDeviceContextPtr()->Map(d_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-    auto* dataPtr = (MatrixCBuffer*)mappedResource.pData;
+    auto* dataPtr = (WorldViewProj*)mappedResource.pData;
     dataPtr->world = worldMatrix;
     dataPtr->view = viewMatrix;
     dataPtr->projection = projectionMatrix;

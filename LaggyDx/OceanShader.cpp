@@ -23,31 +23,35 @@ namespace Dx
     const ICamera& i_camera,
     const IResourceController& i_resourceController)
     : IOceanShader(i_renderDevice)
+    , d_matrixBuffer(getRenderDevice(), sizeof(WorldViewProj))
+    , d_cameraBuffer(getRenderDevice(), sizeof(CameraDesc))
+    , d_lightBuffer(getRenderDevice(), sizeof(LightDesc))
+    , d_timeBuffer(getRenderDevice(), sizeof(TimeDesc))
+    , d_waveBuffer(getRenderDevice(), sizeof(WaveDesc))
+    , d_texturesDisplacementBuffer(getRenderDevice(), sizeof(TextureDisplacementDesc))
     , d_resourceController(i_resourceController)
     , d_camera(i_camera)
     , d_emptyTexture(i_resourceController.getTexture("white.png"))
     , d_bumpTexture(i_resourceController.getTexture("bump.png"))
   {
     createShaders();
-    createBuffers();
   }
 
   OceanShader::~OceanShader()
   {
-    disposeBuffers();
     disposeShaders();
   }
 
 
   void OceanShader::setGlobalTime(const double i_time)
   {
-    d_timeCBuffer.time = (float)i_time;
+    d_timeDesc.time = (float)i_time;
   }
 
 
   void OceanShader::setWaterColor(const Sdk::Vector4D& i_color)
   {
-    d_lightCBuffer.diffuseColor = getXmfloat4(i_color);
+    d_lightDesc.diffuseColor = getXmfloat4(i_color);
   }
 
 
@@ -74,17 +78,17 @@ namespace Dx
 
   void OceanShader::setLightDirection(Sdk::Vector3D i_direction)
   {
-    d_lightCBuffer.lightDirection = getXmfloat3Norm(std::move(i_direction));
+    d_lightDesc.lightDirection = getXmfloat3Norm(std::move(i_direction));
   }
 
   void OceanShader::setLightColor(const Sdk::Vector4D& i_color)
   {
-    d_lightCBuffer.lightColor = getXmfloat4(i_color);
+    d_lightDesc.lightColor = getXmfloat4(i_color);
   }
 
   void OceanShader::setAmbientStrength(const double i_strength)
   {
-    d_lightCBuffer.ambientStrength = (float)i_strength;
+    d_lightDesc.ambientStrength = (float)i_strength;
   }
 
 
@@ -92,10 +96,10 @@ namespace Dx
     const double i_scale1, const double i_scale2,
     const Sdk::Vector2D& i_speed1, const Sdk::Vector2D& i_speed2)
   {
-    d_texturesDisplacementCBuffer.scale1 = (float)i_scale1;
-    d_texturesDisplacementCBuffer.scale2 = (float)i_scale2;
-    d_texturesDisplacementCBuffer.speed1 = getXmfloat2(i_speed1);
-    d_texturesDisplacementCBuffer.speed2 = getXmfloat2(i_speed2);
+    d_texturesDisplacementDesc.scale1 = (float)i_scale1;
+    d_texturesDisplacementDesc.scale2 = (float)i_scale2;
+    d_texturesDisplacementDesc.speed1 = getXmfloat2(i_speed1);
+    d_texturesDisplacementDesc.speed2 = getXmfloat2(i_speed2);
   }
 
 
@@ -190,47 +194,6 @@ namespace Dx
   }
 
 
-  void OceanShader::createBuffers()
-  {
-    auto createBuffer = [&](const int i_sizeOf, ID3D11Buffer** i_buf)
-    {
-      D3D11_BUFFER_DESC desc;
-      desc.Usage = D3D11_USAGE_DYNAMIC;
-      desc.ByteWidth = i_sizeOf;
-      desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-      desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-      desc.MiscFlags = 0;
-      desc.StructureByteStride = 0;
-
-      HRESULT hRes = getRenderDevice().getDevicePtr()->CreateBuffer(&desc, nullptr, i_buf);
-      CONTRACT_ASSERT(!FAILED(hRes));
-    };
-
-    createBuffer(sizeof(MatrixCBuffer), &d_matrixBuffer);
-    createBuffer(sizeof(CameraCBuffer), &d_cameraBuffer);
-    createBuffer(sizeof(TimeCBuffer), &d_timeBuffer);
-    createBuffer(sizeof(WaveCBuffer), &d_waveBuffer);
-    createBuffer(sizeof(LightCBuffer), &d_lightBuffer);
-    createBuffer(sizeof(LightCBuffer), &d_texturesDisplacementBuffer);
-  }
-
-  void OceanShader::disposeBuffers()
-  {
-    auto releaseBuffer = [](ID3D11Buffer** i_buf)
-    {
-      (*i_buf)->Release();
-      *i_buf = nullptr;
-    };
-
-    releaseBuffer(&d_texturesDisplacementBuffer);
-    releaseBuffer(&d_lightBuffer);
-    releaseBuffer(&d_waveBuffer);
-    releaseBuffer(&d_timeBuffer);
-    releaseBuffer(&d_cameraBuffer);
-    releaseBuffer(&d_matrixBuffer);
-  }
-
-
   void OceanShader::setShaders() const
   {
     getRenderDevice().getDeviceContextPtr()->IASetInputLayout(d_layout);
@@ -276,16 +239,16 @@ namespace Dx
     const auto projectionMatrix = XMMatrixTranspose(d_camera.getProjectionMatrix());
 
     D3D11_MAPPED_SUBRESOURCE mappedResource;
-    getRenderDevice().getDeviceContextPtr()->Map(d_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+    getRenderDevice().getDeviceContextPtr()->Map(d_matrixBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-    auto* dataPtr = (MatrixCBuffer*)mappedResource.pData;
+    auto* dataPtr = (WorldViewProj*)mappedResource.pData;
     dataPtr->world = worldMatrix;
     dataPtr->view = viewMatrix;
     dataPtr->projection = projectionMatrix;
 
-    getRenderDevice().getDeviceContextPtr()->Unmap(d_matrixBuffer, 0);
+    getRenderDevice().getDeviceContextPtr()->Unmap(d_matrixBuffer.get(), 0);
 
-    getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(0, 1, &d_matrixBuffer);
+    getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(0, 1, d_matrixBuffer.getPp());
   }
 
   void OceanShader::setCBuffers() const
@@ -293,51 +256,51 @@ namespace Dx
     // Global
     {
       D3D11_MAPPED_SUBRESOURCE mappedResource;
-      getRenderDevice().getDeviceContextPtr()->Map(d_timeBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+      getRenderDevice().getDeviceContextPtr()->Map(d_timeBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-      auto* dataPtr = (TimeCBuffer*)mappedResource.pData;
-      *dataPtr = d_timeCBuffer;
+      auto* dataPtr = (TimeDesc*)mappedResource.pData;
+      *dataPtr = d_timeDesc;
 
-      getRenderDevice().getDeviceContextPtr()->Unmap(d_timeBuffer, 0);
-      getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(1, 1, &d_timeBuffer);
+      getRenderDevice().getDeviceContextPtr()->Unmap(d_timeBuffer.get(), 0);
+      getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(1, 1, d_timeBuffer.getPp());
     }
 
     // Camera
     {
       D3D11_MAPPED_SUBRESOURCE mappedResource;
-      getRenderDevice().getDeviceContextPtr()->Map(d_cameraBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+      getRenderDevice().getDeviceContextPtr()->Map(d_cameraBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-      auto* dataPtr = (CameraCBuffer*)mappedResource.pData;
+      auto* dataPtr = (CameraDesc*)mappedResource.pData;
       dataPtr->cameraPos = getXmfloat3(d_camera.getPosition());
 
-      getRenderDevice().getDeviceContextPtr()->Unmap(d_cameraBuffer, 0);
-      getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(2, 1, &d_cameraBuffer);
+      getRenderDevice().getDeviceContextPtr()->Unmap(d_cameraBuffer.get(), 0);
+      getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(2, 1, d_cameraBuffer.getPp());
     }
 
     // Wind
     {
       D3D11_MAPPED_SUBRESOURCE mappedResource;
-      getRenderDevice().getDeviceContextPtr()->Map(d_waveBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+      getRenderDevice().getDeviceContextPtr()->Map(d_waveBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-      auto* dataPtr = (WaveCBuffer*)mappedResource.pData;
-      *dataPtr = d_waveCBuffer;
+      auto* dataPtr = (WaveDesc*)mappedResource.pData;
+      *dataPtr = d_waveDesc;
 
-      getRenderDevice().getDeviceContextPtr()->Unmap(d_waveBuffer, 0);
-      getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(3, 1, &d_waveBuffer);
+      getRenderDevice().getDeviceContextPtr()->Unmap(d_waveBuffer.get(), 0);
+      getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(3, 1, d_waveBuffer.getPp());
     }
 
     // Textures displacement
     {
       D3D11_MAPPED_SUBRESOURCE mappedResource;
       HRESULT hRes = getRenderDevice().getDeviceContextPtr()->Map(
-        d_texturesDisplacementBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+        d_texturesDisplacementBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
       CONTRACT_ASSERT(!FAILED(hRes));
 
-      auto* dataPtr = (TextureDisplacementCBuffer*)mappedResource.pData;
-      *dataPtr = d_texturesDisplacementCBuffer;
+      auto* dataPtr = (TextureDisplacementDesc*)mappedResource.pData;
+      *dataPtr = d_texturesDisplacementDesc;
 
-      getRenderDevice().getDeviceContextPtr()->Unmap(d_texturesDisplacementBuffer, 0);
-      getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(4, 1, &d_texturesDisplacementBuffer);
+      getRenderDevice().getDeviceContextPtr()->Unmap(d_texturesDisplacementBuffer.get(), 0);
+      getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(4, 1, d_texturesDisplacementBuffer.getPp());
     }
   }
 
@@ -372,14 +335,14 @@ namespace Dx
   void OceanShader::setMaterial(const Material& i_material) const
   {
     D3D11_MAPPED_SUBRESOURCE mappedResource;
-    getRenderDevice().getDeviceContextPtr()->Map(d_lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+    getRenderDevice().getDeviceContextPtr()->Map(d_lightBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-    auto* dataPtr = (LightCBuffer*)mappedResource.pData;
-    *dataPtr = d_lightCBuffer;
+    auto* dataPtr = (LightDesc*)mappedResource.pData;
+    *dataPtr = d_lightDesc;
     dataPtr->specularPower = i_material.specularPower;
 
-    getRenderDevice().getDeviceContextPtr()->Unmap(d_lightBuffer, 0);
-    getRenderDevice().getDeviceContextPtr()->PSSetConstantBuffers(0, 1, &d_lightBuffer);
+    getRenderDevice().getDeviceContextPtr()->Unmap(d_lightBuffer.get(), 0);
+    getRenderDevice().getDeviceContextPtr()->PSSetConstantBuffers(0, 1, d_lightBuffer.getPp());
   }
 
   void OceanShader::drawIndexed(const int i_count, const int i_startIndex) const
@@ -391,11 +354,11 @@ namespace Dx
   XMFLOAT4& OceanShader::getWaveByIndex(int i_waveIndex)
   {
     if (i_waveIndex == 0)
-      return d_waveCBuffer.wave1;
+      return d_waveDesc.wave1;
     else if (i_waveIndex == 1)
-      return d_waveCBuffer.wave2;
+      return d_waveDesc.wave2;
     else if (i_waveIndex == 2)
-      return d_waveCBuffer.wave3;
+      return d_waveDesc.wave3;
 
     CONTRACT_EXPECT(false);
   }

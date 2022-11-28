@@ -1,5 +1,6 @@
 #pragma once
 
+#include "CBuffer.h"
 #include "ISimpleShader.h"
 #include "ShaderBuffers.h"
 
@@ -26,12 +27,11 @@ namespace Dx
     const ICamera& d_camera;
     const ITextureResource& d_emptyTexture;
 
-    CameraCBuffer d_cameraCBuffer;
-    LightCBuffer d_lightCBuffer;
+    LightDesc d_lightDesc;
 
-    ID3D11Buffer* d_matrixBuffer = nullptr;
-    ID3D11Buffer* d_cameraBuffer = nullptr;
-    ID3D11Buffer* d_lightBuffer = nullptr;
+    CBuffer d_matrixBuffer;
+    CBuffer d_cameraBuffer;
+    CBuffer d_lightBuffer;
 
     ID3D11PixelShader* d_pixelShader = nullptr;
     ID3D11SamplerState* d_sampleState = nullptr;
@@ -40,9 +40,6 @@ namespace Dx
 
     void createShaders();
     void disposeShaders();
-
-    void createBuffers();
-    void disposeBuffers();
 
     void setShaders() const;
     void setGeometryBuffers(const IMesh& i_mesh) const;

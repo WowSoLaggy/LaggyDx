@@ -1,5 +1,6 @@
 #pragma once
 
+#include "CBuffer.h"
 #include "IOceanShader.h"
 #include "ShaderBuffers.h"
 
@@ -34,22 +35,22 @@ namespace Dx
     virtual void draw(const IObject3& i_object) const override;
 
   private:
-    TimeCBuffer d_timeCBuffer;
-    WaveCBuffer d_waveCBuffer;
-    LightCBuffer d_lightCBuffer;
-    TextureDisplacementCBuffer d_texturesDisplacementCBuffer;
+    TimeDesc d_timeDesc;
+    WaveDesc d_waveDesc;
+    LightDesc d_lightDesc;
+    TextureDisplacementDesc d_texturesDisplacementDesc;
 
     const IResourceController& d_resourceController;
     const ICamera& d_camera;
     const ITextureResource& d_emptyTexture;
     const ITextureResource& d_bumpTexture;
 
-    ID3D11Buffer* d_matrixBuffer = nullptr;
-    ID3D11Buffer* d_cameraBuffer = nullptr;
-    ID3D11Buffer* d_lightBuffer = nullptr;
-    ID3D11Buffer* d_timeBuffer = nullptr;
-    ID3D11Buffer* d_waveBuffer = nullptr;
-    ID3D11Buffer* d_texturesDisplacementBuffer = nullptr;
+    CBuffer d_matrixBuffer;
+    CBuffer d_cameraBuffer;
+    CBuffer d_lightBuffer;
+    CBuffer d_timeBuffer;
+    CBuffer d_waveBuffer;
+    CBuffer d_texturesDisplacementBuffer;
 
     ID3D11PixelShader* d_pixelShader = nullptr;
     ID3D11SamplerState* d_sampleState = nullptr;
@@ -58,9 +59,6 @@ namespace Dx
 
     void createShaders();
     void disposeShaders();
-
-    void createBuffers();
-    void disposeBuffers();
 
     void setShaders() const;
     void setGeometryBuffers(const IMesh& i_mesh) const;

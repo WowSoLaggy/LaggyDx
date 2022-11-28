@@ -88,7 +88,7 @@ namespace Dx
     D3D11_MAPPED_SUBRESOURCE mappedResource;
     renderDevice.getDeviceContextPtr()->Map(d_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-    auto* dataPtr = (MatrixCBuffer*)mappedResource.pData;
+    auto* dataPtr = (WorldViewProj*)mappedResource.pData;
     dataPtr->world = std::move(worldMatrix);
     dataPtr->view = std::move(viewMatrix);
     dataPtr->projection = std::move(projectionMatrix);
@@ -111,7 +111,7 @@ namespace Dx
     D3D11_MAPPED_SUBRESOURCE mappedResource;
     renderDevice.getDeviceContextPtr()->Map(d_lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-    auto* dataPtr2 = (LightCBuffer*)mappedResource.pData;
+    auto* dataPtr2 = (LightDesc*)mappedResource.pData;
     dataPtr2->diffuseColor = getColorFromV4(i_material.diffuseColor);
     dataPtr2->lightColor = { 1.0f, 1.0f, 1.0f, 1.0f };
     dataPtr2->lightDirection = { 1.0f, -1.0f, -1.0f };
@@ -137,7 +137,7 @@ namespace Dx
 
     D3D11_BUFFER_DESC matrixBufferDesc;
     matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-    matrixBufferDesc.ByteWidth = sizeof(MatrixCBuffer);
+    matrixBufferDesc.ByteWidth = sizeof(WorldViewProj);
     matrixBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
     matrixBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
     matrixBufferDesc.MiscFlags = 0;
@@ -145,7 +145,7 @@ namespace Dx
 
     D3D11_BUFFER_DESC lightBufferDesc;
     lightBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-    lightBufferDesc.ByteWidth = sizeof(LightCBuffer);
+    lightBufferDesc.ByteWidth = sizeof(LightDesc);
     lightBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
     lightBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
     lightBufferDesc.MiscFlags = 0;

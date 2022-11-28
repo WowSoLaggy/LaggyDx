@@ -127,6 +127,9 @@
     <Filter Include="src\Image">
       <UniqueIdentifier>{6c31fb6b-366b-4ff5-8667-b0241d849fd8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Shaders\CBuffer">
+      <UniqueIdentifier>{cd6d12f2-e15e-4f56-81a2-d20c4b75804c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -540,6 +543,9 @@
     <ClInclude Include="Shader.h">
       <Filter>src\Shaders</Filter>
     </ClInclude>
+    <ClInclude Include="CBuffer.h">
+      <Filter>src\Shaders\CBuffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -844,6 +850,9 @@
     </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>src\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="CBuffer.cpp">
+      <Filter>src\Shaders\CBuffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -21,34 +21,35 @@ namespace Dx
     const ICamera& i_camera,
     const IResourceController& i_resourceController)
     : ISimpleShader(i_renderDevice)
+    , d_matrixBuffer(getRenderDevice(), sizeof(WorldViewProj))
+    , d_cameraBuffer(getRenderDevice(), sizeof(CameraDesc))
+    , d_lightBuffer(getRenderDevice(), sizeof(LightDesc))
     , d_camera(i_camera)
     , d_resourceController(i_resourceController)
     , d_emptyTexture(i_resourceController.getTexture("white.png"))
   {
     createShaders();
-    createBuffers();
   }
 
   SimpleShader::~SimpleShader()
   {
-    disposeBuffers();
     disposeShaders();
   }
 
 
   void SimpleShader::setLightDirection(Sdk::Vector3D i_direction)
   {
-    d_lightCBuffer.lightDirection = getXmfloat3Norm(std::move(i_direction));
+    d_lightDesc.lightDirection = getXmfloat3Norm(std::move(i_direction));
   }
 
   void SimpleShader::setLightColor(const Sdk::Vector4D& i_color)
   {
-    d_lightCBuffer.lightColor = getXmfloat4(i_color);
+    d_lightDesc.lightColor = getXmfloat4(i_color);
   }
 
   void SimpleShader::setAmbientStrength(const double i_strength)
   {
-    d_lightCBuffer.ambientStrength = (float)i_strength;
+    d_lightDesc.ambientStrength = (float)i_strength;
   }
 
 
@@ -143,41 +144,6 @@ namespace Dx
   }
 
 
-  void SimpleShader::createBuffers()
-  {
-    auto createBuffer = [&](const int i_sizeOf, ID3D11Buffer** i_buf)
-    {
-      D3D11_BUFFER_DESC desc;
-      desc.Usage = D3D11_USAGE_DYNAMIC;
-      desc.ByteWidth = i_sizeOf;
-      desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-      desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-      desc.MiscFlags = 0;
-      desc.StructureByteStride = 0;
-
-      HRESULT hRes = getRenderDevice().getDevicePtr()->CreateBuffer(&desc, nullptr, i_buf);
-      CONTRACT_ASSERT(!FAILED(hRes));
-    };
-
-    createBuffer(sizeof(MatrixCBuffer), &d_matrixBuffer);
-    createBuffer(sizeof(CameraCBuffer), &d_cameraBuffer);
-    createBuffer(sizeof(LightCBuffer), &d_lightBuffer);
-  }
-
-  void SimpleShader::disposeBuffers()
-  {
-    auto releaseBuffer = [](ID3D11Buffer** i_buf)
-    {
-      (*i_buf)->Release();
-      *i_buf = nullptr;
-    };
-
-    releaseBuffer(&d_lightBuffer);
-    releaseBuffer(&d_cameraBuffer);
-    releaseBuffer(&d_matrixBuffer);
-  }
-
-
   void SimpleShader::setShaders() const
   {
     getRenderDevice().getDeviceContextPtr()->IASetInputLayout(d_layout);
@@ -223,16 +189,16 @@ namespace Dx
     const auto projectionMatrix = XMMatrixTranspose(d_camera.getProjectionMatrix());
 
     D3D11_MAPPED_SUBRESOURCE mappedResource;
-    getRenderDevice().getDeviceContextPtr()->Map(d_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+    getRenderDevice().getDeviceContextPtr()->Map(d_matrixBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-    auto* dataPtr = (MatrixCBuffer*)mappedResource.pData;
+    auto* dataPtr = (WorldViewProj*)mappedResource.pData;
     dataPtr->world = worldMatrix;
     dataPtr->view = viewMatrix;
     dataPtr->projection = projectionMatrix;
 
-    getRenderDevice().getDeviceContextPtr()->Unmap(d_matrixBuffer, 0);
+    getRenderDevice().getDeviceContextPtr()->Unmap(d_matrixBuffer.get(), 0);
 
-    getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(0, 1, &d_matrixBuffer);
+    getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(0, 1, d_matrixBuffer.getPp());
   }
 
   void SimpleShader::setCBuffers() const
@@ -240,13 +206,13 @@ namespace Dx
     // Camera
     {
       D3D11_MAPPED_SUBRESOURCE mappedResource;
-      getRenderDevice().getDeviceContextPtr()->Map(d_cameraBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+      getRenderDevice().getDeviceContextPtr()->Map(d_cameraBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-      auto* dataPtr = (CameraCBuffer*)mappedResource.pData;
+      auto* dataPtr = (CameraDesc*)mappedResource.pData;
       dataPtr->cameraPos = getXmfloat3(d_camera.getPosition());
 
-      getRenderDevice().getDeviceContextPtr()->Unmap(d_cameraBuffer, 0);
-      getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(1, 1, &d_cameraBuffer);
+      getRenderDevice().getDeviceContextPtr()->Unmap(d_cameraBuffer.get(), 0);
+      getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(1, 1, d_cameraBuffer.getPp());
     }
   }
 
@@ -275,10 +241,10 @@ namespace Dx
   void SimpleShader::setMaterial(const Material& i_material) const
   {
     D3D11_MAPPED_SUBRESOURCE mappedResource;
-    getRenderDevice().getDeviceContextPtr()->Map(d_lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+    getRenderDevice().getDeviceContextPtr()->Map(d_lightBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-    auto* dataPtr = (LightCBuffer*)mappedResource.pData;
-    *dataPtr = d_lightCBuffer;
+    auto* dataPtr = (LightDesc*)mappedResource.pData;
+    *dataPtr = d_lightDesc;
     dataPtr->diffuseColor = XMFLOAT4(
       i_material.diffuseColor.x,
       i_material.diffuseColor.y,
@@ -286,8 +252,8 @@ namespace Dx
       i_material.diffuseColor.w);
     dataPtr->specularPower = i_material.specularPower;
 
-    getRenderDevice().getDeviceContextPtr()->Unmap(d_lightBuffer, 0);
-    getRenderDevice().getDeviceContextPtr()->PSSetConstantBuffers(0, 1, &d_lightBuffer);
+    getRenderDevice().getDeviceContextPtr()->Unmap(d_lightBuffer.get(), 0);
+    getRenderDevice().getDeviceContextPtr()->PSSetConstantBuffers(0, 1, d_lightBuffer.getPp());
   }
 
   void SimpleShader::drawIndexed(const int i_count, const int i_startIndex) const

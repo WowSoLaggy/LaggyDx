@@ -3,33 +3,33 @@
 
 namespace Dx
 {
-  struct MatrixCBuffer
+  struct WorldViewProj
   {
     XMMATRIX world;
     XMMATRIX view;
     XMMATRIX projection;
   };
 
-  struct TimeCBuffer
+  struct TimeDesc
   {
     float time{ 0 };
     XMFLOAT3 _reserved{ 0, 0, 0 };
   };
 
-  struct CameraCBuffer
+  struct CameraDesc
   {
     XMFLOAT3 cameraPos{ 0, 0, 0 };
     float _reserved{ 0 };
   };
 
-  struct WaveCBuffer
+  struct WaveDesc
   {
     XMFLOAT4 wave1{ 0, 0, 0, 0 };
     XMFLOAT4 wave2{ 0, 0, 0, 0 };
     XMFLOAT4 wave3{ 0, 0, 0, 0 };
   };
 
-  struct LightCBuffer
+  struct LightDesc
   {
     XMFLOAT4 diffuseColor{ 0, 0, 0 ,0 };
     XMFLOAT4 lightColor{ 0, 0, 0, 0 };
@@ -39,7 +39,7 @@ namespace Dx
     XMFLOAT3 _reserved{ 0, 0, 0 };
   };
 
-  struct TextureDisplacementCBuffer
+  struct TextureDisplacementDesc
   {
     XMFLOAT2 speed1{ 0, 0 };
     XMFLOAT2 speed2{ 0, 0 };

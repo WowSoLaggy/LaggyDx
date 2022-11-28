@@ -5,7 +5,7 @@ cbuffer MatrixBuffer
   matrix projectionMatrix;
 };
 
-cbuffer TimeCBuffer
+cbuffer Time
 {
   float time;
 };
@@ -16,14 +16,14 @@ cbuffer CameraCBuffer
   float _reserved1;
 };
 
-cbuffer WaveCBuffer
+cbuffer WaveDesc
 {
   float4 wave1;
   float4 wave2;
   float4 wave3;
 };
 
-cbuffer TextureDisplacementCBuffer
+cbuffer TextureDisplacementDesc
 {
   float2 speed1;
   float2 speed2;
