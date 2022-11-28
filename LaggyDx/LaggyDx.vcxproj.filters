@@ -121,11 +121,11 @@
     <Filter Include="src\Vertices">
       <UniqueIdentifier>{a236270b-d1ff-4f8c-aa4c-88734881b6e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\ImageUtils">
-      <UniqueIdentifier>{6c31fb6b-366b-4ff5-8667-b0241d849fd8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Roam">
       <UniqueIdentifier>{30e03394-03a0-4ecf-8ff5-8a32a4d2eb76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Image">
+      <UniqueIdentifier>{6c31fb6b-366b-4ff5-8667-b0241d849fd8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -214,10 +214,10 @@
       <Filter>src\Animation3d</Filter>
     </ClInclude>
     <ClInclude Include="ImageDescription.h">
-      <Filter>src\ImageUtils</Filter>
+      <Filter>src\Image</Filter>
     </ClInclude>
     <ClInclude Include="ImageAnimation.h">
-      <Filter>src\ImageUtils</Filter>
+      <Filter>src\Image</Filter>
     </ClInclude>
     <ClInclude Include="AnimatedSprite.h">
       <Filter>src\Sprite</Filter>
@@ -520,13 +520,19 @@
       <Filter>src\Vertices</Filter>
     </ClInclude>
     <ClInclude Include="ChannelInfo.h">
-      <Filter>src\ImageUtils</Filter>
+      <Filter>src\Image</Filter>
     </ClInclude>
     <ClInclude Include="Roam.h">
       <Filter>src\Roam</Filter>
     </ClInclude>
     <ClInclude Include="Tri.h">
       <Filter>src\Roam</Filter>
+    </ClInclude>
+    <ClInclude Include="Bitmap.h">
+      <Filter>src\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="IBitmap.h">
+      <Filter>src\Image</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -826,6 +832,9 @@
     </ClCompile>
     <ClCompile Include="Tri.cpp">
       <Filter>src\Roam</Filter>
+    </ClCompile>
+    <ClCompile Include="Bitmap.cpp">
+      <Filter>src\Image</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

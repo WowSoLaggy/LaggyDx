@@ -18,6 +18,7 @@ namespace Dx
 
     virtual bool checkAlpha(Sdk::Vector2I i_coords, int i_frame = 0) const = 0;
 
-    virtual const Channels& getChannelsInfo(IRenderDevice& i_renderDevice) const = 0;
+    virtual const std::shared_ptr<IBitmap> getBitmap(IRenderDevice& i_renderDevice) const = 0;
   };
+  
 } // ns Dx

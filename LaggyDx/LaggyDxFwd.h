@@ -93,6 +93,8 @@ namespace Dx
   class Roam;
   class Tri;
 
+  class IBitmap;
+
 } // ns Dx
 
 
@@ -103,6 +105,7 @@ struct ID3D11PixelShader;
 struct ID3D11SamplerState;
 struct ID3D11VertexShader;
 struct ID3D11InputLayout;
+struct ID3D11ShaderResourceView;
 
 
 namespace DirectX

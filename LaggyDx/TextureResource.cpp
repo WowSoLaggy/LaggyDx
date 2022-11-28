@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "TextureResource.h"
 
+#include "Bitmap.h"
 #include "RenderDevice.h"
 
 #include <LaggySdk/Contracts.h>
@@ -170,16 +171,7 @@ namespace Dx
   }
 
 
-  const Channels& TextureResource::getChannelsInfo(IRenderDevice& i_renderDevice) const
-  {
-    if (!d_channels)
-      calculateChannels(i_renderDevice);
-
-    CONTRACT_EXPECT(d_channels);
-    return *d_channels;
-  }
-
-  void TextureResource::calculateChannels(IRenderDevice& i_renderDevice) const
+  const std::shared_ptr<IBitmap> TextureResource::getBitmap(IRenderDevice& i_renderDevice) const
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
 
@@ -189,7 +181,7 @@ namespace Dx
     readTexDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
 
     D3D11_MAPPED_SUBRESOURCE subres;
-    std::vector<unsigned char> tempArray;
+    auto bmp = std::make_shared<Bitmap>();
 
     {
       const Sdk::Locker scopeLocker(renderDevice);
@@ -207,79 +199,17 @@ namespace Dx
       hRes = renderDevice.getDeviceContextPtr()->Map(stagingTex, 0, D3D11_MAP::D3D11_MAP_READ, 0, &subres);
       CONTRACT_ASSERT(!FAILED(hRes));
 
-      unsigned char* data = (unsigned char*)subres.pData;
-      tempArray.resize(subres.DepthPitch, 0);
-      memcpy(tempArray.data(), data, subres.DepthPitch);
+      bmp->resize(readTexDesc.Width, readTexDesc.Height, subres.RowPitch);
+      memcpy(bmp->getData(), (unsigned char*)subres.pData, bmp->getStride() * bmp->getHeight());
 
       renderDevice.getDeviceContextPtr()->Unmap(stagingTex, 0);
       stagingTex->Release();
     }
 
-    auto initChannel = [&](ChannelInfo& i_info, unsigned char i_value) {
-      i_info.min = i_value;
-      i_info.max = i_value;
-      i_info.mean = i_value;
-    };
-
-    auto createChannels = [&](unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
-      d_channels = Channels();
-      initChannel(d_channels->r, r);
-      initChannel(d_channels->g, g);
-      initChannel(d_channels->b, b);
-      initChannel(d_channels->a, a);
-    };
-
-    auto addValue = [&](ChannelInfo& i_info, unsigned char i_value) {
-      if (i_value < i_info.min)
-        i_info.min = i_value;
-      if (i_value > i_info.max)
-        i_info.max = i_value;
-    };
-
-    auto setMean = [&](ChannelInfo& i_info, int i_sum) {
-      i_info.mean = (double)i_sum / (readTexDesc.Width * readTexDesc.Height);
-    };
-
-    int rSum = 0;
-    int gSum = 0;
-    int bSum = 0;
-    int aSum = 0;
-
-
-    for (int y = 0; y < (int)readTexDesc.Height; ++y)
-    {
-      const unsigned char* rowStart = tempArray.data() + subres.RowPitch * y;
-      for (int x = 0; x < (int)readTexDesc.Width; ++x, rowStart += 4)
-      {
-        const unsigned char r = *(rowStart + 0);
-        const unsigned char g = *(rowStart + 1);
-        const unsigned char b = *(rowStart + 2);
-        const unsigned char a = *(rowStart + 3);
-
-        if (!d_channels)
-          createChannels(r, g, b, a);
-        else
-        {
-          addValue(d_channels->r, r);
-          addValue(d_channels->g, g);
-          addValue(d_channels->b, b);
-          addValue(d_channels->a, a);
-        }
-
-        rSum += r;
-        gSum += g;
-        bSum += b;
-        aSum += a;
-      }
-    }
-
-    setMean(d_channels->r, rSum);
-    setMean(d_channels->g, gSum);
-    setMean(d_channels->b, bSum);
-    setMean(d_channels->a, aSum);
+    return bmp;
   }
 
-
+  
   fs::path TextureResource::getFilename() const
   {
     return d_textureFilePath.filename();

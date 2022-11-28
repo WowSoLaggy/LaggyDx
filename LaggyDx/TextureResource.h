@@ -1,14 +1,9 @@
 #pragma once
 
-#include "ChannelInfo.h"
 #include "ImageAnimation.h"
 #include "ImageDescription.h"
+#include "LaggyDxFwd.h"
 #include "ITextureResource.h"
-
-#include <unordered_map>
-
-
-struct ID3D11ShaderResourceView;
 
 
 namespace Dx
@@ -28,7 +23,7 @@ namespace Dx
 
     virtual bool checkAlpha(Sdk::Vector2I i_coords, int i_frame = 0) const override;
 
-    virtual const Channels& getChannelsInfo(IRenderDevice& i_renderDevice) const override;
+    virtual const std::shared_ptr<IBitmap> getBitmap(IRenderDevice& i_renderDevice) const override;
 
     ID3D11ShaderResourceView* getTexturePtr() const { return d_texture; }
 
@@ -42,9 +37,6 @@ namespace Dx
 
     bool d_solidAlpha = true;
     std::vector<bool> d_alphaMask;
-
-    mutable std::optional<Channels> d_channels;
-    void calculateChannels(IRenderDevice& i_renderDevice) const;
 
     void loadTexture(IRenderDevice& i_renderDevice);
     void setSizeFromTexture();
