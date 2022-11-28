@@ -404,11 +404,11 @@ namespace Dx
 
   XMFLOAT4& OceanShader::getWaveByIndex(int i_waveIndex)
   {
-    if (i_waveIndex == 1)
+    if (i_waveIndex == 0)
       return d_waveCBuffer.wave1;
-    else if (i_waveIndex == 2)
+    else if (i_waveIndex == 1)
       return d_waveCBuffer.wave2;
-    else if (i_waveIndex == 3)
+    else if (i_waveIndex == 2)
       return d_waveCBuffer.wave3;
 
     CONTRACT_EXPECT(false);
