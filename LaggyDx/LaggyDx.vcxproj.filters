@@ -124,6 +124,9 @@
     <Filter Include="src\Roam">
       <UniqueIdentifier>{30e03394-03a0-4ecf-8ff5-8a32a4d2eb76}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\HeightMap">
+      <UniqueIdentifier>{eca431aa-3e61-4544-9022-2f7274247ac0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Image">
       <UniqueIdentifier>{6c31fb6b-366b-4ff5-8667-b0241d849fd8}</UniqueIdentifier>
     </Filter>
@@ -534,6 +537,9 @@
     <ClInclude Include="Tri.h">
       <Filter>src\Roam</Filter>
     </ClInclude>
+    <ClInclude Include="HeightMap.h">
+      <Filter>src\HeightMap</Filter>
+    </ClInclude>
     <ClInclude Include="Bitmap.h">
       <Filter>src\Image</Filter>
     </ClInclude>
@@ -850,6 +856,9 @@
     </ClCompile>
     <ClCompile Include="Tri.cpp">
       <Filter>src\Roam</Filter>
+    </ClCompile>
+    <ClCompile Include="HeightMap.cpp">
+      <Filter>src\HeightMap</Filter>
     </ClCompile>
     <ClCompile Include="Bitmap.cpp">
       <Filter>src\Image</Filter>

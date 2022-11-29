@@ -95,6 +95,8 @@ namespace Dx
 
   class IBitmap;
 
+  class HeightMap;
+
 } // ns Dx
 
 
