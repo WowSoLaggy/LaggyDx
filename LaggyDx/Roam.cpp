@@ -37,6 +37,10 @@ namespace Dx
   {
     CONTRACT_EXPECT(i_heightMap.getWidth() == i_heightMap.getHeight());
 
+    // Move initials points to the correct heights
+    for (auto& point : d_points)
+      point.position.y = (float)i_heightMap.getHeight(point.position.x, point.position.z);
+
     tesselate(i_heightMap, i_precision);
 
     setNormalsAndTexCoords();
