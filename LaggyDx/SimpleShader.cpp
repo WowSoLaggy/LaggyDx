@@ -74,14 +74,6 @@ namespace Dx
   }
 
 
-  void SimpleShader::setShaders() const
-  {
-    getRenderDevice().getDeviceContextPtr()->IASetInputLayout(getShaders().getLayout());
-    getRenderDevice().getDeviceContextPtr()->VSSetShader(getShaders().getVs(), nullptr, 0);
-    getRenderDevice().getDeviceContextPtr()->PSSetShader(getShaders().getPs(), nullptr, 0);
-    getRenderDevice().getDeviceContextPtr()->PSSetSamplers(0, 1, getShaders().getSamplerPp());
-  }
-
   void SimpleShader::setGeometryBuffers(const IMesh& i_mesh) const
   {
     auto* vbPtr = i_mesh.getVertexBuffer().getPtr();

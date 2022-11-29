@@ -51,7 +51,6 @@ namespace Dx
     CBuffer d_waveBuffer;
     CBuffer d_texturesDisplacementBuffer;
 
-    void setShaders() const;
     void setGeometryBuffers(const IMesh& i_mesh) const;
     void setXfmMatrices(const IObject3& i_object) const;
     void setCBuffers() const;

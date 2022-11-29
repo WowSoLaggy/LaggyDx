@@ -44,7 +44,6 @@ namespace Dx
     CBuffer d_skyDomeBuffer;
 
     virtual void setRenderStates() const override;
-    void setShaders() const;
     void setGeometryBuffers(const IMesh& i_mesh) const;
     void setXfmMatrices(const IObject3& i_object) const;
     void setCBuffers() const;

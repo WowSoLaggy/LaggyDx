@@ -20,6 +20,8 @@ namespace Dx
     
     ShaderWrapper& getShaders();
     const ShaderWrapper& getShaders() const;
+
+    void setShaders() const;
     
   private:
     bool d_solidFillMode = true;

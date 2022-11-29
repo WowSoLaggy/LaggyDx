@@ -78,13 +78,6 @@ namespace Dx
     getRenderDevice().setDepthEnabled(false);
   }
 
-  void SkydomeShader::setShaders() const
-  {
-    getRenderDevice().getDeviceContextPtr()->IASetInputLayout(getShaders().getLayout());
-    getRenderDevice().getDeviceContextPtr()->VSSetShader(getShaders().getVs(), nullptr, 0);
-    getRenderDevice().getDeviceContextPtr()->PSSetShader(getShaders().getPs(), nullptr, 0);
-    getRenderDevice().getDeviceContextPtr()->PSSetSamplers(0, 1, getShaders().getSamplerPp());
-  }
 
   void SkydomeShader::setGeometryBuffers(const IMesh& i_mesh) const
   {
