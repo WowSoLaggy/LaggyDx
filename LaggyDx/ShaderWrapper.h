@@ -13,10 +13,12 @@ namespace Dx
 
     void initVs(const void* i_shaderBytes, int i_shaderSize);
     void initPs(const void* i_shaderBytes, int i_shaderSize);
+    void initSampler(bool i_wrapCoords);
 
     ID3D11VertexShader* getVs() const;
     ID3D11PixelShader* getPs() const;
     ID3D11InputLayout* getLayout() const;
+    ID3D11SamplerState* const* getSamplerPp() const;
 
   private:
     const RenderDevice& d_renderDevice;
@@ -24,6 +26,7 @@ namespace Dx
     ID3D11VertexShader* d_vs = nullptr;
     ID3D11PixelShader* d_ps = nullptr;
     ID3D11InputLayout* d_layout = nullptr;
+    ID3D11SamplerState* d_sampler = nullptr;
   };
 
 } // ns Dx

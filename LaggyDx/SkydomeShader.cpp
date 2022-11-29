@@ -21,6 +21,8 @@ namespace Dx
     const ICamera& i_camera,
     const IResourceController& i_resourceController)
     : ISkydomeShader(i_renderDevice)
+    , d_matrixBuffer(getRenderDevice(), sizeof(WorldViewProj))
+    , d_skyDomeBuffer(getRenderDevice(), sizeof(SkydomeSettings))
     , d_camera(i_camera)
     , d_resourceController(i_resourceController)
     , d_mainTexture(i_resourceController.getTexture("sky_main.png"))
@@ -28,13 +30,6 @@ namespace Dx
     , d_aroundSunTexture(i_resourceController.getTexture("sky_around_sun.png"))
   {
     createShaders();
-    createBuffers();
-  }
-
-  SkydomeShader::~SkydomeShader()
-  {
-    disposeBuffers();
-    disposeShaders();
   }
 
 
@@ -79,65 +74,7 @@ namespace Dx
   {
     getShaders().initVs(g_skydomeVs, sizeof(g_skydomeVs));
     getShaders().initPs(g_skydomePs, sizeof(g_skydomePs));
-
-
-    D3D11_SAMPLER_DESC samplerDesc = {};
-    samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-    samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
-    samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
-    samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
-    samplerDesc.MipLODBias = 0.0f;
-    samplerDesc.MaxAnisotropy = 1;
-    samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
-    samplerDesc.BorderColor[0] = 0;
-    samplerDesc.BorderColor[1] = 0;
-    samplerDesc.BorderColor[2] = 0;
-    samplerDesc.BorderColor[3] = 0;
-    samplerDesc.MinLOD = 0;
-    samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
-
-    HRESULT hRes = getRenderDevice().getDevicePtr()->CreateSamplerState(&samplerDesc, &d_sampleState);
-    CONTRACT_ASSERT(!FAILED(hRes));
-    CONTRACT_ASSERT(d_sampleState != nullptr);
-  }
-
-  void SkydomeShader::disposeShaders()
-  {
-    d_sampleState->Release();
-    d_sampleState = nullptr;
-  }
-
-
-  void SkydomeShader::createBuffers()
-  {
-    auto createBuffer = [&](const int i_sizeOf, ID3D11Buffer** i_buf)
-    {
-      D3D11_BUFFER_DESC desc;
-      desc.Usage = D3D11_USAGE_DYNAMIC;
-      desc.ByteWidth = i_sizeOf;
-      desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-      desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-      desc.MiscFlags = 0;
-      desc.StructureByteStride = 0;
-
-      HRESULT hRes = getRenderDevice().getDevicePtr()->CreateBuffer(&desc, nullptr, i_buf);
-      CONTRACT_ASSERT(!FAILED(hRes));
-    };
-
-    createBuffer(sizeof(WorldViewProj), &d_matrixBuffer);
-    createBuffer(sizeof(SkydomeSettings), &d_skyDomeBuffer);
-  }
-
-  void SkydomeShader::disposeBuffers()
-  {
-    auto releaseBuffer = [](ID3D11Buffer** i_buf)
-    {
-      (*i_buf)->Release();
-      *i_buf = nullptr;
-    };
-
-    releaseBuffer(&d_skyDomeBuffer);
-    releaseBuffer(&d_matrixBuffer);
+    getShaders().initSampler(false);
   }
 
 
@@ -152,7 +89,7 @@ namespace Dx
     getRenderDevice().getDeviceContextPtr()->IASetInputLayout(getShaders().getLayout());
     getRenderDevice().getDeviceContextPtr()->VSSetShader(getShaders().getVs(), nullptr, 0);
     getRenderDevice().getDeviceContextPtr()->PSSetShader(getShaders().getPs(), nullptr, 0);
-    getRenderDevice().getDeviceContextPtr()->PSSetSamplers(0, 1, &d_sampleState);
+    getRenderDevice().getDeviceContextPtr()->PSSetSamplers(0, 1, getShaders().getSamplerPp());
   }
 
   void SkydomeShader::setGeometryBuffers(const IMesh& i_mesh) const
@@ -192,30 +129,30 @@ namespace Dx
     const auto projectionMatrix = XMMatrixTranspose(d_camera.getProjectionMatrix());
 
     D3D11_MAPPED_SUBRESOURCE mappedResource;
-    getRenderDevice().getDeviceContextPtr()->Map(d_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+    getRenderDevice().getDeviceContextPtr()->Map(d_matrixBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
     auto* dataPtr = (WorldViewProj*)mappedResource.pData;
     dataPtr->world = worldMatrix;
     dataPtr->view = viewMatrix;
     dataPtr->projection = projectionMatrix;
 
-    getRenderDevice().getDeviceContextPtr()->Unmap(d_matrixBuffer, 0);
+    getRenderDevice().getDeviceContextPtr()->Unmap(d_matrixBuffer.get(), 0);
 
-    getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(0, 1, &d_matrixBuffer);
+    getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(0, 1, d_matrixBuffer.getPp());
   }
 
   void SkydomeShader::setCBuffers() const
   {
     {
       D3D11_MAPPED_SUBRESOURCE mappedResource;
-      getRenderDevice().getDeviceContextPtr()->Map(d_skyDomeBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+      getRenderDevice().getDeviceContextPtr()->Map(d_skyDomeBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
       auto* dataPtr = (SkydomeSettings*)mappedResource.pData;
       *dataPtr = d_skyDomeSettings;
       dataPtr->cameraPosition = getXmfloat3(d_camera.getPosition());
 
-      getRenderDevice().getDeviceContextPtr()->Unmap(d_skyDomeBuffer, 0);
-      getRenderDevice().getDeviceContextPtr()->PSSetConstantBuffers(1, 1, &d_skyDomeBuffer);
+      getRenderDevice().getDeviceContextPtr()->Unmap(d_skyDomeBuffer.get(), 0);
+      getRenderDevice().getDeviceContextPtr()->PSSetConstantBuffers(1, 1, d_skyDomeBuffer.getPp());
     }
   }
 

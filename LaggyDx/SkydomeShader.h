@@ -1,5 +1,6 @@
 #pragma once
 
+#include "CBuffer.h"
 #include "ISkydomeShader.h"
 #include "ShaderBuffers.h"
 
@@ -22,7 +23,6 @@ namespace Dx
       IRenderDevice& i_renderDevice,
       const ICamera& i_camera,
       const IResourceController& i_resourceController);
-    virtual ~SkydomeShader() override;
 
     virtual void setSunDirection(Sdk::Vector3D i_sunDir) override;
     virtual void setSunRadiusInternal(float i_radius) override;
@@ -40,17 +40,10 @@ namespace Dx
 
     SkydomeSettings d_skyDomeSettings;
 
-    ID3D11Buffer* d_matrixBuffer = nullptr;
-    ID3D11Buffer* d_colorsBuffer = nullptr;
-    ID3D11Buffer* d_skyDomeBuffer = nullptr;
-
-    ID3D11SamplerState* d_sampleState = nullptr;
+    CBuffer d_matrixBuffer;
+    CBuffer d_skyDomeBuffer;
 
     void createShaders();
-    void disposeShaders();
-
-    void createBuffers();
-    void disposeBuffers();
 
     virtual void setRenderStates() const override;
     void setShaders() const;

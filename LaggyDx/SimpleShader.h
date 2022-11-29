@@ -14,7 +14,6 @@ namespace Dx
       IRenderDevice& i_renderDevice,
       const ICamera& i_camera,
       const IResourceController& i_resourceController);
-    virtual ~SimpleShader() override;
 
     virtual void setLightDirection(Sdk::Vector3D i_direction) override;
     virtual void setLightColor(const Sdk::Vector4D& i_color) override;
@@ -33,10 +32,7 @@ namespace Dx
     CBuffer d_cameraBuffer;
     CBuffer d_lightBuffer;
 
-    ID3D11SamplerState* d_sampleState = nullptr;
-
     void createShaders();
-    void disposeShaders();
 
     void setShaders() const;
     void setGeometryBuffers(const IMesh& i_mesh) const;

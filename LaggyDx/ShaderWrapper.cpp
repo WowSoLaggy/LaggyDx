@@ -26,12 +26,14 @@ namespace Dx
     dispose(&d_vs);
     dispose(&d_layout);
     dispose(&d_ps);
+    dispose(&d_sampler);
   }
 
 
   ID3D11VertexShader* ShaderWrapper::getVs() const { return d_vs; }
   ID3D11PixelShader* ShaderWrapper::getPs() const { return d_ps; }
   ID3D11InputLayout* ShaderWrapper::getLayout() const { return d_layout; }
+  ID3D11SamplerState* const* ShaderWrapper::getSamplerPp() const { return &d_sampler; }
 
 
   void ShaderWrapper::initVs(const void* i_shaderBytes, int i_shaderSize)
@@ -54,6 +56,32 @@ namespace Dx
       i_shaderBytes, i_shaderSize, NULL, &d_ps);
     CONTRACT_ASSERT(!FAILED(hRes));
     CONTRACT_ASSERT(d_ps != nullptr);
+  }
+
+  void ShaderWrapper::initSampler(bool i_wrapCoords)
+  {
+    const auto mode = i_wrapCoords ?
+      D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP :
+      D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_CLAMP;
+
+    D3D11_SAMPLER_DESC samplerDesc{};
+    samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+    samplerDesc.AddressU = mode;
+    samplerDesc.AddressV = mode;
+    samplerDesc.AddressW = mode;
+    samplerDesc.MipLODBias = 0.0f;
+    samplerDesc.MaxAnisotropy = 1;
+    samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+    samplerDesc.BorderColor[0] = 0;
+    samplerDesc.BorderColor[1] = 0;
+    samplerDesc.BorderColor[2] = 0;
+    samplerDesc.BorderColor[3] = 0;
+    samplerDesc.MinLOD = 0;
+    samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+    HRESULT hRes = d_renderDevice.getDevicePtr()->CreateSamplerState(&samplerDesc, &d_sampler);
+    CONTRACT_ASSERT(!FAILED(hRes));
+    CONTRACT_ASSERT(d_sampler != nullptr);
   }
 
 } // ns Dx

@@ -14,7 +14,6 @@ namespace Dx
       IRenderDevice& i_renderDevice,
       const ICamera& i_camera,
       const IResourceController& i_resourceController);
-    virtual ~OceanShader() override;
 
     virtual void setGlobalTime(double i_time) override;
 
@@ -52,10 +51,7 @@ namespace Dx
     CBuffer d_waveBuffer;
     CBuffer d_texturesDisplacementBuffer;
 
-    ID3D11SamplerState* d_sampleState = nullptr;
-
     void createShaders();
-    void disposeShaders();
 
     void setShaders() const;
     void setGeometryBuffers(const IMesh& i_mesh) const;

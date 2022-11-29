@@ -37,11 +37,6 @@ namespace Dx
     createShaders();
   }
 
-  OceanShader::~OceanShader()
-  {
-    disposeShaders();
-  }
-
 
   void OceanShader::setGlobalTime(const double i_time)
   {
@@ -133,32 +128,7 @@ namespace Dx
   {
     getShaders().initVs(g_oceanVs, sizeof(g_oceanVs));
     getShaders().initPs(g_oceanPs, sizeof(g_oceanPs));
-
-
-    D3D11_SAMPLER_DESC samplerDesc;
-    samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-    samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-    samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-    samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-    samplerDesc.MipLODBias = 0.0f;
-    samplerDesc.MaxAnisotropy = 1;
-    samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
-    samplerDesc.BorderColor[0] = 0;
-    samplerDesc.BorderColor[1] = 0;
-    samplerDesc.BorderColor[2] = 0;
-    samplerDesc.BorderColor[3] = 0;
-    samplerDesc.MinLOD = 0;
-    samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
-
-    HRESULT hRes = getRenderDevice().getDevicePtr()->CreateSamplerState(&samplerDesc, &d_sampleState);
-    CONTRACT_ASSERT(!FAILED(hRes));
-    CONTRACT_ASSERT(d_sampleState != nullptr);
-  }
-
-  void OceanShader::disposeShaders()
-  {
-    d_sampleState->Release();
-    d_sampleState = nullptr;
+    getShaders().initSampler(true);
   }
 
 
@@ -167,7 +137,7 @@ namespace Dx
     getRenderDevice().getDeviceContextPtr()->IASetInputLayout(getShaders().getLayout());
     getRenderDevice().getDeviceContextPtr()->VSSetShader(getShaders().getVs(), nullptr, 0);
     getRenderDevice().getDeviceContextPtr()->PSSetShader(getShaders().getPs(), nullptr, 0);
-    getRenderDevice().getDeviceContextPtr()->PSSetSamplers(0, 1, &d_sampleState);
+    getRenderDevice().getDeviceContextPtr()->PSSetSamplers(0, 1, getShaders().getSamplerPp());
   }
 
   void OceanShader::setGeometryBuffers(const IMesh& i_mesh) const
