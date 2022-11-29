@@ -34,7 +34,9 @@ namespace Dx
     , d_emptyTexture(i_resourceController.getTexture("white.png"))
     , d_bumpTexture(i_resourceController.getTexture("bump.png"))
   {
-    createShaders();
+    getShaders().initVs(g_oceanVs, sizeof(g_oceanVs));
+    getShaders().initPs(g_oceanPs, sizeof(g_oceanPs));
+    getShaders().initSampler(true);
   }
 
 
@@ -121,14 +123,6 @@ namespace Dx
 
     for (const auto& mesh : i_object.getModel().getMeshes())
       drawMesh(*mesh);
-  }
-
-
-  void OceanShader::createShaders()
-  {
-    getShaders().initVs(g_oceanVs, sizeof(g_oceanVs));
-    getShaders().initPs(g_oceanPs, sizeof(g_oceanPs));
-    getShaders().initSampler(true);
   }
 
 

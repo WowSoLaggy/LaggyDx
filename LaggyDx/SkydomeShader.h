@@ -43,8 +43,6 @@ namespace Dx
     CBuffer d_matrixBuffer;
     CBuffer d_skyDomeBuffer;
 
-    void createShaders();
-
     virtual void setRenderStates() const override;
     void setShaders() const;
     void setGeometryBuffers(const IMesh& i_mesh) const;

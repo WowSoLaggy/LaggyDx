@@ -29,7 +29,9 @@ namespace Dx
     , d_horizonHazeTexture(i_resourceController.getTexture("sky_horizon_haze.png"))
     , d_aroundSunTexture(i_resourceController.getTexture("sky_around_sun.png"))
   {
-    createShaders();
+    getShaders().initVs(g_skydomeVs, sizeof(g_skydomeVs));
+    getShaders().initPs(g_skydomePs, sizeof(g_skydomePs));
+    getShaders().initSampler(false);
   }
 
 
@@ -67,14 +69,6 @@ namespace Dx
 
     for (const auto& mesh : i_object.getModel().getMeshes())
       drawMesh(*mesh);
-  }
-
-
-  void SkydomeShader::createShaders()
-  {
-    getShaders().initVs(g_skydomeVs, sizeof(g_skydomeVs));
-    getShaders().initPs(g_skydomePs, sizeof(g_skydomePs));
-    getShaders().initSampler(false);
   }
 
 

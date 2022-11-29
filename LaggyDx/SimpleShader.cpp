@@ -27,7 +27,9 @@ namespace Dx
     , d_resourceController(i_resourceController)
     , d_emptyTexture(i_resourceController.getTexture("white.png"))
   {
-    createShaders();
+    getShaders().initVs(g_simpleVs, sizeof(g_simpleVs));
+    getShaders().initPs(g_simplePs, sizeof(g_simplePs));
+    getShaders().initSampler(true);
   }
 
 
@@ -69,14 +71,6 @@ namespace Dx
 
     for (const auto& mesh : i_object.getModel().getMeshes())
       drawMesh(*mesh);
-  }
-
-
-  void SimpleShader::createShaders()
-  {
-    getShaders().initVs(g_simpleVs, sizeof(g_simpleVs));
-    getShaders().initPs(g_simplePs, sizeof(g_simplePs));
-    getShaders().initSampler(true);
   }
 
 

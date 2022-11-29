@@ -32,8 +32,6 @@ namespace Dx
     CBuffer d_cameraBuffer;
     CBuffer d_lightBuffer;
 
-    void createShaders();
-
     void setShaders() const;
     void setGeometryBuffers(const IMesh& i_mesh) const;
     void setXfmMatrices(const IObject3& i_object) const;
