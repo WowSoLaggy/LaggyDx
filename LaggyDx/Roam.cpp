@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Roam.h"
 
+#include "HeightMap.h"
 #include "Tri.h"
 
 #include <LaggySdk/VectorUtils.h>
@@ -8,7 +9,7 @@
 
 namespace Dx
 {
-  Roam::Roam(const double i_size, DividerPredicate i_pred)
+  Roam::Roam(const double i_size)
   {
     d_points.push_back(VertexPosNormText::pos({ 0, 0, 0 }));
     d_points.push_back(VertexPosNormText::pos({ 0, 0, (float)i_size }));
@@ -20,8 +21,23 @@ namespace Dx
 
     d_root->baseNeighbor = rootBase;
     rootBase->baseNeighbor = d_root;
+  }
 
+  Roam::Roam(const double i_size, DividerPredicate i_pred)
+    : Roam(i_size)
+  {
     tesselate(i_pred);
+
+    setNormalsAndTexCoords();
+    collectInds();
+  }
+
+  Roam::Roam(const HeightMap& i_heightMap, const double i_precision)
+    : Roam(i_heightMap.getWidth() - 1)
+  {
+    CONTRACT_EXPECT(i_heightMap.getWidth() == i_heightMap.getHeight());
+
+    tesselate(i_heightMap, i_precision);
 
     setNormalsAndTexCoords();
     collectInds();
@@ -51,27 +67,68 @@ namespace Dx
   }
 
 
-  void Roam::divideTri(std::shared_ptr<Tri> i_tri)
+  void Roam::tesselate(const HeightMap& i_heightMap, const double i_precision)
+  {
+    CONTRACT_EXPECT(d_root);
+    CONTRACT_EXPECT(d_root->baseNeighbor);
+
+    tesselate(d_root, i_heightMap, i_precision);
+    tesselate(d_root->baseNeighbor, i_heightMap, i_precision);
+  }
+
+
+  void Roam::tesselate(std::shared_ptr<Tri> i_tri, const HeightMap& i_heightMap, const double i_precision)
+  {
+    CONTRACT_EXPECT(i_tri);
+
+    const auto testPoint = (
+      d_points.at(i_tri->ind2).position +
+      d_points.at(i_tri->ind3).position) / 2;
+    const double refHeight = i_heightMap.getHeight(testPoint.x, testPoint.z);
+    const double heightDiff = std::abs(testPoint.y - refHeight);
+
+    const int depth = i_tri->depth();
+    constexpr int minDepth = 10;
+    constexpr int maxDepth = 20;
+    if (
+      (depth >= minDepth) &&
+      (heightDiff < i_precision || depth >= maxDepth))
+    {
+      return;
+    }
+
+    const int newInd = divideTri(i_tri);
+    d_points.at(newInd).position.y = (float)refHeight;
+
+    tesselate(i_tri->leftChild, i_heightMap, i_precision);
+    tesselate(i_tri->rightChild, i_heightMap, i_precision);
+  }
+
+
+  int Roam::divideTri(std::shared_ptr<Tri> i_tri, std::optional<int> i_newPointInd)
   {
     CONTRACT_EXPECT(i_tri);
 
     if (i_tri->leftChild && i_tri->rightChild)
     {
       // Tri is already divided
-      return;
+      return i_tri->leftChild->ind1;
     }
     CONTRACT_EXPECT(!i_tri->leftChild);
     CONTRACT_EXPECT(!i_tri->rightChild);
 
     if (i_tri->baseNeighbor && i_tri->baseNeighbor->baseNeighbor != i_tri)
       divideTri(i_tri->baseNeighbor);
+    
+    if (!i_newPointInd)
+    {
+      auto newPointPos = (d_points.at(i_tri->ind2).position + d_points.at(i_tri->ind3).position) / 2;
+      d_points.push_back(VertexPosNormText::pos(std::move(newPointPos)));
+      i_newPointInd = (int)d_points.size() - 1;
+    }
 
-    auto newPointPos = (d_points.at(i_tri->ind2).position + d_points.at(i_tri->ind3).position) / 2;
-    d_points.push_back(VertexPosNormText::pos(std::move(newPointPos)));
-    const int newInd = (int)d_points.size() - 1;
-
-    i_tri->leftChild = std::make_shared<Tri>(newInd, i_tri->ind1, i_tri->ind2);
-    i_tri->rightChild = std::make_shared<Tri>(newInd, i_tri->ind3, i_tri->ind1);
+    i_tri->leftChild = std::make_shared<Tri>(*i_newPointInd, i_tri->ind1, i_tri->ind2);
+    i_tri->rightChild = std::make_shared<Tri>(*i_newPointInd, i_tri->ind3, i_tri->ind1);
 
     i_tri->leftChild->parent = i_tri;
     i_tri->rightChild->parent = i_tri;
@@ -116,7 +173,7 @@ namespace Dx
       }
       else
       {
-        divideTri(i_tri->baseNeighbor);
+        divideTri(i_tri->baseNeighbor, *i_newPointInd);
       }
     }
     else
@@ -125,6 +182,8 @@ namespace Dx
       i_tri->leftChild->rightNeighbor = NULL;
       i_tri->rightChild->leftNeighbor = NULL;
     }
+
+    return *i_newPointInd;
   }
 
 
