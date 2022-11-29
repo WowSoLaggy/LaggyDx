@@ -8,8 +8,11 @@ namespace Dx
   public:
     Tri(const int i_ind1, const int i_ind2, const int i_ind3);
 
+    /// Index of the apex point
     const int ind1 = 0;
+    /// Index of point that is CCW next from apex
     const int ind2 = 0;
+    /// Index of point that is CW next from apex
     const int ind3 = 0;
 
     std::shared_ptr<Tri> parent;
