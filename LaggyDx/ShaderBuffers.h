@@ -35,8 +35,9 @@ namespace Dx
     XMFLOAT4 lightColor{ 0, 0, 0, 0 };
     XMFLOAT3 lightDirection{ 0, 0, 0 };
     float ambientStrength{ 0 };
+    float specularIntensity{ 0 };
     float specularPower{ 0 };
-    XMFLOAT3 _reserved{ 0, 0, 0 };
+    XMFLOAT2 _reserved{ 0, 0 };
   };
 
   struct TextureDisplacementDesc

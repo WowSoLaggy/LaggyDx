@@ -8,8 +8,9 @@ cbuffer LightingCBuffer
   float4 lightColor;
   float3 lightDirection;
   float ambientStrength;
+  float specularIntensity;
   float specularPower;
-  float3 _reserved;
+  float2 _reserved;
 };
 
 
@@ -25,8 +26,6 @@ struct PixelInputType
 float4 main(PixelInputType input) : SV_TARGET
 {
   float4 textureColor = shaderTexture.Sample(SampleType, input.tex);
-  textureColor = saturate(pow(textureColor, 1 / 2.2));
-  
   textureColor *= diffuseColor;
 
   // DIFFUSE
@@ -40,7 +39,7 @@ float4 main(PixelInputType input) : SV_TARGET
   float dotProduct = saturate(dot(reflection, input.viewDirection));
   float specularValue = pow(dotProduct, specularPower);
   float4 specular = float4(specularValue, specularValue, specularValue, 1.0);
-  textureColor.rgb = saturate(textureColor.rgb + specular.rgb);
+  textureColor.rgb = saturate(textureColor.rgb + specular.rgb * specularIntensity);
   
   return textureColor;
 }

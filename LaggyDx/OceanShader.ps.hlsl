@@ -10,6 +10,7 @@ cbuffer LightingCBuffer
   float4 lightColor;
   float3 lightDirection;
   float ambientStrength;
+  float specularIntensity;
   float specularPower;
   float3 _reserved;
 };
@@ -47,7 +48,7 @@ float4 main(PixelInputType input) : SV_TARGET
   float dotProduct = saturate(dot(reflection, input.viewDirection));
   float specularValue = pow(dotProduct, specularPower);
   float4 specular = float4(specularValue, specularValue, specularValue, 1.0);
-  textureColor.rgb = saturate(textureColor.rgb + specular.rgb);
+  textureColor.rgb = saturate(textureColor.rgb + specular.rgb * specularIntensity);
   
   //
 

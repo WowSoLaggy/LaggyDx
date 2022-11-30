@@ -172,6 +172,7 @@ namespace Dx
       i_material.diffuseColor.y,
       i_material.diffuseColor.z,
       i_material.diffuseColor.w);
+    dataPtr->specularIntensity = i_material.specularIntensity;
     dataPtr->specularPower = i_material.specularPower;
 
     getRenderDevice().getDeviceContextPtr()->Unmap(d_lightBuffer.get(), 0);

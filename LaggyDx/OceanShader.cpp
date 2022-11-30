@@ -263,6 +263,7 @@ namespace Dx
 
     auto* dataPtr = (LightDesc*)mappedResource.pData;
     *dataPtr = d_lightDesc;
+    dataPtr->specularIntensity = i_material.specularIntensity;
     dataPtr->specularPower = i_material.specularPower;
 
     getRenderDevice().getDeviceContextPtr()->Unmap(d_lightBuffer.get(), 0);
