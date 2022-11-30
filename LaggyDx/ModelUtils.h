@@ -20,7 +20,8 @@ namespace Dx
   std::unique_ptr<IObject3> createObjectFromMesh(std::unique_ptr<IMesh> i_mesh);
 
 
-  void setColorOfAllMaterials(const IModel& i_model, const Sdk::Vector4F& i_color);
+  using MaterialsVisitor = std::function<void(Material& i_mat)>;
+  void traverseMaterials(const IModel& i_model, MaterialsVisitor i_visitor);
 
 
 } // ns Dx
