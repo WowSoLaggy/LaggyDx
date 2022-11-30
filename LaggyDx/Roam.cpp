@@ -44,6 +44,7 @@ namespace Dx
     tesselate(i_heightMap, i_precision);
 
     setNormalsAndTexCoords();
+    calculateNormals();
     collectInds();
   }
 
@@ -198,6 +199,47 @@ namespace Dx
       p.texture = Sdk::Vector2F{ p.position.x, p.position.z };
       p.normal = { 0, 1, 0 };
     }
+  }
+
+  void Roam::calculateNormals()
+  {
+    CONTRACT_EXPECT(d_root);
+    CONTRACT_EXPECT(d_root->baseNeighbor);
+
+    std::unordered_map<int, int> addedNormalsNum;
+    std::unordered_map<int, Sdk::Vector3F> addedNormals;
+
+    auto getNormal = [&](const Tri& i_tri) {
+      const auto sideL = d_points.at(i_tri.ind2).position - d_points.at(i_tri.ind1).position;
+      const auto sideR = d_points.at(i_tri.ind3).position - d_points.at(i_tri.ind1).position;
+      return Sdk::normalize(Sdk::cross(sideL, sideR));
+    };
+
+    std::function<void(const Tri&)> calc = [&](const Tri& i_tri) {
+      if (i_tri.leftChild)
+        calc(*i_tri.leftChild);
+      if (i_tri.rightChild)
+        calc(*i_tri.rightChild);
+
+      if (!i_tri.leftChild && !i_tri.rightChild)
+      {
+        const auto normal = getNormal(i_tri);
+        
+        addedNormals[i_tri.ind1] += normal;
+        addedNormals[i_tri.ind2] += normal;
+        addedNormals[i_tri.ind3] += normal;
+
+        ++addedNormalsNum[i_tri.ind1];
+        ++addedNormalsNum[i_tri.ind2];
+        ++addedNormalsNum[i_tri.ind3];
+      }
+    };
+
+    calc(*d_root);
+    calc(*d_root->baseNeighbor);
+
+    for (int i = 0; i < (int)d_points.size(); ++i)
+      d_points[i].normal = addedNormals[i] / addedNormalsNum[i];
   }
 
   void Roam::collectInds()

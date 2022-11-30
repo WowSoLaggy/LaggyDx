@@ -35,6 +35,7 @@ namespace Dx
     int divideTri(std::shared_ptr<Tri> i_tri, std::optional<int> i_newPointInd = std::nullopt);
 
     void setNormalsAndTexCoords();
+    void calculateNormals();
     void collectInds();
     std::vector<int> collectInds(const Tri& i_tri);
   };
