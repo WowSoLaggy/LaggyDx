@@ -17,8 +17,6 @@ namespace Dx
 
     virtual void setGlobalTime(double i_time) override;
 
-    virtual void setWaterColor(const Sdk::Vector4D& i_color) override;
-
     virtual void setWindDirection(int i_waveIndex, Sdk::Vector2D i_direction) override;
     virtual void setWavesSteepness(int i_waveIndex, double i_steepness) override;
     virtual void setWavesLength(int i_waveIndex, double i_length) override;
