@@ -32,7 +32,7 @@ namespace Dx
     collectInds();
   }
 
-  Roam::Roam(const HeightMap& i_heightMap, const double i_precision)
+  Roam::Roam(const HeightMap& i_heightMap, HeightPredicate i_pred)
     : Roam(i_heightMap.getWidth() - 1)
   {
     CONTRACT_EXPECT(i_heightMap.getWidth() == i_heightMap.getHeight());
@@ -41,7 +41,7 @@ namespace Dx
     for (auto& point : d_points)
       point.position.y = (float)i_heightMap.getHeight(point.position.x, point.position.z);
 
-    tesselate(i_heightMap, i_precision);
+    tesselate(i_heightMap, i_pred);
 
     setNormalsAndTexCoords();
     calculateNormals();
@@ -72,17 +72,17 @@ namespace Dx
   }
 
 
-  void Roam::tesselate(const HeightMap& i_heightMap, const double i_precision)
+  void Roam::tesselate(const HeightMap& i_heightMap, HeightPredicate i_pred)
   {
     CONTRACT_EXPECT(d_root);
     CONTRACT_EXPECT(d_root->baseNeighbor);
 
-    tesselate(d_root, i_heightMap, i_precision);
-    tesselate(d_root->baseNeighbor, i_heightMap, i_precision);
+    tesselate(d_root, i_heightMap, i_pred);
+    tesselate(d_root->baseNeighbor, i_heightMap, i_pred);
   }
 
 
-  void Roam::tesselate(std::shared_ptr<Tri> i_tri, const HeightMap& i_heightMap, const double i_precision)
+  void Roam::tesselate(std::shared_ptr<Tri> i_tri, const HeightMap& i_heightMap, HeightPredicate i_pred)
   {
     CONTRACT_EXPECT(i_tri);
 
@@ -92,21 +92,14 @@ namespace Dx
     const double refHeight = i_heightMap.getHeight(testPoint.x, testPoint.z);
     const double heightDiff = std::abs(testPoint.y - refHeight);
 
-    const int depth = i_tri->depth();
-    constexpr int minDepth = 10;
-    constexpr int maxDepth = 20;
-    if (
-      (depth >= minDepth) &&
-      (heightDiff < i_precision || depth >= maxDepth))
-    {
+    if (!i_pred(*i_tri, heightDiff))
       return;
-    }
 
     const int newInd = divideTri(i_tri);
     d_points.at(newInd).position.y = (float)refHeight;
 
-    tesselate(i_tri->leftChild, i_heightMap, i_precision);
-    tesselate(i_tri->rightChild, i_heightMap, i_precision);
+    tesselate(i_tri->leftChild, i_heightMap, i_pred);
+    tesselate(i_tri->rightChild, i_heightMap, i_pred);
   }
 
 
@@ -196,8 +189,8 @@ namespace Dx
   {
     for (auto& p : d_points)
     {
-      p.texture = Sdk::Vector2F{ p.position.x, p.position.z };
       p.normal = { 0, 1, 0 };
+      p.texture = Sdk::Vector2F{ p.position.x, p.position.z };
     }
   }
 

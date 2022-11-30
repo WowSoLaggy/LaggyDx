@@ -7,19 +7,20 @@
 namespace Dx
 {
   using DividerPredicate = std::function<bool(const Tri&, const std::vector<VertexPosNormText>&)>;
+  using HeightPredicate = std::function<bool(const Tri&, double)>;
 
   class Roam
   {
   public:
     Roam(double i_size);
     Roam(double i_size, DividerPredicate i_pred);
-    Roam(const HeightMap& i_heightMap, double i_precision);
+    Roam(const HeightMap& i_heightMap, HeightPredicate i_pred);
 
     const std::vector<VertexPosNormText>& getPoints() const;
     const std::vector<int>& getInds() const;
 
     void tesselate(DividerPredicate i_pred);
-    void tesselate(const HeightMap& i_heightMap, double i_precision);
+    void tesselate(const HeightMap& i_heightMap, HeightPredicate i_pred);
 
   private:
     std::shared_ptr<Tri> d_root;
@@ -28,7 +29,7 @@ namespace Dx
     std::vector<int> d_inds;
 
     void tesselate(std::shared_ptr<Tri> i_tri, DividerPredicate i_pred);
-    void tesselate(std::shared_ptr<Tri> i_tri, const HeightMap& i_heightMap, double i_precision);
+    void tesselate(std::shared_ptr<Tri> i_tri, const HeightMap& i_heightMap, HeightPredicate i_pred);
     /// \param @i_newPointInd - index of the point that shall be used for division
     ///   if std::nullopt then a new point will be created
     /// Returns index of the newly created point
