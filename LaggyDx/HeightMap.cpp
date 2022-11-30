@@ -94,7 +94,8 @@ namespace Dx
 
     for (auto& height : d_heights)
     {
-      const double ratio = (height - d_minHeight) / actualMinMaxDiff;
+      const double ratio = actualMinMaxDiff != 0 ?
+        (height - d_minHeight) / actualMinMaxDiff : 0.5;
       height = i_minHeight + ratio * newMinMaxDiff;
     }
 
