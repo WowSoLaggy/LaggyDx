@@ -64,12 +64,6 @@
     <Filter Include="src\Renderers\SimpleRenderer">
       <UniqueIdentifier>{bdeb37d4-b934-49c1-848d-99818b19d167}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Resources\ShaderResources">
-      <UniqueIdentifier>{71c8206f-b8d7-4e03-a2f5-066873d01f2f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Resources\OtherResources">
-      <UniqueIdentifier>{572e44ab-42dc-4f03-9084-d1c91d73c562}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Resources\LoadableResource">
       <UniqueIdentifier>{9f154164-f4b6-4047-bccc-156f2d1e57be}</UniqueIdentifier>
     </Filter>
@@ -78,9 +72,6 @@
     </Filter>
     <Filter Include="src\AnimationFbx">
       <UniqueIdentifier>{254a46f2-6af8-48da-b731-b899aa518649}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Resources\ModelResources">
-      <UniqueIdentifier>{1191deec-7391-498d-bb5b-16a5b100621b}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Model">
       <UniqueIdentifier>{c8170a72-b4dc-466c-b166-5b99e072a9cd}</UniqueIdentifier>
@@ -136,6 +127,18 @@
     <Filter Include="src\Shaders\ShaderWrapper">
       <UniqueIdentifier>{2241df8e-c23b-4f22-8381-907fd07c6493}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Resources\Models">
+      <UniqueIdentifier>{1191deec-7391-498d-bb5b-16a5b100621b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Resources\Shaders">
+      <UniqueIdentifier>{71c8206f-b8d7-4e03-a2f5-066873d01f2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Resources\Textures">
+      <UniqueIdentifier>{70eda77e-09b7-42b1-8f6f-1d8d0ed61719}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Resources\Fonts">
+      <UniqueIdentifier>{802c11cc-7d5d-4f9f-84b6-f22ae29c17be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -159,9 +162,6 @@
     <ClInclude Include="IResourceController.h">
       <Filter>src\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="TextureResource.h">
-      <Filter>src\Resources\OtherResources</Filter>
-    </ClInclude>
     <ClInclude Include="MeshLoader.h">
       <Filter>src\Model</Filter>
     </ClInclude>
@@ -173,9 +173,6 @@
     </ClInclude>
     <ClInclude Include="IndexBuffer.h">
       <Filter>src\Buffers</Filter>
-    </ClInclude>
-    <ClInclude Include="FontResource.h">
-      <Filter>src\Resources\OtherResources</Filter>
     </ClInclude>
     <ClInclude Include="IRenderer3d.h">
       <Filter>src\Renderers\Renderer3d</Filter>
@@ -209,12 +206,6 @@
     </ClInclude>
     <ClInclude Include="MouseState.h">
       <Filter>src\InputDevices</Filter>
-    </ClInclude>
-    <ClInclude Include="ITextureResource.h">
-      <Filter>src\Resources\OtherResources</Filter>
-    </ClInclude>
-    <ClInclude Include="IFontResource.h">
-      <Filter>src\Resources\OtherResources</Filter>
     </ClInclude>
     <ClInclude Include="IAnimationController3d.h">
       <Filter>src\Animation3d</Filter>
@@ -349,16 +340,16 @@
       <Filter>src\Renderers\SimpleRenderer</Filter>
     </ClInclude>
     <ClInclude Include="VsResource.h">
-      <Filter>src\Resources\ShaderResources</Filter>
+      <Filter>src\Resources\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="PsResource.h">
-      <Filter>src\Resources\ShaderResources</Filter>
+      <Filter>src\Resources\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="IVsResource.h">
-      <Filter>src\Resources\ShaderResources</Filter>
+      <Filter>src\Resources\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="IPsResource.h">
-      <Filter>src\Resources\ShaderResources</Filter>
+      <Filter>src\Resources\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="ILoadableResource.h">
       <Filter>src\Resources\LoadableResource</Filter>
@@ -367,19 +358,19 @@
       <Filter>src\Resources\LoadableResource</Filter>
     </ClInclude>
     <ClInclude Include="PsBinResource.h">
-      <Filter>src\Resources\ShaderResources</Filter>
+      <Filter>src\Resources\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="VsBinResource.h">
-      <Filter>src\Resources\ShaderResources</Filter>
+      <Filter>src\Resources\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="PsHlslResource.h">
-      <Filter>src\Resources\ShaderResources</Filter>
+      <Filter>src\Resources\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="VsHlslResource.h">
-      <Filter>src\Resources\ShaderResources</Filter>
+      <Filter>src\Resources\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="_ShaderUtils.h">
-      <Filter>src\Resources\ShaderResources</Filter>
+      <Filter>src\Resources\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>src\Gui</Filter>
@@ -406,16 +397,16 @@
       <Filter>src\AnimationFbx</Filter>
     </ClInclude>
     <ClInclude Include="FbxResource.h">
-      <Filter>src\Resources\ModelResources</Filter>
+      <Filter>src\Resources\Models</Filter>
     </ClInclude>
     <ClInclude Include="IFbxResource.h">
-      <Filter>src\Resources\ModelResources</Filter>
+      <Filter>src\Resources\Models</Filter>
     </ClInclude>
     <ClInclude Include="IMeshResourceCmo.h">
-      <Filter>src\Resources\ModelResources</Filter>
+      <Filter>src\Resources\Models</Filter>
     </ClInclude>
     <ClInclude Include="MeshResourceCmo.h">
-      <Filter>src\Resources\ModelResources</Filter>
+      <Filter>src\Resources\Models</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>src\Model</Filter>
@@ -558,6 +549,18 @@
     <ClInclude Include="ShaderWrapper.h">
       <Filter>src\Shaders\ShaderWrapper</Filter>
     </ClInclude>
+    <ClInclude Include="ITextureResource.h">
+      <Filter>src\Resources\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureResource.h">
+      <Filter>src\Resources\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="FontResource.h">
+      <Filter>src\Resources\Fonts</Filter>
+    </ClInclude>
+    <ClInclude Include="IFontResource.h">
+      <Filter>src\Resources\Fonts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -581,9 +584,6 @@
     <ClCompile Include="IResourceController.cpp">
       <Filter>src\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="TextureResource.cpp">
-      <Filter>src\Resources\OtherResources</Filter>
-    </ClCompile>
     <ClCompile Include="MeshLoader.cpp">
       <Filter>src\Model</Filter>
     </ClCompile>
@@ -592,9 +592,6 @@
     </ClCompile>
     <ClCompile Include="IndexBuffer.cpp">
       <Filter>src\Buffers</Filter>
-    </ClCompile>
-    <ClCompile Include="FontResource.cpp">
-      <Filter>src\Resources\OtherResources</Filter>
     </ClCompile>
     <ClCompile Include="IRenderer3d.cpp">
       <Filter>src\Renderers\Renderer3d</Filter>
@@ -711,28 +708,28 @@
       <Filter>src\Renderers\SimpleRenderer</Filter>
     </ClCompile>
     <ClCompile Include="VsResource.cpp">
-      <Filter>src\Resources\ShaderResources</Filter>
+      <Filter>src\Resources\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="PsResource.cpp">
-      <Filter>src\Resources\ShaderResources</Filter>
+      <Filter>src\Resources\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="LoadableResource.cpp">
       <Filter>src\Resources\LoadableResource</Filter>
     </ClCompile>
     <ClCompile Include="PsBinResource.cpp">
-      <Filter>src\Resources\ShaderResources</Filter>
+      <Filter>src\Resources\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="VsBinResource.cpp">
-      <Filter>src\Resources\ShaderResources</Filter>
+      <Filter>src\Resources\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="PsHlslResource.cpp">
-      <Filter>src\Resources\ShaderResources</Filter>
+      <Filter>src\Resources\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="VsHlslResource.cpp">
-      <Filter>src\Resources\ShaderResources</Filter>
+      <Filter>src\Resources\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="_ShaderUtils.cpp">
-      <Filter>src\Resources\ShaderResources</Filter>
+      <Filter>src\Resources\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="Button.cpp">
       <Filter>src\Gui</Filter>
@@ -756,10 +753,10 @@
       <Filter>src\AnimationFbx</Filter>
     </ClCompile>
     <ClCompile Include="FbxResource.cpp">
-      <Filter>src\Resources\ModelResources</Filter>
+      <Filter>src\Resources\Models</Filter>
     </ClCompile>
     <ClCompile Include="MeshResourceCmo.cpp">
-      <Filter>src\Resources\ModelResources</Filter>
+      <Filter>src\Resources\Models</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>src\Model</Filter>
@@ -871,6 +868,12 @@
     </ClCompile>
     <ClCompile Include="ShaderWrapper.cpp">
       <Filter>src\Shaders\ShaderWrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureResource.cpp">
+      <Filter>src\Resources\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="FontResource.cpp">
+      <Filter>src\Resources\Fonts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
