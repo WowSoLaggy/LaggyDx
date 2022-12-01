@@ -18,14 +18,14 @@ namespace Dx
 
     virtual fs::path getFilename() const override;
 
-    virtual const ImageDescription& getDescription() const override { return d_description; }
-    virtual const Animations2Map& getAnimationsMap() const override { return d_animations; }
+    virtual const ImageDescription& getDescription() const override;
+    virtual const Animations2Map& getAnimationsMap() const override;
 
     virtual bool checkAlpha(Sdk::Vector2I i_coords, int i_frame = 0) const override;
 
     virtual const std::shared_ptr<IBitmap> getBitmap(IRenderDevice& i_renderDevice) const override;
 
-    ID3D11ShaderResourceView* getTexturePtr() const { return d_texture; }
+    virtual ID3D11ShaderResourceView* getTexturePtr() const override;
 
   private:
     const fs::path d_textureFilePath = "";

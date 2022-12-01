@@ -217,4 +217,20 @@ namespace Dx
   {
     return d_textureFilePath.filename();
   }
+
+  const ImageDescription& TextureResource::getDescription() const
+  {
+    return d_description;
+  }
+
+  const Animations2Map& TextureResource::getAnimationsMap() const
+  {
+    return d_animations;
+  }
+
+  ID3D11ShaderResourceView* TextureResource::getTexturePtr() const
+  {
+    return d_texture;
+  }
+
 } // ns Dx
