@@ -18,7 +18,7 @@ namespace Dx
   class RenderDevice : public IRenderDevice
   {
   public:
-    RenderDevice(HWND i_hWnd, Sdk::Vector2I i_resolution, bool i_debugMode = false);
+    RenderDevice(HWND i_hWnd, Sdk::Vector2I i_resolution, bool i_debugMode);
     virtual ~RenderDevice() override;
 
     virtual void beginScene() override;
@@ -49,13 +49,17 @@ namespace Dx
 
     int d_videoCardMemory = 0;
     char d_videoCardDescription[128];
+
     IDXGISwapChain* d_swapChain = nullptr;
     ID3D11Device* d_device = nullptr;
     ID3D11DeviceContext* d_deviceContext = nullptr;
+
     ID3D11RenderTargetView* d_renderTargetView = nullptr;
+
     ID3D11Texture2D* d_depthStencilBuffer = nullptr;
-    ID3D11DepthStencilState* d_depthStencilState = nullptr;
     ID3D11DepthStencilView* d_depthStencilView = nullptr;
+
+    ID3D11DepthStencilState* d_depthStencilState = nullptr;
     ID3D11RasterizerState* d_rasterState = nullptr;
     ID3D11BlendState* d_blendState = nullptr;
 

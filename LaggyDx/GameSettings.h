@@ -12,6 +12,8 @@ namespace Dx
 
     std::string applicationName = "DxGame";
     fs::path assetsFolder = "Data/Assets/";
+
+    bool debugMode = false;
   };
 
 } // ns Dx

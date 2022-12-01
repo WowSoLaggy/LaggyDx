@@ -37,7 +37,7 @@ namespace Dx
 
     d_window = std::make_unique<Sdk::Window>(resolution, i_gameSettings.applicationName);
 
-    d_renderDevice = IRenderDevice::create(d_window->getHWnd(), resolution);
+    d_renderDevice = IRenderDevice::create(d_window->getHWnd(), resolution, i_gameSettings.debugMode);
     CONTRACT_ENSURE(d_renderDevice);
 
     d_resourceController = IResourceController::create(*d_renderDevice, i_gameSettings.assetsFolder);

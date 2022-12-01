@@ -9,7 +9,8 @@ namespace Dx
   class IRenderDevice : public Sdk::ILockable
   {
   public:
-    static std::unique_ptr<IRenderDevice> create(HWND i_hWnd, Sdk::Vector2I i_resolution);
+    static std::unique_ptr<IRenderDevice> create(
+      HWND i_hWnd, Sdk::Vector2I i_resolution, bool i_debugMode);
 
   public:
     virtual ~IRenderDevice() = default;
