@@ -10,6 +10,8 @@ namespace Dx
   class LoadableResource : public ILoadableResource, public Sdk::ILockable
   {
   public:
+    virtual ~LoadableResource() override;
+
     virtual void loadIfNeeded(IRenderDevice& i_renderDevice) override final;
     virtual void unloadIfNeeded() override final;
 

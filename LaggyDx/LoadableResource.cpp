@@ -6,6 +6,11 @@
 
 namespace Dx
 {
+  LoadableResource::~LoadableResource()
+  {
+    unloadIfNeeded();
+  }
+
   void LoadableResource::loadIfNeeded(IRenderDevice& i_renderDevice)
   {
     Sdk::Locker scopeLocker(*this);
