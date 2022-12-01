@@ -248,11 +248,11 @@ namespace Dx
     depthBufferDesc.Height = d_resolution.y;
     depthBufferDesc.MipLevels = 1;
     depthBufferDesc.ArraySize = 1;
-    depthBufferDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+    depthBufferDesc.Format = DXGI_FORMAT_R24G8_TYPELESS;
     depthBufferDesc.SampleDesc.Count = static_cast<int>(c_msaaMode);
     depthBufferDesc.SampleDesc.Quality = 0;
     depthBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-    depthBufferDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+    depthBufferDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
     depthBufferDesc.CPUAccessFlags = 0;
     depthBufferDesc.MiscFlags = 0;
 
@@ -275,6 +275,18 @@ namespace Dx
 
     // Bind the render target view and depth stencil buffer to the output render pipeline
     d_deviceContext->OMSetRenderTargets(1, &d_renderTargetView, d_depthStencilView);
+
+    // Create ID3D11ShaderResourceView from depth stencil texture
+    D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc = {};
+    shaderResourceViewDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+    shaderResourceViewDesc.ViewDimension = 
+      isMsaaEnabled() ? D3D11_SRV_DIMENSION_TEXTURE2DMS : D3D11_SRV_DIMENSION_TEXTURE2D;
+    shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
+    shaderResourceViewDesc.Texture2D.MipLevels = 1;
+
+    result = d_device->CreateShaderResourceView(
+      d_depthStencilBuffer, &shaderResourceViewDesc, &d_depthStencilTexture);
+    CONTRACT_ASSERT(!FAILED(result));
 
     // Reset states
     resetState();
@@ -308,6 +320,7 @@ namespace Dx
 
     release(&d_blendState);
     release(&d_rasterState);
+    release(&d_depthStencilTexture);
     release(&d_depthStencilView);
     release(&d_depthStencilState);
     release(&d_depthStencilBuffer);
@@ -410,5 +423,10 @@ namespace Dx
     return d_resolution;
   }
 
+
+  ID3D11ShaderResourceView* RenderDevice::getDepthStencilTexture() const
+  {
+    return d_depthStencilTexture;
+  }
 
 } // ns Dx

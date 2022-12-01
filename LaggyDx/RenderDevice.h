@@ -41,6 +41,8 @@ namespace Dx
     void setDepthStencilState(D3D11_DEPTH_STENCIL_DESC i_state);
     void setBlendState(D3D11_BLEND_DESC i_state);
 
+    ID3D11ShaderResourceView* getDepthStencilTexture() const;
+
   private:
     Sdk::Vector2I d_resolution;
     float d_clearColor[4] = { 0.396f, 0.612f, 0.937f, 1.0f };
@@ -58,6 +60,7 @@ namespace Dx
 
     ID3D11Texture2D* d_depthStencilBuffer = nullptr;
     ID3D11DepthStencilView* d_depthStencilView = nullptr;
+    ID3D11ShaderResourceView* d_depthStencilTexture = nullptr;
 
     ID3D11DepthStencilState* d_depthStencilState = nullptr;
     ID3D11RasterizerState* d_rasterState = nullptr;
