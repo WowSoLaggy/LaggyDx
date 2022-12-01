@@ -1,16 +1,14 @@
 #include "stdafx.h"
 #include "Panel.h"
 
-#include "Game.h"
-#include "IResourceController.h"
+#include "IRenderer2d.h"
 
 
 namespace Dx
 {
-  void Panel::setTexture(const std::string& i_textureName)
+  void Panel::setTexture(const ITextureResource& i_texture)
   {
-    const auto& rc = Game::get().getResourceController();
-    d_sprite.setTexture(rc.getTexture(i_textureName));
+    d_sprite.setTexture(i_texture);
   }
 
 
