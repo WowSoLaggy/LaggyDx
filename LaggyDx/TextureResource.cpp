@@ -28,7 +28,10 @@ namespace Dx
   void TextureResource::unload()
   {
     if (d_texture)
+    {
       d_texture->Release();
+      d_texture = nullptr;
+    }
   }
 
 
