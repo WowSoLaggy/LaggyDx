@@ -20,7 +20,8 @@ namespace Dx
       const auto* data = i_bmp.getData() + i_bmp.getStride() * y;
       for (int x = 0; x < i_bmp.getWidth(); ++x, data += 4, ++ind)
       {
-        const double value = (double)*data;
+        const double value = (double)(
+          *data + *(data + 1) + *(data + 2)) / 3;
         heightMap.d_heights[ind] = value;
 
         heightMap.updateMinMaxHeights(value);
