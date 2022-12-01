@@ -2,8 +2,8 @@
 
 #include "ImageAnimation.h"
 #include "ImageDescription.h"
-#include "LaggyDxFwd.h"
 #include "ITextureResource.h"
+#include "LaggyDxFwd.h"
 
 
 namespace Dx
