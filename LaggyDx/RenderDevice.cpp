@@ -296,63 +296,22 @@ namespace Dx
   {
     // Before shutting down set to windowed mode or when you release the swap chain it will throw an exception
     if (d_swapChain)
-    {
       d_swapChain->SetFullscreenState(false, NULL);
-    }
 
-    if (d_blendState)
-    {
-      d_blendState->Release();
-      d_blendState = 0;
-    }
+    auto release = [](auto** i_res) {
+      (*i_res)->Release();
+      (*i_res) = nullptr;
+    };
 
-    if (d_rasterState)
-    {
-      d_rasterState->Release();
-      d_rasterState = 0;
-    }
-
-    if (d_depthStencilView)
-    {
-      d_depthStencilView->Release();
-      d_depthStencilView = 0;
-    }
-
-    if (d_depthStencilState)
-    {
-      d_depthStencilState->Release();
-      d_depthStencilState = 0;
-    }
-
-    if (d_depthStencilBuffer)
-    {
-      d_depthStencilBuffer->Release();
-      d_depthStencilBuffer = 0;
-    }
-
-    if (d_renderTargetView)
-    {
-      d_renderTargetView->Release();
-      d_renderTargetView = 0;
-    }
-
-    if (d_deviceContext)
-    {
-      d_deviceContext->Release();
-      d_deviceContext = 0;
-    }
-
-    if (d_device)
-    {
-      d_device->Release();
-      d_device = 0;
-    }
-
-    if (d_swapChain)
-    {
-      d_swapChain->Release();
-      d_swapChain = 0;
-    }
+    release(&d_blendState);
+    release(&d_rasterState);
+    release(&d_depthStencilView);
+    release(&d_depthStencilState);
+    release(&d_depthStencilBuffer);
+    release(&d_renderTargetView);
+    release(&d_deviceContext);
+    release(&d_device);
+    release(&d_swapChain);
   }
 
 
