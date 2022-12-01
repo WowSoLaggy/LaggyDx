@@ -30,10 +30,7 @@ namespace Dx
 
     void tesselate(std::shared_ptr<Tri> i_tri, DividerPredicate i_pred);
     void tesselate(std::shared_ptr<Tri> i_tri, const HeightMap& i_heightMap, HeightPredicate i_pred);
-    /// \param @i_newPointInd - index of the point that shall be used for division
-    ///   if std::nullopt then a new point will be created
-    /// Returns index of the newly created point
-    int divideTri(std::shared_ptr<Tri> i_tri, std::optional<int> i_newPointInd = std::nullopt);
+    void divideTri(std::shared_ptr<Tri> i_tri, const HeightMap* i_heightMap = nullptr);
 
     void setNormalsAndTexCoords();
     void calculateNormals();

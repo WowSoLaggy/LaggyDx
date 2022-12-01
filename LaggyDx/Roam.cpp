@@ -85,7 +85,7 @@ namespace Dx
   void Roam::tesselate(std::shared_ptr<Tri> i_tri, const HeightMap& i_heightMap, HeightPredicate i_pred)
   {
     CONTRACT_EXPECT(i_tri);
-
+    
     const auto testPoint = (
       d_points.at(i_tri->ind2).position +
       d_points.at(i_tri->ind3).position) / 2;
@@ -95,38 +95,36 @@ namespace Dx
     if (!i_pred(*i_tri, heightDiff))
       return;
 
-    const int newInd = divideTri(i_tri);
-    d_points.at(newInd).position.y = (float)refHeight;
+    divideTri(i_tri, &i_heightMap);
 
     tesselate(i_tri->leftChild, i_heightMap, i_pred);
     tesselate(i_tri->rightChild, i_heightMap, i_pred);
   }
 
 
-  int Roam::divideTri(std::shared_ptr<Tri> i_tri, std::optional<int> i_newPointInd)
+  void Roam::divideTri(std::shared_ptr<Tri> i_tri, const HeightMap* i_heightMap)
   {
     CONTRACT_EXPECT(i_tri);
 
     if (i_tri->leftChild && i_tri->rightChild)
     {
       // Tri is already divided
-      return i_tri->leftChild->ind1;
+      return;
     }
     CONTRACT_EXPECT(!i_tri->leftChild);
     CONTRACT_EXPECT(!i_tri->rightChild);
 
     if (i_tri->baseNeighbor && i_tri->baseNeighbor->baseNeighbor != i_tri)
-      divideTri(i_tri->baseNeighbor);
+      divideTri(i_tri->baseNeighbor, i_heightMap);
     
-    if (!i_newPointInd)
-    {
-      auto newPointPos = (d_points.at(i_tri->ind2).position + d_points.at(i_tri->ind3).position) / 2;
-      d_points.push_back(VertexPosNormText::pos(std::move(newPointPos)));
-      i_newPointInd = (int)d_points.size() - 1;
-    }
+    auto newPointPos = (d_points.at(i_tri->ind2).position + d_points.at(i_tri->ind3).position) / 2;
+    if (i_heightMap)
+      newPointPos.y = (float)i_heightMap->getHeight(newPointPos.x, newPointPos.z);
+    d_points.push_back(VertexPosNormText::pos(std::move(newPointPos)));
+    int newInd = (int)d_points.size() - 1;
 
-    i_tri->leftChild = std::make_shared<Tri>(*i_newPointInd, i_tri->ind1, i_tri->ind2);
-    i_tri->rightChild = std::make_shared<Tri>(*i_newPointInd, i_tri->ind3, i_tri->ind1);
+    i_tri->leftChild = std::make_shared<Tri>(newInd, i_tri->ind1, i_tri->ind2);
+    i_tri->rightChild = std::make_shared<Tri>(newInd, i_tri->ind3, i_tri->ind1);
 
     i_tri->leftChild->parent = i_tri;
     i_tri->rightChild->parent = i_tri;
@@ -171,7 +169,7 @@ namespace Dx
       }
       else
       {
-        divideTri(i_tri->baseNeighbor, *i_newPointInd);
+        divideTri(i_tri->baseNeighbor, i_heightMap);
       }
     }
     else
@@ -180,8 +178,6 @@ namespace Dx
       i_tri->leftChild->rightNeighbor = NULL;
       i_tri->rightChild->leftNeighbor = NULL;
     }
-
-    return *i_newPointInd;
   }
 
 
