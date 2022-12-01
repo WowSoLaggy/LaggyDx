@@ -299,8 +299,11 @@ namespace Dx
       d_swapChain->SetFullscreenState(false, NULL);
 
     auto release = [](auto** i_res) {
-      (*i_res)->Release();
-      (*i_res) = nullptr;
+      if (*i_res)
+      {
+        (*i_res)->Release();
+        (*i_res) = nullptr;
+      }
     };
 
     release(&d_blendState);
