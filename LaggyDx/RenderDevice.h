@@ -24,9 +24,6 @@ namespace Dx
     virtual void beginScene() override;
     virtual void endScene() override;
 
-    virtual void setFillMode(bool i_solid) override;
-    virtual void setDepthEnabled(bool i_enabled) override;
-
     virtual void setClearColor(const Sdk::Vector4F& i_clearColor) override;
 
     virtual const Sdk::Vector2I& getResolution() const override;
@@ -35,6 +32,14 @@ namespace Dx
     ID3D11DeviceContext* getDeviceContextPtr() const { return d_deviceContext; }
 
     virtual void resetState() override;
+
+    D3D11_RASTERIZER_DESC getRasterizerState() const;
+    D3D11_DEPTH_STENCIL_DESC getDepthStencilState() const;
+    D3D11_BLEND_DESC getBlendState() const;
+
+    void setRasterizerState(D3D11_RASTERIZER_DESC i_state);
+    void setDepthStencilState(D3D11_DEPTH_STENCIL_DESC i_state);
+    void setBlendState(D3D11_BLEND_DESC i_state);
 
   private:
     Sdk::Vector2I d_resolution;

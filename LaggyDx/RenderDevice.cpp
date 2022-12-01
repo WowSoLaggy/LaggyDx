@@ -375,13 +375,41 @@ namespace Dx
 
   void RenderDevice::resetState()
   {
-    d_rasterizerDescription = getDefaultRasterizerDescription();
-    applyRasterizerState();
+    setRasterizerState(getDefaultRasterizerDescription());
+    setDepthStencilState(getDefaultDepthStencilDescription());
+    setBlendState(getDefaultBlendDescription());
+  }
 
-    d_depthStencilDescription = getDefaultDepthStencilDescription();
+  D3D11_RASTERIZER_DESC RenderDevice::getRasterizerState() const
+  {
+    return d_rasterizerDescription;
+  }
+
+  D3D11_DEPTH_STENCIL_DESC RenderDevice::getDepthStencilState() const
+  {
+    return d_depthStencilDescription;
+  }
+
+  D3D11_BLEND_DESC RenderDevice::getBlendState() const
+  {
+    return d_blendDescription;
+  }
+
+  void RenderDevice::setRasterizerState(D3D11_RASTERIZER_DESC i_state)
+  {
+    d_rasterizerDescription = std::move(i_state);
+    applyRasterizerState();
+  }
+
+  void RenderDevice::setDepthStencilState(D3D11_DEPTH_STENCIL_DESC i_state)
+  {
+    d_depthStencilDescription = std::move(i_state);
     applyDepthStencilState();
-    
-    d_blendDescription = getDefaultBlendDescription();
+  }
+
+  void RenderDevice::setBlendState(D3D11_BLEND_DESC i_state)
+  {
+    d_blendDescription = std::move(i_state);
     applyBlendState();
   }
 
@@ -404,20 +432,6 @@ namespace Dx
     HRESULT result = d_device->CreateBlendState(&d_blendDescription, &d_blendState);
     CONTRACT_ASSERT(!FAILED(result));
     d_deviceContext->OMSetBlendState(d_blendState, nullptr, 0xffffffff);
-  }
-
-
-  void RenderDevice::setFillMode(const bool i_solid)
-  {
-    d_rasterizerDescription.FillMode = i_solid ? D3D11_FILL_SOLID : D3D11_FILL_WIREFRAME;
-    applyRasterizerState();
-  }
-
-  void RenderDevice::setDepthEnabled(const bool i_enabled)
-  {
-    d_depthStencilDescription.DepthEnable = i_enabled ? TRUE : FALSE;
-    d_depthStencilDescription.DepthWriteMask = i_enabled? D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK_ZERO;
-    applyDepthStencilState();
   }
 
 

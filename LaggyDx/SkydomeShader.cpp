@@ -75,7 +75,11 @@ namespace Dx
   void SkydomeShader::setRenderStates() const
   {
     Shader::setRenderStates();
-    getRenderDevice().setDepthEnabled(false);
+
+    auto depthStencilState = getRenderDevice().getDepthStencilState();
+    depthStencilState.DepthEnable = FALSE;
+    depthStencilState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+    getRenderDevice().setDepthStencilState(std::move(depthStencilState));
   }
 
 

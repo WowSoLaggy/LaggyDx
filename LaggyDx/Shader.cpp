@@ -33,7 +33,11 @@ namespace Dx
   {
     getRenderDevice().resetState();
     if (!d_solidFillMode)
-      getRenderDevice().setFillMode(false);
+    {
+      auto rasterizerState = getRenderDevice().getRasterizerState();
+      rasterizerState.FillMode = D3D11_FILL_WIREFRAME;
+      getRenderDevice().setRasterizerState(std::move(rasterizerState));
+    }
   }
 
   void Shader::setShaders() const
