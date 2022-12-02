@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "RenderDevice.h"
 
+#include "MemoryTexture.h"
+
 
 namespace Dx
 {
@@ -285,8 +287,11 @@ namespace Dx
     shaderResourceViewDesc.Texture2D.MipLevels = 1;
 
     result = d_device->CreateShaderResourceView(
-      d_depthStencilBuffer, &shaderResourceViewDesc, &d_depthStencilTexture);
+      d_depthStencilBuffer, &shaderResourceViewDesc, &d_depthStencilTextureView);
     CONTRACT_ASSERT(!FAILED(result));
+
+    // Create depth buffer texture
+    d_depthBufferTexture = std::make_shared<MemoryTexture>(d_depthStencilTextureView, d_depthStencilDesc);
 
     // Reset states
     resetState();
@@ -320,7 +325,7 @@ namespace Dx
 
     release(&d_blendState);
     release(&d_rasterState);
-    release(&d_depthStencilTexture);
+    release(&d_depthStencilTextureView);
     release(&d_depthStencilView);
     release(&d_depthStencilState);
     release(&d_depthStencilBuffer);
@@ -423,16 +428,12 @@ namespace Dx
     return d_resolution;
   }
 
-  ID3D11ShaderResourceView* RenderDevice::getDepthStencilTexture() const
-  {
-    return d_depthStencilTexture;
-  }
 
-  const D3D11_TEXTURE2D_DESC& RenderDevice::getDepthStencilTextureDesc() const
+  const ITexture& RenderDevice::getDepthBufferTexture() const
   {
-    return d_depthStencilDesc;
+    CONTRACT_ASSERT(d_depthBufferTexture);
+    return *d_depthBufferTexture;
   }
-
 
   void RenderDevice::bindDepthBuffer() const
   {

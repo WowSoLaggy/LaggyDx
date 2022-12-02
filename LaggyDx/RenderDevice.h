@@ -17,9 +17,8 @@ namespace Dx
     virtual const Sdk::Vector2I& getResolution() const override;
     virtual void setClearColor(const Sdk::Vector4F& i_clearColor) override;
     virtual void resetState() override;
-    virtual ID3D11ShaderResourceView* getDepthStencilTexture() const override;
-    virtual const D3D11_TEXTURE2D_DESC& getDepthStencilTextureDesc() const override;
 
+    virtual const ITexture& getDepthBufferTexture() const override;
     virtual void bindDepthBuffer() const override;
     virtual void unbindDepthBuffer() const override;
 
@@ -52,7 +51,7 @@ namespace Dx
     D3D11_TEXTURE2D_DESC d_depthStencilDesc = {};
     ID3D11Texture2D* d_depthStencilBuffer = nullptr;
     ID3D11DepthStencilView* d_depthStencilView = nullptr;
-    ID3D11ShaderResourceView* d_depthStencilTexture = nullptr;
+    ID3D11ShaderResourceView* d_depthStencilTextureView = nullptr;
 
     ID3D11DepthStencilState* d_depthStencilState = nullptr;
     ID3D11RasterizerState* d_rasterState = nullptr;
@@ -61,6 +60,8 @@ namespace Dx
     D3D11_RASTERIZER_DESC d_rasterizerDescription = {};
     D3D11_DEPTH_STENCIL_DESC d_depthStencilDescription = {};
     D3D11_BLEND_DESC d_blendDescription = {};
+
+    std::shared_ptr<ITexture> d_depthBufferTexture;
 
     void applyRasterizerState();
     void applyDepthStencilState();
