@@ -40,6 +40,7 @@ float4 main(PixelInputType input) : SV_TARGET
   
   float4 textureColor = diffuseColor;
   float lightAmount = saturate(dot(normal, -lightDirection));
+  lightAmount = max(lightAmount, ambientStrength);
   textureColor.rgb *= lightAmount;
   
   // SPECULAR
