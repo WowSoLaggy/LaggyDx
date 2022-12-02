@@ -20,6 +20,7 @@ namespace Dx
       VertexPosNormText northPole;
       northPole.position = { 0, i_radius, 0 };
       northPole.normal = { 0, 1.0f, 0 };
+      northPole.texture = { 0, 0 };
       verts.push_back(std::move(northPole));
 
       const double phiStep = Sdk::Pi / i_stackCount;
@@ -37,6 +38,7 @@ namespace Dx
           VertexPosNormText p;
           p.position = pos.getVector<float>();
           p.normal = Sdk::normalize(p.position);
+          p.texture = { (float)slice / i_sliceCount, (float)(i_stackCount - stack) / i_stackCount };
           verts.push_back(std::move(p));
         }
       }
@@ -44,6 +46,7 @@ namespace Dx
       VertexPosNormText southPole;
       southPole.position = { 0, -i_radius, 0 };
       southPole.normal = { 0, -1.0f, 0 };
+      southPole.texture = { 0, 1 };
       verts.push_back(std::move(southPole));
 
       return verts;
