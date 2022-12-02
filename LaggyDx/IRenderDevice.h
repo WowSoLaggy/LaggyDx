@@ -24,6 +24,7 @@ namespace Dx
     virtual void setClearColor(const Sdk::Vector4F& i_clearColor) = 0;
     virtual void resetState() = 0;
     
+    virtual void prepareDepthBufferTexture() const = 0;
     virtual const ITexture& getDepthBufferTexture() const = 0;
     virtual void bindDepthBuffer() const = 0;
     virtual void unbindDepthBuffer() const = 0;

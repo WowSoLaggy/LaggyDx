@@ -261,6 +261,12 @@ namespace Dx
     // Create the texture for the depth buffer using the filled out description
     result = d_device->CreateTexture2D(&d_depthStencilDesc, NULL, &d_depthBufferTexture2D);
     CONTRACT_ASSERT(!FAILED(result));
+    CONTRACT_ASSERT(d_depthBufferTexture2D != nullptr);
+
+    // Create copy for using in shaders
+    result = d_device->CreateTexture2D(&d_depthStencilDesc, NULL, &d_depthBufferTexture2DCopy);
+    CONTRACT_ASSERT(!FAILED(result));
+    CONTRACT_ASSERT(d_depthBufferTexture2DCopy != nullptr);
 
     // Initailze the depth stencil view
     D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc = {};
@@ -287,7 +293,7 @@ namespace Dx
     shaderResourceViewDesc.Texture2D.MipLevels = 1;
 
     result = d_device->CreateShaderResourceView(
-      d_depthBufferTexture2D, &shaderResourceViewDesc, &d_depthStencilTextureView);
+      d_depthBufferTexture2DCopy, &shaderResourceViewDesc, &d_depthStencilTextureView);
     CONTRACT_ASSERT(!FAILED(result));
 
     // Create depth buffer texture
@@ -329,6 +335,7 @@ namespace Dx
     release(&d_depthStencilView);
     release(&d_depthStencilState);
     release(&d_depthBufferTexture2D);
+    release(&d_depthBufferTexture2DCopy);
     release(&d_renderTargetView);
     release(&d_deviceContext);
     release(&d_device);
@@ -428,6 +435,11 @@ namespace Dx
     return d_resolution;
   }
 
+
+  void RenderDevice::prepareDepthBufferTexture() const
+  {
+    d_deviceContext->CopyResource(d_depthBufferTexture2DCopy, d_depthBufferTexture2D);
+  }
 
   const ITexture& RenderDevice::getDepthBufferTexture() const
   {

@@ -18,6 +18,7 @@ namespace Dx
     virtual void setClearColor(const Sdk::Vector4F& i_clearColor) override;
     virtual void resetState() override;
 
+    virtual void prepareDepthBufferTexture() const override;
     virtual const ITexture& getDepthBufferTexture() const override;
     virtual void bindDepthBuffer() const override;
     virtual void unbindDepthBuffer() const override;
@@ -50,6 +51,7 @@ namespace Dx
 
     D3D11_TEXTURE2D_DESC d_depthStencilDesc = {};
     ID3D11Texture2D* d_depthBufferTexture2D = nullptr;
+    ID3D11Texture2D* d_depthBufferTexture2DCopy = nullptr;
     ID3D11DepthStencilView* d_depthStencilView = nullptr;
     ID3D11ShaderResourceView* d_depthStencilTextureView = nullptr;
 
