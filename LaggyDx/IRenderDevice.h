@@ -1,5 +1,7 @@
 #pragma once
 
+#include "LaggyDxFwd.h"
+
 #include <LaggySdk/ILockable.h>
 #include <LaggySdk/Vector.h>
 
@@ -18,11 +20,14 @@ namespace Dx
     virtual void beginScene() = 0;
     virtual void endScene() = 0;
 
-    virtual void setClearColor(const Sdk::Vector4F& i_clearColor) = 0;
-
     virtual const Sdk::Vector2I& getResolution() const = 0;
-
+    virtual void setClearColor(const Sdk::Vector4F& i_clearColor) = 0;
     virtual void resetState() = 0;
+    virtual ID3D11ShaderResourceView* getDepthStencilTexture() const = 0;
+    virtual const D3D11_TEXTURE2D_DESC& getDepthStencilTextureDesc() const = 0;
+
+    virtual void bindDepthBuffer() const = 0;
+    virtual void unbindDepthBuffer() const = 0;
   };
 
 } // ns Dx

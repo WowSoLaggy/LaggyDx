@@ -241,30 +241,30 @@ namespace Dx
     backBufferPtr = 0;
 
     // Initialize the description of the depth buffer
-    D3D11_TEXTURE2D_DESC depthBufferDesc = {};
+    d_depthStencilDesc = {};
 
     // Set up the description of the depth buffer
-    depthBufferDesc.Width = d_resolution.x;
-    depthBufferDesc.Height = d_resolution.y;
-    depthBufferDesc.MipLevels = 1;
-    depthBufferDesc.ArraySize = 1;
-    depthBufferDesc.Format = DXGI_FORMAT_R24G8_TYPELESS;
-    depthBufferDesc.SampleDesc.Count = static_cast<int>(c_msaaMode);
-    depthBufferDesc.SampleDesc.Quality = 0;
-    depthBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-    depthBufferDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
-    depthBufferDesc.CPUAccessFlags = 0;
-    depthBufferDesc.MiscFlags = 0;
+    d_depthStencilDesc.Width = d_resolution.x;
+    d_depthStencilDesc.Height = d_resolution.y;
+    d_depthStencilDesc.MipLevels = 1;
+    d_depthStencilDesc.ArraySize = 1;
+    d_depthStencilDesc.Format = DXGI_FORMAT_R32_TYPELESS;
+    d_depthStencilDesc.SampleDesc.Count = static_cast<int>(c_msaaMode);
+    d_depthStencilDesc.SampleDesc.Quality = 0;
+    d_depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
+    d_depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+    d_depthStencilDesc.CPUAccessFlags = 0;
+    d_depthStencilDesc.MiscFlags = 0;
 
     // Create the texture for the depth buffer using the filled out description
-    result = d_device->CreateTexture2D(&depthBufferDesc, NULL, &d_depthStencilBuffer);
+    result = d_device->CreateTexture2D(&d_depthStencilDesc, NULL, &d_depthStencilBuffer);
     CONTRACT_ASSERT(!FAILED(result));
 
     // Initailze the depth stencil view
     D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc = {};
 
     // Set up the depth stencil view description
-    depthStencilViewDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+    depthStencilViewDesc.Format = DXGI_FORMAT_D32_FLOAT;
     depthStencilViewDesc.ViewDimension =
       isMsaaEnabled() ? D3D11_DSV_DIMENSION_TEXTURE2DMS : D3D11_DSV_DIMENSION_TEXTURE2D;
     depthStencilViewDesc.Texture2D.MipSlice = 0;
@@ -274,11 +274,11 @@ namespace Dx
     CONTRACT_ASSERT(!FAILED(result));
 
     // Bind the render target view and depth stencil buffer to the output render pipeline
-    d_deviceContext->OMSetRenderTargets(1, &d_renderTargetView, d_depthStencilView);
+    bindDepthBuffer();
 
     // Create ID3D11ShaderResourceView from depth stencil texture
     D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc = {};
-    shaderResourceViewDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+    shaderResourceViewDesc.Format = DXGI_FORMAT_R32_FLOAT;
     shaderResourceViewDesc.ViewDimension = 
       isMsaaEnabled() ? D3D11_SRV_DIMENSION_TEXTURE2DMS : D3D11_SRV_DIMENSION_TEXTURE2D;
     shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
@@ -423,10 +423,25 @@ namespace Dx
     return d_resolution;
   }
 
-
   ID3D11ShaderResourceView* RenderDevice::getDepthStencilTexture() const
   {
     return d_depthStencilTexture;
+  }
+
+  const D3D11_TEXTURE2D_DESC& RenderDevice::getDepthStencilTextureDesc() const
+  {
+    return d_depthStencilDesc;
+  }
+
+
+  void RenderDevice::bindDepthBuffer() const
+  {
+    d_deviceContext->OMSetRenderTargets(1, &d_renderTargetView, d_depthStencilView);
+  }
+
+  void RenderDevice::unbindDepthBuffer() const
+  {
+    d_deviceContext->OMSetRenderTargets(1, &d_renderTargetView, nullptr);
   }
 
 } // ns Dx

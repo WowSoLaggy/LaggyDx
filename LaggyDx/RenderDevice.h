@@ -3,16 +3,6 @@
 #include "IRenderDevice.h"
 
 
-struct IDXGISwapChain;
-struct ID3D11Device;
-struct ID3D11DeviceContext;
-struct ID3D11RenderTargetView;
-struct ID3D11Texture2D;
-struct ID3D11DepthStencilState;
-struct ID3D11DepthStencilView;
-struct ID3D11RasterizerState;
-
-
 namespace Dx
 {
   class RenderDevice : public IRenderDevice
@@ -24,14 +14,17 @@ namespace Dx
     virtual void beginScene() override;
     virtual void endScene() override;
 
-    virtual void setClearColor(const Sdk::Vector4F& i_clearColor) override;
-
     virtual const Sdk::Vector2I& getResolution() const override;
+    virtual void setClearColor(const Sdk::Vector4F& i_clearColor) override;
+    virtual void resetState() override;
+    virtual ID3D11ShaderResourceView* getDepthStencilTexture() const override;
+    virtual const D3D11_TEXTURE2D_DESC& getDepthStencilTextureDesc() const override;
+
+    virtual void bindDepthBuffer() const override;
+    virtual void unbindDepthBuffer() const override;
 
     ID3D11Device* getDevicePtr() const { return d_device; }
     ID3D11DeviceContext* getDeviceContextPtr() const { return d_deviceContext; }
-
-    virtual void resetState() override;
 
     D3D11_RASTERIZER_DESC getRasterizerState() const;
     D3D11_DEPTH_STENCIL_DESC getDepthStencilState() const;
@@ -40,8 +33,6 @@ namespace Dx
     void setRasterizerState(D3D11_RASTERIZER_DESC i_state);
     void setDepthStencilState(D3D11_DEPTH_STENCIL_DESC i_state);
     void setBlendState(D3D11_BLEND_DESC i_state);
-
-    ID3D11ShaderResourceView* getDepthStencilTexture() const;
 
   private:
     Sdk::Vector2I d_resolution;
@@ -58,6 +49,7 @@ namespace Dx
 
     ID3D11RenderTargetView* d_renderTargetView = nullptr;
 
+    D3D11_TEXTURE2D_DESC d_depthStencilDesc = {};
     ID3D11Texture2D* d_depthStencilBuffer = nullptr;
     ID3D11DepthStencilView* d_depthStencilView = nullptr;
     ID3D11ShaderResourceView* d_depthStencilTexture = nullptr;

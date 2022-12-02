@@ -109,6 +109,8 @@ struct ID3D11VertexShader;
 struct ID3D11InputLayout;
 struct ID3D11ShaderResourceView;
 
+struct D3D11_TEXTURE2D_DESC;
+
 
 namespace DirectX
 {
