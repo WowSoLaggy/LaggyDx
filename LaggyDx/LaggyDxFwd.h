@@ -21,6 +21,7 @@ namespace Dx
   class MeshResourceCmo;
   class ITexture;
   class Texture;
+  class MemoryTexture;
   class IPsResource;
   class PsResource;
   class IVsResource;

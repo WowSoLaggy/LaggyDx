@@ -167,6 +167,7 @@
     <ClInclude Include="HeightMap.h" />
     <ClInclude Include="IBitmap.h" />
     <ClInclude Include="IShader.h" />
+    <ClInclude Include="MemoryTexture.h" />
     <ClInclude Include="Roam.h" />
     <ClInclude Include="FirstPersonCamera.h" />
     <ClInclude Include="FreeCameraController.h" />
@@ -310,6 +311,7 @@
     <ClCompile Include="CBuffer.cpp" />
     <ClCompile Include="Checkbox.cpp" />
     <ClCompile Include="HeightMap.cpp" />
+    <ClCompile Include="MemoryTexture.cpp" />
     <ClCompile Include="Roam.cpp" />
     <ClCompile Include="FbxResource.cpp" />
     <ClCompile Include="FirstPersonCamera.cpp" />

@@ -561,6 +561,9 @@
     <ClInclude Include="IFontResource.h">
       <Filter>src\Resources\Fonts</Filter>
     </ClInclude>
+    <ClInclude Include="MemoryTexture.h">
+      <Filter>src\Resources\Textures</Filter>
+    </ClInclude>
     <ClInclude Include="TextureBase.h">
       <Filter>src\Resources\Textures</Filter>
     </ClInclude>
@@ -877,6 +880,9 @@
     </ClCompile>
     <ClCompile Include="FontResource.cpp">
       <Filter>src\Resources\Fonts</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryTexture.cpp">
+      <Filter>src\Resources\Textures</Filter>
     </ClCompile>
     <ClCompile Include="TextureBase.cpp">
       <Filter>src\Resources\Textures</Filter>
