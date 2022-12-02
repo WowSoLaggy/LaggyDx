@@ -22,6 +22,9 @@ namespace Dx
     const ShaderWrapper& getShaders() const;
 
     void setShaders() const;
+
+    void resetVsResources(int i_numSlots) const;
+    void resetPsResources(int i_numSlots) const;
     
   private:
     bool d_solidFillMode = true;

@@ -48,4 +48,17 @@ namespace Dx
     getRenderDevice().getDeviceContextPtr()->PSSetSamplers(0, 1, getShaders().getSamplerPp());
   }
 
+
+  void Shader::resetVsResources(const int i_numSlots) const
+  {
+    std::vector<ID3D11ShaderResourceView*> slots(i_numSlots, nullptr);
+    getRenderDevice().getDeviceContextPtr()->VSSetShaderResources(0, i_numSlots, slots.data());
+  }
+
+  void Shader::resetPsResources(const int i_numSlots) const
+  {
+    std::vector<ID3D11ShaderResourceView*> slots(i_numSlots, nullptr);
+    getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, i_numSlots, slots.data());
+  }
+
 } // ns Dx
