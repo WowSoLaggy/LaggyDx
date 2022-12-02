@@ -19,15 +19,13 @@ namespace Dx
     const std::vector<MaterialSpan>& i_materialSpans,
     const Sdk::Vector3F& i_position, const Sdk::Vector3F& i_rotation)
   {
-    const auto& texture = dynamic_cast<const Texture&>(i_texture);
-
     setBuffers(
       i_vertexBuffer.getPtr(), i_indexBuffer.getPtr(),
       unsigned int(i_vertexBuffer.getStride()));
 
 
     setShaderMatrices(i_position, i_rotation);
-    setShaderTexture(texture.getTexturePtr());
+    setShaderTexture(i_texture.getTexturePtr());
 
 
     for (auto& materialSpan : i_materialSpans)
@@ -82,9 +80,7 @@ namespace Dx
       {
         if (auto* dgslEffect = dynamic_cast<DGSLEffect*>(io_pEffect))
         {
-          const auto& textureResource = dynamic_cast<const Texture&>(*i_texture);
-          auto texture = textureResource.getTexturePtr();
-          dgslEffect->SetTexture(texture);
+          dgslEffect->SetTexture(i_texture->getTexturePtr());
           dgslEffect->SetTextureEnabled(true);
         }
       }

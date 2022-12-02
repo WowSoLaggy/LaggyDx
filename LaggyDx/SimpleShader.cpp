@@ -140,9 +140,9 @@ namespace Dx
 
   void SimpleShader::setTexture(const IObject3& i_object) const
   {
-    auto* texturePtr = static_cast<const Texture&>(d_emptyTexture).getTexturePtr();
+    auto* texturePtr = d_emptyTexture.getTexturePtr();
 
-    if (const auto* texture = dynamic_cast<const Texture*>(i_object.getTexture()))
+    if (const auto* texture = i_object.getTexture())
       texturePtr = texture->getTexturePtr();
 
     getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 1, &texturePtr);
@@ -152,8 +152,7 @@ namespace Dx
   {
     if (!i_material.textureName.empty())
     {
-      const auto& texture = dynamic_cast<const Texture&>(
-        d_resourceController.getTexture(i_material.textureName));
+      const auto& texture = d_resourceController.getTexture(i_material.textureName);
       auto* texturePtr = texture.getTexturePtr();
 
       getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 1, &texturePtr);

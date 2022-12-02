@@ -149,9 +149,9 @@ namespace Dx
 
   void SkydomeShader::setTextures() const
   {
-    auto* textureMainPtr = static_cast<const Texture&>(d_mainTexture).getTexturePtr();
-    auto* textureHorizonHazePtr = static_cast<const Texture&>(d_horizonHazeTexture).getTexturePtr();
-    auto* textureAroundSunPtr = static_cast<const Texture&>(d_aroundSunTexture).getTexturePtr();
+    auto* textureMainPtr = d_mainTexture.getTexturePtr();
+    auto* textureHorizonHazePtr = d_horizonHazeTexture.getTexturePtr();
+    auto* textureAroundSunPtr = d_aroundSunTexture.getTexturePtr();
 
     ID3D11ShaderResourceView* textures[] = { textureMainPtr, textureHorizonHazePtr, textureAroundSunPtr };
     getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 3, textures);
