@@ -16,6 +16,9 @@ namespace Dx
     virtual void setRotation(Sdk::Vector3F i_rotation) override;
     virtual void setScale(Sdk::Vector3F i_scale) override;
 
+    virtual void setVisible(bool i_visible) override;
+    virtual bool getVisible() const override;
+
     virtual const IModel& getModel() const override;
     virtual const ITexture* getTexture() const override;
     
@@ -26,6 +29,8 @@ namespace Dx
     Sdk::Vector3F d_position;
     Sdk::Vector3F d_rotation;
     Sdk::Vector3F d_scale = Sdk::Vector3F::identity();
+
+    bool d_isVisible = true;
 
     std::shared_ptr<IModel> d_model = nullptr;
     const ITexture* d_texture = nullptr;

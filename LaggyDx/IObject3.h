@@ -19,6 +19,9 @@ namespace Dx
     virtual void setRotation(Sdk::Vector3F i_rotation) = 0;
     virtual void setScale(Sdk::Vector3F i_scale) = 0;
 
+    virtual void setVisible(bool i_visible) = 0;
+    virtual bool getVisible() const = 0;
+
     virtual const IModel& getModel() const = 0;
     virtual const ITexture* getTexture() const = 0;
 

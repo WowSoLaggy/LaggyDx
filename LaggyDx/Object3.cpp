@@ -11,6 +11,8 @@ namespace Dx
   void Object3::setRotation(Sdk::Vector3F i_rotation) { d_rotation = std::move(i_rotation); }
   void Object3::setScale(Sdk::Vector3F i_scale) { d_scale = std::move(i_scale); }
 
+  void Object3::setVisible(const bool i_visible) { d_isVisible = i_visible; }
+  bool Object3::getVisible() const { return d_isVisible; }
 
   const IModel& Object3::getModel() const
   {
