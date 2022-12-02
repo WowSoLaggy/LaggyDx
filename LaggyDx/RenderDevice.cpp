@@ -259,7 +259,7 @@ namespace Dx
     d_depthStencilDesc.MiscFlags = 0;
 
     // Create the texture for the depth buffer using the filled out description
-    result = d_device->CreateTexture2D(&d_depthStencilDesc, NULL, &d_depthStencilBuffer);
+    result = d_device->CreateTexture2D(&d_depthStencilDesc, NULL, &d_depthBufferTexture2D);
     CONTRACT_ASSERT(!FAILED(result));
 
     // Initailze the depth stencil view
@@ -272,7 +272,7 @@ namespace Dx
     depthStencilViewDesc.Texture2D.MipSlice = 0;
 
     // Create the depth stencil view
-    result = d_device->CreateDepthStencilView(d_depthStencilBuffer, &depthStencilViewDesc, &d_depthStencilView);
+    result = d_device->CreateDepthStencilView(d_depthBufferTexture2D, &depthStencilViewDesc, &d_depthStencilView);
     CONTRACT_ASSERT(!FAILED(result));
 
     // Bind the render target view and depth stencil buffer to the output render pipeline
@@ -287,7 +287,7 @@ namespace Dx
     shaderResourceViewDesc.Texture2D.MipLevels = 1;
 
     result = d_device->CreateShaderResourceView(
-      d_depthStencilBuffer, &shaderResourceViewDesc, &d_depthStencilTextureView);
+      d_depthBufferTexture2D, &shaderResourceViewDesc, &d_depthStencilTextureView);
     CONTRACT_ASSERT(!FAILED(result));
 
     // Create depth buffer texture
@@ -328,7 +328,7 @@ namespace Dx
     release(&d_depthStencilTextureView);
     release(&d_depthStencilView);
     release(&d_depthStencilState);
-    release(&d_depthStencilBuffer);
+    release(&d_depthBufferTexture2D);
     release(&d_renderTargetView);
     release(&d_deviceContext);
     release(&d_device);
