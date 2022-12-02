@@ -213,6 +213,7 @@
     <ClInclude Include="SimpleShader.h" />
     <ClInclude Include="SkydomeShader.h" />
     <ClInclude Include="Slider.h" />
+    <ClInclude Include="TextureBase.h" />
     <ClInclude Include="ThirdPersonCamera.h" />
     <ClInclude Include="FontResource.h" />
     <ClInclude Include="IAnimationController3d.h" />
@@ -342,6 +343,7 @@
     <ClCompile Include="SimpleShader.cpp" />
     <ClCompile Include="SkydomeShader.cpp" />
     <ClCompile Include="Slider.cpp" />
+    <ClCompile Include="TextureBase.cpp" />
     <ClCompile Include="Tri.cpp" />
     <ClCompile Include="VertexLayout.cpp" />
     <ClCompile Include="VertexPosNormText.cpp" />

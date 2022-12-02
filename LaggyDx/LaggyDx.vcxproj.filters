@@ -561,6 +561,9 @@
     <ClInclude Include="IFontResource.h">
       <Filter>src\Resources\Fonts</Filter>
     </ClInclude>
+    <ClInclude Include="TextureBase.h">
+      <Filter>src\Resources\Textures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -874,6 +877,9 @@
     </ClCompile>
     <ClCompile Include="FontResource.cpp">
       <Filter>src\Resources\Fonts</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureBase.cpp">
+      <Filter>src\Resources\Textures</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

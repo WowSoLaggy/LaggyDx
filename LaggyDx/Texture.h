@@ -2,13 +2,13 @@
 
 #include "ImageAnimation.h"
 #include "ImageDescription.h"
-#include "ITexture.h"
+#include "TextureBase.h"
 #include "LaggyDxFwd.h"
 
 
 namespace Dx
 {
-  class Texture : public ITexture
+  class Texture : public TextureBase
   {
   public:
     Texture(fs::path i_textureFilePath);
@@ -23,9 +23,8 @@ namespace Dx
 
     virtual bool checkAlpha(Sdk::Vector2I i_coords, int i_frame = 0) const override;
 
-    virtual const std::shared_ptr<IBitmap> getBitmap(IRenderDevice& i_renderDevice) const override;
-
     virtual ID3D11ShaderResourceView* getTexturePtr() const override;
+    virtual const D3D11_TEXTURE2D_DESC& getTextureDesc() const override;
 
   private:
     const fs::path d_textureFilePath = "";

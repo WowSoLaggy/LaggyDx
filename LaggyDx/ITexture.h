@@ -21,6 +21,7 @@ namespace Dx
     virtual const std::shared_ptr<IBitmap> getBitmap(IRenderDevice& i_renderDevice) const = 0;
 
     virtual ID3D11ShaderResourceView* getTexturePtr() const = 0;
+    virtual const D3D11_TEXTURE2D_DESC& getTextureDesc() const = 0;
 
   };
   
