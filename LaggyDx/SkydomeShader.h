@@ -34,9 +34,9 @@ namespace Dx
     const IResourceController& d_resourceController;
     const ICamera& d_camera;
 
-    const ITextureResource& d_mainTexture;
-    const ITextureResource& d_horizonHazeTexture;
-    const ITextureResource& d_aroundSunTexture;
+    const ITexture& d_mainTexture;
+    const ITexture& d_horizonHazeTexture;
+    const ITexture& d_aroundSunTexture;
 
     SkydomeSettings d_skyDomeSettings;
 

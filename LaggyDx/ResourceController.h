@@ -17,7 +17,7 @@ namespace Dx
     virtual bool hasResource(const fs::path& i_name) const override;
 
     virtual const IMeshResourceCmo& getMeshCmo(const fs::path& i_name) const override;
-    virtual const ITextureResource& getTexture(const fs::path& i_name) const override;
+    virtual const ITexture& getTexture(const fs::path& i_name) const override;
     virtual const IPsResource& getPs(const fs::path& i_name) const override;
     virtual const IVsResource& getVs(const fs::path& i_name) const override;
     virtual const IFontResource& getFont(const fs::path& i_name) const override;

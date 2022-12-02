@@ -7,7 +7,7 @@
 #include "Model.h"
 #include "RenderDevice.h"
 #include "ShadersUtils.h"
-#include "TextureResource.h"
+#include "Texture.h"
 
 #include "Generated/Simple.gen.ps.h"
 #include "Generated/Simple.gen.vs.h"
@@ -140,10 +140,10 @@ namespace Dx
 
   void SimpleShader::setTexture(const IObject3& i_object) const
   {
-    auto* texturePtr = static_cast<const TextureResource&>(d_emptyTexture).getTexturePtr();
+    auto* texturePtr = static_cast<const Texture&>(d_emptyTexture).getTexturePtr();
 
-    if (const auto* textureResource = dynamic_cast<const TextureResource*>(i_object.getTextureResource()))
-      texturePtr = textureResource->getTexturePtr();
+    if (const auto* texture = dynamic_cast<const Texture*>(i_object.getTexture()))
+      texturePtr = texture->getTexturePtr();
 
     getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 1, &texturePtr);
   }
@@ -152,7 +152,7 @@ namespace Dx
   {
     if (!i_material.textureName.empty())
     {
-      const auto& texture = dynamic_cast<const TextureResource&>(
+      const auto& texture = dynamic_cast<const Texture&>(
         d_resourceController.getTexture(i_material.textureName));
       auto* texturePtr = texture.getTexturePtr();
 

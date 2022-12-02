@@ -10,7 +10,7 @@ namespace Dx
   class Panel : public Control
   {
   public:
-    void setTexture(const ITextureResource& i_texture);
+    void setTexture(const ITexture& i_texture);
 
     void setColor(Sdk::Vector4F i_color);
     

@@ -2,16 +2,16 @@
 
 #include "ImageAnimation.h"
 #include "ImageDescription.h"
-#include "ITextureResource.h"
+#include "ITexture.h"
 #include "LaggyDxFwd.h"
 
 
 namespace Dx
 {
-  class TextureResource : public ITextureResource
+  class Texture : public ITexture
   {
   public:
-    TextureResource(fs::path i_textureFilePath);
+    Texture(fs::path i_textureFilePath);
 
     virtual void load(IRenderDevice& i_renderDevice) override;
     virtual void unload() override;

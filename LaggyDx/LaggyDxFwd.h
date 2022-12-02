@@ -19,8 +19,8 @@ namespace Dx
   class ILoadableResource;
   class IMeshResourceCmo;
   class MeshResourceCmo;
-  class ITextureResource;
-  class TextureResource;
+  class ITexture;
+  class Texture;
   class IPsResource;
   class PsResource;
   class IVsResource;

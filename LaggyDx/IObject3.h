@@ -20,10 +20,10 @@ namespace Dx
     virtual void setScale(Sdk::Vector3F i_scale) = 0;
 
     virtual const IModel& getModel() const = 0;
-    virtual const ITextureResource* getTextureResource() const = 0;
+    virtual const ITexture* getTexture() const = 0;
 
     virtual void setModel(std::shared_ptr<IModel> i_model) = 0;
-    virtual void setTextureResource(const ITextureResource& i_textureResource) = 0;
+    virtual void setTexture(const ITexture& i_texture) = 0;
   };
 
 } // ns Dx

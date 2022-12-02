@@ -2,12 +2,12 @@
 #include "Sprite.h"
 
 #include "ImageDescription.h"
-#include "ITextureResource.h"
+#include "ITexture.h"
 
 
 namespace Dx
 {
-  Sprite::Sprite(const ITextureResource* i_texture /*= nullptr*/, Sdk::Vector2I i_position /*= Sdk::Vector2I::zero()*/,
+  Sprite::Sprite(const ITexture* i_texture /*= nullptr*/, Sdk::Vector2I i_position /*= Sdk::Vector2I::zero()*/,
                  Sdk::Vector2I i_size /*= Sdk::Vector2I::zero()*/, Sdk::Vector4F i_color /*= Sdk::Vector4F::identity()*/)
     : d_texture(i_texture)
     , d_position(i_position)
@@ -17,12 +17,12 @@ namespace Dx
   }
 
 
-  void Sprite::setTexture(const ITextureResource* i_texture)
+  void Sprite::setTexture(const ITexture* i_texture)
   {
     d_texture = i_texture;
   }
 
-  void Sprite::setTexture(const ITextureResource& i_texture)
+  void Sprite::setTexture(const ITexture& i_texture)
   {
     setTexture(&i_texture);
   }

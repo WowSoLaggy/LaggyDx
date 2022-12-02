@@ -2,7 +2,7 @@
 #include "AnimatedSprite.h"
 
 #include "ImageDescription.h"
-#include "ITextureResource.h"
+#include "ITexture.h"
 
 #include <LaggySdk/Contracts.h>
 

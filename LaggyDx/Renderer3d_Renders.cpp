@@ -7,19 +7,19 @@
 #include "MeshResourceCmo.h"
 #include "RenderDevice.h"
 #include "ResourceController.h"
-#include "TextureResource.h"
+#include "Texture.h"
 #include "VertexBuffer.h"
 
 
 namespace Dx
 {
   void Renderer3d::renderObject(
-    const ITextureResource& i_textureResource,
+    const ITexture& i_texture,
     const VertexBuffer& i_vertexBuffer, const IndexBuffer& i_indexBuffer,
     const std::vector<MaterialSpan>& i_materialSpans,
     const Sdk::Vector3F& i_position, const Sdk::Vector3F& i_rotation)
   {
-    const auto& textureResource = dynamic_cast<const TextureResource&>(i_textureResource);
+    const auto& texture = dynamic_cast<const Texture&>(i_texture);
 
     setBuffers(
       i_vertexBuffer.getPtr(), i_indexBuffer.getPtr(),
@@ -27,7 +27,7 @@ namespace Dx
 
 
     setShaderMatrices(i_position, i_rotation);
-    setShaderTexture(textureResource.getTexturePtr());
+    setShaderTexture(texture.getTexturePtr());
 
 
     for (auto& materialSpan : i_materialSpans)
@@ -36,7 +36,7 @@ namespace Dx
 
 
   void Renderer3d::renderObject(
-    const IMeshResourceCmo& i_meshCmoResource, const ITextureResource* i_textureResource,
+    const IMeshResourceCmo& i_meshCmoResource, const ITexture* i_texture,
     std::shared_ptr<IAnimationController3d> i_animationController,
     const Sdk::Vector3F& i_position, const Sdk::Vector3F& i_rotation, const Sdk::Vector3F& i_scale,
     bool i_useLighting)
@@ -78,11 +78,11 @@ namespace Dx
         pSkinning->SetBoneTransforms(animationController->getBoneXfms(), animationController->getBoneXfmsCount());
       }
 
-      if (i_textureResource)
+      if (i_texture)
       {
         if (auto* dgslEffect = dynamic_cast<DGSLEffect*>(io_pEffect))
         {
-          const auto& textureResource = dynamic_cast<const TextureResource&>(*i_textureResource);
+          const auto& textureResource = dynamic_cast<const Texture&>(*i_texture);
           auto texture = textureResource.getTexturePtr();
           dgslEffect->SetTexture(texture);
           dgslEffect->SetTextureEnabled(true);

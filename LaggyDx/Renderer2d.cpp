@@ -6,7 +6,7 @@
 #include "RenderDevice.h"
 #include "ResourceController.h"
 #include "Sprite.h"
-#include "TextureResource.h"
+#include "Texture.h"
 
 #include <LaggySdk/StringUtils.h>
 
@@ -140,8 +140,6 @@ namespace Dx
     if (!texture)
       return;
 
-    const auto& textureResource = dynamic_cast<const TextureResource&>(*texture);
-
     const auto pos = i_sprite.getPosition() + Sdk::Vector2I{ (int)d_translation.x, (int)d_translation.y };
     const auto& size = i_sprite.getSize();
 
@@ -150,7 +148,7 @@ namespace Dx
 
     const auto sourceRect = i_sprite.getSourceRect();
 
-    d_spriteBatch.Draw(textureResource.getTexturePtr(),
+    d_spriteBatch.Draw(texture->getTexturePtr(),
                        destinationRect, &sourceRect,
                        { color.x, color.y, color.z, color.w });
 

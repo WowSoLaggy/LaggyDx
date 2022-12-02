@@ -10,7 +10,7 @@
 #include "PsResource.h"
 #include "RenderDevice.h"
 #include "ShaderBuffers.h"
-#include "TextureResource.h"
+#include "Texture.h"
 #include "VertexBuffer.h"
 #include "VsResource.h"
 
@@ -179,10 +179,10 @@ namespace Dx
 
   void SimpleRenderer::setTexture(const IObject3& i_object) const
   {
-    auto* texturePtr = static_cast<const TextureResource&>(d_emptyTexture).getTexturePtr();
+    auto* texturePtr = static_cast<const Texture&>(d_emptyTexture).getTexturePtr();
 
-    if (const auto* textureResource = dynamic_cast<const TextureResource*>(i_object.getTextureResource()))
-      texturePtr = textureResource->getTexturePtr();
+    if (const auto* texture = dynamic_cast<const Texture*>(i_object.getTexture()))
+      texturePtr = texture->getTexturePtr();
 
     const auto& renderDevice = dynamic_cast<const RenderDevice&>(d_renderDevice);
     renderDevice.getDeviceContextPtr()->PSSetShaderResources(0, 1, &texturePtr);
@@ -192,7 +192,7 @@ namespace Dx
   {
     if (!i_material.textureName.empty())
     {
-      const auto& texture = dynamic_cast<const TextureResource&>(
+      const auto& texture = dynamic_cast<const Texture&>(
         d_resourceController.getTexture(i_material.textureName));
       auto* texturePtr = texture.getTexturePtr();
 

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "TextureResource.h"
+#include "Texture.h"
 
 #include "Bitmap.h"
 #include "RenderDevice.h"
@@ -11,13 +11,13 @@
 
 namespace Dx
 {
-  TextureResource::TextureResource(fs::path i_textureFilePath)
+  Texture::Texture(fs::path i_textureFilePath)
     : d_textureFilePath(std::move(i_textureFilePath))
   {
   }
 
 
-  void TextureResource::load(IRenderDevice& i_renderDevice)
+  void Texture::load(IRenderDevice& i_renderDevice)
   {
     loadTexture(i_renderDevice);
     setSizeFromTexture();
@@ -25,7 +25,7 @@ namespace Dx
     fillAlphaMask(i_renderDevice);
   }
 
-  void TextureResource::unload()
+  void Texture::unload()
   {
     if (d_texture)
     {
@@ -35,7 +35,7 @@ namespace Dx
   }
 
 
-  void TextureResource::loadTexture(IRenderDevice& i_renderDevice)
+  void Texture::loadTexture(IRenderDevice& i_renderDevice)
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
 
@@ -66,7 +66,7 @@ namespace Dx
     CONTRACT_EXPECT(d_texture);
   }
 
-  void TextureResource::setSizeFromTexture()
+  void Texture::setSizeFromTexture()
   {
     ID3D11Texture2D* textureResource = nullptr;
     d_texture->GetResource(reinterpret_cast<ID3D11Resource**>(&textureResource));
@@ -79,7 +79,7 @@ namespace Dx
     d_solidAlpha = true;
   }
 
-  void TextureResource::loadAnnotation()
+  void Texture::loadAnnotation()
   {
     auto annotationFile = d_textureFilePath;
     annotationFile.replace_extension("json");
@@ -108,7 +108,7 @@ namespace Dx
     }
   }
 
-  void TextureResource::fillAlphaMask(IRenderDevice& i_renderDevice)
+  void Texture::fillAlphaMask(IRenderDevice& i_renderDevice)
   {
     if (!d_description.alpha)
       return;
@@ -162,7 +162,7 @@ namespace Dx
     }
   }
 
-  bool TextureResource::checkAlpha(Sdk::Vector2I i_coords, int i_frame /*= 0*/) const
+  bool Texture::checkAlpha(Sdk::Vector2I i_coords, int i_frame /*= 0*/) const
   {
     if (d_solidAlpha)
       return true;
@@ -174,7 +174,7 @@ namespace Dx
   }
 
 
-  const std::shared_ptr<IBitmap> TextureResource::getBitmap(IRenderDevice& i_renderDevice) const
+  const std::shared_ptr<IBitmap> Texture::getBitmap(IRenderDevice& i_renderDevice) const
   {
     auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
 
@@ -213,22 +213,22 @@ namespace Dx
   }
 
   
-  fs::path TextureResource::getFilename() const
+  fs::path Texture::getFilename() const
   {
     return d_textureFilePath.filename();
   }
 
-  const ImageDescription& TextureResource::getDescription() const
+  const ImageDescription& Texture::getDescription() const
   {
     return d_description;
   }
 
-  const Animations2Map& TextureResource::getAnimationsMap() const
+  const Animations2Map& Texture::getAnimationsMap() const
   {
     return d_animations;
   }
 
-  ID3D11ShaderResourceView* TextureResource::getTexturePtr() const
+  ID3D11ShaderResourceView* Texture::getTexturePtr() const
   {
     return d_texture;
   }

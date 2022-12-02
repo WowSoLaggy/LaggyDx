@@ -4,7 +4,7 @@
 #include "CollShapeMover.h"
 #include "Game.h"
 #include "ImageDescription.h"
-#include "ITextureResource.h"
+#include "ITexture.h"
 #include "Renderer2dGuard.h"
 #include "StaticCollider.h"
 

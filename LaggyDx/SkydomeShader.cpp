@@ -7,7 +7,7 @@
 #include "Model.h"
 #include "RenderDevice.h"
 #include "ShadersUtils.h"
-#include "TextureResource.h"
+#include "Texture.h"
 #include "VertexLayout.h"
 
 #include "Generated/Skydome.gen.ps.h"
@@ -149,9 +149,9 @@ namespace Dx
 
   void SkydomeShader::setTextures() const
   {
-    auto* textureMainPtr = static_cast<const TextureResource&>(d_mainTexture).getTexturePtr();
-    auto* textureHorizonHazePtr = static_cast<const TextureResource&>(d_horizonHazeTexture).getTexturePtr();
-    auto* textureAroundSunPtr = static_cast<const TextureResource&>(d_aroundSunTexture).getTexturePtr();
+    auto* textureMainPtr = static_cast<const Texture&>(d_mainTexture).getTexturePtr();
+    auto* textureHorizonHazePtr = static_cast<const Texture&>(d_horizonHazeTexture).getTexturePtr();
+    auto* textureAroundSunPtr = static_cast<const Texture&>(d_aroundSunTexture).getTexturePtr();
 
     ID3D11ShaderResourceView* textures[] = { textureMainPtr, textureHorizonHazePtr, textureAroundSunPtr };
     getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 3, textures);

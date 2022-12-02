@@ -549,10 +549,10 @@
     <ClInclude Include="ShaderWrapper.h">
       <Filter>src\Shaders\ShaderWrapper</Filter>
     </ClInclude>
-    <ClInclude Include="ITextureResource.h">
+    <ClInclude Include="ITexture.h">
       <Filter>src\Resources\Textures</Filter>
     </ClInclude>
-    <ClInclude Include="TextureResource.h">
+    <ClInclude Include="Texture.h">
       <Filter>src\Resources\Textures</Filter>
     </ClInclude>
     <ClInclude Include="FontResource.h">
@@ -869,7 +869,7 @@
     <ClCompile Include="ShaderWrapper.cpp">
       <Filter>src\Shaders\ShaderWrapper</Filter>
     </ClCompile>
-    <ClCompile Include="TextureResource.cpp">
+    <ClCompile Include="Texture.cpp">
       <Filter>src\Resources\Textures</Filter>
     </ClCompile>
     <ClCompile Include="FontResource.cpp">

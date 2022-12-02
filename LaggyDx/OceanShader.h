@@ -39,8 +39,8 @@ namespace Dx
 
     const IResourceController& d_resourceController;
     const ICamera& d_camera;
-    const ITextureResource& d_emptyTexture;
-    const ITextureResource& d_bumpTexture;
+    const ITexture& d_emptyTexture;
+    const ITexture& d_bumpTexture;
 
     CBuffer d_matrixBuffer;
     CBuffer d_cameraBuffer;

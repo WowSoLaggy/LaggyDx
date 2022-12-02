@@ -6,7 +6,7 @@
 #include "MeshResourceCmo.h"
 #include "PsBinResource.h"
 #include "PsHlslResource.h"
-#include "TextureResource.h"
+#include "Texture.h"
 #include "VsBinResource.h"
 #include "VsHlslResource.h"
 
@@ -70,9 +70,9 @@ namespace Dx
     return res;
   }
 
-  const ITextureResource& ResourceController::getTexture(const fs::path& i_name) const
+  const ITexture& ResourceController::getTexture(const fs::path& i_name) const
   {
-    auto& res = getResource<ITextureResource>(d_resources, i_name, d_resourceFolder);
+    auto& res = getResource<ITexture>(d_resources, i_name, d_resourceFolder);
     loadResource(res);
     return res;
   }
@@ -159,7 +159,7 @@ namespace Dx
       if (std::regex_match(pEntity->d_name, modelCmoPattern))
         d_resources.insert({ resourceName.string(), std::make_shared<MeshResourceCmo>(resourceName) });
       else if (std::regex_match(pEntity->d_name, texturePattern))
-        d_resources.insert({ resourceName.string(), std::make_shared<TextureResource>(resourceName) });
+        d_resources.insert({ resourceName.string(), std::make_shared<Texture>(resourceName) });
       else if (std::regex_match(pEntity->d_name, vsBinPattern))
         d_resources.insert({ resourceName.string(), std::make_shared<VsBinResource>(resourceName) });
       else if (std::regex_match(pEntity->d_name, vsHlslPattern))

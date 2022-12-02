@@ -2,7 +2,7 @@
 #include "Sprite.h"
 
 #include "IResourceController.h"
-#include "ITextureResource.h"
+#include "ITexture.h"
 
 #include <LaggySdk/Streams.h>
 

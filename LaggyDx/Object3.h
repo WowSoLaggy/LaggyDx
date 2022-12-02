@@ -17,10 +17,10 @@ namespace Dx
     virtual void setScale(Sdk::Vector3F i_scale) override;
 
     virtual const IModel& getModel() const override;
-    virtual const ITextureResource* getTextureResource() const override;
+    virtual const ITexture* getTexture() const override;
     
     virtual void setModel(std::shared_ptr<IModel> i_model) override;
-    virtual void setTextureResource(const ITextureResource& i_textureResource) override;
+    virtual void setTexture(const ITexture& i_texture) override;
 
   private:
     Sdk::Vector3F d_position;
@@ -28,7 +28,7 @@ namespace Dx
     Sdk::Vector3F d_scale = Sdk::Vector3F::identity();
 
     std::shared_ptr<IModel> d_model = nullptr;
-    const ITextureResource* d_textureResource = nullptr;
+    const ITexture* d_texture = nullptr;
   };
 
 } // ns Dx

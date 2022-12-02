@@ -18,12 +18,12 @@ namespace Dx
     return *d_model;
   }
 
-  const ITextureResource* Object3::getTextureResource() const
+  const ITexture* Object3::getTexture() const
   {
-    return d_textureResource;
+    return d_texture;
   }
 
   void Object3::setModel(std::shared_ptr<IModel> i_model) { d_model = i_model; }
-  void Object3::setTextureResource(const ITextureResource& i_textureResource) { d_textureResource = &i_textureResource; }
+  void Object3::setTexture(const ITexture& i_texture) { d_texture = &i_texture; }
 
 } // ns Dx

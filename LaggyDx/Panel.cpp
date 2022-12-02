@@ -6,7 +6,7 @@
 
 namespace Dx
 {
-  void Panel::setTexture(const ITextureResource& i_texture)
+  void Panel::setTexture(const ITexture& i_texture)
   {
     d_sprite.setTexture(i_texture);
   }

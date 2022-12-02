@@ -8,7 +8,7 @@
 
 namespace Dx
 {
-  class ITextureResource : public LoadableResource
+  class ITexture : public LoadableResource
   {
   public:
     virtual fs::path getFilename() const = 0;
