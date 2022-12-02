@@ -51,6 +51,9 @@ namespace Dx
 
   void SimpleShader::draw(const IObject3& i_object) const
   {
+    if (!i_object.getVisible())
+      return;
+
     setRenderStates();
     setShaders();
     setXfmMatrices(i_object);
