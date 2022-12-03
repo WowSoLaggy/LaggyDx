@@ -193,15 +193,8 @@ namespace Dx
     // Set the handle for the window to render to
     swapChainDesc.OutputWindow = d_hWnd;
 
-    // Turn multisampling off
-    swapChainDesc.SampleDesc.Count = 1;
-    swapChainDesc.SampleDesc.Quality = 0;
-
     // Set to full screen or windowed mode
-    if (c_fullScreen)
-      swapChainDesc.Windowed = false;
-    else
-      swapChainDesc.Windowed = true;
+    swapChainDesc.Windowed = !c_fullScreen;
 
     // Set the scan line ordering and scaling to unspecified
     swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
@@ -215,6 +208,7 @@ namespace Dx
 
     // MSAA settings
     swapChainDesc.SampleDesc.Count = static_cast<int>(c_msaaMode);
+    swapChainDesc.SampleDesc.Quality = 0;
 
     // Set the feature level to DirectX 11
     D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_1;
@@ -224,9 +218,11 @@ namespace Dx
       flags |= D3D11_CREATE_DEVICE_DEBUG;
 
     // Create the swap chain, Direct3D device, and Direct3D device context
-    result = D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL,
+    result = D3D11CreateDeviceAndSwapChain(
+      NULL, D3D_DRIVER_TYPE_HARDWARE, NULL,
       flags, &featureLevel, 1,
-      D3D11_SDK_VERSION, &swapChainDesc, &d_swapChain, &d_device, NULL, &d_deviceContext);
+      D3D11_SDK_VERSION, &swapChainDesc, &d_swapChain,
+      &d_device, NULL, &d_deviceContext);
     CONTRACT_ASSERT(!FAILED(result));
 
     // Get the pointer to the back buffer
@@ -240,7 +236,7 @@ namespace Dx
 
     // Release pointer to the back buffer as we no longer need it
     backBufferPtr->Release();
-    backBufferPtr = 0;
+    backBufferPtr = nullptr;
 
     // Initialize the description of the depth buffer
     d_depthStencilDesc = {};
@@ -254,7 +250,7 @@ namespace Dx
     d_depthStencilDesc.SampleDesc.Count = static_cast<int>(c_msaaMode);
     d_depthStencilDesc.SampleDesc.Quality = 0;
     d_depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
-    d_depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+    d_depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
     d_depthStencilDesc.CPUAccessFlags = 0;
     d_depthStencilDesc.MiscFlags = 0;
 
@@ -264,6 +260,7 @@ namespace Dx
     CONTRACT_ASSERT(d_depthBufferTexture2D != nullptr);
 
     // Create copy for using in shaders
+    d_depthStencilDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
     result = d_device->CreateTexture2D(&d_depthStencilDesc, NULL, &d_depthBufferTexture2DCopy);
     CONTRACT_ASSERT(!FAILED(result));
     CONTRACT_ASSERT(d_depthBufferTexture2DCopy != nullptr);
