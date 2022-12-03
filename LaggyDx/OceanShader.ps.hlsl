@@ -2,7 +2,7 @@ SamplerState SampleType;
 
 Texture2D objectTexture : register(t0);
 Texture2D bumpTexture : register(t1);
-Texture2D depthTexture : register(t2);
+Texture2DMS<float4> depthTexture : register(t2);
 
 
 cbuffer LightingCBuffer : register(b0)
@@ -49,7 +49,7 @@ float4 main(PixelInputType input) : SV_TARGET
   float2 screenCoords = float2(
     input.position.x / resolution.x,
     input.position.y / resolution.y);
-  float depth = depthTexture.Sample(SampleType, screenCoords).r;
+  float depth = depthTexture.Load(input.position.xy, 0).r;
   float alpha = pow(depth, 64);
   alpha = max(alpha, 0.2);
   
