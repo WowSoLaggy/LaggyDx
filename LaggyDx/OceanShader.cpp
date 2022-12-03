@@ -245,6 +245,8 @@ namespace Dx
     dataPtr->resolution = XMFLOAT2(
       (float)getRenderDevice().getDepthBufferTexture().getTextureDesc().Width,
       (float)getRenderDevice().getDepthBufferTexture().getTextureDesc().Height);
+    dataPtr->nearPlane = d_camera.getViewportMinZ();
+    dataPtr->farPlane = d_camera.getViewportMaxZ();
 
     getRenderDevice().getDeviceContextPtr()->Unmap(d_viewportBuffer.get(), 0);
     getRenderDevice().getDeviceContextPtr()->PSSetConstantBuffers(1, 1, d_viewportBuffer.getPp());

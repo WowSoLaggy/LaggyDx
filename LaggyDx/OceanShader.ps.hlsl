@@ -19,7 +19,8 @@ cbuffer LightingCBuffer : register(b0)
 cbuffer ViewportCBuffer : register(b1)
 {
   float2 resolution;
-  float2 _reserved2;
+  float nearPlane;
+  float farPlane;
 };
 
 
@@ -45,12 +46,17 @@ float4 main(PixelInputType input) : SV_TARGET
   
   // DEPTH
   
-  float2 screenCoords = float2(input.position.x / resolution.x, input.position.y / resolution.y);
-  float4 depthMap = depthTexture.Sample(SampleType, screenCoords);
+  float2 screenCoords = float2(
+    input.position.x / resolution.x,
+    input.position.y / resolution.y);
+  float depth = depthTexture.Sample(SampleType, screenCoords).r;
+  float alpha = pow(depth, 64);
+  alpha = max(alpha, 0.2);
   
   // DIFFUSE
   
   float4 textureColor = diffuseColor;
+  textureColor.a = alpha;
   float lightAmount = saturate(dot(normal, -lightDirection));
   lightAmount = max(lightAmount, ambientStrength);
   textureColor.rgb *= lightAmount;

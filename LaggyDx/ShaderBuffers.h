@@ -43,7 +43,8 @@ namespace Dx
   struct ViewportDesc
   {
     XMFLOAT2 resolution{ 0, 0 };
-    XMFLOAT2 _reserved{ 0, 0 };
+    float nearPlane{ 0 };
+    float farPlane{ 0 };
   };
 
   struct TextureDisplacementDesc
