@@ -2,9 +2,10 @@ SamplerState SampleType;
 
 Texture2D objectTexture : register(t0);
 Texture2D bumpTexture : register(t1);
+Texture2D depthTexture : register(t2);
 
 
-cbuffer LightingCBuffer
+cbuffer LightingCBuffer : register(b0)
 {
   float4 diffuseColor;
   float4 lightColor;
@@ -13,6 +14,12 @@ cbuffer LightingCBuffer
   float specularIntensity;
   float specularPower;
   float3 _reserved;
+};
+
+cbuffer ViewportCBuffer : register(b1)
+{
+  float2 resolution;
+  float2 _reserved2;
 };
 
 
@@ -35,6 +42,11 @@ float4 main(PixelInputType input) : SV_TARGET
   float3 normal1 = normalMap1.xzy * 2 - 1;
   float3 normal2 = normalMap2.xzy * 2 - 1;
   float3 normal = normalize(input.normal.xyz + (normal1 + normal2) * 1);
+  
+  // DEPTH
+  
+  float2 screenCoords = float2(input.position.x / resolution.x, input.position.y / resolution.y);
+  float4 depthMap = depthTexture.Sample(SampleType, screenCoords);
   
   // DIFFUSE
   

@@ -45,6 +45,7 @@ namespace Dx
     CBuffer d_matrixBuffer;
     CBuffer d_cameraBuffer;
     CBuffer d_lightBuffer;
+    CBuffer d_viewportBuffer;
     CBuffer d_timeBuffer;
     CBuffer d_waveBuffer;
     CBuffer d_texturesDisplacementBuffer;
@@ -52,7 +53,8 @@ namespace Dx
     void setGeometryBuffers(const IMesh& i_mesh) const;
     void setXfmMatrices(const IObject3& i_object) const;
     void setCBuffers() const;
-    void setBumpTexture() const;
+    void setCommonTextures() const;
+    void setViewport() const;
     void setTexture(const IObject3& i_object) const;
     void setTexture(const Material& i_material) const;
     void setMaterial(const Material& i_material) const;

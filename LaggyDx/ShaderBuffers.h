@@ -40,6 +40,12 @@ namespace Dx
     XMFLOAT2 _reserved{ 0, 0 };
   };
 
+  struct ViewportDesc
+  {
+    XMFLOAT2 resolution{ 0, 0 };
+    XMFLOAT2 _reserved{ 0, 0 };
+  };
+
   struct TextureDisplacementDesc
   {
     XMFLOAT2 speed1{ 0, 0 };
