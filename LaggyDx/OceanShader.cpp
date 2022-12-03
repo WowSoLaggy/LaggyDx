@@ -97,6 +97,8 @@ namespace Dx
 
   void OceanShader::draw(const IObject3& i_object) const
   {
+    getRenderDevice().prepareDepthBufferTexture();
+
     setRenderStates();
     setShaders();
     setXfmMatrices(i_object);
