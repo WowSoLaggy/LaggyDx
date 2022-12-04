@@ -45,7 +45,10 @@ namespace Dx
     getRenderDevice().getDeviceContextPtr()->IASetInputLayout(getShaders().getLayout());
     getRenderDevice().getDeviceContextPtr()->VSSetShader(getShaders().getVs(), nullptr, 0);
     getRenderDevice().getDeviceContextPtr()->PSSetShader(getShaders().getPs(), nullptr, 0);
-    getRenderDevice().getDeviceContextPtr()->PSSetSamplers(0, 1, getShaders().getSamplerPp());
+
+    const auto& samplers = getShaders().getSamplers();
+    getRenderDevice().getDeviceContextPtr()->PSSetSamplers(
+      0, (int)samplers.size(), samplers.data());
   }
 
 

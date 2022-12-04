@@ -26,14 +26,16 @@ namespace Dx
     dispose(&d_vs);
     dispose(&d_layout);
     dispose(&d_ps);
-    dispose(&d_sampler);
+
+    for (auto& sampler : d_samplers)
+      dispose(&sampler);
   }
 
 
   ID3D11VertexShader* ShaderWrapper::getVs() const { return d_vs; }
   ID3D11PixelShader* ShaderWrapper::getPs() const { return d_ps; }
   ID3D11InputLayout* ShaderWrapper::getLayout() const { return d_layout; }
-  ID3D11SamplerState* const* ShaderWrapper::getSamplerPp() const { return &d_sampler; }
+  const std::vector<ID3D11SamplerState*>& ShaderWrapper::getSamplers() const { return d_samplers; }
 
 
   void ShaderWrapper::initVs(const void* i_shaderBytes, int i_shaderSize)
@@ -79,9 +81,12 @@ namespace Dx
     samplerDesc.MinLOD = 0;
     samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
-    HRESULT hRes = d_renderDevice.getDevicePtr()->CreateSamplerState(&samplerDesc, &d_sampler);
+    ID3D11SamplerState* sampler = nullptr;
+    HRESULT hRes = d_renderDevice.getDevicePtr()->CreateSamplerState(&samplerDesc, &sampler);
     CONTRACT_ASSERT(!FAILED(hRes));
-    CONTRACT_ASSERT(d_sampler != nullptr);
+    CONTRACT_ASSERT(sampler != nullptr);
+
+    d_samplers.push_back(sampler);
   }
 
 } // ns Dx

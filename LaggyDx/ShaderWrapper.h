@@ -18,7 +18,8 @@ namespace Dx
     ID3D11VertexShader* getVs() const;
     ID3D11PixelShader* getPs() const;
     ID3D11InputLayout* getLayout() const;
-    ID3D11SamplerState* const* getSamplerPp() const;
+
+    const std::vector<ID3D11SamplerState*>& getSamplers() const;
 
   private:
     const RenderDevice& d_renderDevice;
@@ -26,7 +27,8 @@ namespace Dx
     ID3D11VertexShader* d_vs = nullptr;
     ID3D11PixelShader* d_ps = nullptr;
     ID3D11InputLayout* d_layout = nullptr;
-    ID3D11SamplerState* d_sampler = nullptr;
+
+    std::vector<ID3D11SamplerState*> d_samplers;
   };
 
 } // ns Dx
