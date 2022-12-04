@@ -48,7 +48,6 @@ namespace Dx
     void setXfmMatrices(const IObject3& i_object) const;
     void setCBuffers() const;
     void setTextures() const;
-    void drawIndexed(int i_count, int i_startIndex) const;
   };
 
 } // ns Dx

@@ -61,4 +61,10 @@ namespace Dx
     getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, i_numSlots, slots.data());
   }
 
+
+  void Shader::drawIndexed(const int i_count, const int i_startIndex) const
+  {
+    getRenderDevice().getDeviceContextPtr()->DrawIndexed(i_count, i_startIndex, 0);
+  }
+
 } // ns Dx

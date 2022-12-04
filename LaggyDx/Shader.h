@@ -26,6 +26,8 @@ namespace Dx
     void resetVsResources(int i_numSlots) const;
     void resetPsResources(int i_numSlots) const;
     
+    void drawIndexed(int i_count, int i_startIndex) const;
+
   private:
     bool d_solidFillMode = true;
     RenderDevice& d_renderDevice;

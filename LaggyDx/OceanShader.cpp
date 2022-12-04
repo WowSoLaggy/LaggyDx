@@ -329,11 +329,6 @@ namespace Dx
     getRenderDevice().getDeviceContextPtr()->PSSetConstantBuffers(0, 1, d_lightBuffer.getPp());
   }
 
-  void OceanShader::drawIndexed(const int i_count, const int i_startIndex) const
-  {
-    getRenderDevice().getDeviceContextPtr()->DrawIndexed(i_count, i_startIndex, 0);
-  }
-
 
   XMFLOAT4& OceanShader::getWaveByIndex(int i_waveIndex)
   {

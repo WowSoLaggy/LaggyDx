@@ -38,7 +38,6 @@ namespace Dx
     void setTexture(const IObject3& i_object) const;
     void setTexture(const Material& i_material) const;
     void setMaterial(const Material& i_material) const;
-    void drawIndexed(int i_count, int i_startIndex) const;
   };
 
 } // ns Dx
