@@ -16,13 +16,15 @@ struct VertexInputType
 struct PixelInputType
 {
   float4 position : SV_POSITION;
-  float4 posWorld : TEXCOORD1;
+  float4 posWorld : TEXCOORD0;
+  float2 tex : TEXCOORD1;
 };
 
 
 PixelInputType main(VertexInputType input)
 {
   PixelInputType output;
+  output.tex = input.tex;
 
   output.position = mul(input.position, worldMatrix);
   output.posWorld = output.position;
