@@ -143,7 +143,7 @@ namespace Dx
       dataPtr->cameraPosition = getXmfloat3(d_camera.getPosition());
 
       getRenderDevice().getDeviceContextPtr()->Unmap(d_skyDomeBuffer.get(), 0);
-      getRenderDevice().getDeviceContextPtr()->PSSetConstantBuffers(1, 1, d_skyDomeBuffer.getPp());
+      getRenderDevice().getDeviceContextPtr()->PSSetConstantBuffers(0, 1, d_skyDomeBuffer.getPp());
     }
   }
 

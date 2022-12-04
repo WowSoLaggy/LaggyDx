@@ -5,7 +5,7 @@ Texture2D skyHorizonHazeTexture : register(t1);
 Texture2D skyAroundSunTexture : register(t2);
 
 
-cbuffer SkydomeSettings : register(b1)
+cbuffer SkydomeSettings : register(b0)
 {
   float3 cameraPosition;
   float sunRadiusInternal;
