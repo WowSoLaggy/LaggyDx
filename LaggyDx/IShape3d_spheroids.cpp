@@ -13,7 +13,7 @@ namespace Dx
   namespace
   {
     std::vector<VertexPosNormText> generateSphereVerts(
-      const float i_radius, const int i_stackCount, const int i_sliceCount)
+      const float i_radius, const int i_stackCount, const int i_sliceCount, const float i_textureCoeff)
     {
       std::vector<VertexPosNormText> verts;
 
@@ -39,6 +39,7 @@ namespace Dx
           p.position = pos.getVector<float>();
           p.normal = Sdk::normalize(p.position);
           p.texture = { (float)slice / i_sliceCount, (float)(i_stackCount - stack) / i_stackCount };
+          p.texture *= i_textureCoeff;
           verts.push_back(std::move(p));
         }
       }
@@ -105,17 +106,19 @@ namespace Dx
   } // anonym NS
 
 
-  std::unique_ptr<IShape3d> IShape3d::sphere(const float i_radius, const int i_stackCount, const int i_sliceCount)
+  std::unique_ptr<IShape3d> IShape3d::sphere(
+    const float i_radius, const int i_stackCount, const int i_sliceCount, const float i_textureCoeff /* = 1.0f */)
   {
-    auto verts = generateSphereVerts(i_radius, i_stackCount, i_sliceCount);
+    auto verts = generateSphereVerts(i_radius, i_stackCount, i_sliceCount, i_textureCoeff);
     auto inds = generateSphereInds(i_stackCount, i_sliceCount);
     return std::make_unique<Shape3d>(std::move(verts), std::move(inds));
   }
 
 
-  std::unique_ptr<IShape3d> IShape3d::sphereInverted(float i_radius, int i_stackCount, int i_sliceCount)
+  std::unique_ptr<IShape3d> IShape3d::sphereInverted(
+    float i_radius, int i_stackCount, int i_sliceCount, const float i_textureCoeff /* = 1.0f */)
   {
-    auto verts = generateSphereVerts(i_radius, i_stackCount, i_sliceCount);
+    auto verts = generateSphereVerts(i_radius, i_stackCount, i_sliceCount, i_textureCoeff);
     auto inds = generateSphereInds(i_stackCount, i_sliceCount);
     invertVerts(verts, inds);
     return std::make_unique<Shape3d>(std::move(verts), std::move(inds));

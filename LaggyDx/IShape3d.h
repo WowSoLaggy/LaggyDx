@@ -35,12 +35,14 @@ namespace Dx
     /// \param i_radius - radius
     /// \param i_stackCount - number of divisions by latitude (from north to south)
     /// \param i_sliceCount - number of divisions by longitude (from west to east)
-    static std::unique_ptr<IShape3d> sphere(float i_radius, int i_stackCount, int i_sliceCount);
+    static std::unique_ptr<IShape3d> sphere(
+      float i_radius, int i_stackCount, int i_sliceCount, float i_textureCoeff = 1.0f);
 
     /// \param i_radius - radius
     /// \param i_stackCount - number of divisions by latitude (from north to south)
     /// \param i_sliceCount - number of divisions by longitude (from west to east)
-    static std::unique_ptr<IShape3d> sphereInverted(float i_radius, int i_stackCount, int i_sliceCount);
+    static std::unique_ptr<IShape3d> sphereInverted(
+      float i_radius, int i_stackCount, int i_sliceCount, float i_textureCoeff = 1.0f);
 
 
     static std::unique_ptr<IShape3d> fromRoam(const Roam& i_roam);
