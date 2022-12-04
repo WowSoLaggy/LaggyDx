@@ -38,7 +38,7 @@ namespace Dx
   {
     getShaders().initVs(g_oceanVs, sizeof(g_oceanVs));
     getShaders().initPs(g_oceanPs, sizeof(g_oceanPs));
-    getShaders().initSampler(true);
+    getShaders().addSampler(true);
   }
 
 

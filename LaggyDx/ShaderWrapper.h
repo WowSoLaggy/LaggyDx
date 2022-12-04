@@ -13,7 +13,7 @@ namespace Dx
 
     void initVs(const void* i_shaderBytes, int i_shaderSize);
     void initPs(const void* i_shaderBytes, int i_shaderSize);
-    void initSampler(bool i_wrapCoords);
+    void addSampler(bool i_wrapCoords);
 
     ID3D11VertexShader* getVs() const;
     ID3D11PixelShader* getPs() const;

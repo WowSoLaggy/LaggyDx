@@ -60,7 +60,7 @@ namespace Dx
     CONTRACT_ASSERT(d_ps != nullptr);
   }
 
-  void ShaderWrapper::initSampler(bool i_wrapCoords)
+  void ShaderWrapper::addSampler(bool i_wrapCoords)
   {
     const auto mode = i_wrapCoords ?
       D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP :

@@ -29,7 +29,7 @@ namespace Dx
   {
     getShaders().initVs(g_simpleVs, sizeof(g_simpleVs));
     getShaders().initPs(g_simplePs, sizeof(g_simplePs));
-    getShaders().initSampler(true);
+    getShaders().addSampler(true);
   }
 
 

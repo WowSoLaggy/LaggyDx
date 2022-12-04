@@ -31,7 +31,7 @@ namespace Dx
   {
     getShaders().initVs(g_skydomeVs, sizeof(g_skydomeVs));
     getShaders().initPs(g_skydomePs, sizeof(g_skydomePs));
-    getShaders().initSampler(false);
+    getShaders().addSampler(false);
   }
 
 
