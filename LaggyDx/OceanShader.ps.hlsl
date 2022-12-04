@@ -23,6 +23,14 @@ cbuffer ViewportCBuffer : register(b1)
   float farPlane;
 };
 
+cbuffer DepthFogDesc : register(b2)
+{
+  float depthStart;
+  float depthEnd;
+  float powerMin;
+  float powerMax;
+};
+
 
 struct PixelInputType
 {
@@ -32,6 +40,17 @@ struct PixelInputType
   float2 tex2 : TEXCOORD1;
   float3 viewDirection : TEXCOORD2;
 };
+
+
+float getLinearDepth(in float i_logDepth)
+{
+  return nearPlane / (farPlane - i_logDepth * (farPlane - nearPlane));
+}
+
+float convertToMeters(in float i_relativeDepth)
+{
+  return i_relativeDepth * farPlane;
+}
 
 
 float4 main(PixelInputType input) : SV_TARGET
@@ -49,14 +68,22 @@ float4 main(PixelInputType input) : SV_TARGET
   float2 screenCoords = float2(
     input.position.x / resolution.x,
     input.position.y / resolution.y);
-  float depth = depthTexture.Load(input.position.xy, 0).r;
-  float alpha = pow(depth, 64);
-  alpha = max(alpha, 0.2);
+  float zBuffer = depthTexture.Load(input.position.xy, 0).r;
+  
+  float depthToGroundRel = getLinearDepth(zBuffer);
+  float depthToWaterRel = getLinearDepth(input.position.z);
+  
+  float depthToGroundM = convertToMeters(depthToGroundRel);
+  float depthToWaterM = convertToMeters(depthToWaterRel);
+  float depth = abs(depthToGroundM - depthToWaterM);
+  
+  float ratio = saturate((depth - depthStart) / (depthEnd - depthStart));
+  float fogPower = powerMin + ratio * (powerMax - powerMin);
   
   // DIFFUSE
   
   float4 textureColor = diffuseColor;
-  textureColor.a = alpha;
+  textureColor.a = fogPower;
   float lightAmount = saturate(dot(normal, -lightDirection));
   lightAmount = max(lightAmount, ambientStrength);
   textureColor.rgb *= lightAmount;

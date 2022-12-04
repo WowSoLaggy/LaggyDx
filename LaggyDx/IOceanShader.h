@@ -29,6 +29,11 @@ namespace Dx
     virtual void setLightColor(const Sdk::Vector4D& i_color) = 0;
     virtual void setAmbientStrength(double i_strength) = 0;
 
+    virtual void setFogDepthStart(double i_depthStart) = 0;
+    virtual void setFogDepthEnd(double i_depthEnd) = 0;
+    virtual void setFogMinPower(double i_minPower) = 0;
+    virtual void setFogMaxPower(double i_maxPower) = 0;
+
     virtual void setTexturesDisplacementSettings(
       double i_scale1, double i_scale2,
       const Sdk::Vector2D& i_speed1, const Sdk::Vector2D& i_speed2) = 0;

@@ -25,6 +25,11 @@ namespace Dx
     virtual void setLightColor(const Sdk::Vector4D& i_color) override;
     virtual void setAmbientStrength(double i_strength) override;
 
+    virtual void setFogDepthStart(double i_depthStart) override;
+    virtual void setFogDepthEnd(double i_depthEnd) override;
+    virtual void setFogMinPower(double i_minPower) override;
+    virtual void setFogMaxPower(double i_maxPower) override;
+
     virtual void setTexturesDisplacementSettings(
       double i_scale1, double i_scale2,
       const Sdk::Vector2D& i_speed1, const Sdk::Vector2D& i_speed2) override;
@@ -35,6 +40,7 @@ namespace Dx
     TimeDesc d_timeDesc;
     WaveDesc d_waveDesc;
     LightDesc d_lightDesc;
+    DepthFogDesc d_depthFogDesc;
     TextureDisplacementDesc d_texturesDisplacementDesc;
 
     const IResourceController& d_resourceController;
@@ -45,6 +51,7 @@ namespace Dx
     CBuffer d_matrixBuffer;
     CBuffer d_cameraBuffer;
     CBuffer d_lightBuffer;
+    CBuffer d_depthFogBuffer;
     CBuffer d_viewportBuffer;
     CBuffer d_timeBuffer;
     CBuffer d_waveBuffer;
@@ -54,7 +61,6 @@ namespace Dx
     void setXfmMatrices(const IObject3& i_object) const;
     void setCBuffers() const;
     void setCommonTextures() const;
-    void setViewport() const;
     void setTexture(const IObject3& i_object) const;
     void setTexture(const Material& i_material) const;
     void setMaterial(const Material& i_material) const;

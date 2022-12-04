@@ -26,6 +26,7 @@ namespace Dx
     , d_matrixBuffer(getRenderDevice(), sizeof(WorldViewProj))
     , d_cameraBuffer(getRenderDevice(), sizeof(CameraDesc))
     , d_lightBuffer(getRenderDevice(), sizeof(LightDesc))
+    , d_depthFogBuffer(getRenderDevice(), sizeof(DepthFogDesc))
     , d_viewportBuffer(getRenderDevice(), sizeof(ViewportDesc))
     , d_timeBuffer(getRenderDevice(), sizeof(TimeDesc))
     , d_waveBuffer(getRenderDevice(), sizeof(WaveDesc))
@@ -84,6 +85,28 @@ namespace Dx
   }
 
 
+  void OceanShader::setFogDepthStart(const double i_depthStart)
+  {
+    d_depthFogDesc.depthStart = (float)i_depthStart;
+  }
+
+  void OceanShader::setFogDepthEnd(const double i_depthEnd)
+  {
+    d_depthFogDesc.depthEnd = (float)i_depthEnd;
+
+  }
+
+  void OceanShader::setFogMinPower(const double i_minPower)
+  {
+    d_depthFogDesc.powerMin = (float)i_minPower;
+  }
+
+  void OceanShader::setFogMaxPower(const double i_maxPower)
+  {
+    d_depthFogDesc.powerMax = (float)i_maxPower;
+  }
+
+
   void OceanShader::setTexturesDisplacementSettings(
     const double i_scale1, const double i_scale2,
     const Sdk::Vector2D& i_speed1, const Sdk::Vector2D& i_speed2)
@@ -104,7 +127,6 @@ namespace Dx
     setXfmMatrices(i_object);
     setCBuffers();
     setCommonTextures();
-    setViewport();
     setTexture(i_object);
 
     auto drawMesh = [&](const auto& i_mesh)
@@ -224,6 +246,38 @@ namespace Dx
       getRenderDevice().getDeviceContextPtr()->Unmap(d_texturesDisplacementBuffer.get(), 0);
       getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(4, 1, d_texturesDisplacementBuffer.getPp());
     }
+
+    // Viewport
+    {
+      D3D11_MAPPED_SUBRESOURCE mappedResource;
+      HRESULT hRes = getRenderDevice().getDeviceContextPtr()->Map(
+        d_viewportBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+      CONTRACT_ASSERT(!FAILED(hRes));
+
+      auto* dataPtr = (ViewportDesc*)mappedResource.pData;
+      dataPtr->resolution = XMFLOAT2(
+        (float)getRenderDevice().getDepthBufferTexture().getTextureDesc().Width,
+        (float)getRenderDevice().getDepthBufferTexture().getTextureDesc().Height);
+      dataPtr->nearPlane = d_camera.getViewportMinZ();
+      dataPtr->farPlane = d_camera.getViewportMaxZ();
+
+      getRenderDevice().getDeviceContextPtr()->Unmap(d_viewportBuffer.get(), 0);
+      getRenderDevice().getDeviceContextPtr()->PSSetConstantBuffers(1, 1, d_viewportBuffer.getPp());
+    }
+
+    // Depth fog
+    {
+      D3D11_MAPPED_SUBRESOURCE mappedResource;
+      HRESULT hRes = getRenderDevice().getDeviceContextPtr()->Map(
+        d_depthFogBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+      CONTRACT_ASSERT(!FAILED(hRes));
+
+      auto* dataPtr = (DepthFogDesc*)mappedResource.pData;
+      *dataPtr = d_depthFogDesc;
+
+      getRenderDevice().getDeviceContextPtr()->Unmap(d_depthFogBuffer.get(), 0);
+      getRenderDevice().getDeviceContextPtr()->PSSetConstantBuffers(2, 1, d_depthFogBuffer.getPp());
+    }
   }
 
   void OceanShader::setCommonTextures() const
@@ -233,23 +287,6 @@ namespace Dx
 
     auto* depthTexturePtr = getRenderDevice().getDepthBufferTexture().getTexturePtr();
     getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(2, 1, &depthTexturePtr);
-  }
-
-  void OceanShader::setViewport() const
-  {
-    D3D11_MAPPED_SUBRESOURCE mappedResource;
-    getRenderDevice().getDeviceContextPtr()->Map(
-      d_viewportBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-
-    auto* dataPtr = (ViewportDesc*)mappedResource.pData;
-    dataPtr->resolution = XMFLOAT2(
-      (float)getRenderDevice().getDepthBufferTexture().getTextureDesc().Width,
-      (float)getRenderDevice().getDepthBufferTexture().getTextureDesc().Height);
-    dataPtr->nearPlane = d_camera.getViewportMinZ();
-    dataPtr->farPlane = d_camera.getViewportMaxZ();
-
-    getRenderDevice().getDeviceContextPtr()->Unmap(d_viewportBuffer.get(), 0);
-    getRenderDevice().getDeviceContextPtr()->PSSetConstantBuffers(1, 1, d_viewportBuffer.getPp());
   }
 
   void OceanShader::setTexture(const IObject3& i_object) const

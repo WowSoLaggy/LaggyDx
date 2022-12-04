@@ -40,6 +40,14 @@ namespace Dx
     XMFLOAT2 _reserved{ 0, 0 };
   };
 
+  struct DepthFogDesc
+  {
+    float depthStart{ 0 };
+    float depthEnd{ 0 };
+    float powerMin{ 0 };
+    float powerMax{ 0 };
+  };
+
   struct ViewportDesc
   {
     XMFLOAT2 resolution{ 0, 0 };
