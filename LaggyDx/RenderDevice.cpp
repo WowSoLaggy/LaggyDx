@@ -364,17 +364,17 @@ namespace Dx
     setBlendState(getDefaultBlendDescription());
   }
 
-  D3D11_RASTERIZER_DESC RenderDevice::getRasterizerState() const
+  const D3D11_RASTERIZER_DESC& RenderDevice::getRasterizerState() const
   {
     return d_rasterizerDescription;
   }
 
-  D3D11_DEPTH_STENCIL_DESC RenderDevice::getDepthStencilState() const
+  const D3D11_DEPTH_STENCIL_DESC& RenderDevice::getDepthStencilState() const
   {
     return d_depthStencilDescription;
   }
 
-  D3D11_BLEND_DESC RenderDevice::getBlendState() const
+  const D3D11_BLEND_DESC& RenderDevice::getBlendState() const
   {
     return d_blendDescription;
   }

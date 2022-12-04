@@ -26,9 +26,9 @@ namespace Dx
     ID3D11Device* getDevicePtr() const { return d_device; }
     ID3D11DeviceContext* getDeviceContextPtr() const { return d_deviceContext; }
 
-    D3D11_RASTERIZER_DESC getRasterizerState() const;
-    D3D11_DEPTH_STENCIL_DESC getDepthStencilState() const;
-    D3D11_BLEND_DESC getBlendState() const;
+    const D3D11_RASTERIZER_DESC& getRasterizerState() const;
+    const D3D11_DEPTH_STENCIL_DESC& getDepthStencilState() const;
+    const D3D11_BLEND_DESC& getBlendState() const;
 
     void setRasterizerState(D3D11_RASTERIZER_DESC i_state);
     void setDepthStencilState(D3D11_DEPTH_STENCIL_DESC i_state);
