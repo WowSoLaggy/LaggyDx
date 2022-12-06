@@ -30,8 +30,11 @@ namespace Dx
 
     virtual void setGlobalTime(double i_time) override;
 
-    virtual void setWindSpeed(double i_speed) override;
-    virtual void setWindDirection(Sdk::Vector2D i_windDir) override;
+    virtual void setWindSpeed1(double i_speed) override;
+    virtual void setWindSpeed2(double i_speed) override;
+    virtual void setWindDirection1(Sdk::Vector2D i_windDir) override;
+    virtual void setWindDirection2(Sdk::Vector2D i_windDir) override;
+    virtual void setOvercast(double i_overcast) override;
 
     virtual void draw(const IObject3& i_object) const override;
 
@@ -42,7 +45,8 @@ namespace Dx
     const ITexture& d_mainTexture;
     const ITexture& d_horizonHazeTexture;
     const ITexture& d_aroundSunTexture;
-    const ITexture& d_cloudsTexture;
+    const ITexture& d_cloudsTexture1;
+    const ITexture& d_cloudsTexture2;
 
     SkydomeSettings d_skyDomeSettings;
     TimeDesc d_timeDesc;

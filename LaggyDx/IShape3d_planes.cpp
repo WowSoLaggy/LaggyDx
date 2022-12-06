@@ -246,7 +246,7 @@ namespace Dx
     
     const float step = i_radius / (i_numPoints - 1);
 
-    auto verts = generatePlaneVerts({ i_numPoints, i_numPoints }, step, 1 / i_radius);
+    auto verts = generatePlaneVerts({ i_numPoints, i_numPoints }, step, 1 / i_radius * 4);
     auto inds = generatePlaneInds({ i_numPoints, i_numPoints });
 
     invertVerts(verts, inds);

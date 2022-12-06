@@ -50,8 +50,11 @@ namespace Dx
 
   struct WindDesc
   {
-    XMFLOAT2 direction{ 0, 0 };
-    float speed{ 0 };
+    XMFLOAT2 direction1{ 0, 0 };
+    XMFLOAT2 direction2{ 0, 0 };
+    float speed1{ 0 };
+    float speed2{ 0 };
+    float overcast{ 0 };
     float _reserved{ 0 };
   };
 

@@ -4,7 +4,8 @@ SamplerState samplerWrap : register(s1);
 Texture2D skyMainTexture : register(t0);
 Texture2D skyHorizonHazeTexture : register(t1);
 Texture2D skyAroundSunTexture : register(t2);
-Texture2D cloudsTexture : register(t3);
+Texture2D cloudsTexture1 : register(t3);
+Texture2D cloudsTexture2 : register(t4);
 
 
 cbuffer SkydomeSettings : register(b0)
@@ -23,8 +24,11 @@ cbuffer TimeDesc : register(b1)
 
 cbuffer WindDesc : register(b2)
 {
-  float2 windDirection;
-  float windSpeed;
+  float2 windDirection1;
+  float2 windDirection2;
+  float windSpeed1;
+  float windSpeed2;
+  float overcast;
   float _reserved2;
 };
 
@@ -68,11 +72,17 @@ float4 main(PixelInputType input) : SV_TARGET
   
   // Clouds
   
-  float2 texCoords = input.tex + windDirection * windSpeed * time;
-  float4 cloudsMap = cloudsTexture.Sample(samplerWrap, texCoords);
+  float2 texCoords1 = input.tex + windDirection1 * windSpeed1 * time;
+  float2 texCoords2 = input.tex + windDirection2 * windSpeed2 * time / 2;
+  float4 cloudsMap1 = cloudsTexture1.Sample(samplerWrap, texCoords1);
+  float4 cloudsMap2 = cloudsTexture2.Sample(samplerWrap, texCoords2);
+  cloudsMap1.rgb = saturate(cloudsMap1.rgb - (1 - overcast));
+  cloudsMap2.rgb = saturate(cloudsMap2.rgb - (1 - overcast));
+  
   return
     sunZenithColor +
     vzMask * viewZenithColor +
     svMask * sunViewColor +
-    sunColor;
+    sunColor +
+    cloudsMap1 + cloudsMap2;
 }

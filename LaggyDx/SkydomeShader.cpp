@@ -30,7 +30,8 @@ namespace Dx
     , d_mainTexture(i_resourceController.getTexture("sky_main.png"))
     , d_horizonHazeTexture(i_resourceController.getTexture("sky_horizon_haze.png"))
     , d_aroundSunTexture(i_resourceController.getTexture("sky_around_sun.png"))
-    , d_cloudsTexture(i_resourceController.getTexture("clouds.png"))
+    , d_cloudsTexture1(i_resourceController.getTexture("clouds1.png"))
+    , d_cloudsTexture2(i_resourceController.getTexture("clouds2.png"))
   {
     getShaders().initVs(g_skydomeVs, sizeof(g_skydomeVs));
     getShaders().initPs(g_skydomePs, sizeof(g_skydomePs));
@@ -59,14 +60,29 @@ namespace Dx
     d_timeDesc.time = (float)i_time;
   }
 
-  void SkydomeShader::setWindSpeed(const double i_speed)
+  void SkydomeShader::setWindSpeed1(const double i_speed)
   {
-    d_windDesc.speed = (float)i_speed;
+    d_windDesc.speed1 = (float)i_speed;
   }
 
-  void SkydomeShader::setWindDirection(Sdk::Vector2D i_windDir)
+  void SkydomeShader::setWindSpeed2(const double i_speed)
   {
-    d_windDesc.direction = getXmfloat2Norm(std::move(i_windDir));
+    d_windDesc.speed2 = (float)i_speed;
+  }
+
+  void SkydomeShader::setWindDirection1(Sdk::Vector2D i_windDir)
+  {
+    d_windDesc.direction1 = getXmfloat2Norm(std::move(i_windDir));
+  }
+
+  void SkydomeShader::setWindDirection2(Sdk::Vector2D i_windDir)
+  {
+    d_windDesc.direction2 = getXmfloat2Norm(std::move(i_windDir));
+  }
+
+  void SkydomeShader::setOvercast(const double i_overcast)
+  {
+    d_windDesc.overcast = (float)i_overcast;
   }
 
 
@@ -193,10 +209,11 @@ namespace Dx
     auto* textureMainPtr = d_mainTexture.getTexturePtr();
     auto* textureHorizonHazePtr = d_horizonHazeTexture.getTexturePtr();
     auto* textureAroundSunPtr = d_aroundSunTexture.getTexturePtr();
-    auto* cloudsPtr = d_cloudsTexture.getTexturePtr();
+    auto* cloudsPtr1 = d_cloudsTexture1.getTexturePtr();
+    auto* cloudsPtr2 = d_cloudsTexture2.getTexturePtr();
 
     std::vector<ID3D11ShaderResourceView*> textures {
-      textureMainPtr, textureHorizonHazePtr, textureAroundSunPtr, cloudsPtr };
+      textureMainPtr, textureHorizonHazePtr, textureAroundSunPtr, cloudsPtr1, cloudsPtr2 };
     getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, (int)textures.size(), textures.data());
   }
 
