@@ -17,16 +17,10 @@ namespace Dx
   }
 
 
-  void translateVertsPosition(std::vector<VertexPosNormText>& io_verts, const Sdk::Vector3F& i_translation)
+  void traverseVertices(std::vector<VertexPosNormText>& io_verts, VertexVisitor i_visitor)
   {
     for (auto& vert : io_verts)
-      vert.position += i_translation;
-  }
-
-  void translateVertsTexCoords(std::vector<VertexPosNormText>& io_verts, const Sdk::Vector2F& i_translation)
-  {
-    for (auto& vert : io_verts)
-      vert.texture += i_translation;
+      i_visitor(vert);
   }
 
 } // Dx

@@ -218,10 +218,12 @@ namespace Dx
     // Generate internal low-polygon verts
     const auto ptsCountNoBorders = i_ptsCount - Sdk::Size2I{ 2, 2 };
     auto verts = generatePlaneVerts(ptsCountNoBorders, i_dist, i_textureCoef);
-    translateVertsPosition(verts, { i_dist, 0, i_dist });
-    translateVertsTexCoords(verts, { i_dist, i_dist });
+    traverseVertices(verts, [&](auto& i_vert) {
+      i_vert.position += { i_dist, 0, i_dist };
+      i_vert.texture += { i_dist, i_dist };
+      });
+    
     const int base = (int)verts.size();
-
 
     // Generate border hi-polygon verts
     const auto vertsBorder = generateRectVerts(
