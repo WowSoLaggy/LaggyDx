@@ -19,69 +19,93 @@ namespace Dx
       // -X
       normal = { -1, 0, 0 };
       verts[ind].position = { 0, 0, 0 };
+      verts[ind].texture = { 0, 0 };
       verts[ind++].normal = normal;
       verts[ind].position = { 0, 0, i_size };
+      verts[ind].texture = { 0, 1 };
       verts[ind++].normal = normal;
       verts[ind].position = { 0, i_size, i_size };
+      verts[ind].texture = { 1, 1 };
       verts[ind++].normal = normal;
       verts[ind].position = { 0, i_size, 0 };
+      verts[ind].texture = { 1, 0 };
       verts[ind++].normal = normal;
 
       // +X
       normal = { 1, 0, 0 };
       verts[ind].position = { i_size, 0, i_size };
+      verts[ind].texture = { 0, 1 };
       verts[ind++].normal = normal;
       verts[ind].position = { i_size, 0, 0 };
+      verts[ind].texture = { 0, 0 };
       verts[ind++].normal = normal;
       verts[ind].position = { i_size, i_size, 0 };
+      verts[ind].texture = { 1, 0 };
       verts[ind++].normal = normal;
       verts[ind].position = { i_size, i_size, i_size };
+      verts[ind].texture = { 1, 1 };
       verts[ind++].normal = normal;
 
 
       // -Z
       normal = { 0, 0, -1 };
       verts[ind].position = { i_size, 0, 0 };
+      verts[ind].texture = { 1, 0 };
       verts[ind++].normal = normal;
       verts[ind].position = { 0, 0, 0 };
+      verts[ind].texture = { 0, 0 };
       verts[ind++].normal = normal;
       verts[ind].position = { 0, i_size, 0 };
+      verts[ind].texture = { 0, 1 };
       verts[ind++].normal = normal;
       verts[ind].position = { i_size, i_size, 0 };
+      verts[ind].texture = { 1, 1 };
       verts[ind++].normal = normal;
 
       // +Z
       normal = { 0, 0, 1 };
       verts[ind].position = { 0, 0, i_size };
+      verts[ind].texture = { 0, 0 };
       verts[ind++].normal = normal;
       verts[ind].position = { i_size, 0, i_size };
+      verts[ind].texture = { 1, 0 };
       verts[ind++].normal = normal;
       verts[ind].position = { i_size, i_size, i_size };
+      verts[ind].texture = { 1, 1 };
       verts[ind++].normal = normal;
       verts[ind].position = { 0, i_size, i_size };
+      verts[ind].texture = { 0, 1 };
       verts[ind++].normal = normal;
 
 
       // -Y
       normal = { 0, -1, 0 };
       verts[ind].position = { i_size, 0, 0 };
+      verts[ind].texture = { 1, 0 };
       verts[ind++].normal = normal;
       verts[ind].position = { i_size, 0, i_size };
+      verts[ind].texture = { 1, 1 };
       verts[ind++].normal = normal;
       verts[ind].position = { 0, 0, i_size };
+      verts[ind].texture = { 0, 1 };
       verts[ind++].normal = normal;
       verts[ind].position = { 0, 0, 0 };
+      verts[ind].texture = { 0, 0 };
       verts[ind++].normal = normal;
 
       // +Y
       normal = { 0, 1, 0 };
       verts[ind].position = { 0, i_size, 0 };
+      verts[ind].texture = { 0, 0 };
       verts[ind++].normal = normal;
       verts[ind].position = { 0, i_size, i_size };
+      verts[ind].texture = { 0, 1 };
       verts[ind++].normal = normal;
       verts[ind].position = { i_size, i_size, i_size };
+      verts[ind].texture = { 1, 1 };
       verts[ind++].normal = normal;
       verts[ind].position = { i_size, i_size, 0 };
+      verts[ind].texture = { 1, 0 };
       verts[ind++].normal = normal;
 
       CONTRACT_ENSURE(ind == 24);
