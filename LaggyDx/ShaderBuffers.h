@@ -55,7 +55,7 @@ namespace Dx
     float speed1{ 0 };
     float speed2{ 0 };
     float overcast{ 0 };
-    float _reserved{ 0 };
+    float cutoff{ 0 };
   };
 
   struct ViewportDesc

@@ -35,6 +35,7 @@ namespace Dx
     virtual void setWindDirection1(Sdk::Vector2D i_windDir) override;
     virtual void setWindDirection2(Sdk::Vector2D i_windDir) override;
     virtual void setOvercast(double i_overcast) override;
+    virtual void setCutoff(double i_cutoff) override;
 
     virtual void draw(const IObject3& i_object) const override;
 

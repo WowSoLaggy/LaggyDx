@@ -29,7 +29,7 @@ cbuffer WindDesc : register(b2)
   float windSpeed1;
   float windSpeed2;
   float overcast;
-  float _reserved2;
+  float cutoff;
 };
 
 
@@ -78,6 +78,14 @@ float4 main(PixelInputType input) : SV_TARGET
   float4 cloudsMap2 = cloudsTexture2.Sample(samplerWrap, texCoords2);
   cloudsMap1.rgb = saturate(cloudsMap1.rgb - (1 - overcast));
   cloudsMap2.rgb = saturate(cloudsMap2.rgb - (1 - overcast));
+  
+  if (cloudsMap1.r < cutoff)
+    cloudsMap1.rgba = 0;
+  if (cloudsMap2.r < cutoff)
+    cloudsMap2.rgba = 0;
+  
+  cloudsMap1.rgb *= viewZenithDot;
+  cloudsMap2.rgb *= viewZenithDot;
   
   return
     sunZenithColor +

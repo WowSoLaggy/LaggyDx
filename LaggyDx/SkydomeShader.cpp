@@ -85,6 +85,11 @@ namespace Dx
     d_windDesc.overcast = (float)i_overcast;
   }
 
+  void SkydomeShader::setCutoff(const double i_cutoff)
+  {
+    d_windDesc.cutoff = (float)i_cutoff;
+  }
+
 
   void SkydomeShader::draw(const IObject3& i_object) const
   {
