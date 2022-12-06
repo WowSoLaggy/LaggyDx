@@ -28,6 +28,11 @@ namespace Dx
     virtual void setSunRadiusInternal(float i_radius) override;
     virtual void setSunRadiusExternal(float i_radius) override;
 
+    virtual void setGlobalTime(double i_time) override;
+
+    virtual void setWindSpeed(double i_speed) override;
+    virtual void setWindDirection(Sdk::Vector2D i_windDir) override;
+
     virtual void draw(const IObject3& i_object) const override;
 
   private:
@@ -37,11 +42,16 @@ namespace Dx
     const ITexture& d_mainTexture;
     const ITexture& d_horizonHazeTexture;
     const ITexture& d_aroundSunTexture;
+    const ITexture& d_cloudsTexture;
 
     SkydomeSettings d_skyDomeSettings;
+    TimeDesc d_timeDesc;
+    WindDesc d_windDesc;
 
     CBuffer d_matrixBuffer;
     CBuffer d_skyDomeBuffer;
+    CBuffer d_timeBuffer;
+    CBuffer d_windBuffer;
 
     virtual void setRenderStates() const override;
     void setGeometryBuffers(const IMesh& i_mesh) const;

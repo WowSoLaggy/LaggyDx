@@ -48,6 +48,13 @@ namespace Dx
     float powerMax{ 0 };
   };
 
+  struct WindDesc
+  {
+    XMFLOAT2 direction{ 0, 0 };
+    float speed{ 0 };
+    float _reserved{ 0 };
+  };
+
   struct ViewportDesc
   {
     XMFLOAT2 resolution{ 0, 0 };

@@ -22,6 +22,11 @@ namespace Dx
     virtual void setSunDirection(Sdk::Vector3D i_sunDir) = 0;
     virtual void setSunRadiusInternal(float i_radius) = 0;
     virtual void setSunRadiusExternal(float i_radius) = 0;
+
+    virtual void setGlobalTime(double i_time) = 0;
+
+    virtual void setWindSpeed(double i_speed) = 0;
+    virtual void setWindDirection(Sdk::Vector2D i_windDir) = 0;
   };
 
 } // ns Dx
