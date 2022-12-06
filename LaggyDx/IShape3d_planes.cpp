@@ -239,4 +239,26 @@ namespace Dx
     return std::make_unique<Shape3d>(std::move(verts), std::move(inds));
   }
 
+
+  std::unique_ptr<IShape3d> IShape3d::skydomePlane(const int i_numPoints, const float i_radius)
+  {
+    CONTRACT_EXPECT(i_numPoints >= 2);
+    
+    const float step = i_radius / (i_numPoints - 1);
+
+    auto verts = generatePlaneVerts({ i_numPoints, i_numPoints }, step, 1 / i_radius);
+    auto inds = generatePlaneInds({ i_numPoints, i_numPoints });
+
+    invertVerts(verts, inds);
+
+    traverseVertices(verts, [&](VertexPosNormText& i_vert) {
+      i_vert.position += Sdk::Vector3F{ -i_radius / 2, 1, -i_radius / 2 };
+      i_vert.position.normalize();
+      i_vert.position += Sdk::Vector3F{ 0, -0.5f, 0 };
+      });
+    
+    return std::make_unique<Shape3d>(std::move(verts), std::move(inds));
+  }
+
+
 } // ns Dx

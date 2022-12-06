@@ -26,6 +26,8 @@ namespace Dx
     static std::unique_ptr<IShape3d> planeTesselatedBorder(
       const Sdk::Size2I& i_ptsCount, float i_dist = 1.0f, float i_textureCoef = 1.0f);
 
+    static std::unique_ptr<IShape3d> skydomePlane(int i_numPoints, float i_radius);
+
 
     static std::unique_ptr<IShape3d> cube(float i_size);
 
