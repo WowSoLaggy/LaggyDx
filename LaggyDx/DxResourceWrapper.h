@@ -9,8 +9,11 @@ namespace Dx
   public:
     ~DxResourceWrapper()
     {
-      d_resource->Release();
-      d_resource = nullptr;
+      if (d_resource)
+      {
+        d_resource->Release();
+        d_resource = nullptr;
+      }
     }
 
     T* get() { return d_resource; }
