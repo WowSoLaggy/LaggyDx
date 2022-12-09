@@ -570,6 +570,9 @@
     <ClInclude Include="TextureBase.h">
       <Filter>src\Resources\Textures</Filter>
     </ClInclude>
+    <ClInclude Include="RefreshRate.h">
+      <Filter>src\RenderDevice</Filter>
+    </ClInclude>
     <ClInclude Include="DxResourceWrapper.h">
       <Filter>src\Utils</Filter>
     </ClInclude>

@@ -169,6 +169,7 @@
     <ClInclude Include="IBitmap.h" />
     <ClInclude Include="IShader.h" />
     <ClInclude Include="MemoryTexture.h" />
+    <ClInclude Include="RefreshRate.h" />
     <ClInclude Include="Roam.h" />
     <ClInclude Include="FirstPersonCamera.h" />
     <ClInclude Include="FreeCameraController.h" />
