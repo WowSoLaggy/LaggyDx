@@ -16,10 +16,10 @@ namespace Dx
       }
     }
 
-    T* get() { return d_resource; }
+    T* get() const { return d_resource; }
     T** getPp() { return &d_resource; }
 
-    T* operator->() { return d_resource; }
+    T* operator->() const { return d_resource; }
 
     bool isNotNullptr() { return d_resource; }
     bool isNullptr() { return !isNotNullptr(); }
