@@ -140,20 +140,8 @@ namespace Dx
   {
     const auto refreshRate = getRefreshRate(d_resolution.x, d_resolution.y);
     createDeviceAndSwapChain(refreshRate, i_debugMode);
-
-
-    // Get the pointer to the back buffer
-    ID3D11Texture2D* backBufferPtr = nullptr;
-    HRESULT hRes = d_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBufferPtr);
-    CONTRACT_ASSERT(!FAILED(hRes));
-
-    // Create the render target view with the back buffer pointer
-    hRes = d_device->CreateRenderTargetView(backBufferPtr, NULL, &d_renderTargetView);
-    CONTRACT_ASSERT(!FAILED(hRes));
-
-    // Release pointer to the back buffer as we no longer need it
-    backBufferPtr->Release();
-    backBufferPtr = nullptr;
+    createRenderTargetView();
+    
 
     // Initialize the description of the depth buffer
     d_depthStencilDesc = {};
@@ -172,7 +160,7 @@ namespace Dx
     d_depthStencilDesc.MiscFlags = 0;
 
     // Create the texture for the depth buffer using the filled out description
-    hRes = d_device->CreateTexture2D(&d_depthStencilDesc, NULL, &d_depthBufferTexture2D);
+    HRESULT hRes = d_device->CreateTexture2D(&d_depthStencilDesc, NULL, &d_depthBufferTexture2D);
     CONTRACT_ASSERT(!FAILED(hRes));
     CONTRACT_ASSERT(d_depthBufferTexture2D != nullptr);
 
@@ -250,14 +238,13 @@ namespace Dx
     release(&d_depthStencilState);
     release(&d_depthBufferTexture2D);
     release(&d_depthBufferTexture2DCopy);
-    release(&d_renderTargetView);
   }
 
 
   void RenderDevice::beginScene()
   {
     // Clear the back buffer
-    d_deviceContext->ClearRenderTargetView(d_renderTargetView, d_clearColor);
+    d_deviceContext->ClearRenderTargetView(d_renderTargetView.get(), d_clearColor);
 
     // Clear the depth buffer
     d_deviceContext->ClearDepthStencilView(d_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
@@ -358,14 +345,14 @@ namespace Dx
     return *d_depthBufferTexture;
   }
 
-  void RenderDevice::bindDepthBuffer() const
+  void RenderDevice::bindDepthBuffer()
   {
-    d_deviceContext->OMSetRenderTargets(1, &d_renderTargetView, d_depthStencilView);
+    d_deviceContext->OMSetRenderTargets(1, d_renderTargetView.getPp(), d_depthStencilView);
   }
 
-  void RenderDevice::unbindDepthBuffer() const
+  void RenderDevice::unbindDepthBuffer()
   {
-    d_deviceContext->OMSetRenderTargets(1, &d_renderTargetView, nullptr);
+    d_deviceContext->OMSetRenderTargets(1, d_renderTargetView.getPp(), nullptr);
   }
 
 
@@ -431,6 +418,20 @@ namespace Dx
     CONTRACT_ASSERT(d_device.isNotNullptr());
     CONTRACT_ASSERT(d_deviceContext.isNotNullptr());
     CONTRACT_ASSERT(d_swapChain.isNotNullptr());
+  }
+
+  void RenderDevice::createRenderTargetView()
+  {
+    // Get the pointer to the back buffer
+    DxResourceWrapper<ID3D11Texture2D> backBuffer;
+    HRESULT hRes = d_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)backBuffer.getPp());
+    CONTRACT_ASSERT(!FAILED(hRes));
+    CONTRACT_ASSERT(backBuffer.isNotNullptr());
+
+    // Create the render target view with the back buffer pointer
+    hRes = d_device->CreateRenderTargetView(backBuffer.get(), NULL, d_renderTargetView.getPp());
+    CONTRACT_ASSERT(!FAILED(hRes));
+    CONTRACT_ASSERT(d_renderTargetView.isNotNullptr());
   }
 
 } // ns Dx

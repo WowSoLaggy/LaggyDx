@@ -26,8 +26,8 @@ namespace Dx
     
     virtual void prepareDepthBufferTexture() const = 0;
     virtual const ITexture& getDepthBufferTexture() const = 0;
-    virtual void bindDepthBuffer() const = 0;
-    virtual void unbindDepthBuffer() const = 0;
+    virtual void bindDepthBuffer() = 0;
+    virtual void unbindDepthBuffer() = 0;
   };
 
 } // ns Dx

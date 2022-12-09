@@ -21,8 +21,8 @@ namespace Dx
 
     virtual void prepareDepthBufferTexture() const override;
     virtual const ITexture& getDepthBufferTexture() const override;
-    virtual void bindDepthBuffer() const override;
-    virtual void unbindDepthBuffer() const override;
+    virtual void bindDepthBuffer() override;
+    virtual void unbindDepthBuffer() override;
 
     ID3D11Device* getDevicePtr() const { return d_device.get(); }
     ID3D11DeviceContext* getDeviceContextPtr() const { return d_deviceContext.get(); }
@@ -45,7 +45,7 @@ namespace Dx
     DxResourceWrapper<ID3D11DeviceContext> d_deviceContext;
     DxResourceWrapper<IDXGISwapChain> d_swapChain;
 
-    ID3D11RenderTargetView* d_renderTargetView = nullptr;
+    DxResourceWrapper<ID3D11RenderTargetView> d_renderTargetView;
 
     D3D11_TEXTURE2D_DESC d_depthStencilDesc = {};
     ID3D11Texture2D* d_depthBufferTexture2D = nullptr;
@@ -68,6 +68,7 @@ namespace Dx
     void applyBlendState();
 
     void createDeviceAndSwapChain(const RefreshRate& i_refreshRate, bool i_debugMode);
+    void createRenderTargetView();
   };
 
 } // ns Dx
