@@ -5,6 +5,7 @@
 
 namespace Dx
 {
+  // Memory texture DOESN'T own texture ptr!
   class MemoryTexture : public TextureBase
   {
   public:

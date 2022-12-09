@@ -47,11 +47,10 @@ namespace Dx
 
     DxResourceWrapper<ID3D11RenderTargetView> d_renderTargetView;
 
-    D3D11_TEXTURE2D_DESC d_depthStencilDesc = {};
-    ID3D11Texture2D* d_depthBufferTexture2D = nullptr;
-    ID3D11Texture2D* d_depthBufferTexture2DCopy = nullptr;
-    ID3D11DepthStencilView* d_depthStencilView = nullptr;
-    ID3D11ShaderResourceView* d_depthStencilTextureView = nullptr;
+    DxResourceWrapper<ID3D11Texture2D> d_depthBufferTexture2D;
+    DxResourceWrapper<ID3D11Texture2D> d_depthBufferTexture2DCopy;
+    DxResourceWrapper<ID3D11DepthStencilView> d_depthStencilView;
+    DxResourceWrapper<ID3D11ShaderResourceView> d_depthStencilTextureView;
 
     ID3D11DepthStencilState* d_depthStencilState = nullptr;
     ID3D11RasterizerState* d_rasterState = nullptr;
@@ -69,6 +68,7 @@ namespace Dx
 
     void createDeviceAndSwapChain(const RefreshRate& i_refreshRate, bool i_debugMode);
     void createRenderTargetView();
+    void createDepthBuffer();
   };
 
 } // ns Dx

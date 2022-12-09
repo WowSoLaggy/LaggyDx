@@ -141,67 +141,9 @@ namespace Dx
     const auto refreshRate = getRefreshRate(d_resolution.x, d_resolution.y);
     createDeviceAndSwapChain(refreshRate, i_debugMode);
     createRenderTargetView();
-    
+    createDepthBuffer();
 
-    // Initialize the description of the depth buffer
-    d_depthStencilDesc = {};
-
-    // Set up the description of the depth buffer
-    d_depthStencilDesc.Width = d_resolution.x;
-    d_depthStencilDesc.Height = d_resolution.y;
-    d_depthStencilDesc.MipLevels = 1;
-    d_depthStencilDesc.ArraySize = 1;
-    d_depthStencilDesc.Format = DXGI_FORMAT_R32_TYPELESS;
-    d_depthStencilDesc.SampleDesc.Count = static_cast<int>(c_msaaMode);
-    d_depthStencilDesc.SampleDesc.Quality = 0;
-    d_depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
-    d_depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-    d_depthStencilDesc.CPUAccessFlags = 0;
-    d_depthStencilDesc.MiscFlags = 0;
-
-    // Create the texture for the depth buffer using the filled out description
-    HRESULT hRes = d_device->CreateTexture2D(&d_depthStencilDesc, NULL, &d_depthBufferTexture2D);
-    CONTRACT_ASSERT(!FAILED(hRes));
-    CONTRACT_ASSERT(d_depthBufferTexture2D != nullptr);
-
-    // Create copy for using in shaders
-    d_depthStencilDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-    hRes = d_device->CreateTexture2D(&d_depthStencilDesc, NULL, &d_depthBufferTexture2DCopy);
-    CONTRACT_ASSERT(!FAILED(hRes));
-    CONTRACT_ASSERT(d_depthBufferTexture2DCopy != nullptr);
-
-    // Initailze the depth stencil view
-    D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc = {};
-
-    // Set up the depth stencil view description
-    depthStencilViewDesc.Format = DXGI_FORMAT_D32_FLOAT;
-    depthStencilViewDesc.ViewDimension =
-      isMsaaEnabled() ? D3D11_DSV_DIMENSION_TEXTURE2DMS : D3D11_DSV_DIMENSION_TEXTURE2D;
-    depthStencilViewDesc.Texture2D.MipSlice = 0;
-
-    // Create the depth stencil view
-    hRes = d_device->CreateDepthStencilView(d_depthBufferTexture2D, &depthStencilViewDesc, &d_depthStencilView);
-    CONTRACT_ASSERT(!FAILED(hRes));
-
-    // Bind the render target view and depth stencil buffer to the output render pipeline
     bindDepthBuffer();
-
-    // Create ID3D11ShaderResourceView from depth stencil texture
-    D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc = {};
-    shaderResourceViewDesc.Format = DXGI_FORMAT_R32_FLOAT;
-    shaderResourceViewDesc.ViewDimension = 
-      isMsaaEnabled() ? D3D11_SRV_DIMENSION_TEXTURE2DMS : D3D11_SRV_DIMENSION_TEXTURE2D;
-    shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
-    shaderResourceViewDesc.Texture2D.MipLevels = 1;
-
-    hRes = d_device->CreateShaderResourceView(
-      d_depthBufferTexture2DCopy, &shaderResourceViewDesc, &d_depthStencilTextureView);
-    CONTRACT_ASSERT(!FAILED(hRes));
-
-    // Create depth buffer texture
-    d_depthBufferTexture = std::make_shared<MemoryTexture>(d_depthStencilTextureView, d_depthStencilDesc);
-
-    // Reset states
     resetState();
 
     // Setup the viewport for rendering
@@ -233,11 +175,7 @@ namespace Dx
 
     release(&d_blendState);
     release(&d_rasterState);
-    release(&d_depthStencilTextureView);
-    release(&d_depthStencilView);
     release(&d_depthStencilState);
-    release(&d_depthBufferTexture2D);
-    release(&d_depthBufferTexture2DCopy);
   }
 
 
@@ -247,7 +185,7 @@ namespace Dx
     d_deviceContext->ClearRenderTargetView(d_renderTargetView.get(), d_clearColor);
 
     // Clear the depth buffer
-    d_deviceContext->ClearDepthStencilView(d_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+    d_deviceContext->ClearDepthStencilView(d_depthStencilView.get(), D3D11_CLEAR_DEPTH, 1.0f, 0);
   }
 
   void RenderDevice::endScene()
@@ -336,7 +274,7 @@ namespace Dx
 
   void RenderDevice::prepareDepthBufferTexture() const
   {
-    d_deviceContext->CopyResource(d_depthBufferTexture2DCopy, d_depthBufferTexture2D);
+    d_deviceContext->CopyResource(d_depthBufferTexture2DCopy.get(), d_depthBufferTexture2D.get());
   }
 
   const ITexture& RenderDevice::getDepthBufferTexture() const
@@ -347,7 +285,7 @@ namespace Dx
 
   void RenderDevice::bindDepthBuffer()
   {
-    d_deviceContext->OMSetRenderTargets(1, d_renderTargetView.getPp(), d_depthStencilView);
+    d_deviceContext->OMSetRenderTargets(1, d_renderTargetView.getPp(), d_depthStencilView.get());
   }
 
   void RenderDevice::unbindDepthBuffer()
@@ -432,6 +370,64 @@ namespace Dx
     hRes = d_device->CreateRenderTargetView(backBuffer.get(), NULL, d_renderTargetView.getPp());
     CONTRACT_ASSERT(!FAILED(hRes));
     CONTRACT_ASSERT(d_renderTargetView.isNotNullptr());
+  }
+
+  void RenderDevice::createDepthBuffer()
+  {
+    // Set up the description of the depth buffer
+    D3D11_TEXTURE2D_DESC depthStencilDesc = {};
+    depthStencilDesc.Width = d_resolution.x;
+    depthStencilDesc.Height = d_resolution.y;
+    depthStencilDesc.MipLevels = 1;
+    depthStencilDesc.ArraySize = 1;
+    depthStencilDesc.Format = DXGI_FORMAT_R32_TYPELESS;
+    depthStencilDesc.SampleDesc.Count = static_cast<int>(c_msaaMode);
+    depthStencilDesc.SampleDesc.Quality = 0;
+    depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
+    depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+    depthStencilDesc.CPUAccessFlags = 0;
+    depthStencilDesc.MiscFlags = 0;
+
+    // Create the texture for the depth buffer using the filled out description
+    HRESULT hRes = d_device->CreateTexture2D(&depthStencilDesc, NULL, d_depthBufferTexture2D.getPp());
+    CONTRACT_ASSERT(!FAILED(hRes));
+    CONTRACT_ASSERT(d_depthBufferTexture2D.isNotNullptr());
+
+    // Create copy for using in shaders
+    D3D11_TEXTURE2D_DESC depthTextureDesc = depthStencilDesc;
+    depthTextureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+    hRes = d_device->CreateTexture2D(&depthTextureDesc, NULL, d_depthBufferTexture2DCopy.getPp());
+    CONTRACT_ASSERT(!FAILED(hRes));
+    CONTRACT_ASSERT(d_depthBufferTexture2DCopy.isNotNullptr());
+
+    // Set up the depth stencil view description
+    D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc = {};
+    depthStencilViewDesc.Format = DXGI_FORMAT_D32_FLOAT;
+    depthStencilViewDesc.ViewDimension =
+      isMsaaEnabled() ? D3D11_DSV_DIMENSION_TEXTURE2DMS : D3D11_DSV_DIMENSION_TEXTURE2D;
+    depthStencilViewDesc.Texture2D.MipSlice = 0;
+
+    // Create the depth stencil view
+    hRes = d_device->CreateDepthStencilView(
+      d_depthBufferTexture2D.get(), &depthStencilViewDesc, d_depthStencilView.getPp());
+    CONTRACT_ASSERT(!FAILED(hRes));
+    CONTRACT_ASSERT(d_depthStencilView.isNotNullptr());
+
+    // Create ID3D11ShaderResourceView from depth stencil texture
+    D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc = {};
+    shaderResourceViewDesc.Format = DXGI_FORMAT_R32_FLOAT;
+    shaderResourceViewDesc.ViewDimension =
+      isMsaaEnabled() ? D3D11_SRV_DIMENSION_TEXTURE2DMS : D3D11_SRV_DIMENSION_TEXTURE2D;
+    shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
+    shaderResourceViewDesc.Texture2D.MipLevels = 1;
+
+    hRes = d_device->CreateShaderResourceView(
+      d_depthBufferTexture2DCopy.get(), &shaderResourceViewDesc, d_depthStencilTextureView.getPp());
+    CONTRACT_ASSERT(!FAILED(hRes));
+    CONTRACT_ASSERT(d_depthStencilTextureView.isNotNullptr());
+
+    // Create depth buffer texture
+    d_depthBufferTexture = std::make_shared<MemoryTexture>(d_depthStencilTextureView.get(), depthTextureDesc);
   }
 
 } // ns Dx
