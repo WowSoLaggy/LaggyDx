@@ -138,9 +138,6 @@ namespace Dx
     result = adapter->GetDesc(&adapterDesc);
     CONTRACT_ASSERT(!FAILED(result));
 
-    // Store the dedicated video card memory in megabytes
-    d_videoCardMemory = (int)(adapterDesc.DedicatedVideoMemory / 1024 / 1024);
-
     // Convert the name of the video card to a character array and store it
     size_t stringLength = 0;
     int error = wcstombs_s(&stringLength, d_videoCardDescription, 128, adapterDesc.Description, 128);

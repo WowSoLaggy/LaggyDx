@@ -40,7 +40,6 @@ namespace Dx
 
     HWND d_hWnd = nullptr;
 
-    int d_videoCardMemory = 0;
     char d_videoCardDescription[128];
 
     IDXGISwapChain* d_swapChain = nullptr;
