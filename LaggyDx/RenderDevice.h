@@ -1,7 +1,7 @@
 #pragma once
 
+#include "DxResourceWrapper.h"
 #include "IRenderDevice.h"
-#include "RefreshRate.h"
 
 
 namespace Dx
@@ -24,8 +24,8 @@ namespace Dx
     virtual void bindDepthBuffer() const override;
     virtual void unbindDepthBuffer() const override;
 
-    ID3D11Device* getDevicePtr() const { return d_device; }
-    ID3D11DeviceContext* getDeviceContextPtr() const { return d_deviceContext; }
+    ID3D11Device* getDevicePtr() const { return d_device.get(); }
+    ID3D11DeviceContext* getDeviceContextPtr() const { return d_deviceContext.get(); }
 
     const D3D11_RASTERIZER_DESC& getRasterizerState() const;
     const D3D11_DEPTH_STENCIL_DESC& getDepthStencilState() const;
@@ -41,9 +41,9 @@ namespace Dx
 
     HWND d_hWnd = nullptr;
 
-    IDXGISwapChain* d_swapChain = nullptr;
-    ID3D11Device* d_device = nullptr;
-    ID3D11DeviceContext* d_deviceContext = nullptr;
+    DxResourceWrapper<ID3D11Device> d_device;
+    DxResourceWrapper<ID3D11DeviceContext> d_deviceContext;
+    DxResourceWrapper<IDXGISwapChain> d_swapChain;
 
     ID3D11RenderTargetView* d_renderTargetView = nullptr;
 
@@ -66,6 +66,8 @@ namespace Dx
     void applyRasterizerState();
     void applyDepthStencilState();
     void applyBlendState();
+
+    void createDeviceAndSwapChain(const RefreshRate& i_refreshRate, bool i_debugMode);
   };
 
 } // ns Dx

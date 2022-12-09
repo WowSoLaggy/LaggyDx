@@ -98,6 +98,8 @@ namespace Dx
 
   class HeightMap;
 
+  struct RefreshRate;
+
 } // ns Dx
 
 

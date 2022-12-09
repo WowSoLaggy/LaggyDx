@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "RenderDevice.h"
 
-#include "DxResourceWrapper.h"
 #include "MemoryTexture.h"
+#include "RefreshRate.h"
 
 
 namespace Dx
@@ -139,73 +139,12 @@ namespace Dx
     , d_hWnd(i_hWnd)
   {
     const auto refreshRate = getRefreshRate(d_resolution.x, d_resolution.y);
+    createDeviceAndSwapChain(refreshRate, i_debugMode);
 
-    // Initialize the swap chain description
-    DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
-
-    // Set to a single back buffer
-    swapChainDesc.BufferCount = 1;
-
-    // Set the width and height of the back buffer
-    swapChainDesc.BufferDesc.Width = d_resolution.x;
-    swapChainDesc.BufferDesc.Height = d_resolution.y;
-
-    // Set regular 32-bit surface for the back buffer
-    swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-
-    // Set the refresh rate of the back buffer
-    if (c_vSyncEnabled)
-    {
-      swapChainDesc.BufferDesc.RefreshRate.Numerator = refreshRate.Numerator;
-      swapChainDesc.BufferDesc.RefreshRate.Denominator = refreshRate.Denominator;
-    }
-    else
-    {
-      swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
-      swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
-    }
-
-    // Set the usage of the back buffer
-    swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-
-    // Set the handle for the window to render to
-    swapChainDesc.OutputWindow = d_hWnd;
-
-    // Set to full screen or windowed mode
-    swapChainDesc.Windowed = !c_fullScreen;
-
-    // Set the scan line ordering and scaling to unspecified
-    swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-    swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-
-    // Discard the back buffer contents after presenting
-    swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-
-    // Don't set the advanced flags
-    swapChainDesc.Flags = 0;
-
-    // MSAA settings
-    swapChainDesc.SampleDesc.Count = static_cast<int>(c_msaaMode);
-    swapChainDesc.SampleDesc.Quality = 0;
-
-    // Set the feature level to DirectX 11
-    D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_1;
-
-    UINT flags = 0;
-    if (i_debugMode)
-      flags |= D3D11_CREATE_DEVICE_DEBUG;
-
-    // Create the swap chain, Direct3D device, and Direct3D device context
-    HRESULT hRes = D3D11CreateDeviceAndSwapChain(
-      NULL, D3D_DRIVER_TYPE_HARDWARE, NULL,
-      flags, &featureLevel, 1,
-      D3D11_SDK_VERSION, &swapChainDesc, &d_swapChain,
-      &d_device, NULL, &d_deviceContext);
-    CONTRACT_ASSERT(!FAILED(hRes));
 
     // Get the pointer to the back buffer
     ID3D11Texture2D* backBufferPtr = nullptr;
-    hRes = d_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBufferPtr);
+    HRESULT hRes = d_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBufferPtr);
     CONTRACT_ASSERT(!FAILED(hRes));
 
     // Create the render target view with the back buffer pointer
@@ -293,7 +232,7 @@ namespace Dx
   RenderDevice::~RenderDevice()
   {
     // Before shutting down set to windowed mode or when you release the swap chain it will throw an exception
-    if (d_swapChain)
+    if (d_swapChain.isNotNullptr())
       d_swapChain->SetFullscreenState(false, NULL);
 
     auto release = [](auto** i_res) {
@@ -312,9 +251,6 @@ namespace Dx
     release(&d_depthBufferTexture2D);
     release(&d_depthBufferTexture2DCopy);
     release(&d_renderTargetView);
-    release(&d_deviceContext);
-    release(&d_device);
-    release(&d_swapChain);
   }
 
 
@@ -430,6 +366,71 @@ namespace Dx
   void RenderDevice::unbindDepthBuffer() const
   {
     d_deviceContext->OMSetRenderTargets(1, &d_renderTargetView, nullptr);
+  }
+
+
+  void RenderDevice::createDeviceAndSwapChain(const RefreshRate& i_refreshRate, const bool i_debugMode)
+  {
+    DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
+
+    // Set to a single back buffer
+    swapChainDesc.BufferCount = 1;
+
+    // Set the width and height of the back buffer
+    swapChainDesc.BufferDesc.Width = d_resolution.x;
+    swapChainDesc.BufferDesc.Height = d_resolution.y;
+
+    // Set regular 32-bit surface for the back buffer
+    swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+
+    // Set the refresh rate of the back buffer
+    swapChainDesc.BufferDesc.RefreshRate.Numerator = c_vSyncEnabled ? i_refreshRate.Numerator : 0;
+    swapChainDesc.BufferDesc.RefreshRate.Denominator = c_vSyncEnabled ? i_refreshRate.Denominator : 1;
+
+    // Set the usage of the back buffer
+    swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+
+    // Set the handle for the window to render to
+    swapChainDesc.OutputWindow = d_hWnd;
+
+    // Set to full screen or windowed mode
+    swapChainDesc.Windowed = !c_fullScreen;
+
+    // Set the scan line ordering and scaling to unspecified
+    swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+    swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+
+    // Discard the back buffer contents after presenting
+    swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+
+    // Don't set the advanced flags
+    swapChainDesc.Flags = 0;
+
+    // MSAA settings
+    swapChainDesc.SampleDesc.Count = static_cast<int>(c_msaaMode);
+    swapChainDesc.SampleDesc.Quality = 0;
+
+
+    // Set the feature level to DirectX 11
+    D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_1;
+
+
+    // Set debug mode if required
+    UINT flags = 0;
+    if (i_debugMode)
+      flags |= D3D11_CREATE_DEVICE_DEBUG;
+
+
+    // Create the swap chain, Direct3D device, and Direct3D device context
+    HRESULT hRes = D3D11CreateDeviceAndSwapChain(
+      NULL, D3D_DRIVER_TYPE_HARDWARE, NULL,
+      flags, &featureLevel, 1,
+      D3D11_SDK_VERSION, &swapChainDesc, d_swapChain.getPp(),
+      d_device.getPp(), NULL, d_deviceContext.getPp());
+    CONTRACT_ASSERT(!FAILED(hRes));
+    CONTRACT_ASSERT(d_device.isNotNullptr());
+    CONTRACT_ASSERT(d_deviceContext.isNotNullptr());
+    CONTRACT_ASSERT(d_swapChain.isNotNullptr());
   }
 
 } // ns Dx
