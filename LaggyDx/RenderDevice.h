@@ -69,6 +69,7 @@ namespace Dx
     void createDeviceAndSwapChain(const RefreshRate& i_refreshRate, bool i_debugMode);
     void createRenderTargetView();
     void createDepthBuffer();
+    void attachViewport();
   };
 
 } // ns Dx

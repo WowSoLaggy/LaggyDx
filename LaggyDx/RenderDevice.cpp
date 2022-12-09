@@ -145,18 +145,7 @@ namespace Dx
 
     bindDepthBuffer();
     resetState();
-
-    // Setup the viewport for rendering
-    D3D11_VIEWPORT viewport = {};
-    viewport.Width = (float)d_resolution.x;
-    viewport.Height = (float)d_resolution.y;
-    viewport.MinDepth = 0.0f;
-    viewport.MaxDepth = 1.0f;
-    viewport.TopLeftX = 0.0f;
-    viewport.TopLeftY = 0.0f;
-
-    // Create the viewport
-    d_deviceContext->RSSetViewports(1, &viewport);
+    attachViewport();
   }
 
   RenderDevice::~RenderDevice()
@@ -422,6 +411,21 @@ namespace Dx
 
     // Create depth buffer texture
     d_depthBufferTexture = std::make_shared<MemoryTexture>(d_depthStencilTextureView.get(), depthTextureDesc);
+  }
+
+  void RenderDevice::attachViewport()
+  {
+    // Setup the viewport for rendering
+    D3D11_VIEWPORT viewport = {};
+    viewport.Width = (float)d_resolution.x;
+    viewport.Height = (float)d_resolution.y;
+    viewport.MinDepth = 0.0f;
+    viewport.MaxDepth = 1.0f;
+    viewport.TopLeftX = 0.0f;
+    viewport.TopLeftY = 0.0f;
+
+    // Create the viewport
+    d_deviceContext->RSSetViewports(1, &viewport);
   }
 
 } // ns Dx
