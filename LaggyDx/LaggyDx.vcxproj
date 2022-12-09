@@ -164,6 +164,7 @@
     <ClInclude Include="CameraBase.h" />
     <ClInclude Include="CBuffer.h" />
     <ClInclude Include="ChannelInfo.h" />
+    <ClInclude Include="DxResourceWrapper.h" />
     <ClInclude Include="HeightMap.h" />
     <ClInclude Include="IBitmap.h" />
     <ClInclude Include="IShader.h" />

@@ -139,6 +139,9 @@
     <Filter Include="src\Resources\Fonts">
       <UniqueIdentifier>{802c11cc-7d5d-4f9f-84b6-f22ae29c17be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Utils">
+      <UniqueIdentifier>{eb23d082-b5ef-476e-823a-a3855d91c913}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -566,6 +569,9 @@
     </ClInclude>
     <ClInclude Include="TextureBase.h">
       <Filter>src\Resources\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="DxResourceWrapper.h">
+      <Filter>src\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
