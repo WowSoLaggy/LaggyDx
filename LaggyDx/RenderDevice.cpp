@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "RenderDevice.h"
 
+#include "DxResourceWrapper.h"
 #include "MemoryTexture.h"
 
 
@@ -81,83 +82,63 @@ namespace Dx
       return blendDescription;
     }
 
+    RefreshRate getRefreshRate(const int i_resolutionX, const int i_resolutionY)
+    {
+      // Create a DirectX graphics interface factory
+      DxResourceWrapper<IDXGIFactory> factory;
+      HRESULT hRes = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)factory.getPp());
+      CONTRACT_ASSERT(!FAILED(hRes));
+      CONTRACT_ASSERT(factory.isNotNullptr());
+
+      // Use the factory to create an adapter for the primary graphics interface (video card)
+      DxResourceWrapper<IDXGIAdapter> adapter;
+      hRes = factory->EnumAdapters(0, adapter.getPp());
+      CONTRACT_ASSERT(!FAILED(hRes));
+      CONTRACT_ASSERT(adapter.isNotNullptr());
+
+      // Enumerate the primary adapter output (monitor)
+      DxResourceWrapper<IDXGIOutput> adapterOutput;
+      hRes = adapter->EnumOutputs(0, adapterOutput.getPp());
+      CONTRACT_ASSERT(!FAILED(hRes));
+      CONTRACT_ASSERT(adapterOutput.isNotNullptr());
+
+      // Get the number of modes that fit the DXGI_FORMAT_R8G8B8A8_UNORM display format for the adapter output (monitor)
+      unsigned int numModes = 0;
+      hRes = adapterOutput->GetDisplayModeList(
+        DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, NULL);
+      CONTRACT_ASSERT(!FAILED(hRes));
+
+      // Create a list to hold all the possible display modes for this monitor/video card combination
+      std::vector<DXGI_MODE_DESC> displayModes(numModes);
+
+      // Now fill the display mode list structures
+      hRes = adapterOutput->GetDisplayModeList(
+        DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, displayModes.data());
+      CONTRACT_ASSERT(!FAILED(hRes));
+
+      // Now go through all the display modes and find the one that matches the screen width and height.
+      // When a match is found store the numerator and denominator of the refresh rate for that monitor.
+      for (const auto& mode : displayModes)
+      {
+        if ((int)mode.Width == i_resolutionX && (int)mode.Height == i_resolutionY)
+        {
+          return RefreshRate{
+            mode.RefreshRate.Numerator,
+            mode.RefreshRate.Denominator };
+        }
+      }
+
+      CONTRACT_ASSERT(false);
+    }
+
   } // anonym NS
 
 
-  RenderDevice::RenderDevice(HWND i_hWnd, const Sdk::Vector2I i_resolution, const bool i_debugMode)
-    : d_resolution(i_resolution)
+  RenderDevice::RenderDevice(HWND i_hWnd, Sdk::Vector2I i_resolution, const bool i_debugMode)
+    : d_resolution(std::move(i_resolution))
     , d_hWnd(i_hWnd)
   {
-    // Create a DirectX graphics interface factory
-    IDXGIFactory* factory = nullptr;
-    HRESULT result = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&factory);
-    CONTRACT_ASSERT(!FAILED(result));
-
-    // Use the factory to create an adapter for the primary graphics interface (video card)
-    IDXGIAdapter* adapter = nullptr;
-    result = factory->EnumAdapters(0, &adapter);
-    CONTRACT_ASSERT(!FAILED(result));
-
-    // Enumerate the primary adapter output (monitor)
-    IDXGIOutput* adapterOutput = nullptr;
-    result = adapter->EnumOutputs(0, &adapterOutput);
-    CONTRACT_ASSERT(!FAILED(result));
-
-    // Get the number of modes that fit the DXGI_FORMAT_R8G8B8A8_UNORM display format for the adapter output (monitor)
-    unsigned int numModes = 0;
-    result = adapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, NULL);
-    CONTRACT_ASSERT(!FAILED(result));
-
-    // Create a list to hold all the possible display modes for this monitor/video card combination
-    DXGI_MODE_DESC* displayModeList = new DXGI_MODE_DESC[numModes];
-    CONTRACT_ASSERT(displayModeList != nullptr);
-
-    // Now fill the display mode list structures
-    result = adapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, displayModeList);
-    CONTRACT_ASSERT(!FAILED(result));
-
-    // Now go through all the display modes and find the one that matches the screen width and height.
-    // When a match is found store the numerator and denominator of the refresh rate for that monitor.
-    unsigned int numerator = 0;
-    unsigned int denominator = 1;
-    for (unsigned int i = 0; i < numModes; ++i)
-    {
-      if (displayModeList[i].Width == (unsigned int)d_resolution.x)
-      {
-        if (displayModeList[i].Height == (unsigned int)d_resolution.y)
-        {
-          numerator = displayModeList[i].RefreshRate.Numerator;
-          denominator = displayModeList[i].RefreshRate.Denominator;
-          break;
-        }
-      }
-    }
-
-    // Get the adapter (video card) description
-    DXGI_ADAPTER_DESC adapterDesc = {};
-    result = adapter->GetDesc(&adapterDesc);
-    CONTRACT_ASSERT(!FAILED(result));
-
-    // Convert the name of the video card to a character array and store it
-    size_t stringLength = 0;
-    int error = wcstombs_s(&stringLength, d_videoCardDescription, 128, adapterDesc.Description, 128);
-    CONTRACT_ASSERT(error == 0);
-
-    // Release the display mode list
-    delete[] displayModeList;
-    displayModeList = 0;
-
-    // Release the adapter output
-    adapterOutput->Release();
-    adapterOutput = 0;
-
-    // Release the adapter
-    adapter->Release();
-    adapter = 0;
-
-    // Release the factory
-    factory->Release();
-    factory = 0;
+    const auto refreshRate = getRefreshRate(d_resolution.x, d_resolution.y);
 
     // Initialize the swap chain description
     DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
@@ -175,8 +156,8 @@ namespace Dx
     // Set the refresh rate of the back buffer
     if (c_vSyncEnabled)
     {
-      swapChainDesc.BufferDesc.RefreshRate.Numerator = numerator;
-      swapChainDesc.BufferDesc.RefreshRate.Denominator = denominator;
+      swapChainDesc.BufferDesc.RefreshRate.Numerator = refreshRate.Numerator;
+      swapChainDesc.BufferDesc.RefreshRate.Denominator = refreshRate.Denominator;
     }
     else
     {
@@ -215,21 +196,21 @@ namespace Dx
       flags |= D3D11_CREATE_DEVICE_DEBUG;
 
     // Create the swap chain, Direct3D device, and Direct3D device context
-    result = D3D11CreateDeviceAndSwapChain(
+    HRESULT hRes = D3D11CreateDeviceAndSwapChain(
       NULL, D3D_DRIVER_TYPE_HARDWARE, NULL,
       flags, &featureLevel, 1,
       D3D11_SDK_VERSION, &swapChainDesc, &d_swapChain,
       &d_device, NULL, &d_deviceContext);
-    CONTRACT_ASSERT(!FAILED(result));
+    CONTRACT_ASSERT(!FAILED(hRes));
 
     // Get the pointer to the back buffer
     ID3D11Texture2D* backBufferPtr = nullptr;
-    result = d_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBufferPtr);
-    CONTRACT_ASSERT(!FAILED(result));
+    hRes = d_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBufferPtr);
+    CONTRACT_ASSERT(!FAILED(hRes));
 
     // Create the render target view with the back buffer pointer
-    result = d_device->CreateRenderTargetView(backBufferPtr, NULL, &d_renderTargetView);
-    CONTRACT_ASSERT(!FAILED(result));
+    hRes = d_device->CreateRenderTargetView(backBufferPtr, NULL, &d_renderTargetView);
+    CONTRACT_ASSERT(!FAILED(hRes));
 
     // Release pointer to the back buffer as we no longer need it
     backBufferPtr->Release();
@@ -252,14 +233,14 @@ namespace Dx
     d_depthStencilDesc.MiscFlags = 0;
 
     // Create the texture for the depth buffer using the filled out description
-    result = d_device->CreateTexture2D(&d_depthStencilDesc, NULL, &d_depthBufferTexture2D);
-    CONTRACT_ASSERT(!FAILED(result));
+    hRes = d_device->CreateTexture2D(&d_depthStencilDesc, NULL, &d_depthBufferTexture2D);
+    CONTRACT_ASSERT(!FAILED(hRes));
     CONTRACT_ASSERT(d_depthBufferTexture2D != nullptr);
 
     // Create copy for using in shaders
     d_depthStencilDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-    result = d_device->CreateTexture2D(&d_depthStencilDesc, NULL, &d_depthBufferTexture2DCopy);
-    CONTRACT_ASSERT(!FAILED(result));
+    hRes = d_device->CreateTexture2D(&d_depthStencilDesc, NULL, &d_depthBufferTexture2DCopy);
+    CONTRACT_ASSERT(!FAILED(hRes));
     CONTRACT_ASSERT(d_depthBufferTexture2DCopy != nullptr);
 
     // Initailze the depth stencil view
@@ -272,8 +253,8 @@ namespace Dx
     depthStencilViewDesc.Texture2D.MipSlice = 0;
 
     // Create the depth stencil view
-    result = d_device->CreateDepthStencilView(d_depthBufferTexture2D, &depthStencilViewDesc, &d_depthStencilView);
-    CONTRACT_ASSERT(!FAILED(result));
+    hRes = d_device->CreateDepthStencilView(d_depthBufferTexture2D, &depthStencilViewDesc, &d_depthStencilView);
+    CONTRACT_ASSERT(!FAILED(hRes));
 
     // Bind the render target view and depth stencil buffer to the output render pipeline
     bindDepthBuffer();
@@ -286,9 +267,9 @@ namespace Dx
     shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
     shaderResourceViewDesc.Texture2D.MipLevels = 1;
 
-    result = d_device->CreateShaderResourceView(
+    hRes = d_device->CreateShaderResourceView(
       d_depthBufferTexture2DCopy, &shaderResourceViewDesc, &d_depthStencilTextureView);
-    CONTRACT_ASSERT(!FAILED(result));
+    CONTRACT_ASSERT(!FAILED(hRes));
 
     // Create depth buffer texture
     d_depthBufferTexture = std::make_shared<MemoryTexture>(d_depthStencilTextureView, d_depthStencilDesc);

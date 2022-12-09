@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IRenderDevice.h"
+#include "RefreshRate.h"
 
 
 namespace Dx
@@ -39,8 +40,6 @@ namespace Dx
     float d_clearColor[4] = { 0.396f, 0.612f, 0.937f, 1.0f };
 
     HWND d_hWnd = nullptr;
-
-    char d_videoCardDescription[128];
 
     IDXGISwapChain* d_swapChain = nullptr;
     ID3D11Device* d_device = nullptr;
