@@ -52,9 +52,9 @@ namespace Dx
     DxResourceWrapper<ID3D11DepthStencilView> d_depthStencilView;
     DxResourceWrapper<ID3D11ShaderResourceView> d_depthStencilTextureView;
 
-    ID3D11DepthStencilState* d_depthStencilState = nullptr;
-    ID3D11RasterizerState* d_rasterState = nullptr;
-    ID3D11BlendState* d_blendState = nullptr;
+    DxResourceWrapper<ID3D11DepthStencilState> d_depthStencilState;
+    DxResourceWrapper<ID3D11RasterizerState> d_rasterState;
+    DxResourceWrapper<ID3D11BlendState> d_blendState;
 
     D3D11_RASTERIZER_DESC d_rasterizerDescription = {};
     D3D11_DEPTH_STENCIL_DESC d_depthStencilDescription = {};
