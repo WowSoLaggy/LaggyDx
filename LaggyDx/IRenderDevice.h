@@ -12,7 +12,7 @@ namespace Dx
   {
   public:
     static std::unique_ptr<IRenderDevice> create(
-      HWND i_hWnd, Sdk::Vector2I i_resolution, bool i_debugMode);
+      HWND i_hWnd, Sdk::Vector2I i_resolution, const int i_refreshRate, bool i_debugMode);
 
   public:
     virtual ~IRenderDevice() = default;

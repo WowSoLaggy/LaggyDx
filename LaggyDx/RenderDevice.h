@@ -9,7 +9,7 @@ namespace Dx
   class RenderDevice : public IRenderDevice
   {
   public:
-    RenderDevice(HWND i_hWnd, Sdk::Vector2I i_resolution, bool i_debugMode);
+    RenderDevice(HWND i_hWnd, Sdk::Vector2I i_resolution, const int i_refreshRate, bool i_debugMode);
     virtual ~RenderDevice() override;
 
     virtual void beginScene() override;
@@ -66,7 +66,7 @@ namespace Dx
     void applyDepthStencilState();
     void applyBlendState();
 
-    void createDeviceAndSwapChain(const RefreshRate& i_refreshRate, bool i_debugMode);
+    void createDeviceAndSwapChain(const int i_refreshRate, bool i_debugMode);
     void createRenderTargetView();
     void createDepthBuffer();
     void attachViewport();

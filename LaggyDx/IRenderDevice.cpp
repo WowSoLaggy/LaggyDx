@@ -7,9 +7,9 @@
 namespace Dx
 {
   std::unique_ptr<IRenderDevice> IRenderDevice::create(
-    HWND i_hWnd, const Sdk::Vector2I i_resolution, const bool i_debugMode)
+    HWND i_hWnd, const Sdk::Vector2I i_resolution, const int i_refreshRate, const bool i_debugMode)
   {
-    return std::make_unique<RenderDevice>(i_hWnd, std::move(i_resolution), i_debugMode);
+    return std::make_unique<RenderDevice>(i_hWnd, std::move(i_resolution), i_refreshRate, i_debugMode);
   }
 
 } // ns Dx

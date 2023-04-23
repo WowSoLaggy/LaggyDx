@@ -82,64 +82,14 @@ namespace Dx
       return blendDescription;
     }
 
-    RefreshRate getRefreshRate(const int i_resolutionX, const int i_resolutionY)
-    {
-      // Create a DirectX graphics interface factory
-      DxResourceWrapper<IDXGIFactory> factory;
-      HRESULT hRes = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)factory.getPp());
-      CONTRACT_ASSERT(!FAILED(hRes));
-      CONTRACT_ASSERT(factory.isNotNullptr());
-
-      // Use the factory to create an adapter for the primary graphics interface (video card)
-      DxResourceWrapper<IDXGIAdapter> adapter;
-      hRes = factory->EnumAdapters(0, adapter.getPp());
-      CONTRACT_ASSERT(!FAILED(hRes));
-      CONTRACT_ASSERT(adapter.isNotNullptr());
-
-      // Enumerate the primary adapter output (monitor)
-      DxResourceWrapper<IDXGIOutput> adapterOutput;
-      hRes = adapter->EnumOutputs(0, adapterOutput.getPp());
-      CONTRACT_ASSERT(!FAILED(hRes));
-      CONTRACT_ASSERT(adapterOutput.isNotNullptr());
-
-      // Get the number of modes that fit the DXGI_FORMAT_R8G8B8A8_UNORM display format for the adapter output (monitor)
-      unsigned int numModes = 0;
-      hRes = adapterOutput->GetDisplayModeList(
-        DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, NULL);
-      CONTRACT_ASSERT(!FAILED(hRes));
-
-      // Create a list to hold all the possible display modes for this monitor/video card combination
-      std::vector<DXGI_MODE_DESC> displayModes(numModes);
-
-      // Now fill the display mode list structures
-      hRes = adapterOutput->GetDisplayModeList(
-        DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, displayModes.data());
-      CONTRACT_ASSERT(!FAILED(hRes));
-
-      // Now go through all the display modes and find the one that matches the screen width and height.
-      // When a match is found store the numerator and denominator of the refresh rate for that monitor.
-      for (const auto& mode : displayModes)
-      {
-        if ((int)mode.Width == i_resolutionX && (int)mode.Height == i_resolutionY)
-        {
-          return RefreshRate{
-            mode.RefreshRate.Numerator,
-            mode.RefreshRate.Denominator };
-        }
-      }
-
-      CONTRACT_ASSERT(false);
-    }
-
   } // anonym NS
 
 
-  RenderDevice::RenderDevice(HWND i_hWnd, Sdk::Vector2I i_resolution, const bool i_debugMode)
+  RenderDevice::RenderDevice(HWND i_hWnd, Sdk::Vector2I i_resolution, const int i_refreshRate, const bool i_debugMode)
     : d_resolution(std::move(i_resolution))
     , d_hWnd(i_hWnd)
   {
-    const auto refreshRate = getRefreshRate(d_resolution.x, d_resolution.y);
-    createDeviceAndSwapChain(refreshRate, i_debugMode);
+    createDeviceAndSwapChain(i_refreshRate, i_debugMode);
     createRenderTargetView();
     createDepthBuffer();
 
@@ -277,7 +227,7 @@ namespace Dx
   }
 
 
-  void RenderDevice::createDeviceAndSwapChain(const RefreshRate& i_refreshRate, const bool i_debugMode)
+  void RenderDevice::createDeviceAndSwapChain(const int i_refreshRate, const bool i_debugMode)
   {
     DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
 
@@ -292,8 +242,8 @@ namespace Dx
     swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 
     // Set the refresh rate of the back buffer
-    swapChainDesc.BufferDesc.RefreshRate.Numerator = c_vSyncEnabled ? i_refreshRate.Numerator : 0;
-    swapChainDesc.BufferDesc.RefreshRate.Denominator = c_vSyncEnabled ? i_refreshRate.Denominator : 1;
+    swapChainDesc.BufferDesc.RefreshRate.Numerator = c_vSyncEnabled ? i_refreshRate : 0;
+    swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
 
     // Set the usage of the back buffer
     swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
