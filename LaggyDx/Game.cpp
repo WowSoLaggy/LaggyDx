@@ -31,7 +31,7 @@ namespace Dx
   Game::Game(const GameSettings& i_gameSettings)
   {
     const auto hres = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
-    CONTRACT_ASSERT(hres == S_OK);
+    CONTRACT_ASSERT(!FAILED(hres));
 
     const Sdk::Vector2I resolution = { i_gameSettings.screenWidth, i_gameSettings.screenHeight };
 
