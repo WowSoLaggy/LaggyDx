@@ -73,9 +73,6 @@ namespace Dx
   IRenderer2d& Game::getRenderer2d() { return *d_renderer2d; }
   const IRenderer2d& Game::getRenderer2d() const { return *d_renderer2d; }
 
-  ObjectCollection<IObject2>& Game::getObject2Collection() { return d_object2Collection; }
-  const ObjectCollection<IObject2>& Game::getObject2Collection() const { return d_object2Collection; }
-
   ActionsMap& Game::getActionsMap() { return d_actionsMap; }
   const ActionsMap& Game::getActionsMap() const { return d_actionsMap; }
   void Game::setActionsMap(ActionsMap i_actionsMap) { d_actionsMap = std::move(i_actionsMap); }
@@ -149,44 +146,22 @@ namespace Dx
     handleKeyboard(d_inputDevice->checkKeyboard());
     handleMouse(d_inputDevice->checkMouse());
 
+    notify(OnGameUpdate(dt));
     update(dt);
+    updateGui(dt);
 
     {
       const Sdk::Locker scopeLocker(*d_renderDevice);
 
       d_renderDevice->beginScene();
       render();
+      renderGui();
       d_renderDevice->endScene();
     }
   }
 
 
   void Game::update(const double i_dt)
-  {
-    notify(OnGameUpdate(i_dt));
-    updateObjects(i_dt);
-    updateGui(i_dt);
-  }
-
-  void Game::updateObjects(const double i_dt)
-  {
-    for (const auto& obj : d_object2Collection.getObjects())
-    {
-      beforeObjectUpdate(*obj, i_dt);
-      obj->update(i_dt);
-      if (const auto collider = obj->getCollider())
-        collider->update(i_dt);
-      afterObjectUpdate(*obj, i_dt);
-    }
-
-    d_collisionManager.checkCollisions(d_object2Collection.getObjects());
-  }
-
-  void Game::beforeObjectUpdate(IObject& i_obj, double i_dt)
-  {
-  }
-
-  void Game::afterObjectUpdate(IObject& i_obj, double i_dt)
   {
   }
 
@@ -198,22 +173,7 @@ namespace Dx
 
   void Game::render()
   {
-    renderObjects();
-    renderGui();
   }
-
-  void Game::renderObjects()
-  {
-    for (const auto& obj : d_object2Collection.getObjects())
-      renderObject(*obj);
-  }
-
-  void Game::renderObject(const IObject& i_obj)
-  {
-    if (const auto* obj2 = dynamic_cast<const IObject2*>(&i_obj))
-      obj2->render(*d_renderer2d);
-  }
-
 
   void Game::renderGui()
   {

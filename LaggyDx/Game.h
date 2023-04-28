@@ -42,9 +42,6 @@ namespace Dx
     [[nodiscard]] IRenderer2d& getRenderer2d();
     [[nodiscard]] const IRenderer2d& getRenderer2d() const;
 
-    [[nodiscard]] ObjectCollection<IObject2>& getObject2Collection();
-    [[nodiscard]] const ObjectCollection<IObject2>& getObject2Collection() const;
-
     [[nodiscard]] ActionsMap& getActionsMap();
     [[nodiscard]] const ActionsMap& getActionsMap() const;
     void setActionsMap(ActionsMap i_actionsMap);
@@ -64,14 +61,9 @@ namespace Dx
     [[nodiscard]] virtual bool continueLoop();
 
     virtual void update(double i_dt);
-    virtual void updateObjects(double i_dt);
-    virtual void beforeObjectUpdate(IObject& i_obj, double i_dt);
-    virtual void afterObjectUpdate(IObject& i_obj, double i_dt);
     virtual void updateGui(double i_dt);
 
     virtual void render();
-    virtual void renderObjects();
-    virtual void renderObject(const IObject& i_obj);
     virtual void renderGui();
 
     virtual void onMouseMove(Sdk::Vector2I i_move);
@@ -93,10 +85,7 @@ namespace Dx
     std::unique_ptr<IResourceController> d_resourceController;
     std::unique_ptr<IRenderer2d> d_renderer2d;
 
-    ObjectCollection<IObject2> d_object2Collection;
-
     ActionsMap d_actionsMap;
-    CollisionManager d_collisionManager;
 
     MouseState d_mouseState;
 
