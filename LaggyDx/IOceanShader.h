@@ -14,8 +14,6 @@ namespace Dx
     static std::unique_ptr<IOceanShader> create(const ICamera& i_camera);
 
   public:
-    using Shader::Shader;
-
     virtual void setGlobalTime(double i_time) = 0;
 
     virtual void setWindDirection(int i_waveIndex, Sdk::Vector2D i_direction) = 0;

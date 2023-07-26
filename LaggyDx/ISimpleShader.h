@@ -14,8 +14,6 @@ namespace Dx
     static std::unique_ptr<ISimpleShader> create(const ICamera& i_camera);
 
   public:
-    using Shader::Shader;
-
     virtual void setLightDirection(Sdk::Vector3D i_direction) = 0;
     virtual void setLightColor(const Sdk::Vector4D& i_color) = 0;
     virtual void setAmbientStrength(double i_strength) = 0;

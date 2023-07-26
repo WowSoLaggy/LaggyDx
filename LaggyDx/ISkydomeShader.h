@@ -14,8 +14,6 @@ namespace Dx
     static std::unique_ptr<ISkydomeShader> create(const ICamera& i_camera);
 
   public:
-    using Shader::Shader;
-
     virtual void setSunDirection(Sdk::Vector3D i_sunDir) = 0;
     virtual void setSunRadiusInternal(float i_radius) = 0;
     virtual void setSunRadiusExternal(float i_radius) = 0;
