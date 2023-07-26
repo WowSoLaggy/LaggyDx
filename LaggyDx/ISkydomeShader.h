@@ -11,10 +11,7 @@ namespace Dx
   class ISkydomeShader : public Shader
   {
   public:
-    static std::unique_ptr<ISkydomeShader> create(
-      IRenderDevice& i_renderDevice,
-      const ICamera& i_camera,
-      const IResourceController& i_resourceController);
+    static std::unique_ptr<ISkydomeShader> create(const ICamera& i_camera);
 
   public:
     using Shader::Shader;

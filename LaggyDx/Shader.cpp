@@ -1,21 +1,31 @@
 #include "stdafx.h"
 #include "Shader.h"
 
+#include "App.h"
 #include "RenderDevice.h"
 
 
 namespace Dx
 {
-  Shader::Shader(IRenderDevice& i_renderDevice)
-    : d_renderDevice(dynamic_cast<RenderDevice&>(i_renderDevice))
-    , d_shaders(d_renderDevice)
+  Shader::Shader()
+    : d_shaders(getRenderDevice())
   {
   }
 
 
-  RenderDevice& Shader::getRenderDevice() const { return d_renderDevice; }
   ShaderWrapper& Shader::getShaders() { return d_shaders; }
   const ShaderWrapper& Shader::getShaders() const { return d_shaders; }
+
+
+  RenderDevice& Shader::getRenderDevice() const
+  {
+    return dynamic_cast<RenderDevice&>(App::get().getRenderDevice());
+  }
+
+  IResourceController& Shader::getResourceController() const
+  {
+    return App::get().getResourceController();
+  }
 
 
   bool Shader::getFillMode() const

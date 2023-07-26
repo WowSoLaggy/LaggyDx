@@ -1,5 +1,6 @@
 #pragma once
 
+#include "LaggyDxFwd.h"
 #include "IShader.h"
 #include "ShaderWrapper.h"
 
@@ -9,7 +10,7 @@ namespace Dx
   class Shader : public IShader
   {
   public:
-    Shader(IRenderDevice& i_renderDevice);
+    Shader();
 
     virtual bool getFillMode() const override;
     virtual void setFillMode(bool i_solid) override;
@@ -17,7 +18,8 @@ namespace Dx
   protected:
     virtual void setRenderStates() const;
     RenderDevice& getRenderDevice() const;
-    
+    IResourceController& getResourceController() const;
+
     ShaderWrapper& getShaders();
     const ShaderWrapper& getShaders() const;
 
@@ -30,7 +32,6 @@ namespace Dx
 
   private:
     bool d_solidFillMode = true;
-    RenderDevice& d_renderDevice;
     ShaderWrapper d_shaders;
   };
 

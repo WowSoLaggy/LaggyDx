@@ -18,12 +18,8 @@
 
 namespace Dx
 {
-  OceanShader::OceanShader(
-    IRenderDevice& i_renderDevice,
-    const ICamera& i_camera,
-    const IResourceController& i_resourceController)
-    : IOceanShader(i_renderDevice)
-    , d_matrixBuffer(getRenderDevice(), sizeof(WorldViewProj))
+  OceanShader::OceanShader(const ICamera& i_camera)
+    : d_matrixBuffer(getRenderDevice(), sizeof(WorldViewProj))
     , d_cameraBuffer(getRenderDevice(), sizeof(CameraDesc))
     , d_lightBuffer(getRenderDevice(), sizeof(LightDesc))
     , d_depthFogBuffer(getRenderDevice(), sizeof(DepthFogDesc))
@@ -31,10 +27,9 @@ namespace Dx
     , d_timeBuffer(getRenderDevice(), sizeof(TimeDesc))
     , d_waveBuffer(getRenderDevice(), sizeof(WaveDesc))
     , d_texturesDisplacementBuffer(getRenderDevice(), sizeof(TextureDisplacementDesc))
-    , d_resourceController(i_resourceController)
     , d_camera(i_camera)
-    , d_emptyTexture(i_resourceController.getTexture("white.png"))
-    , d_bumpTexture(i_resourceController.getTexture("bump.png"))
+    , d_emptyTexture(getResourceController().getTexture("white.png"))
+    , d_bumpTexture(getResourceController().getTexture("bump.png"))
   {
     getShaders().initVs(g_oceanVs, sizeof(g_oceanVs));
     getShaders().initPs(g_oceanPs, sizeof(g_oceanPs));
@@ -303,7 +298,7 @@ namespace Dx
   {
     if (!i_material.textureName.empty())
     {
-      const auto& texture = d_resourceController.getTexture(i_material.textureName);
+      const auto& texture = getResourceController().getTexture(i_material.textureName);
       auto* texturePtr = texture.getTexturePtr();
 
       getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 1, &texturePtr);

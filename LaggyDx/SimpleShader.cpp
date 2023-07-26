@@ -15,17 +15,12 @@
 
 namespace Dx
 {
-  SimpleShader::SimpleShader(
-    IRenderDevice& i_renderDevice,
-    const ICamera& i_camera,
-    const IResourceController& i_resourceController)
-    : ISimpleShader(i_renderDevice)
-    , d_matrixBuffer(getRenderDevice(), sizeof(WorldViewProj))
+  SimpleShader::SimpleShader(const ICamera& i_camera)
+    : d_matrixBuffer(getRenderDevice(), sizeof(WorldViewProj))
     , d_cameraBuffer(getRenderDevice(), sizeof(CameraDesc))
     , d_lightBuffer(getRenderDevice(), sizeof(LightDesc))
     , d_camera(i_camera)
-    , d_resourceController(i_resourceController)
-    , d_emptyTexture(i_resourceController.getTexture("white.png"))
+    , d_emptyTexture(getResourceController().getTexture("white.png"))
   {
     getShaders().initVs(g_simpleVs, sizeof(g_simpleVs));
     getShaders().initPs(g_simplePs, sizeof(g_simplePs));
@@ -155,7 +150,7 @@ namespace Dx
   {
     if (!i_material.textureName.empty())
     {
-      const auto& texture = d_resourceController.getTexture(i_material.textureName);
+      const auto& texture = getResourceController().getTexture(i_material.textureName);
       auto* texturePtr = texture.getTexturePtr();
 
       getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 1, &texturePtr);

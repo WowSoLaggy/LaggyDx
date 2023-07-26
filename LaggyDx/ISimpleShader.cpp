@@ -6,12 +6,9 @@
 
 namespace Dx
 {
-  std::unique_ptr<ISimpleShader> ISimpleShader::create(
-    IRenderDevice& i_renderDevice,
-    const ICamera& i_camera,
-    const IResourceController& i_resourceController)
+  std::unique_ptr<ISimpleShader> ISimpleShader::create(const ICamera& i_camera)
   {
-    return std::make_unique<SimpleShader>(i_renderDevice, i_camera, i_resourceController);
+    return std::make_unique<SimpleShader>(i_camera);
   }
 
 } // ns Dx

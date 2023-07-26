@@ -11,10 +11,7 @@ namespace Dx
   class IOceanShader : public Shader
   {
   public:
-    static std::unique_ptr<IOceanShader> create(
-      IRenderDevice& i_renderDevice,
-      const ICamera& i_camera,
-      const IResourceController& i_resourceController);
+    static std::unique_ptr<IOceanShader> create(const ICamera& i_camera);
 
   public:
     using Shader::Shader;

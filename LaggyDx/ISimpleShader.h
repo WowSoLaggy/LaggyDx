@@ -11,10 +11,7 @@ namespace Dx
   class ISimpleShader : public Shader
   {
   public:
-    static std::unique_ptr<ISimpleShader> create(
-      IRenderDevice& i_renderDevice,
-      const ICamera& i_camera,
-      const IResourceController& i_resourceController);
+    static std::unique_ptr<ISimpleShader> create(const ICamera& i_camera);
 
   public:
     using Shader::Shader;

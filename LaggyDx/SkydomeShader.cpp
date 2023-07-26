@@ -16,22 +16,17 @@
 
 namespace Dx
 {
-  SkydomeShader::SkydomeShader(
-    IRenderDevice& i_renderDevice,
-    const ICamera& i_camera,
-    const IResourceController& i_resourceController)
-    : ISkydomeShader(i_renderDevice)
-    , d_matrixBuffer(getRenderDevice(), sizeof(WorldViewProj))
+  SkydomeShader::SkydomeShader(const ICamera& i_camera)
+    : d_matrixBuffer(getRenderDevice(), sizeof(WorldViewProj))
     , d_skyDomeBuffer(getRenderDevice(), sizeof(SkydomeSettings))
     , d_timeBuffer(getRenderDevice(), sizeof(TimeDesc))
     , d_windBuffer(getRenderDevice(), sizeof(WindDesc))
     , d_camera(i_camera)
-    , d_resourceController(i_resourceController)
-    , d_mainTexture(i_resourceController.getTexture("sky_main.png"))
-    , d_horizonHazeTexture(i_resourceController.getTexture("sky_horizon_haze.png"))
-    , d_aroundSunTexture(i_resourceController.getTexture("sky_around_sun.png"))
-    , d_cloudsTexture1(i_resourceController.getTexture("clouds1.png"))
-    , d_cloudsTexture2(i_resourceController.getTexture("clouds2.png"))
+    , d_mainTexture(getResourceController().getTexture("sky_main.png"))
+    , d_horizonHazeTexture(getResourceController().getTexture("sky_horizon_haze.png"))
+    , d_aroundSunTexture(getResourceController().getTexture("sky_around_sun.png"))
+    , d_cloudsTexture1(getResourceController().getTexture("clouds1.png"))
+    , d_cloudsTexture2(getResourceController().getTexture("clouds2.png"))
   {
     getShaders().initVs(g_skydomeVs, sizeof(g_skydomeVs));
     getShaders().initPs(g_skydomePs, sizeof(g_skydomePs));
