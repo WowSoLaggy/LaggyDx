@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Slider.h"
 
-#include "Game.h"
+#include "App.h"
 
 #include <LaggySdk/Math.h>
 #include <LaggySdk/StringUtils.h>
@@ -73,7 +73,7 @@ namespace Dx
     if (i_key != MouseKey::Left)
       return;
 
-    const auto mousePos = Game::get().getInputDevice().getMousePosition() - getPositionAbsolute().getVector<int>();
+    const auto mousePos = App::get().getInputDevice().getMousePosition() - getPositionAbsolute().getVector<int>();
     
     if (d_spriteSlider.getRect().containsPoint(mousePos))
       d_isCurrentlyDragged = true;
@@ -97,7 +97,7 @@ namespace Dx
 
   void Slider::setTextureBack(const std::string& i_textureName)
   {
-    const auto& rc = Game::get().getResourceController();
+    const auto& rc = App::get().getResourceController();
     d_spriteBack.setTexture(rc.getTexture(i_textureName));
 
     rearrange();
@@ -105,7 +105,7 @@ namespace Dx
 
   void Slider::setTextureSlider(const std::string& i_textureName)
   {
-    const auto& rc = Game::get().getResourceController();
+    const auto& rc = App::get().getResourceController();
     d_spriteSlider.setTexture(rc.getTexture(i_textureName));
     d_spriteSlider.resetSizeToTexture();
 
@@ -114,7 +114,7 @@ namespace Dx
 
   void Slider::setTextureRightSide(const std::string& i_textureName)
   {
-    const auto& rc = Game::get().getResourceController();
+    const auto& rc = App::get().getResourceController();
     d_spriteRightSide.setTexture(rc.getTexture(i_textureName));
     d_spriteRightSide.resetSizeToTexture();
 
@@ -123,7 +123,7 @@ namespace Dx
 
   void Slider::setTextureLeftSide(const std::string& i_textureName)
   {
-    const auto& rc = Game::get().getResourceController();
+    const auto& rc = App::get().getResourceController();
     d_spriteLeftSide.setTexture(rc.getTexture(i_textureName));
     d_spriteLeftSide.resetSizeToTexture();
 
@@ -238,7 +238,7 @@ namespace Dx
   void Slider::followMouse()
   {
     const int mouseX =
-      Game::get().getInputDevice().getMousePosition().x -
+      App::get().getInputDevice().getMousePosition().x -
       (int)getPositionAbsolute().x -
       d_spriteBack.getPosition().x;
 

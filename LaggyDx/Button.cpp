@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Button.h"
 
-#include "Game.h"
+#include "App.h"
 #include "IFontResource.h"
 
 
@@ -26,7 +26,7 @@ namespace Dx
 
   void Button::onMouseMove()
   {
-    const auto& mousePos = Game::get().getInputDevice().getMousePosition();
+    const auto& mousePos = App::get().getInputDevice().getMousePosition();
     if (getRectAbsolute().getRect<int>().containsPoint(mousePos))
     {
       if (d_state == ButtonState::Normal)
@@ -43,7 +43,7 @@ namespace Dx
   {
     if (i_key == MouseKey::Left)
     {
-      const auto& mousePos = Game::get().getInputDevice().getMousePosition();
+      const auto& mousePos = App::get().getInputDevice().getMousePosition();
       if (getRectAbsolute().getRect<int>().containsPoint(mousePos))
         setState(ButtonState::Pressed);
     }
@@ -53,7 +53,7 @@ namespace Dx
   {
     if (i_key == MouseKey::Left && d_state == ButtonState::Pressed)
     {
-      const auto& mousePos = Game::get().getInputDevice().getMousePosition();
+      const auto& mousePos = App::get().getInputDevice().getMousePosition();
       if (getRectAbsolute().getRect<int>().containsPoint(mousePos))
       {
         setState(ButtonState::Hover);
@@ -104,7 +104,7 @@ namespace Dx
 
   void Button::updateTexture()
   {
-    const auto& rc = Game::get().getResourceController();
+    const auto& rc = App::get().getResourceController();
     d_sprite.setTexture(rc.getTexture(d_textures[d_state]));
     d_sprite.resetSizeToTexture();
 

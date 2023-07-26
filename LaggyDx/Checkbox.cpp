@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Checkbox.h"
 
-#include "Game.h"
+#include "App.h"
 
 
 namespace Dx
@@ -23,7 +23,7 @@ namespace Dx
 
   void Checkbox::onMouseMove()
   {
-    const auto& mousePos = Game::get().getInputDevice().getMousePosition();
+    const auto& mousePos = App::get().getInputDevice().getMousePosition();
     if (getRectAbsolute().getRect<int>().containsPoint(mousePos))
     {
       if (d_state == CheckboxState::Normal || d_state == CheckboxState::Ticked)
@@ -40,7 +40,7 @@ namespace Dx
   {
     if (i_key == MouseKey::Left)
     {
-      const auto& mousePos = Game::get().getInputDevice().getMousePosition();
+      const auto& mousePos = App::get().getInputDevice().getMousePosition();
       if (getRectAbsolute().getRect<int>().containsPoint(mousePos))
       {
         setState(isChecked() ? CheckboxState::HoverUnticked : CheckboxState::HoverTicked);
@@ -70,7 +70,7 @@ namespace Dx
 
   void Checkbox::updateTexture()
   {
-    const auto& rc = Game::get().getResourceController();
+    const auto& rc = App::get().getResourceController();
     d_sprite.setTexture(rc.getTexture(d_textures[d_state]));
     d_sprite.resetSizeToTexture();
 

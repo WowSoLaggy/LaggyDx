@@ -5,10 +5,10 @@
 
 namespace Dx
 {
-  class OnGameUpdate : public Sdk::IEvent
+  class OnUpdate : public Sdk::IEvent
   {
   public:
-    OnGameUpdate(const double i_dt)
+    OnUpdate(const double i_dt)
       : d_dt(i_dt)
     {
     }

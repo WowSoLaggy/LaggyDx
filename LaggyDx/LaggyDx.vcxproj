@@ -173,7 +173,7 @@
     <ClInclude Include="Roam.h" />
     <ClInclude Include="FirstPersonCamera.h" />
     <ClInclude Include="FreeCameraController.h" />
-    <ClInclude Include="GameEvents.h" />
+    <ClInclude Include="AppEvents.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="IInputController.h" />
     <ClInclude Include="IMesh.h" />
@@ -198,8 +198,8 @@
     <ClInclude Include="FadeOutEffect.h" />
     <ClInclude Include="FbxResource.h" />
     <ClInclude Include="Form.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameSettings.h" />
+    <ClInclude Include="App.h" />
+    <ClInclude Include="AppSettings.h" />
     <ClInclude Include="GuiEffect.h" />
     <ClInclude Include="ICollider.h" />
     <ClInclude Include="IControl.h" />
@@ -361,7 +361,7 @@
     <ClCompile Include="DynamicCollider.cpp" />
     <ClCompile Include="FadeOutEffect.cpp" />
     <ClCompile Include="FontResource.cpp" />
-    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="App.cpp" />
     <ClCompile Include="GuiEffect.cpp" />
     <ClCompile Include="IAnimationController3d.cpp" />
     <ClCompile Include="IInputDevice.cpp" />

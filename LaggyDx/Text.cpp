@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Text.h"
 
-#include "Game.h"
+#include "App.h"
 #include "IFontResource.h"
 #include "IRenderer2d.h"
 #include "IResourceController.h"
@@ -46,7 +46,7 @@ namespace Dx
 
   void Text::setFont(const std::string& i_fontName)
   {
-    d_fontResource = &Game::get().getResourceController().getFont(i_fontName);
+    d_fontResource = &App::get().getResourceController().getFont(i_fontName);
     invalidateSizeCache();
   }
 

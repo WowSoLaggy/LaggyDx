@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "Object2Base.h"
 
+#include "App.h"
 #include "CollShapeMover.h"
-#include "Game.h"
 #include "ImageDescription.h"
 #include "ITexture.h"
 #include "Renderer2dGuard.h"
@@ -22,7 +22,7 @@ namespace Dx
 
   void Object2Base::setTexture(const std::string& i_textureName)
   {
-    const auto& rc = Game::get().getResourceController();
+    const auto& rc = App::get().getResourceController();
     const auto& texture = rc.getTexture(i_textureName);
     d_sprite.setTexture(texture);
     d_sprite.setSize(texture.getDescription().size());

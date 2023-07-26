@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "FreeCameraController.h"
 
+#include "App.h"
+#include "AppEvents.h"
 #include "FirstPersonCamera.h"
-#include "Game.h"
-#include "GameEvents.h"
 #include "InputEvents.h"
 
 #include <LaggySdk/Math.h>
@@ -11,29 +11,29 @@
 
 namespace Dx
 {
-  FreeCameraController::FreeCameraController(Game& i_game, ICamera& i_camera)
-    : d_game(i_game)
+  FreeCameraController::FreeCameraController(App& i_app, ICamera& i_camera)
+    : d_app(i_app)
     , d_camera(dynamic_cast<FirstPersonCamera&>(i_camera))
   {
-    d_originalMouseMode = d_game.getInputDevice().getMouseMode();
-    d_game.getInputDevice().setMouseRelativeMode();
+    d_originalMouseMode = d_app.getInputDevice().getMouseMode();
+    d_app.getInputDevice().setMouseRelativeMode();
 
-    connectTo(d_game);
+    connectTo(d_app);
   }
 
   FreeCameraController::~FreeCameraController()
   {
-    disconnectFrom(d_game);
+    disconnectFrom(d_app);
     
-    d_game.getInputDevice().setMouseMode(d_originalMouseMode);
+    d_app.getInputDevice().setMouseMode(d_originalMouseMode);
   }
 
 
   void FreeCameraController::processEvent(const Sdk::IEvent& i_event)
   {
-    if (const auto* event = dynamic_cast<const OnGameUpdate*>(&i_event))
+    if (const auto* event = dynamic_cast<const OnUpdate*>(&i_event))
     {
-      onGameUpdate(event->dt());
+      onAppUpdate(event->dt());
     }
 
     else if (const auto* event = dynamic_cast<const OnKeyPressedEvent*>(&i_event))
@@ -75,7 +75,7 @@ namespace Dx
   }
 
 
-  void FreeCameraController::onGameUpdate(double i_dt)
+  void FreeCameraController::onAppUpdate(double i_dt)
   {
     if (d_moveLeft && !d_moveRight)
     {

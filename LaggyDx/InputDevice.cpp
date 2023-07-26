@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "InputDevice.h"
 
-#include "Game.h"
 #include "InputEvents.h"
 
 

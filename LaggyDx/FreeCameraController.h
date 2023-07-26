@@ -13,7 +13,7 @@ namespace Dx
   class FreeCameraController : public IInputController, public Sdk::EventHandler
   {
   public:
-    FreeCameraController(Game& i_game, ICamera& i_camera);
+    FreeCameraController(App& i_app, ICamera& i_camera);
     ~FreeCameraController();
 
     virtual void processEvent(const Sdk::IEvent& i_event) override;
@@ -25,7 +25,7 @@ namespace Dx
     double getCameraSpeed() const;
 
   private:
-    Game& d_game;
+    App& d_app;
     FirstPersonCamera& d_camera;
 
     double d_cameraSpeed = 5.0;
@@ -39,7 +39,7 @@ namespace Dx
     bool d_moveUp = false;
     bool d_moveDown = false;
 
-    void onGameUpdate(double i_dt);
+    void onAppUpdate(double i_dt);
 
     void onMouseMoved(const Sdk::Vector2I& i_move);
 

@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "Game.h"
+#include "App.h"
 
+#include "AppEvents.h"
+#include "AppSettings.h"
 #include "Form.h"
-#include "GameSettings.h"
-#include "GameEvents.h"
 #include "ICollider.h"
 #include "InputEvents.h"
 #include "IObject.h"
@@ -19,28 +19,29 @@
 #include <LaggySdk/Random.h>
 #include <LaggySdk/Vector.h>
 
+
 namespace Dx
 {
-  Game* Game::s_this = nullptr;
-  Game& Game::get()
+  App* App::s_this = nullptr;
+  App& App::get()
   {
     CONTRACT_ASSERT(s_this);
     return *s_this;
   }
 
-  Game::Game(const GameSettings& i_gameSettings)
+  App::App(const AppSettings& i_appSettings)
   {
     const auto hres = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
     CONTRACT_ASSERT(!FAILED(hres));
 
-    const Sdk::Vector2I resolution = { i_gameSettings.screenWidth, i_gameSettings.screenHeight };
+    const Sdk::Vector2I resolution = { i_appSettings.screenWidth, i_appSettings.screenHeight };
 
-    d_window = std::make_unique<Sdk::Window>(resolution, i_gameSettings.applicationName);
+    d_window = std::make_unique<Sdk::Window>(resolution, i_appSettings.applicationName);
 
-    d_renderDevice = IRenderDevice::create(d_window->getHWnd(), resolution, i_gameSettings.refreshRate, i_gameSettings.debugMode);
+    d_renderDevice = IRenderDevice::create(d_window->getHWnd(), resolution, i_appSettings.refreshRate, i_appSettings.debugMode);
     CONTRACT_ENSURE(d_renderDevice);
 
-    d_resourceController = IResourceController::create(*d_renderDevice, i_gameSettings.assetsFolder);
+    d_resourceController = IResourceController::create(*d_renderDevice, i_appSettings.assetsFolder);
     CONTRACT_ENSURE(d_resourceController);
 
     d_renderer2d = IRenderer2d::create(*d_renderDevice, resolution);
@@ -58,35 +59,35 @@ namespace Dx
     s_this = this;
   }
 
-  Game::~Game()
+  App::~App()
   {
     CoUninitialize();
   }
 
 
-  IInputDevice& Game::getInputDevice() { return *d_inputDevice; }
-  const IInputDevice& Game::getInputDevice() const { return *d_inputDevice; }
-  IRenderDevice& Game::getRenderDevice() { return *d_renderDevice; }
-  const IRenderDevice& Game::getRenderDevice() const { return *d_renderDevice; }
-  IResourceController& Game::getResourceController() { return *d_resourceController; }
-  const IResourceController& Game::getResourceController() const { return *d_resourceController; }
-  IRenderer2d& Game::getRenderer2d() { return *d_renderer2d; }
-  const IRenderer2d& Game::getRenderer2d() const { return *d_renderer2d; }
+  IInputDevice& App::getInputDevice() { return *d_inputDevice; }
+  const IInputDevice& App::getInputDevice() const { return *d_inputDevice; }
+  IRenderDevice& App::getRenderDevice() { return *d_renderDevice; }
+  const IRenderDevice& App::getRenderDevice() const { return *d_renderDevice; }
+  IResourceController& App::getResourceController() { return *d_resourceController; }
+  const IResourceController& App::getResourceController() const { return *d_resourceController; }
+  IRenderer2d& App::getRenderer2d() { return *d_renderer2d; }
+  const IRenderer2d& App::getRenderer2d() const { return *d_renderer2d; }
 
-  ActionsMap& Game::getActionsMap() { return d_actionsMap; }
-  const ActionsMap& Game::getActionsMap() const { return d_actionsMap; }
-  void Game::setActionsMap(ActionsMap i_actionsMap) { d_actionsMap = std::move(i_actionsMap); }
+  ActionsMap& App::getActionsMap() { return d_actionsMap; }
+  const ActionsMap& App::getActionsMap() const { return d_actionsMap; }
+  void App::setActionsMap(ActionsMap i_actionsMap) { d_actionsMap = std::move(i_actionsMap); }
 
-  IControl& Game::getForm() { return *d_form; }
-  const IControl& Game::getForm() const { return *d_form; }
+  IControl& App::getForm() { return *d_form; }
+  const IControl& App::getForm() const { return *d_form; }
 
-  double Game::getGlobalTime() const { return d_globalTime; }
-  const Sdk::FpsCounter& Game::getFpsCounter() const { return d_fpsCounter; }
+  double App::getGlobalTime() const { return d_globalTime; }
+  const Sdk::FpsCounter& App::getFpsCounter() const { return d_fpsCounter; }
 
-  const MouseState& Game::getMouseState() const { return d_mouseState; }
+  const MouseState& App::getMouseState() const { return d_mouseState; }
 
 
-  void Game::processEvent(const Sdk::IEvent& i_event)
+  void App::processEvent(const Sdk::IEvent& i_event)
   {
     if (const auto* event = dynamic_cast<const MouseModeChangedEvent*>(&i_event))
     {
@@ -96,33 +97,33 @@ namespace Dx
   }
 
 
-  void Game::run()
+  void App::run()
   {
-    onGameStart();
+    onStart();
 
     d_timer.start();
 
     while (continueLoop())
       mainloop();
 
-    onGameEnd();
+    onEnd();
   }
 
-  void Game::stop()
+  void App::stop()
   {
     d_stop = true;
   }
 
 
-  void Game::onGameStart()
+  void App::onStart()
   {
   }
 
-  void Game::onGameEnd()
+  void App::onEnd()
   {
   }
 
-  bool Game::continueLoop()
+  bool App::continueLoop()
   {
     if (d_stop)
       return false;
@@ -137,7 +138,7 @@ namespace Dx
     return true;
   }
 
-  void Game::mainloop()
+  void App::mainloop()
   {
     double dt = d_timer.restart();
     d_globalTime += dt;
@@ -146,7 +147,7 @@ namespace Dx
     handleKeyboard(d_inputDevice->checkKeyboard());
     handleMouse(d_inputDevice->checkMouse());
 
-    notify(OnGameUpdate(dt));
+    notify(OnUpdate(dt));
     update(dt);
     updateGui(dt);
 
@@ -161,28 +162,28 @@ namespace Dx
   }
 
 
-  void Game::update(const double i_dt)
+  void App::update(const double i_dt)
   {
   }
 
-  void Game::updateGui(const double i_dt)
+  void App::updateGui(const double i_dt)
   {
     getForm().update(i_dt);
   }
 
 
-  void Game::render()
+  void App::render()
   {
   }
 
-  void Game::renderGui()
+  void App::renderGui()
   {
     Renderer2dGuard renderer2dGuard(*d_renderer2d);
     getForm().render(*d_renderer2d);
   }
 
 
-  void Game::handleKeyboard(const KeyboardState& i_keyboardState)
+  void App::handleKeyboard(const KeyboardState& i_keyboardState)
   {
     for (const auto key : getKeys(i_keyboardState.getPressedKeys()))
     {
@@ -206,7 +207,7 @@ namespace Dx
     }
   }
 
-  void Game::handleMouse(MouseState i_mouseState)
+  void App::handleMouse(MouseState i_mouseState)
   {
     if (
       i_mouseState.getMode() == d_mouseState.getMode() &&
@@ -230,20 +231,20 @@ namespace Dx
       resetRelativeMouseState();
   }
 
-  void Game::onMouseMove(Sdk::Vector2I i_move)
+  void App::onMouseMove(Sdk::Vector2I i_move)
   {
     notify(OnMouseMovedEvent(std::move(i_move)));
     getForm().onMouseMove();
   }
 
-  void Game::onMouseWheel(const int i_distance)
+  void App::onMouseWheel(const int i_distance)
   {
     const auto mkey = i_distance > 0 ? MouseKey::WheelUp : MouseKey::WheelDown;
     if (const auto* action = d_actionsMap.getAction(mkey, ActionType::OnPress))
       action->operator()();
   }
 
-  void Game::onMouseClick(MouseKey i_key)
+  void App::onMouseClick(MouseKey i_key)
   {
     getForm().onMouseClick(i_key);
 
@@ -251,7 +252,7 @@ namespace Dx
       action->operator()();
   }
 
-  void Game::onMouseRelease(MouseKey i_key)
+  void App::onMouseRelease(MouseKey i_key)
   {
     getForm().onMouseRelease(i_key);
 
@@ -260,7 +261,7 @@ namespace Dx
   }
 
 
-  void Game::resetRelativeMouseState()
+  void App::resetRelativeMouseState()
   {
     d_mouseState.setMode(MouseMode::Relative);
     d_mouseState.resetPosition();

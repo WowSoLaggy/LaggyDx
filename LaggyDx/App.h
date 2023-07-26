@@ -19,14 +19,14 @@
 
 namespace Dx
 {
-  class Game : public Sdk::EventHandler
+  class App : public Sdk::EventHandler
   {
   public:
-    static Game& get();
+    static App& get();
 
   public:
-    explicit Game(const GameSettings& i_gameSettings);
-    virtual ~Game();
+    explicit App(const AppSettings& i_appSettings);
+    virtual ~App();
 
     void run();
     void stop();
@@ -55,8 +55,8 @@ namespace Dx
     [[nodiscard]] const MouseState& getMouseState() const;
 
   protected:
-    virtual void onGameStart();
-    virtual void onGameEnd();
+    virtual void onStart();
+    virtual void onEnd();
 
     [[nodiscard]] virtual bool continueLoop();
 
@@ -72,7 +72,7 @@ namespace Dx
     virtual void onMouseRelease(MouseKey i_key);
 
   private:
-    static Game* s_this;
+    static App* s_this;
 
     bool d_stop = false;
 

@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "RadioButton.h"
 
+#include "App.h"
 #include "ControlEvents.h"
-#include "Game.h"
 
 
 namespace Dx
@@ -28,7 +28,7 @@ namespace Dx
   {
     if (i_key == MouseKey::Left)
     {
-      const auto& mousePos = Game::get().getInputDevice().getMousePosition();
+      const auto& mousePos = App::get().getInputDevice().getMousePosition();
       if (getRectAbsolute().getRect<int>().containsPoint(mousePos))
         check();
     }
@@ -96,7 +96,7 @@ namespace Dx
     if (d_textures[d_state].empty())
       return;
 
-    const auto& rc = Game::get().getResourceController();
+    const auto& rc = App::get().getResourceController();
     d_sprite.setTexture(rc.getTexture(d_textures[d_state]));
     d_sprite.resetSizeToTexture();
 

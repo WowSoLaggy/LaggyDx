@@ -52,8 +52,8 @@ namespace Dx
   class Channels;
   using Animations2Map = std::unordered_map<std::string, ImageAnimation>;
 
-  class Game;
-  struct GameSettings;
+  class App;
+  struct AppSettings;
 
   class IObject;
   class IObject2;
