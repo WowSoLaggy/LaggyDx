@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Shader.h"
+#include "Shader3d.h"
 #include "LaggyDxFwd.h"
 
 #include <LaggySdk/Vector.h>
@@ -8,7 +8,7 @@
 
 namespace Dx
 {
-  class ISkydomeShader : public Shader
+  class ISkydomeShader : public Shader3d
   {
   public:
     static std::unique_ptr<ISkydomeShader> create(const ICamera& i_camera);

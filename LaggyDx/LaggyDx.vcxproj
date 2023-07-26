@@ -167,7 +167,6 @@
     <ClInclude Include="DxResourceWrapper.h" />
     <ClInclude Include="HeightMap.h" />
     <ClInclude Include="IBitmap.h" />
-    <ClInclude Include="IShader.h" />
     <ClInclude Include="MemoryTexture.h" />
     <ClInclude Include="RefreshRate.h" />
     <ClInclude Include="Roam.h" />
@@ -209,7 +208,9 @@
     <ClInclude Include="AnimationController3d.h" />
     <ClInclude Include="RadioButton.h" />
     <ClInclude Include="RadioGroup.h" />
-    <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShaderBase.h" />
+    <ClInclude Include="Shader2d.h" />
+    <ClInclude Include="Shader3d.h" />
     <ClInclude Include="ShadersUtils.h" />
     <ClInclude Include="ShaderWrapper.h" />
     <ClInclude Include="ShapesUtils.h" />
@@ -340,7 +341,7 @@
     <ClCompile Include="PsHlslResource.cpp" />
     <ClCompile Include="RadioButton.cpp" />
     <ClCompile Include="RadioGroup.cpp" />
-    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="ShaderBase.cpp" />
     <ClCompile Include="ShaderWrapper.cpp" />
     <ClCompile Include="Shape3d.cpp" />
     <ClCompile Include="ShapesUtils.cpp" />

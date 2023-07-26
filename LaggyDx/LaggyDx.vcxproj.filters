@@ -540,10 +540,7 @@
     <ClInclude Include="IBitmap.h">
       <Filter>src\Image</Filter>
     </ClInclude>
-    <ClInclude Include="IShader.h">
-      <Filter>src\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
+    <ClInclude Include="ShaderBase.h">
       <Filter>src\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="CBuffer.h">
@@ -575,6 +572,12 @@
     </ClInclude>
     <ClInclude Include="DxResourceWrapper.h">
       <Filter>src\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader3d.h">
+      <Filter>src\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader2d.h">
+      <Filter>src\Shaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -875,7 +878,7 @@
     <ClCompile Include="Bitmap.cpp">
       <Filter>src\Image</Filter>
     </ClCompile>
-    <ClCompile Include="Shader.cpp">
+    <ClCompile Include="ShaderBase.cpp">
       <Filter>src\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="CBuffer.cpp">

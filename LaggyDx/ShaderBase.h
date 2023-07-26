@@ -1,19 +1,19 @@
 #pragma once
 
 #include "LaggyDxFwd.h"
-#include "IShader.h"
 #include "ShaderWrapper.h"
 
 
 namespace Dx
 {
-  class Shader : public IShader
+  class ShaderBase
   {
   public:
-    Shader();
+    ShaderBase();
+    virtual ~ShaderBase() = default;
 
-    virtual bool getFillMode() const override;
-    virtual void setFillMode(bool i_solid) override;
+    bool getFillMode() const;
+    void setFillMode(bool i_solid);
 
   protected:
     virtual void setRenderStates() const;

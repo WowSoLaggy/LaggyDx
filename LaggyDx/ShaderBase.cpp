@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Shader.h"
+#include "ShaderBase.h"
 
 #include "App.h"
 #include "RenderDevice.h"
@@ -7,39 +7,39 @@
 
 namespace Dx
 {
-  Shader::Shader()
+  ShaderBase::ShaderBase()
     : d_shaders(getRenderDevice())
   {
   }
 
 
-  ShaderWrapper& Shader::getShaders() { return d_shaders; }
-  const ShaderWrapper& Shader::getShaders() const { return d_shaders; }
+  ShaderWrapper& ShaderBase::getShaders() { return d_shaders; }
+  const ShaderWrapper& ShaderBase::getShaders() const { return d_shaders; }
 
 
-  RenderDevice& Shader::getRenderDevice() const
+  RenderDevice& ShaderBase::getRenderDevice() const
   {
     return dynamic_cast<RenderDevice&>(App::get().getRenderDevice());
   }
 
-  IResourceController& Shader::getResourceController() const
+  IResourceController& ShaderBase::getResourceController() const
   {
     return App::get().getResourceController();
   }
 
 
-  bool Shader::getFillMode() const
+  bool ShaderBase::getFillMode() const
   {
     return d_solidFillMode;
   }
 
-  void Shader::setFillMode(const bool i_solid)
+  void ShaderBase::setFillMode(const bool i_solid)
   {
     d_solidFillMode = i_solid;
   }
 
 
-  void Shader::setRenderStates() const
+  void ShaderBase::setRenderStates() const
   {
     getRenderDevice().resetState();
     if (!d_solidFillMode)
@@ -50,7 +50,7 @@ namespace Dx
     }
   }
 
-  void Shader::setShaders() const
+  void ShaderBase::setShaders() const
   {
     getRenderDevice().getDeviceContextPtr()->IASetInputLayout(getShaders().getLayout());
     getRenderDevice().getDeviceContextPtr()->VSSetShader(getShaders().getVs(), nullptr, 0);
@@ -62,20 +62,20 @@ namespace Dx
   }
 
 
-  void Shader::resetVsResources(const int i_numSlots) const
+  void ShaderBase::resetVsResources(const int i_numSlots) const
   {
     std::vector<ID3D11ShaderResourceView*> slots(i_numSlots, nullptr);
     getRenderDevice().getDeviceContextPtr()->VSSetShaderResources(0, i_numSlots, slots.data());
   }
 
-  void Shader::resetPsResources(const int i_numSlots) const
+  void ShaderBase::resetPsResources(const int i_numSlots) const
   {
     std::vector<ID3D11ShaderResourceView*> slots(i_numSlots, nullptr);
     getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, i_numSlots, slots.data());
   }
 
 
-  void Shader::drawIndexed(const int i_count, const int i_startIndex) const
+  void ShaderBase::drawIndexed(const int i_count, const int i_startIndex) const
   {
     getRenderDevice().getDeviceContextPtr()->DrawIndexed(i_count, i_startIndex, 0);
   }
