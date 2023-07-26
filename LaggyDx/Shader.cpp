@@ -23,7 +23,7 @@ namespace Dx
     return d_solidFillMode;
   }
 
-  void Shader::setFillMode(bool i_solid)
+  void Shader::setFillMode(const bool i_solid)
   {
     d_solidFillMode = i_solid;
   }
