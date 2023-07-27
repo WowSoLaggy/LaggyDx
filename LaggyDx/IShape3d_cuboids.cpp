@@ -2,7 +2,7 @@
 #include "IShape3d.h"
 
 #include "Shape3d.h"
-#include "ShapesUtils.h"
+#include "Shape3dUtils.h"
 
 
 namespace Dx

@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "Shape.h"
+#include "Shape2d.h"
 
 namespace Dx
 {
-  Shape::Shape(
+  Shape2d::Shape2d(
     const std::vector<Sdk::Vector2F>& i_verts,
     const std::vector<int>& i_inds)
   {
@@ -21,34 +21,34 @@ namespace Dx
   }
 
 
-  const Sdk::Vector4F& Shape::getColor() const
+  const Sdk::Vector4F& Shape2d::getColor() const
   {
     return d_color;
   }
 
-  void Shape::setColor(Sdk::Vector4F i_color)
+  void Shape2d::setColor(Sdk::Vector4F i_color)
   {
     d_color = std::move(i_color);
   }
 
 
-  const VertexPositionColor* Shape::getVerts() const
+  const VertexPositionColor* Shape2d::getVerts() const
   {
     return d_verts.data();
   }
 
-  std::size_t Shape::getVertsCount() const
+  std::size_t Shape2d::getVertsCount() const
   {
     return d_verts.size();
   }
 
 
-  const std::uint16_t* Shape::getInds() const
+  const std::uint16_t* Shape2d::getInds() const
   {
     return d_inds.data();
   }
 
-  std::size_t Shape::getIndsCount() const
+  std::size_t Shape2d::getIndsCount() const
   {
     return d_inds.size();
   }

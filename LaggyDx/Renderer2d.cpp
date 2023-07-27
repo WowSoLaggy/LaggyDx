@@ -2,7 +2,7 @@
 #include "Renderer2d.h"
 
 #include "FontResource.h"
-#include "IShape.h"
+#include "IShape2d.h"
 #include "RenderDevice.h"
 #include "ResourceController.h"
 #include "Sprite.h"
@@ -200,7 +200,7 @@ namespace Dx
     d_primitiveBatch.DrawLine(p4, p1);
   }
 
-  void Renderer2d::renderShape(const IShape& i_shape)
+  void Renderer2d::renderShape(const IShape2d& i_shape)
   {
     auto* context = d_renderDevice.getDeviceContextPtr();
 

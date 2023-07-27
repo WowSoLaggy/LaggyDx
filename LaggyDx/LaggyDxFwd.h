@@ -62,7 +62,8 @@ namespace Dx
   class IObject3;
   class Object3;
 
-  class IShape;
+  class IShape2d;
+  class Shape2d;
   class IShape3d;
   class Shape3d;
 

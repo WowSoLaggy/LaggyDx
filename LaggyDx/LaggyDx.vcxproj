@@ -203,7 +203,7 @@
     <ClInclude Include="Shader3d.h" />
     <ClInclude Include="ShadersUtils.h" />
     <ClInclude Include="ShaderWrapper.h" />
-    <ClInclude Include="ShapesUtils.h" />
+    <ClInclude Include="Shape3dUtils.h" />
     <ClInclude Include="SimpleShader.h" />
     <ClInclude Include="SkydomeShader.h" />
     <ClInclude Include="Slider.h" />
@@ -226,7 +226,7 @@
     <ClInclude Include="IRenderer.h" />
     <ClInclude Include="IRenderer2d.h" />
     <ClInclude Include="IRenderer3d.h" />
-    <ClInclude Include="IShape.h" />
+    <ClInclude Include="IShape2d.h" />
     <ClInclude Include="IShape3d.h" />
     <ClInclude Include="ISimpleRenderer.h" />
     <ClInclude Include="ITexture.h" />
@@ -274,7 +274,7 @@
     <ClInclude Include="RenderDevice.h" />
     <ClInclude Include="ResourceController.h" />
     <ClInclude Include="ShaderBuffers.h" />
-    <ClInclude Include="Shape.h" />
+    <ClInclude Include="Shape2d.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="StaticCollider.h" />
     <ClInclude Include="Text.h" />
@@ -336,7 +336,7 @@
     <ClCompile Include="ShaderBase.cpp" />
     <ClCompile Include="ShaderWrapper.cpp" />
     <ClCompile Include="Shape3d.cpp" />
-    <ClCompile Include="ShapesUtils.cpp" />
+    <ClCompile Include="Shape3dUtils.cpp" />
     <ClCompile Include="SimpleShader.cpp" />
     <ClCompile Include="SkydomeShader.cpp" />
     <ClCompile Include="Slider.cpp" />
@@ -364,7 +364,7 @@
     <ClCompile Include="InputDevice_Messages.cpp" />
     <ClCompile Include="IRenderer2d.cpp" />
     <ClCompile Include="IRenderer3d.cpp" />
-    <ClCompile Include="IShape.cpp" />
+    <ClCompile Include="IShape2d.cpp" />
     <ClCompile Include="KeyboardState.cpp" />
     <ClCompile Include="KeyUtils.cpp" />
     <ClCompile Include="KinematicCollider.cpp" />
@@ -388,7 +388,7 @@
     <ClCompile Include="RenderDevice.cpp" />
     <ClCompile Include="Renderer3d_Renders.cpp" />
     <ClCompile Include="ResourceController.cpp" />
-    <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="Shape2d.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Sprite_save.cpp" />
     <ClCompile Include="StaticCollider.cpp" />

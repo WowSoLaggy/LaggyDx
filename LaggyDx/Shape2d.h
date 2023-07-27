@@ -1,17 +1,17 @@
 #pragma once
 
 #include "Colors.h"
-#include "IShape.h"
+#include "IShape2d.h"
 
 #include <LaggySdk/Vector.h>
 
 
 namespace Dx
 {
-  class Shape : public IShape
+  class Shape2d : public IShape2d
   {
   public:
-    Shape(
+    Shape2d(
       const std::vector<Sdk::Vector2F>& i_verts,
       const std::vector<int>& i_inds);
 

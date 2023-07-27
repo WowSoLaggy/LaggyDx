@@ -504,10 +504,10 @@
     <ClInclude Include="IMesh.h">
       <Filter>src\Model</Filter>
     </ClInclude>
-    <ClInclude Include="IShape.h">
+    <ClInclude Include="IShape2d.h">
       <Filter>src\Shapes\2d</Filter>
     </ClInclude>
-    <ClInclude Include="Shape.h">
+    <ClInclude Include="Shape2d.h">
       <Filter>src\Shapes\2d</Filter>
     </ClInclude>
     <ClInclude Include="IShape3d.h">
@@ -516,7 +516,7 @@
     <ClInclude Include="Shape3d.h">
       <Filter>src\Shapes\3d</Filter>
     </ClInclude>
-    <ClInclude Include="ShapesUtils.h">
+    <ClInclude Include="Shape3dUtils.h">
       <Filter>src\Shapes\3d</Filter>
     </ClInclude>
     <ClInclude Include="VertexPosNormText.h">
@@ -848,10 +848,10 @@
     <ClCompile Include="ISkydomeShader.cpp">
       <Filter>src\Shaders\SkydomeShader</Filter>
     </ClCompile>
-    <ClCompile Include="IShape.cpp">
+    <ClCompile Include="IShape2d.cpp">
       <Filter>src\Shapes\2d</Filter>
     </ClCompile>
-    <ClCompile Include="Shape.cpp">
+    <ClCompile Include="Shape2d.cpp">
       <Filter>src\Shapes\2d</Filter>
     </ClCompile>
     <ClCompile Include="IShape3d_planes.cpp">
@@ -860,7 +860,7 @@
     <ClCompile Include="Shape3d.cpp">
       <Filter>src\Shapes\3d</Filter>
     </ClCompile>
-    <ClCompile Include="ShapesUtils.cpp">
+    <ClCompile Include="Shape3dUtils.cpp">
       <Filter>src\Shapes\3d</Filter>
     </ClCompile>
     <ClCompile Include="IShape3d_spheroids.cpp">

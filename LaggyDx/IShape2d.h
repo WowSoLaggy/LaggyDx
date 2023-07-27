@@ -7,21 +7,21 @@
 
 namespace Dx
 {
-  class IShape
+  class IShape2d
   {
   public:
-    static std::unique_ptr<IShape> createCustom(
+    static std::unique_ptr<IShape2d> createCustom(
       const std::vector<Sdk::Vector2F>& i_verts,
       const std::vector<int>& i_inds);
 
-    static std::unique_ptr<IShape> createCircle(float i_radius, int i_numPoints);
-    static std::unique_ptr<IShape> createCircle(float i_radius, int i_numPoints,
+    static std::unique_ptr<IShape2d> createCircle(float i_radius, int i_numPoints);
+    static std::unique_ptr<IShape2d> createCircle(float i_radius, int i_numPoints,
                                                 float i_startAngle, float i_endAngle);
 
-    static std::unique_ptr<IShape> createRect(float i_width, float i_height);
+    static std::unique_ptr<IShape2d> createRect(float i_width, float i_height);
 
   public:
-    virtual ~IShape() = default;
+    virtual ~IShape2d() = default;
 
     virtual const Sdk::Vector4F& getColor() const = 0;
     virtual void setColor(Sdk::Vector4F i_color) = 0;

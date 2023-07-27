@@ -2,7 +2,7 @@
 #include "SpriteShader.h"
 
 #include "IResourceController.h"
-#include "IShape.h"
+#include "IShape2d.h"
 #include "ISprite.h"
 #include "ITexture.h"
 #include "ModelUtils.h"
@@ -40,7 +40,7 @@ namespace Dx
 
   void SpriteShader::createSpriteMesh()
   {
-    const auto shape = IShape::createRect(10, 10);
+    const auto shape = IShape2d::createRect(10, 10);
     //d_spriteMesh = createMeshFromShape(*shape, getRenderDevice());
   }
 
