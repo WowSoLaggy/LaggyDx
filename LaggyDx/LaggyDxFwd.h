@@ -45,6 +45,7 @@ namespace Dx
   struct MousePosition;
   class IInputController;
 
+  class ISprite;
   class Sprite;
   class AnimatedSprite;
   struct ImageDescription;

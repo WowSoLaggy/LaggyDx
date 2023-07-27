@@ -155,6 +155,7 @@
     <ClInclude Include="DxResourceWrapper.h" />
     <ClInclude Include="HeightMap.h" />
     <ClInclude Include="IBitmap.h" />
+    <ClInclude Include="ISprite.h" />
     <ClInclude Include="MemoryTexture.h" />
     <ClInclude Include="RefreshRate.h" />
     <ClInclude Include="Roam.h" />

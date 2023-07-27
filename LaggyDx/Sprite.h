@@ -1,39 +1,36 @@
 #pragma once
 
-#include "LaggyDxFwd.h"
-
-#include <LaggySdk/Rect.h>
-#include <LaggySdk/Vector.h>
+#include "ISprite.h"
 
 
 namespace Dx
 {
-  class Sprite
+  class Sprite : public ISprite
   {
   public:
     Sprite(const ITexture* i_texture = nullptr, Sdk::Vector2I i_position = Sdk::Vector2I::zero(),
            Sdk::Vector2I i_size = Sdk::Vector2I::zero(), Sdk::Vector4F i_color = Sdk::Vector4F::identity());
 
+    virtual const ITexture* getTexture() const override { return d_texture; }
+    virtual const Sdk::Vector2I& getPosition() const override { return d_position; }
+    virtual double getRotation() const override { return d_rotation; }
+    virtual const Sdk::Vector2I& getSize() const override { return d_size; }
+    virtual const Sdk::Vector4F& getColor() const override { return d_color; }
+    virtual RECT getSourceRect() const override;
+
     void setTexture(const ITexture* i_texture);
     void setTexture(const ITexture& i_texture);
-    const ITexture* getTexture() const { return d_texture; }
 
     void setPosition(Sdk::Vector2I i_position) { d_position = std::move(i_position); }
-    const Sdk::Vector2I& getPosition() const { return d_position; }
 
     Sdk::RectI getRect() const;
 
     void setColor(Sdk::Vector4F i_color) { d_color = std::move(i_color); }
-    const Sdk::Vector4F& getColor() const { return d_color; }
 
     void setSize(Sdk::Vector2I i_size) { d_size = std::move(i_size); }
-    const Sdk::Vector2I& getSize() const { return d_size; }
     void resetSizeToTexture();
 
     void setRotation(double i_rotation) { d_rotation = i_rotation; }
-    double getRotation() const { return d_rotation; }
-
-    virtual RECT getSourceRect() const;
 
   protected:
     const ITexture* d_texture = nullptr;
