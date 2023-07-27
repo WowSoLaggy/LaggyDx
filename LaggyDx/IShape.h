@@ -10,12 +10,12 @@ namespace Dx
   class IShape
   {
   public:
-    static std::shared_ptr<IShape> createCustom(
+    static std::unique_ptr<IShape> createCustom(
       const std::vector<Sdk::Vector2F>& i_verts,
       const std::vector<int>& i_inds);
 
-    static std::shared_ptr<IShape> createCircle(float i_radius, int i_numPoints);
-    static std::shared_ptr<IShape> createCircle(float i_radius, int i_numPoints,
+    static std::unique_ptr<IShape> createCircle(float i_radius, int i_numPoints);
+    static std::unique_ptr<IShape> createCircle(float i_radius, int i_numPoints,
                                                 float i_startAngle, float i_endAngle);
 
   public:
