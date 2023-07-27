@@ -156,6 +156,7 @@
     <ClInclude Include="HeightMap.h" />
     <ClInclude Include="IBitmap.h" />
     <ClInclude Include="ISprite.h" />
+    <ClInclude Include="ISpriteShader.h" />
     <ClInclude Include="MemoryTexture.h" />
     <ClInclude Include="RefreshRate.h" />
     <ClInclude Include="Roam.h" />
@@ -206,6 +207,7 @@
     <ClInclude Include="SimpleShader.h" />
     <ClInclude Include="SkydomeShader.h" />
     <ClInclude Include="Slider.h" />
+    <ClInclude Include="SpriteShader.h" />
     <ClInclude Include="TextureBase.h" />
     <ClInclude Include="ThirdPersonCamera.h" />
     <ClInclude Include="FontResource.h" />
@@ -303,6 +305,7 @@
     <ClCompile Include="CBuffer.cpp" />
     <ClCompile Include="Checkbox.cpp" />
     <ClCompile Include="HeightMap.cpp" />
+    <ClCompile Include="ISpriteShader.cpp" />
     <ClCompile Include="MemoryTexture.cpp" />
     <ClCompile Include="Roam.cpp" />
     <ClCompile Include="FbxResource.cpp" />
@@ -337,6 +340,7 @@
     <ClCompile Include="SimpleShader.cpp" />
     <ClCompile Include="SkydomeShader.cpp" />
     <ClCompile Include="Slider.cpp" />
+    <ClCompile Include="SpriteShader.cpp" />
     <ClCompile Include="TextureBase.cpp" />
     <ClCompile Include="Tri.cpp" />
     <ClCompile Include="VertexLayout.cpp" />
@@ -444,6 +448,17 @@
       <VariableName>g_skydomeVs</VariableName>
       <HeaderFileOutput>Generated/Skydome.gen.vs.h</HeaderFileOutput>
     </FxCompile>
+    <FxCompile Include="SpriteShader.ps.hlsl">
+      <ShaderType>Pixel</ShaderType>
+      <VariableName>g_spritePs</VariableName>
+      <HeaderFileOutput>Generated/Sprite.gen.ps.h</HeaderFileOutput>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="SpriteShader.vs.hlsl">
+      <ShaderType>Vertex</ShaderType>
+      <VariableName>g_spriteVs</VariableName>
+      <HeaderFileOutput>Generated/Sprite.gen.vs.h</HeaderFileOutput>
+      <ShaderModel>5.0</ShaderModel>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

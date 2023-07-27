@@ -18,6 +18,8 @@ namespace Dx
     static std::unique_ptr<IShape> createCircle(float i_radius, int i_numPoints,
                                                 float i_startAngle, float i_endAngle);
 
+    static std::unique_ptr<IShape> createRect(float i_width, float i_height);
+
   public:
     virtual ~IShape() = default;
 

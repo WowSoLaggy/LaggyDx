@@ -142,6 +142,9 @@
     <Filter Include="src\App">
       <UniqueIdentifier>{92269b4c-3b87-47fd-8b61-a313a17a0edd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Shaders\SpriteShader">
+      <UniqueIdentifier>{36c0b39c-5b0f-435a-b77d-0623e030c1b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -573,6 +576,12 @@
     <ClInclude Include="DxResourceWrapper.h">
       <Filter>src\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="SpriteShader.h">
+      <Filter>src\Shaders\SpriteShader</Filter>
+    </ClInclude>
+    <ClInclude Include="ISpriteShader.h">
+      <Filter>src\Shaders\SpriteShader</Filter>
+    </ClInclude>
     <ClInclude Include="Shader3d.h">
       <Filter>src\Shaders</Filter>
     </ClInclude>
@@ -902,6 +911,12 @@
     <ClCompile Include="TextureBase.cpp">
       <Filter>src\Resources\Textures</Filter>
     </ClCompile>
+    <ClCompile Include="SpriteShader.cpp">
+      <Filter>src\Shaders\SpriteShader</Filter>
+    </ClCompile>
+    <ClCompile Include="ISpriteShader.cpp">
+      <Filter>src\Shaders\SpriteShader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="OceanShader.ps.hlsl">
@@ -921,6 +936,12 @@
     </FxCompile>
     <FxCompile Include="SkydomeShader.vs.hlsl">
       <Filter>src\Shaders\SkydomeShader</Filter>
+    </FxCompile>
+    <FxCompile Include="SpriteShader.ps.hlsl">
+      <Filter>src\Shaders\SpriteShader</Filter>
+    </FxCompile>
+    <FxCompile Include="SpriteShader.vs.hlsl">
+      <Filter>src\Shaders\SpriteShader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

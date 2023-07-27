@@ -3,6 +3,11 @@
 
 namespace Dx
 {
+  struct WorldMatrix
+  {
+    XMMATRIX world;
+  };
+
   struct WorldViewProj
   {
     XMMATRIX world;

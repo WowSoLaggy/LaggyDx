@@ -47,4 +47,19 @@ namespace Dx
     return createCustom(points, inds);
   }
 
+
+  std::unique_ptr<IShape> IShape::createRect(float i_width, float i_height)
+  {
+    const std::vector<Sdk::Vector2F> points{
+      { 0, 0 },
+      { i_width, 0 },
+      { i_width, i_height },
+      { 0, i_height },
+    };
+
+    const std::vector<int> inds{ 0, 1, 2, 0, 2, 3 };
+
+    return createCustom(points, inds);
+  }
+
 } // ns Dx
