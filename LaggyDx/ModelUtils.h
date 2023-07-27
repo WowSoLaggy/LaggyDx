@@ -9,6 +9,8 @@
 namespace Dx
 {
   std::unique_ptr<IMesh> createMeshFromShape(
+    const IShape2d& i_shape, const IRenderDevice& i_renderDevice);
+  std::unique_ptr<IMesh> createMeshFromShape(
     const IShape3d& i_shape, const IRenderDevice& i_renderDevice, bool i_addDefaultMaterial);
   std::unique_ptr<IMesh> createMeshFromAabb(const Aabb& i_aabb, const IRenderDevice& i_renderDevice);
 

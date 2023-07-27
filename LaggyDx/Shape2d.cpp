@@ -20,37 +20,8 @@ namespace Dx
     std::copy(i_inds.cbegin(), i_inds.cend(), d_inds.begin());
   }
 
-
-  const Sdk::Vector4F& Shape2d::getColor() const
-  {
-    return d_color;
-  }
-
-  void Shape2d::setColor(Sdk::Vector4F i_color)
-  {
-    d_color = std::move(i_color);
-  }
-
-
-  const VertexPositionColor* Shape2d::getVerts() const
-  {
-    return d_verts.data();
-  }
-
-  std::size_t Shape2d::getVertsCount() const
-  {
-    return d_verts.size();
-  }
-
-
-  const std::uint16_t* Shape2d::getInds() const
-  {
-    return d_inds.data();
-  }
-
-  std::size_t Shape2d::getIndsCount() const
-  {
-    return d_inds.size();
-  }
+  
+  const std::vector<VertexPositionColor>& Shape2d::getVerts() const { return d_verts; }
+  const std::vector<int>& Shape2d::getInds() const { return d_inds; }
 
 } // ns Dx

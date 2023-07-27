@@ -2,6 +2,7 @@
 #include "ModelUtils.h"
 
 #include "Aabb.h"
+#include "IShape2d.h"
 #include "IShape3d.h"
 #include "IndexBuffer.h"
 #include "Mesh.h"
@@ -12,6 +13,16 @@
 
 namespace Dx
 {
+  std::unique_ptr<IMesh> createMeshFromShape(
+    const IShape2d& i_shape, const IRenderDevice& i_renderDevice)
+  {
+    auto mesh = std::make_unique<Mesh>();
+    mesh->setVertexBuffer(std::make_unique<VertexBuffer>(i_renderDevice, i_shape.getVerts()));
+    mesh->setIndexBuffer(std::make_unique<IndexBuffer>(i_renderDevice, i_shape.getInds()));
+
+    return mesh;
+  }
+
   std::unique_ptr<IMesh> createMeshFromShape(
     const IShape3d& i_shape, const IRenderDevice& i_renderDevice, const bool i_addDefaultMaterial)
   {

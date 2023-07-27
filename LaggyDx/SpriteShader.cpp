@@ -41,7 +41,7 @@ namespace Dx
   void SpriteShader::createSpriteMesh()
   {
     const auto shape = IShape2d::createRect(10, 10);
-    //d_spriteMesh = createMeshFromShape(*shape, getRenderDevice());
+    d_spriteMesh = createMeshFromShape(*shape, getRenderDevice());
   }
 
 

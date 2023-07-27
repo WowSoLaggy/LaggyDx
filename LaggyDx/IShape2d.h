@@ -23,14 +23,8 @@ namespace Dx
   public:
     virtual ~IShape2d() = default;
 
-    virtual const Sdk::Vector4F& getColor() const = 0;
-    virtual void setColor(Sdk::Vector4F i_color) = 0;
-
-    virtual const DirectX::VertexPositionColor* getVerts() const = 0;
-    virtual std::size_t getVertsCount() const = 0;
-
-    virtual const std::uint16_t* getInds() const = 0;
-    virtual std::size_t getIndsCount() const = 0;
+    virtual const std::vector<VertexPositionColor>& getVerts() const = 0;
+    virtual const std::vector<int>& getInds() const = 0;
   };
 
 } // ns Dx
