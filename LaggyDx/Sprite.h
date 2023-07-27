@@ -14,6 +14,7 @@ namespace Dx
     virtual const ITexture* getTexture() const override { return d_texture; }
     virtual const Sdk::Vector2I& getPosition() const override { return d_position; }
     virtual double getRotation() const override { return d_rotation; }
+    virtual double getScale() const override { return d_scale; }
     virtual const Sdk::Vector2I& getSize() const override { return d_size; }
     virtual const Sdk::Vector4F& getColor() const override { return d_color; }
     virtual RECT getSourceRect() const override;
@@ -38,6 +39,7 @@ namespace Dx
     Sdk::Vector2I d_size = Sdk::Vector2I::zero();
     Sdk::Vector4F d_color = Sdk::Vector4F::identity();
     double d_rotation = 0.0;
+    double d_scale = 1.0;
 
   public:
     virtual void writeTo(std::ostream& io_stream) const;
