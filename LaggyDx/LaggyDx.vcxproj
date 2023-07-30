@@ -281,13 +281,13 @@
     <ClInclude Include="TopologyTypes.h" />
     <ClInclude Include="Tri.h" />
     <ClInclude Include="VertexLayout.h" />
+    <ClInclude Include="VertexTypes.h" />
     <ClInclude Include="VsBinResource.h" />
     <ClInclude Include="VsHlslResource.h" />
     <ClInclude Include="VsResource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="VertexBuffer.h" />
-    <ClInclude Include="VertexPosNormText.h" />
     <ClInclude Include="CollShapeMover.h" />
     <ClInclude Include="_ShaderUtils.h" />
   </ItemGroup>
@@ -344,7 +344,7 @@
     <ClCompile Include="TextureBase.cpp" />
     <ClCompile Include="Tri.cpp" />
     <ClCompile Include="VertexLayout.cpp" />
-    <ClCompile Include="VertexPosNormText.cpp" />
+    <ClCompile Include="VertexTypes.cpp" />
     <ClCompile Include="VsBinResource.cpp" />
     <ClCompile Include="ThirdPersonCamera.cpp" />
     <ClCompile Include="ColliderBase.cpp" />

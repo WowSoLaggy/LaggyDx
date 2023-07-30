@@ -13,18 +13,18 @@ namespace Dx
 {
   namespace
   {
-    std::vector<VertexPosNormText> getVertices(const ofbx::Geometry& i_geometry)
+    std::vector<VertexPos3NormText> getVertices(const ofbx::Geometry& i_geometry)
     {
       const int vertexCount = i_geometry.getVertexCount();
       const auto* vertices = i_geometry.getVertices();
       const auto* normals = i_geometry.getNormals();
       const auto* uvs = i_geometry.getUVs();
 
-      std::vector<VertexPosNormText> verts;
+      std::vector<VertexPos3NormText> verts;
       verts.reserve(vertexCount);
       for (int i = 0; i < vertexCount; ++i)
       {
-        VertexPosNormText vert;
+        VertexPos3NormText vert;
 
         vert.position = { (float)vertices[i].x, (float)vertices[i].y, (float)vertices[i].z };
 

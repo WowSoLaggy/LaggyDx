@@ -14,4 +14,8 @@ namespace Dx
     Sdk::Vector2F texture;
   };
 
+  /*struct VertexPosTextCol
+  {
+  };*/
+
 } // ns Dx

@@ -47,12 +47,12 @@ namespace Dx
   {
     auto mesh = std::make_unique<Mesh>();
 
-    std::vector<VertexPosNormText> verts;
+    std::vector<VertexPos3NormText> verts;
     std::vector<int> inds;
 
     auto add = [&](Sdk::Vector3F i_pos)
     {
-      VertexPosNormText vert;
+      VertexPos3NormText vert;
       vert.position = std::move(i_pos);
       verts.push_back(std::move(vert));
     };

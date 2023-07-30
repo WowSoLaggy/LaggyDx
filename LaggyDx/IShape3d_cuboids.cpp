@@ -9,9 +9,9 @@ namespace Dx
 {
   namespace
   {
-    std::vector<VertexPosNormText> generateCubeVerts(const float i_size)
+    std::vector<VertexPos3NormText> generateCubeVerts(const float i_size)
     {
-      std::vector<VertexPosNormText> verts(6 * 4);
+      std::vector<VertexPos3NormText> verts(6 * 4);
 
       Sdk::Vector3F normal;
       int ind = 0;

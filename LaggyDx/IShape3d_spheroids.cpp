@@ -12,12 +12,12 @@ namespace Dx
 {
   namespace
   {
-    std::vector<VertexPosNormText> generateSphereVerts(
+    std::vector<VertexPos3NormText> generateSphereVerts(
       const float i_radius, const int i_stackCount, const int i_sliceCount, const float i_textureCoeff)
     {
-      std::vector<VertexPosNormText> verts;
+      std::vector<VertexPos3NormText> verts;
 
-      VertexPosNormText northPole;
+      VertexPos3NormText northPole;
       northPole.position = { 0, i_radius, 0 };
       northPole.normal = { 0, 1.0f, 0 };
       northPole.texture = { 0, 0 };
@@ -35,7 +35,7 @@ namespace Dx
           const auto pos = getVectorByYawAndPitch(
             thetaStep * slice, phiStep * stack - Sdk::PiHalf) * i_radius;
 
-          VertexPosNormText p;
+          VertexPos3NormText p;
           p.position = pos.getVector<float>();
           p.normal = Sdk::normalize(p.position);
           p.texture = { (float)slice / i_sliceCount, (float)(i_stackCount - stack) / i_stackCount };
@@ -44,7 +44,7 @@ namespace Dx
         }
       }
 
-      VertexPosNormText southPole;
+      VertexPos3NormText southPole;
       southPole.position = { 0, -i_radius, 0 };
       southPole.normal = { 0, -1.0f, 0 };
       southPole.texture = { 0, 1 };

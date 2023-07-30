@@ -4,7 +4,7 @@
 
 namespace Dx
 {
-  void invertVerts(std::vector<VertexPosNormText>& io_verts, std::vector<int>& io_inds)
+  void invertVerts(std::vector<VertexPos3NormText>& io_verts, std::vector<int>& io_inds)
   {
     // Make sure that the correct number of inds is passed
     CONTRACT_EXPECT(io_inds.size() % 3 == 0);
@@ -17,7 +17,7 @@ namespace Dx
   }
 
 
-  void traverseVertices(std::vector<VertexPosNormText>& io_verts, VertexVisitor i_visitor)
+  void traverseVertices(std::vector<VertexPos3NormText>& io_verts, VertexVisitor i_visitor)
   {
     for (auto& vert : io_verts)
       i_visitor(vert);

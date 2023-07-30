@@ -67,7 +67,7 @@ namespace Dx
 
   void MeshLoader::loadInfoFromObjFile(
     const std::string& i_modelPath,
-    std::vector<VertexPosNormText>& o_vertices, std::vector<int>& o_indices,
+    std::vector<VertexPos3NormText>& o_vertices, std::vector<int>& o_indices,
     std::vector<MaterialSpan>& o_matSequence)
   {
     o_vertices.clear();

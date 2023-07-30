@@ -2,7 +2,7 @@
 
 #include "LaggyDxFwd.h"
 #include "RenderDevice.h"
-#include "VertexPosNormText.h"
+#include "VertexTypes.h"
 
 
 namespace Dx

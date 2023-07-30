@@ -10,17 +10,17 @@ namespace Dx
   {
   public:
     Shape3d() = default;
-    Shape3d(std::vector<VertexPosNormText> i_verts, std::vector<int> i_inds);
+    Shape3d(std::vector<VertexPos3NormText> i_verts, std::vector<int> i_inds);
 
-    virtual const std::vector<VertexPosNormText>& getVerts() const override;
+    virtual const std::vector<VertexPos3NormText>& getVerts() const override;
     virtual const std::vector<int>& getInds() const override;
     virtual const Aabb& getAabb() const override;
 
-    void setVerts(std::vector<VertexPosNormText> i_verts);
+    void setVerts(std::vector<VertexPos3NormText> i_verts);
     void setInds(std::vector<int> i_inds);
 
   private:
-    std::vector<VertexPosNormText> d_verts;
+    std::vector<VertexPos3NormText> d_verts;
     std::vector<int> d_inds;
     Aabb d_aabb;
 

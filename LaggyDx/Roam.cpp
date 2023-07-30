@@ -11,10 +11,10 @@ namespace Dx
 {
   Roam::Roam(const double i_size)
   {
-    d_points.push_back(VertexPosNormText::pos({ 0, 0, 0 }));
-    d_points.push_back(VertexPosNormText::pos({ 0, 0, (float)i_size }));
-    d_points.push_back(VertexPosNormText::pos({ (float)i_size, 0, (float)i_size }));
-    d_points.push_back(VertexPosNormText::pos({ (float)i_size, 0, 0 }));
+    d_points.push_back(VertexPos3NormText::pos({ 0, 0, 0 }));
+    d_points.push_back(VertexPos3NormText::pos({ 0, 0, (float)i_size }));
+    d_points.push_back(VertexPos3NormText::pos({ (float)i_size, 0, (float)i_size }));
+    d_points.push_back(VertexPos3NormText::pos({ (float)i_size, 0, 0 }));
 
     d_root = std::make_shared<Tri>(0, 1, 3);
     auto rootBase = std::make_shared<Tri>(2, 3, 1);
@@ -120,7 +120,7 @@ namespace Dx
     auto newPointPos = (d_points.at(i_tri->ind2).position + d_points.at(i_tri->ind3).position) / 2;
     if (i_heightMap)
       newPointPos.y = (float)i_heightMap->getHeight(newPointPos.x, newPointPos.z);
-    d_points.push_back(VertexPosNormText::pos(std::move(newPointPos)));
+    d_points.push_back(VertexPos3NormText::pos(std::move(newPointPos)));
     int newInd = (int)d_points.size() - 1;
 
     i_tri->leftChild = std::make_shared<Tri>(newInd, i_tri->ind1, i_tri->ind2);
@@ -256,7 +256,7 @@ namespace Dx
   }
 
 
-  const std::vector<VertexPosNormText>& Roam::getPoints() const
+  const std::vector<VertexPos3NormText>& Roam::getPoints() const
   {
     return d_points;
   }

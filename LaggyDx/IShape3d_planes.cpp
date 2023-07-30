@@ -9,17 +9,17 @@ namespace Dx
 {
   namespace
   {
-    std::vector<VertexPosNormText> generatePlaneVerts(
+    std::vector<VertexPos3NormText> generatePlaneVerts(
       const Sdk::Size2I& i_ptsCount, const float i_dist, const float i_textureCoef)
     {
-      std::vector<VertexPosNormText> verts(i_ptsCount.x * i_ptsCount.y);
+      std::vector<VertexPos3NormText> verts(i_ptsCount.x * i_ptsCount.y);
 
       int ind = 0;
       for (int y = 0; y < i_ptsCount.y; ++y)
       {
         for (int x = 0; x < i_ptsCount.x; ++x)
         {
-          VertexPosNormText p;
+          VertexPos3NormText p;
           p.position = { i_dist * x, 0.0f, i_dist * y };
           p.normal = { 0.0f, 1.0f, 0.0f };
           p.texture = Sdk::Vector2F{ p.position.x, p.position.z } * i_textureCoef; 
@@ -61,35 +61,35 @@ namespace Dx
     }
 
 
-    std::vector<VertexPosNormText> generateRectVerts(
+    std::vector<VertexPos3NormText> generateRectVerts(
       const Sdk::Size2I& i_ptsCount, const float i_dist, const float i_textureCoef)
     {
-      std::vector<VertexPosNormText> verts;
+      std::vector<VertexPos3NormText> verts;
 
       for (int x = 0; x < i_ptsCount.x; ++x)
       {
-        VertexPosNormText p0;
+        VertexPos3NormText p0;
         p0.position = { i_dist * x, 0, 0 };
         verts.push_back(std::move(p0));
       }
 
       for (int x = 0; x < i_ptsCount.x; ++x)
       {
-        VertexPosNormText p1;
+        VertexPos3NormText p1;
         p1.position = { i_dist * x, 0, i_dist * (i_ptsCount.y - 1)};
         verts.push_back(std::move(p1));
       }
 
       for (int y = 0; y < i_ptsCount.y; ++y)
       {
-        VertexPosNormText p0;
+        VertexPos3NormText p0;
         p0.position = { 0, 0, i_dist * y };
         verts.push_back(std::move(p0));
       }
 
       for (int y = 0; y < i_ptsCount.y; ++y)
       {
-        VertexPosNormText p1;
+        VertexPos3NormText p1;
         p1.position = { i_dist * (i_ptsCount.x - 1), 0, i_dist * y };
         verts.push_back(std::move(p1));
       }
@@ -251,7 +251,7 @@ namespace Dx
 
     invertVerts(verts, inds);
 
-    traverseVertices(verts, [&](VertexPosNormText& i_vert) {
+    traverseVertices(verts, [&](VertexPos3NormText& i_vert) {
       i_vert.position += Sdk::Vector3F{ -i_radius / 2, 1, -i_radius / 2 };
       i_vert.position.normalize();
       i_vert.position += Sdk::Vector3F{ 0, -0.5f, 0 };

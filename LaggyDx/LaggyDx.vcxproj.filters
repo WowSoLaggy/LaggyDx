@@ -519,9 +519,6 @@
     <ClInclude Include="Shape3dUtils.h">
       <Filter>src\Shapes\3d</Filter>
     </ClInclude>
-    <ClInclude Include="VertexPosNormText.h">
-      <Filter>src\Vertices</Filter>
-    </ClInclude>
     <ClInclude Include="VertexLayout.h">
       <Filter>src\Vertices</Filter>
     </ClInclude>
@@ -590,6 +587,9 @@
     </ClInclude>
     <ClInclude Include="ISprite.h">
       <Filter>src\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexTypes.h">
+      <Filter>src\Vertices</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -878,9 +878,6 @@
     <ClCompile Include="IShape3d.cpp">
       <Filter>src\Shapes\3d</Filter>
     </ClCompile>
-    <ClCompile Include="VertexPosNormText.cpp">
-      <Filter>src\Vertices</Filter>
-    </ClCompile>
     <ClCompile Include="Tri.cpp">
       <Filter>src\Roam</Filter>
     </ClCompile>
@@ -916,6 +913,9 @@
     </ClCompile>
     <ClCompile Include="ISpriteShader.cpp">
       <Filter>src\Shaders\SpriteShader</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexTypes.cpp">
+      <Filter>src\Vertices</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
