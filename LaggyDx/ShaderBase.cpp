@@ -75,9 +75,9 @@ namespace Dx
   }
 
 
-  void ShaderBase::drawIndexed(const int i_count, const int i_startIndex) const
+  void ShaderBase::drawIndexed(const int i_indexCount, const int i_startIndex) const
   {
-    getRenderDevice().getDeviceContextPtr()->DrawIndexed(i_count, i_startIndex, 0);
+    getRenderDevice().getDeviceContextPtr()->DrawIndexed(i_indexCount, i_startIndex, 0);
   }
 
 } // ns Dx
