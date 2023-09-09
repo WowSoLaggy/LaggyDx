@@ -38,15 +38,14 @@ namespace Dx
   const std::vector<ID3D11SamplerState*>& ShaderWrapper::getSamplers() const { return d_samplers; }
 
 
-  void ShaderWrapper::initVs(const void* i_shaderBytes, int i_shaderSize)
+  void ShaderWrapper::initVs(const void* i_shaderBytes, int i_shaderSize, const VertexLayout& i_vertexLayout)
   {
     HRESULT hRes = d_renderDevice.getDevicePtr()->CreateVertexShader(
       i_shaderBytes, i_shaderSize, NULL, &d_vs);
     CONTRACT_ASSERT(!FAILED(hRes));
     CONTRACT_ASSERT(d_vs != nullptr);
 
-    const auto& layout = getVertexLayout();
-    hRes = d_renderDevice.getDevicePtr()->CreateInputLayout(layout.data(), (int)layout.size(),
+    hRes = d_renderDevice.getDevicePtr()->CreateInputLayout(i_vertexLayout.data(), (int)i_vertexLayout.size(),
       i_shaderBytes, i_shaderSize, &d_layout);
     CONTRACT_ASSERT(!FAILED(hRes));
     CONTRACT_ASSERT(d_layout != nullptr);

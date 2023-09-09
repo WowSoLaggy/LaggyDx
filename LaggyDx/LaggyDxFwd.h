@@ -33,6 +33,8 @@ namespace Dx
   class VertexBuffer;
   class IndexBuffer;
 
+  class VertexLayout;
+
   struct Material;
   struct MaterialSpan;
 

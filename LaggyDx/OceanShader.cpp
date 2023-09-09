@@ -31,7 +31,7 @@ namespace Dx
     , d_emptyTexture(getResourceController().getTexture("white.png"))
     , d_bumpTexture(getResourceController().getTexture("bump.png"))
   {
-    getShaders().initVs(g_oceanVs, sizeof(g_oceanVs));
+    getShaders().initVs(g_oceanVs, sizeof(g_oceanVs), getVertexLayoutPos3NormText());
     getShaders().initPs(g_oceanPs, sizeof(g_oceanPs));
     getShaders().addSampler(true);
   }

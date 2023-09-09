@@ -14,8 +14,12 @@ namespace Dx
     Sdk::Vector2F texture;
   };
 
-  /*struct VertexPosTextCol
+  struct VertexPos2Text
   {
-  };*/
+    static VertexPos2Text posTex(Sdk::Vector2F i_position, Sdk::Vector2F i_texture);
+
+    Sdk::Vector2F position;
+    Sdk::Vector2F texture;
+  };
 
 } // ns Dx

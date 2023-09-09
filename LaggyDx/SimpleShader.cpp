@@ -8,6 +8,7 @@
 #include "RenderDevice.h"
 #include "ShadersUtils.h"
 #include "Texture.h"
+#include "VertexLayout.h"
 
 #include "Generated/Simple.gen.ps.h"
 #include "Generated/Simple.gen.vs.h"
@@ -22,7 +23,7 @@ namespace Dx
     , d_camera(i_camera)
     , d_emptyTexture(getResourceController().getTexture("white.png"))
   {
-    getShaders().initVs(g_simpleVs, sizeof(g_simpleVs));
+    getShaders().initVs(g_simpleVs, sizeof(g_simpleVs), getVertexLayoutPos3NormText());
     getShaders().initPs(g_simplePs, sizeof(g_simplePs));
     getShaders().addSampler(true);
   }

@@ -11,7 +11,7 @@ namespace Dx
     ShaderWrapper(const RenderDevice& i_renderDevice);
     ~ShaderWrapper();
 
-    void initVs(const void* i_shaderBytes, int i_shaderSize);
+    void initVs(const void* i_shaderBytes, int i_shaderSize, const VertexLayout& i_vertexLayout);
     void initPs(const void* i_shaderBytes, int i_shaderSize);
     void addSampler(bool i_wrapCoords);
 

@@ -28,7 +28,7 @@ namespace Dx
     , d_cloudsTexture1(getResourceController().getTexture("clouds1.png"))
     , d_cloudsTexture2(getResourceController().getTexture("clouds2.png"))
   {
-    getShaders().initVs(g_skydomeVs, sizeof(g_skydomeVs));
+    getShaders().initVs(g_skydomeVs, sizeof(g_skydomeVs), getVertexLayoutPos3NormText());
     getShaders().initPs(g_skydomePs, sizeof(g_skydomePs));
     getShaders().addSampler(false);
     getShaders().addSampler(true);

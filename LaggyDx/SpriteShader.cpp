@@ -8,6 +8,7 @@
 #include "ModelUtils.h"
 #include "RenderDevice.h"
 #include "ShaderBuffers.h"
+#include "VertexLayout.h"
 
 #include "Generated/Sprite.gen.ps.h"
 #include "Generated/Sprite.gen.vs.h"
@@ -19,7 +20,7 @@ namespace Dx
     : d_matrixBuffer(getRenderDevice(), sizeof(WorldMatrix))
     , d_emptyTexture(getResourceController().getTexture("white.png"))
   {
-    getShaders().initVs(g_spriteVs, sizeof(g_spriteVs));
+    getShaders().initVs(g_spriteVs, sizeof(g_spriteVs), getVertexLayoutPos2Text());
     getShaders().initPs(g_spritePs, sizeof(g_spritePs));
     getShaders().addSampler(true);
 
