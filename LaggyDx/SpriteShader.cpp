@@ -43,7 +43,7 @@ namespace Dx
 
   void SpriteShader::createSpriteMesh()
   {
-    d_spriteMesh = DefaultMeshes::rectangle(800, 450);
+    d_spriteMesh = DefaultMeshes::rectangle(1, 1);
   }
 
   void SpriteShader::createMatrices()
@@ -67,8 +67,10 @@ namespace Dx
       const auto& position = i_sprite.getPosition();
       const float rotation = (float)i_sprite.getRotation();
       const float scale = (float)i_sprite.getScale();
+      const float xSize = (float)i_sprite.getSize().x;
+      const float ySize = (float)i_sprite.getSize().y;
       const auto worldMatrix =
-        XMMatrixScaling(scale, scale, scale) *
+        XMMatrixScaling(scale * xSize, scale * ySize, 1) *
         XMMatrixRotationRollPitchYaw(0, 0, 0) *
         XMMatrixTranslation((float)position.x, (float)position.y, 0);
 
