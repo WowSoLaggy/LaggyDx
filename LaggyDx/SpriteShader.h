@@ -20,6 +20,10 @@ namespace Dx
     
     CBuffer d_matrixBuffer;
 
+    DirectX::XMMATRIX d_viewMatrix;
+    DirectX::XMMATRIX d_projMatrix;
+    void createMatrices();
+
     void createSpriteMesh();
 
     void setXfmMatrices(const ISprite& i_sprite) const;

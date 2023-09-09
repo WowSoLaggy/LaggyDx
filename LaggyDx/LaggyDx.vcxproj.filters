@@ -588,6 +588,9 @@
     <ClInclude Include="ISprite.h">
       <Filter>src\Sprite</Filter>
     </ClInclude>
+    <ClInclude Include="DefaultMeshes.h">
+      <Filter>src\Model</Filter>
+    </ClInclude>
     <ClInclude Include="VertexTypes.h">
       <Filter>src\Vertices</Filter>
     </ClInclude>
@@ -913,6 +916,9 @@
     </ClCompile>
     <ClCompile Include="ISpriteShader.cpp">
       <Filter>src\Shaders\SpriteShader</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultMeshes.cpp">
+      <Filter>src\Model</Filter>
     </ClCompile>
     <ClCompile Include="VertexTypes.cpp">
       <Filter>src\Vertices</Filter>

@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "SpriteShader.h"
 
+#include "DefaultMeshes.h"
 #include "IResourceController.h"
 #include "IShape2d.h"
 #include "ISprite.h"
 #include "ITexture.h"
-#include "ModelUtils.h"
 #include "RenderDevice.h"
 #include "ShaderBuffers.h"
 #include "VertexLayout.h"
@@ -17,14 +17,16 @@
 namespace Dx
 {
   SpriteShader::SpriteShader()
-    : d_matrixBuffer(getRenderDevice(), sizeof(WorldMatrix))
+    : d_matrixBuffer(getRenderDevice(), sizeof(WorldViewProj))
     , d_emptyTexture(getResourceController().getTexture("white.png"))
   {
     getShaders().initVs(g_spriteVs, sizeof(g_spriteVs), getVertexLayoutPos2Text());
     getShaders().initPs(g_spritePs, sizeof(g_spritePs));
     getShaders().addSampler(true);
 
+    disableDepthBuffer();
     createSpriteMesh();
+    createMatrices();
   }
 
 
@@ -35,14 +37,26 @@ namespace Dx
     setXfmMatrices(i_sprite);
     setTexture(i_sprite);
     setGeometryBuffers();
-    drawIndexed(4, 0);
+    drawIndexed(d_spriteMesh->getIndexBuffer().getIndexCount(), 0);
   }
 
 
   void SpriteShader::createSpriteMesh()
   {
-    const auto shape = IShape2d::createRect(10, 10);
-    d_spriteMesh = createMeshFromShape(*shape, getRenderDevice());
+    d_spriteMesh = DefaultMeshes::rectangle(800, 450);
+  }
+
+  void SpriteShader::createMatrices()
+  {
+    d_viewMatrix = XMMatrixTranspose(XMMatrixIdentity());
+
+    const float left = 0;
+    const float right = (float)getRenderDevice().getResolution().x;
+    const float bottom = (float)getRenderDevice().getResolution().y;
+    const float top = 0;
+    const float nearZ = 0;
+    const float farZ = 1;
+    d_projMatrix = XMMatrixTranspose(XMMatrixOrthographicOffCenterLH(left, right, bottom, top, nearZ, farZ));
   }
 
 
@@ -61,13 +75,15 @@ namespace Dx
       return XMMatrixTranspose(worldMatrix);
     };
 
-    const auto worldMatrix = getWorldMatrixTransposed();
+    {
+      D3D11_MAPPED_SUBRESOURCE mappedResource;
+      getRenderDevice().getDeviceContextPtr()->Map(d_matrixBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-    D3D11_MAPPED_SUBRESOURCE mappedResource;
-    getRenderDevice().getDeviceContextPtr()->Map(d_matrixBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-
-    auto* dataPtr = (WorldMatrix*)mappedResource.pData;
-    dataPtr->world = worldMatrix;
+      auto* dataPtr = (WorldViewProj*)mappedResource.pData;
+      dataPtr->world = getWorldMatrixTransposed();
+      dataPtr->view = d_viewMatrix;
+      dataPtr->projection = d_projMatrix;
+    }
 
     getRenderDevice().getDeviceContextPtr()->Unmap(d_matrixBuffer.get(), 0);
 

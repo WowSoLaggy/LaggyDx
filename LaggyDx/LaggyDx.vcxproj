@@ -152,6 +152,7 @@
     <ClInclude Include="CameraBase.h" />
     <ClInclude Include="CBuffer.h" />
     <ClInclude Include="ChannelInfo.h" />
+    <ClInclude Include="DefaultMeshes.h" />
     <ClInclude Include="DxResourceWrapper.h" />
     <ClInclude Include="HeightMap.h" />
     <ClInclude Include="IBitmap.h" />
@@ -304,6 +305,7 @@
     <ClCompile Include="CameraBase.cpp" />
     <ClCompile Include="CBuffer.cpp" />
     <ClCompile Include="Checkbox.cpp" />
+    <ClCompile Include="DefaultMeshes.cpp" />
     <ClCompile Include="HeightMap.cpp" />
     <ClCompile Include="ISpriteShader.cpp" />
     <ClCompile Include="MemoryTexture.cpp" />
