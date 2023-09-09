@@ -27,8 +27,8 @@ namespace Dx
     {
       D3D11_RASTERIZER_DESC rasterizerDescription = {};
 
-      rasterizerDescription.FillMode = D3D11_FILL_SOLID;
-      rasterizerDescription.CullMode = D3D11_CULL_BACK;
+      rasterizerDescription.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
+      rasterizerDescription.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
       rasterizerDescription.FrontCounterClockwise = true;
       rasterizerDescription.DepthBias = 0;
       rasterizerDescription.DepthBiasClamp = 0.0f;
