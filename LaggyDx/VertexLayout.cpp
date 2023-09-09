@@ -20,7 +20,7 @@ namespace Dx
         p.InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
         p.InstanceDataStepRate = 0;
 
-        layout.push_back(std::move(p));
+        layout.elements.push_back(std::move(p));
       }
 
       {
@@ -33,7 +33,7 @@ namespace Dx
         p.InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
         p.InstanceDataStepRate = 0;
 
-        layout.push_back(std::move(p));
+        layout.elements.push_back(std::move(p));
       }
 
       {
@@ -46,7 +46,7 @@ namespace Dx
         p.InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
         p.InstanceDataStepRate = 0;
 
-        layout.push_back(std::move(p));
+        layout.elements.push_back(std::move(p));
       }
 
       return layout;
@@ -66,7 +66,7 @@ namespace Dx
         p.InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
         p.InstanceDataStepRate = 0;
 
-        layout.push_back(std::move(p));
+        layout.elements.push_back(std::move(p));
       }
 
       {
@@ -79,7 +79,7 @@ namespace Dx
         p.InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
         p.InstanceDataStepRate = 0;
 
-        layout.push_back(std::move(p));
+        layout.elements.push_back(std::move(p));
       }
 
       return layout;

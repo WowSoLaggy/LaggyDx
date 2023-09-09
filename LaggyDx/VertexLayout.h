@@ -3,10 +3,10 @@
 
 namespace Dx
 {
-  class VertexLayout : public std::vector<D3D11_INPUT_ELEMENT_DESC>
+  class VertexLayout
   {
-    // TODO: ae
-    // Change inheritance to aggregation
+  public:
+    std::vector<D3D11_INPUT_ELEMENT_DESC> elements;
   };
 
   const VertexLayout& getVertexLayoutPos3NormText();

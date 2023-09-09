@@ -45,7 +45,7 @@ namespace Dx
     CONTRACT_ASSERT(!FAILED(hRes));
     CONTRACT_ASSERT(d_vs != nullptr);
 
-    hRes = d_renderDevice.getDevicePtr()->CreateInputLayout(i_vertexLayout.data(), (int)i_vertexLayout.size(),
+    hRes = d_renderDevice.getDevicePtr()->CreateInputLayout(i_vertexLayout.elements.data(), (int)i_vertexLayout.elements.size(),
       i_shaderBytes, i_shaderSize, &d_layout);
     CONTRACT_ASSERT(!FAILED(hRes));
     CONTRACT_ASSERT(d_layout != nullptr);
