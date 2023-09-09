@@ -30,8 +30,12 @@ namespace Dx
     
     void drawIndexed(int i_indexCount, int i_startIndex) const;
 
+    void enableDepthBuffer();
+    void disableDepthBuffer();
+
   private:
     bool d_solidFillMode = true;
+    bool d_enableDepthBuffer = true;
     ShaderWrapper d_shaders;
   };
 
