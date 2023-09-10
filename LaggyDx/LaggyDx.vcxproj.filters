@@ -148,6 +148,9 @@
     <Filter Include="src\Cameras\Camera3">
       <UniqueIdentifier>{f0f1dabb-6ad2-44d9-9f50-bf5a84604fc6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Cameras\Camera2">
+      <UniqueIdentifier>{370a6260-52d9-4cb8-8023-594a9bfab283}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -597,6 +600,12 @@
     <ClInclude Include="ThirdPersonCamera.h">
       <Filter>src\Cameras\Camera3</Filter>
     </ClInclude>
+    <ClInclude Include="ICamera2.h">
+      <Filter>src\Cameras\Camera2</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera2.h">
+      <Filter>src\Cameras\Camera2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -925,6 +934,12 @@
     </ClCompile>
     <ClCompile Include="ThirdPersonCamera.cpp">
       <Filter>src\Cameras\Camera3</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera2.cpp">
+      <Filter>src\Cameras\Camera2</Filter>
+    </ClCompile>
+    <ClCompile Include="ICamera2.cpp">
+      <Filter>src\Cameras\Camera2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

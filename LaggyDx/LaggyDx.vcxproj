@@ -149,6 +149,7 @@
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Bitmap.h" />
+    <ClInclude Include="Camera2.h" />
     <ClInclude Include="Camera3Base.h" />
     <ClInclude Include="CBuffer.h" />
     <ClInclude Include="ChannelInfo.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="DxResourceWrapper.h" />
     <ClInclude Include="HeightMap.h" />
     <ClInclude Include="IBitmap.h" />
+    <ClInclude Include="ICamera2.h" />
     <ClInclude Include="ISprite.h" />
     <ClInclude Include="ISpriteShader.h" />
     <ClInclude Include="MemoryTexture.h" />
@@ -302,11 +304,13 @@
     <ClCompile Include="AnimationController3d.cpp" />
     <ClCompile Include="Bitmap.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Camera2.cpp" />
     <ClCompile Include="Camera3Base.cpp" />
     <ClCompile Include="CBuffer.cpp" />
     <ClCompile Include="Checkbox.cpp" />
     <ClCompile Include="DefaultMeshes.cpp" />
     <ClCompile Include="HeightMap.cpp" />
+    <ClCompile Include="ICamera2.cpp" />
     <ClCompile Include="ISpriteShader.cpp" />
     <ClCompile Include="MemoryTexture.cpp" />
     <ClCompile Include="Roam.cpp" />
