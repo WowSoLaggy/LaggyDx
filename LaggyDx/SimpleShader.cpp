@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "SimpleShader.h"
 
-#include "ICamera.h"
+#include "ICamera3.h"
 #include "IObject3.h"
 #include "IResourceController.h"
 #include "Model.h"
@@ -16,7 +16,7 @@
 
 namespace Dx
 {
-  SimpleShader::SimpleShader(const ICamera& i_camera)
+  SimpleShader::SimpleShader(const ICamera3& i_camera)
     : d_matrixBuffer(getRenderDevice(), sizeof(WorldViewProj))
     , d_cameraBuffer(getRenderDevice(), sizeof(CameraDesc))
     , d_lightBuffer(getRenderDevice(), sizeof(LightDesc))

@@ -9,14 +9,14 @@
 
 namespace Dx
 {
-  class ICamera
+  class ICamera3
   {
   public:
-    static std::unique_ptr<ICamera> createFirstPersonCamera(Sdk::Vector2I i_viewportResolution);
-    static std::unique_ptr<ICamera> createThirdPersonCamera(Sdk::Vector2I i_viewportResolution);
+    static std::unique_ptr<ICamera3> createFirstPersonCamera(Sdk::Vector2I i_viewportResolution);
+    static std::unique_ptr<ICamera3> createThirdPersonCamera(Sdk::Vector2I i_viewportResolution);
 
   public:
-    virtual ~ICamera() = default;
+    virtual ~ICamera3() = default;
 
     virtual float getFovAngle() const = 0;
     virtual void setFovAngle(float i_fovAngle) = 0;

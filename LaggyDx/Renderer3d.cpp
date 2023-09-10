@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Renderer3d.h"
 
-#include "ICamera.h"
+#include "ICamera3.h"
 #include "MaterialSpan.h"
 #include "PsResource.h"
 #include "RenderDevice.h"
@@ -28,7 +28,7 @@ namespace Dx
   Renderer3d::Renderer3d(
     IRenderDevice& io_renderDevice,
     IResourceController& i_resourceController,
-    const ICamera& i_camera)
+    const ICamera3& i_camera)
     : d_renderDevice(io_renderDevice)
     , d_resourceController(i_resourceController)
     , d_camera(i_camera)

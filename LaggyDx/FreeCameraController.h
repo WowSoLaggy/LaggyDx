@@ -13,7 +13,7 @@ namespace Dx
   class FreeCameraController : public IInputController, public Sdk::EventHandler
   {
   public:
-    FreeCameraController(App& i_app, ICamera& i_camera);
+    FreeCameraController(App& i_app, ICamera3& i_camera);
     ~FreeCameraController();
 
     virtual void processEvent(const Sdk::IEvent& i_event) override;

@@ -6,7 +6,7 @@
 
 namespace Dx
 {
-  std::unique_ptr<ISimpleShader> ISimpleShader::create(const ICamera& i_camera)
+  std::unique_ptr<ISimpleShader> ISimpleShader::create(const ICamera3& i_camera)
   {
     return std::make_unique<SimpleShader>(i_camera);
   }

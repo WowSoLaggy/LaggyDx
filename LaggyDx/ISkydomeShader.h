@@ -11,7 +11,7 @@ namespace Dx
   class ISkydomeShader : public Shader3d
   {
   public:
-    static std::unique_ptr<ISkydomeShader> create(const ICamera& i_camera);
+    static std::unique_ptr<ISkydomeShader> create(const ICamera3& i_camera);
 
   public:
     virtual void setSunDirection(Sdk::Vector3D i_sunDir) = 0;

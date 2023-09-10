@@ -149,7 +149,7 @@
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Bitmap.h" />
-    <ClInclude Include="CameraBase.h" />
+    <ClInclude Include="Camera3Base.h" />
     <ClInclude Include="CBuffer.h" />
     <ClInclude Include="ChannelInfo.h" />
     <ClInclude Include="DefaultMeshes.h" />
@@ -267,7 +267,7 @@
     <ClInclude Include="Shape3d.h" />
     <ClInclude Include="SimpleRenderer.h" />
     <ClInclude Include="Renderer3d.h" />
-    <ClInclude Include="ICamera.h" />
+    <ClInclude Include="ICamera3.h" />
     <ClInclude Include="IRenderDevice.h" />
     <ClInclude Include="ILoadableResource.h" />
     <ClInclude Include="IResourceController.h" />
@@ -302,7 +302,7 @@
     <ClCompile Include="AnimationController3d.cpp" />
     <ClCompile Include="Bitmap.cpp" />
     <ClCompile Include="Button.cpp" />
-    <ClCompile Include="CameraBase.cpp" />
+    <ClCompile Include="Camera3Base.cpp" />
     <ClCompile Include="CBuffer.cpp" />
     <ClCompile Include="Checkbox.cpp" />
     <ClCompile Include="DefaultMeshes.cpp" />
@@ -384,7 +384,7 @@
     <ClCompile Include="Renderer2dGuard.cpp" />
     <ClCompile Include="SimpleRenderer.cpp" />
     <ClCompile Include="Renderer3d.cpp" />
-    <ClCompile Include="ICamera.cpp" />
+    <ClCompile Include="ICamera3.cpp" />
     <ClCompile Include="IRenderDevice.cpp" />
     <ClCompile Include="IResourceController.cpp" />
     <ClCompile Include="RenderDevice.cpp" />

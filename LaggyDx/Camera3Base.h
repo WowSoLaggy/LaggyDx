@@ -1,16 +1,16 @@
 #pragma once
 
-#include "ICamera.h"
+#include "ICamera3.h"
 
 #include <LaggySdk/Math.h>
 
 
 namespace Dx
 {
-  class CameraBase : public ICamera
+  class Camera3Base : public ICamera3
   {
   public:
-    CameraBase(Sdk::Vector2I i_viewportResolution);
+    Camera3Base(Sdk::Vector2I i_viewportResolution);
 
     virtual float getFovAngle() const override { return d_fovAngle; }
     virtual void setFovAngle(float i_fovAngle) override;

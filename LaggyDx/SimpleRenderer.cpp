@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "SimpleRenderer.h"
 
-#include "ICamera.h"
+#include "ICamera3.h"
 #include "MaterialSpan.h"
 #include "IndexBuffer.h"
 #include "IObject3.h"
@@ -19,7 +19,7 @@ namespace Dx
 {
   SimpleRenderer::SimpleRenderer(
     IRenderDevice& i_renderDevice,
-    const ICamera& i_camera,
+    const ICamera3& i_camera,
     const IResourceController& i_resourceController)
     : d_renderDevice(i_renderDevice)
     , d_resourceController(i_resourceController)

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "CameraBase.h"
+#include "Camera3Base.h"
 
 
 namespace Dx
@@ -24,7 +24,7 @@ namespace Dx
   } // anonymous NS
 
 
-  CameraBase::CameraBase(Sdk::Vector2I i_viewportResolution)
+  Camera3Base::Camera3Base(Sdk::Vector2I i_viewportResolution)
     : d_viewportResolution(i_viewportResolution)
     , d_projectionMatrix(DirectX::XMMATRIX())
     , d_viewMatrix(DirectX::XMMATRIX())
@@ -37,102 +37,102 @@ namespace Dx
   }
 
 
-  void CameraBase::setFovAngle(const float i_fovAngle)
+  void Camera3Base::setFovAngle(const float i_fovAngle)
   {
     d_fovAngle = i_fovAngle;
     updateProjectionMatrix();
   }
 
-  void CameraBase::setViewportMinZ(const float i_viewportMinZ)
+  void Camera3Base::setViewportMinZ(const float i_viewportMinZ)
   {
     d_viewportMinZ = i_viewportMinZ;
     updateProjectionMatrix();
   }
 
-  void CameraBase::setViewportMaxZ(const float i_viewportMaxZ)
+  void Camera3Base::setViewportMaxZ(const float i_viewportMaxZ)
   {
     d_viewportMaxZ = i_viewportMaxZ;
     updateProjectionMatrix();
   }
 
 
-  void CameraBase::setLookAt(Sdk::Vector3F i_lookAt)
+  void Camera3Base::setLookAt(Sdk::Vector3F i_lookAt)
   {
     d_lookAt = std::move(i_lookAt);
     updateViewMatrix();
   }
 
-  void CameraBase::setWorldUp(Sdk::Vector3F i_up)
+  void Camera3Base::setWorldUp(Sdk::Vector3F i_up)
   {
     i_up.normalize();
     d_worldUp = std::move(i_up);
     updateViewMatrix();
   }
 
-  void CameraBase::setPosition(Sdk::Vector3F i_pos)
+  void Camera3Base::setPosition(Sdk::Vector3F i_pos)
   {
     d_position = std::move(i_pos);
     updateViewMatrix();
   }
 
 
-  Sdk::Vector3F CameraBase::getLeft() const
+  Sdk::Vector3F Camera3Base::getLeft() const
   {
     auto left = getWorldUp().cross(getForward());
     left.normalize();
     return left;
   }
 
-  Sdk::Vector3F CameraBase::getRight() const
+  Sdk::Vector3F Camera3Base::getRight() const
   {
     return -getLeft();
   }
 
-  Sdk::Vector3F CameraBase::getForward() const
+  Sdk::Vector3F Camera3Base::getForward() const
   {
     auto forward = getLookAt() - getPosition();
     forward.normalize();
     return forward;
   }
 
-  Sdk::Vector3F CameraBase::getBackward() const
+  Sdk::Vector3F Camera3Base::getBackward() const
   {
     return -getForward();
   }
 
-  Sdk::Vector3F CameraBase::getUp() const
+  Sdk::Vector3F Camera3Base::getUp() const
   {
     auto up = getRight().cross(getForward());
     up.normalize();
     return up;
   }
 
-  Sdk::Vector3F CameraBase::getDown() const
+  Sdk::Vector3F Camera3Base::getDown() const
   {
     return -getUp();
   }
 
-  Sdk::Vector3F CameraBase::getWorldDown() const
+  Sdk::Vector3F Camera3Base::getWorldDown() const
   {
     return -getWorldUp();
   }
 
 
-  void CameraBase::updateProjectionMatrix()
+  void Camera3Base::updateProjectionMatrix()
   {
     const float screenAspect = (float)d_viewportResolution.x / (float)d_viewportResolution.y;
     d_projectionMatrix = XMMatrixPerspectiveFovRH(getFovAngle(), screenAspect,
       getViewportMinZ(), getViewportMaxZ());
   }
 
-  void CameraBase::updateViewMatrix()
+  void Camera3Base::updateViewMatrix()
   {
     d_viewMatrix = XMMatrixLookAtRH(
       toXmVector(getPosition()), toXmVector(getLookAt()), toXmVector(getWorldUp()));
   }
 
 
-  Sdk::Vector2F CameraBase::worldToScreen(const Sdk::Vector3F& i_point) const
+  Sdk::Vector2F Camera3Base::worldToScreen(const Sdk::Vector3F& i_point) const
   {
     const auto worldMatrix = XMMatrixIdentity();
 
@@ -145,7 +145,7 @@ namespace Dx
     return { tempVector.x, tempVector.y };
   }
 
-  Sdk::RayF CameraBase::screenToWorld(const Sdk::Vector2I& i_point) const
+  Sdk::RayF Camera3Base::screenToWorld(const Sdk::Vector2I& i_point) const
   {
     const auto worldMatrix = XMMatrixIdentity();
 

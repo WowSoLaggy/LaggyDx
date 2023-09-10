@@ -11,7 +11,7 @@
 
 namespace Dx
 {
-  FreeCameraController::FreeCameraController(App& i_app, ICamera& i_camera)
+  FreeCameraController::FreeCameraController(App& i_app, ICamera3& i_camera)
     : d_app(i_app)
     , d_camera(dynamic_cast<FirstPersonCamera&>(i_camera))
   {

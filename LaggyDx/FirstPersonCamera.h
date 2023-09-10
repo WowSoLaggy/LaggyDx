@@ -1,14 +1,14 @@
 #pragma once
 
-#include "CameraBase.h"
+#include "Camera3Base.h"
 
 
 namespace Dx
 {
-  class FirstPersonCamera : public CameraBase
+  class FirstPersonCamera : public Camera3Base
   {
   public:
-    using CameraBase::CameraBase;
+    using Camera3Base::Camera3Base;
 
     float getYaw() const { return d_yaw; }
     void setYaw(float i_yaw);

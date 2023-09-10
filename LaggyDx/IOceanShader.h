@@ -11,7 +11,7 @@ namespace Dx
   class IOceanShader : public Shader3d
   {
   public:
-    static std::unique_ptr<IOceanShader> create(const ICamera& i_camera);
+    static std::unique_ptr<IOceanShader> create(const ICamera3& i_camera);
 
   public:
     virtual void setGlobalTime(double i_time) = 0;

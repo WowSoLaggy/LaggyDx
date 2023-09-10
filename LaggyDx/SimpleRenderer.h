@@ -12,7 +12,7 @@ namespace Dx
   public:
     SimpleRenderer(
       IRenderDevice& i_renderDevice,
-      const ICamera& i_camera,
+      const ICamera3& i_camera,
       const IResourceController& i_resourceController);
     ~SimpleRenderer();
 
@@ -23,7 +23,7 @@ namespace Dx
   private:
     IRenderDevice& d_renderDevice;
     const IResourceController& d_resourceController;
-    const ICamera& d_camera;
+    const ICamera3& d_camera;
     const IPsResource& d_pixelShader;
     const IVsResource& d_vertexShader;
     const ITexture& d_emptyTexture;

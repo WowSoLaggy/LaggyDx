@@ -10,7 +10,7 @@ namespace Dx
   class SimpleShader : public ISimpleShader
   {
   public:
-    SimpleShader(const ICamera& i_camera);
+    SimpleShader(const ICamera3& i_camera);
 
     virtual void setLightDirection(Sdk::Vector3D i_direction) override;
     virtual void setLightColor(const Sdk::Vector4D& i_color) override;
@@ -19,7 +19,7 @@ namespace Dx
     virtual void draw(const IObject3& i_object) const override;
 
   private:
-    const ICamera& d_camera;
+    const ICamera3& d_camera;
     const ITexture& d_emptyTexture;
 
     LightDesc d_lightDesc;

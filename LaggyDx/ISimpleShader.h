@@ -11,7 +11,7 @@ namespace Dx
   class ISimpleShader : public Shader3d
   {
   public:
-    static std::unique_ptr<ISimpleShader> create(const ICamera& i_camera);
+    static std::unique_ptr<ISimpleShader> create(const ICamera3& i_camera);
 
   public:
     virtual void setLightDirection(Sdk::Vector3D i_direction) = 0;

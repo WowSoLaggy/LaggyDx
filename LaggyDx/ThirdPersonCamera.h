@@ -1,11 +1,11 @@
 #pragma once
 
-#include "CameraBase.h"
+#include "Camera3Base.h"
 
 
 namespace Dx
 {
-  class ThirdPersonCamera : public CameraBase
+  class ThirdPersonCamera : public Camera3Base
   {
   public:
     ThirdPersonCamera(Sdk::Vector2I i_viewportResolution);

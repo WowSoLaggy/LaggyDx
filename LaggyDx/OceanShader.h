@@ -10,7 +10,7 @@ namespace Dx
   class OceanShader : public IOceanShader
   {
   public:
-    OceanShader(const ICamera& i_camera);
+    OceanShader(const ICamera3& i_camera);
 
     virtual void setGlobalTime(double i_time) override;
 
@@ -40,7 +40,7 @@ namespace Dx
     DepthFogDesc d_depthFogDesc;
     TextureDisplacementDesc d_texturesDisplacementDesc;
 
-    const ICamera& d_camera;
+    const ICamera3& d_camera;
     const ITexture& d_emptyTexture;
     const ITexture& d_bumpTexture;
 

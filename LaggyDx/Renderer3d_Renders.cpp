@@ -2,7 +2,7 @@
 #include "Renderer3d.h"
 
 #include "AnimationController3d.h"
-#include "ICamera.h"
+#include "ICamera3.h"
 #include "IndexBuffer.h"
 #include "MeshResourceCmo.h"
 #include "RenderDevice.h"

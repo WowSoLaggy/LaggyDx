@@ -7,7 +7,7 @@
 namespace Dx
 {
   ThirdPersonCamera::ThirdPersonCamera(Sdk::Vector2I i_viewportResolution)
-    : CameraBase(std::move(i_viewportResolution))
+    : Camera3Base(std::move(i_viewportResolution))
     , d_yaw(0)
     , d_pitch(Sdk::degToRad(45.0f))
     , d_distance(10)

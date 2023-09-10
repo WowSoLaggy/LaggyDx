@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "OceanShader.h"
 
-#include "ICamera.h"
+#include "ICamera3.h"
 #include "IndexBuffer.h"
 #include "IObject3.h"
 #include "IResourceController.h"
@@ -18,7 +18,7 @@
 
 namespace Dx
 {
-  OceanShader::OceanShader(const ICamera& i_camera)
+  OceanShader::OceanShader(const ICamera3& i_camera)
     : d_matrixBuffer(getRenderDevice(), sizeof(WorldViewProj))
     , d_cameraBuffer(getRenderDevice(), sizeof(CameraDesc))
     , d_lightBuffer(getRenderDevice(), sizeof(LightDesc))

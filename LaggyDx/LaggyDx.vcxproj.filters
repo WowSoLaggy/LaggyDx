@@ -145,6 +145,9 @@
     <Filter Include="src\Shaders\SpriteShader">
       <UniqueIdentifier>{36c0b39c-5b0f-435a-b77d-0623e030c1b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Cameras\Camera3">
+      <UniqueIdentifier>{f0f1dabb-6ad2-44d9-9f50-bf5a84604fc6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -155,12 +158,6 @@
     </ClInclude>
     <ClInclude Include="IRenderDevice.h">
       <Filter>src\RenderDevice</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdPersonCamera.h">
-      <Filter>src\Cameras</Filter>
-    </ClInclude>
-    <ClInclude Include="ICamera.h">
-      <Filter>src\Cameras</Filter>
     </ClInclude>
     <ClInclude Include="ResourceController.h">
       <Filter>src\Resources</Filter>
@@ -459,12 +456,6 @@
     <ClInclude Include="AppEvents.h">
       <Filter>src\App</Filter>
     </ClInclude>
-    <ClInclude Include="FirstPersonCamera.h">
-      <Filter>src\Cameras</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraBase.h">
-      <Filter>src\Cameras</Filter>
-    </ClInclude>
     <ClInclude Include="MouseMode.h">
       <Filter>src\InputDevices</Filter>
     </ClInclude>
@@ -594,6 +585,18 @@
     <ClInclude Include="VertexTypes.h">
       <Filter>src\Vertices</Filter>
     </ClInclude>
+    <ClInclude Include="Camera3Base.h">
+      <Filter>src\Cameras\Camera3</Filter>
+    </ClInclude>
+    <ClInclude Include="FirstPersonCamera.h">
+      <Filter>src\Cameras\Camera3</Filter>
+    </ClInclude>
+    <ClInclude Include="ICamera3.h">
+      <Filter>src\Cameras\Camera3</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdPersonCamera.h">
+      <Filter>src\Cameras\Camera3</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -604,12 +607,6 @@
     </ClCompile>
     <ClCompile Include="IRenderDevice.cpp">
       <Filter>src\RenderDevice</Filter>
-    </ClCompile>
-    <ClCompile Include="ThirdPersonCamera.cpp">
-      <Filter>src\Cameras</Filter>
-    </ClCompile>
-    <ClCompile Include="ICamera.cpp">
-      <Filter>src\Cameras</Filter>
     </ClCompile>
     <ClCompile Include="ResourceController.cpp">
       <Filter>src\Resources</Filter>
@@ -818,12 +815,6 @@
     <ClCompile Include="FreeCameraController.cpp">
       <Filter>src\InputControllers</Filter>
     </ClCompile>
-    <ClCompile Include="FirstPersonCamera.cpp">
-      <Filter>src\Cameras</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraBase.cpp">
-      <Filter>src\Cameras</Filter>
-    </ClCompile>
     <ClCompile Include="Slider.cpp">
       <Filter>src\Gui</Filter>
     </ClCompile>
@@ -922,6 +913,18 @@
     </ClCompile>
     <ClCompile Include="VertexTypes.cpp">
       <Filter>src\Vertices</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera3Base.cpp">
+      <Filter>src\Cameras\Camera3</Filter>
+    </ClCompile>
+    <ClCompile Include="FirstPersonCamera.cpp">
+      <Filter>src\Cameras\Camera3</Filter>
+    </ClCompile>
+    <ClCompile Include="ICamera3.cpp">
+      <Filter>src\Cameras\Camera3</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdPersonCamera.cpp">
+      <Filter>src\Cameras\Camera3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

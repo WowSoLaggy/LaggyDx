@@ -14,7 +14,7 @@ namespace Dx
     Renderer3d(
       IRenderDevice& io_renderDevice,
       IResourceController& i_resourceController,
-      const ICamera& i_camera);
+      const ICamera3& i_camera);
     ~Renderer3d();
 
     virtual void beginScene() override;
@@ -36,7 +36,7 @@ namespace Dx
 
     IRenderDevice& d_renderDevice;
     IResourceController& d_resourceController;
-    const ICamera& d_camera;
+    const ICamera3& d_camera;
 
     std::shared_ptr<CommonStates> d_commonStates;
 

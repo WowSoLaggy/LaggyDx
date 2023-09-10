@@ -19,7 +19,7 @@ namespace Dx
   class SkydomeShader : public ISkydomeShader
   {
   public:
-    SkydomeShader(const ICamera& i_camera);
+    SkydomeShader(const ICamera3& i_camera);
 
     virtual void setSunDirection(Sdk::Vector3D i_sunDir) override;
     virtual void setSunRadiusInternal(float i_radius) override;
@@ -37,7 +37,7 @@ namespace Dx
     virtual void draw(const IObject3& i_object) const override;
 
   private:
-    const ICamera& d_camera;
+    const ICamera3& d_camera;
 
     const ITexture& d_mainTexture;
     const ITexture& d_horizonHazeTexture;

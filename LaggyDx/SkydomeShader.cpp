@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "SkydomeShader.h"
 
-#include "ICamera.h"
+#include "ICamera3.h"
 #include "IObject3.h"
 #include "IResourceController.h"
 #include "Model.h"
@@ -16,7 +16,7 @@
 
 namespace Dx
 {
-  SkydomeShader::SkydomeShader(const ICamera& i_camera)
+  SkydomeShader::SkydomeShader(const ICamera3& i_camera)
     : d_matrixBuffer(getRenderDevice(), sizeof(WorldViewProj))
     , d_skyDomeBuffer(getRenderDevice(), sizeof(SkydomeSettings))
     , d_timeBuffer(getRenderDevice(), sizeof(TimeDesc))
