@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "FreeCameraController.h"
+#include "FreeCamera3Controller.h"
 
 #include "App.h"
 #include "AppEvents.h"
@@ -11,7 +11,7 @@
 
 namespace Dx
 {
-  FreeCameraController::FreeCameraController(App& i_app, ICamera3& i_camera)
+  FreeCamera3Controller::FreeCamera3Controller(App& i_app, ICamera3& i_camera)
     : d_app(i_app)
     , d_camera(dynamic_cast<FirstPersonCamera&>(i_camera))
   {
@@ -21,7 +21,7 @@ namespace Dx
     connectTo(d_app);
   }
 
-  FreeCameraController::~FreeCameraController()
+  FreeCamera3Controller::~FreeCamera3Controller()
   {
     disconnectFrom(d_app);
     
@@ -29,7 +29,7 @@ namespace Dx
   }
 
 
-  void FreeCameraController::processEvent(const Sdk::IEvent& i_event)
+  void FreeCamera3Controller::processEvent(const Sdk::IEvent& i_event)
   {
     if (const auto* event = dynamic_cast<const OnUpdate*>(&i_event))
     {
@@ -75,7 +75,7 @@ namespace Dx
   }
 
 
-  void FreeCameraController::onAppUpdate(double i_dt)
+  void FreeCamera3Controller::onAppUpdate(double i_dt)
   {
     if (d_moveLeft && !d_moveRight)
     {
@@ -120,7 +120,7 @@ namespace Dx
   }
 
 
-  void FreeCameraController::onMouseMoved(const Sdk::Vector2I& i_move)
+  void FreeCamera3Controller::onMouseMoved(const Sdk::Vector2I& i_move)
   {
     constexpr float Sensitivity = 0.01f;
     constexpr float MaxPitch = Sdk::degToRad<float>(89.0f);
@@ -135,73 +135,73 @@ namespace Dx
   }
 
 
-  void FreeCameraController::onStartMoveLeft()
+  void FreeCamera3Controller::onStartMoveLeft()
   {
     d_moveLeft = true;
   }
-  void FreeCameraController::onStopMoveLeft()
+  void FreeCamera3Controller::onStopMoveLeft()
   {
     d_moveLeft = false;
   }
-  void FreeCameraController::onStartMoveRight()
+  void FreeCamera3Controller::onStartMoveRight()
   {
     d_moveRight = true;
   }
-  void FreeCameraController::onStopMoveRight()
+  void FreeCamera3Controller::onStopMoveRight()
   {
     d_moveRight = false;
   }
-  void FreeCameraController::onStartMoveForward()
+  void FreeCamera3Controller::onStartMoveForward()
   {
     d_moveForward = true;
   }
-  void FreeCameraController::onStopMoveForward()
+  void FreeCamera3Controller::onStopMoveForward()
   {
     d_moveForward = false;
   }
-  void FreeCameraController::onStartMoveBackward()
+  void FreeCamera3Controller::onStartMoveBackward()
   {
     d_moveBackward = true;
   }
-  void FreeCameraController::onStopMoveBackward()
+  void FreeCamera3Controller::onStopMoveBackward()
   {
     d_moveBackward = false;
   }
-  void FreeCameraController::onStartMoveUp()
+  void FreeCamera3Controller::onStartMoveUp()
   {
     d_moveUp = true;
   }
-  void FreeCameraController::onStopMoveUp()
+  void FreeCamera3Controller::onStopMoveUp()
   {
     d_moveUp = false;
   }
-  void FreeCameraController::onStartMoveDown()
+  void FreeCamera3Controller::onStartMoveDown()
   {
     d_moveDown = true;
   }
-  void FreeCameraController::onStopMoveDown()
+  void FreeCamera3Controller::onStopMoveDown()
   {
     d_moveDown = false;
   }
 
 
-  float FreeCameraController::getYaw() const
+  float FreeCamera3Controller::getYaw() const
   {
     return d_camera.getYaw();
   }
 
-  float FreeCameraController::getPitch() const
+  float FreeCamera3Controller::getPitch() const
   {
     return d_camera.getPitch();
   }
 
 
-  void FreeCameraController::setCameraSpeed(const double i_speed)
+  void FreeCamera3Controller::setCameraSpeed(const double i_speed)
   {
     d_cameraSpeed = i_speed;
   }
 
-  double FreeCameraController::getCameraSpeed() const
+  double FreeCamera3Controller::getCameraSpeed() const
   {
     return d_cameraSpeed;
   }

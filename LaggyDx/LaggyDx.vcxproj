@@ -164,7 +164,7 @@
     <ClInclude Include="RefreshRate.h" />
     <ClInclude Include="Roam.h" />
     <ClInclude Include="FirstPersonCamera.h" />
-    <ClInclude Include="FreeCameraController.h" />
+    <ClInclude Include="FreeCamera3Controller.h" />
     <ClInclude Include="AppEvents.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="IInputController.h" />
@@ -316,7 +316,7 @@
     <ClCompile Include="Roam.cpp" />
     <ClCompile Include="FbxResource.cpp" />
     <ClCompile Include="FirstPersonCamera.cpp" />
-    <ClCompile Include="FreeCameraController.cpp" />
+    <ClCompile Include="FreeCamera3Controller.cpp" />
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="IOceanShader.cpp" />
     <ClCompile Include="IShape3d.cpp" />
