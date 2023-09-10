@@ -11,21 +11,24 @@
 
 namespace Dx
 {
-  FreeCamera3Controller::FreeCamera3Controller(App& i_app, ICamera3& i_camera)
-    : d_app(i_app)
-    , d_camera(dynamic_cast<FirstPersonCamera&>(i_camera))
+  FreeCamera3Controller::FreeCamera3Controller(ICamera3& i_camera)
+    : d_camera(dynamic_cast<FirstPersonCamera&>(i_camera))
   {
-    d_originalMouseMode = d_app.getInputDevice().getMouseMode();
-    d_app.getInputDevice().setMouseRelativeMode();
+    auto& app = App::get();
 
-    connectTo(d_app);
+    d_originalMouseMode = app.getInputDevice().getMouseMode();
+    app.getInputDevice().setMouseRelativeMode();
+
+    connectTo(app);
   }
 
   FreeCamera3Controller::~FreeCamera3Controller()
   {
-    disconnectFrom(d_app);
+    auto& app = App::get();
+
+    disconnectFrom(app);
     
-    d_app.getInputDevice().setMouseMode(d_originalMouseMode);
+    app.getInputDevice().setMouseMode(d_originalMouseMode);
   }
 
 

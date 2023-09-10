@@ -13,7 +13,7 @@ namespace Dx
   class FreeCamera3Controller : public IInputController, public Sdk::EventHandler
   {
   public:
-    FreeCamera3Controller(App& i_app, ICamera3& i_camera);
+    FreeCamera3Controller(ICamera3& i_camera);
     ~FreeCamera3Controller();
 
     virtual void processEvent(const Sdk::IEvent& i_event) override;
@@ -25,7 +25,6 @@ namespace Dx
     double getCameraSpeed() const;
 
   private:
-    App& d_app;
     FirstPersonCamera& d_camera;
 
     double d_cameraSpeed = 5.0;
