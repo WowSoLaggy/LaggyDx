@@ -2,6 +2,7 @@
 #include "SpriteShader.h"
 
 #include "DefaultMeshes.h"
+#include "ICamera2.h"
 #include "IResourceController.h"
 #include "IShape2d.h"
 #include "ISprite.h"
@@ -16,8 +17,9 @@
 
 namespace Dx
 {
-  SpriteShader::SpriteShader()
-    : d_matrixBuffer(getRenderDevice(), sizeof(WorldViewProj))
+  SpriteShader::SpriteShader(const ICamera2* i_camera)
+    : d_camera(i_camera)
+    , d_matrixBuffer(getRenderDevice(), sizeof(WorldViewProj))
     , d_emptyTexture(getResourceController().getTexture("white.png"))
   {
     getShaders().initVs(g_spriteVs, sizeof(g_spriteVs), getVertexLayoutPos2Text());
@@ -48,7 +50,7 @@ namespace Dx
 
   void SpriteShader::createMatrices()
   {
-    d_viewMatrix = XMMatrixTranspose(XMMatrixIdentity());
+    d_defaultViewMatrix = XMMatrixTranspose(XMMatrixIdentity());
 
     const float left = 0;
     const float right = (float)getRenderDevice().getResolution().x;
@@ -77,13 +79,24 @@ namespace Dx
       return XMMatrixTranspose(worldMatrix);
     };
 
+    auto getViewMatrixTransposed = [&]()
+    {
+      if (!d_camera)
+        return d_defaultViewMatrix;
+
+      const auto& offset = -d_camera->getOffset();
+      const auto viewMatrix = XMMatrixTranslation((float)offset.x, (float)offset.y, 0);
+      return XMMatrixTranspose(viewMatrix);
+    };
+
+
     {
       D3D11_MAPPED_SUBRESOURCE mappedResource;
       getRenderDevice().getDeviceContextPtr()->Map(d_matrixBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
       auto* dataPtr = (WorldViewProj*)mappedResource.pData;
       dataPtr->world = getWorldMatrixTransposed();
-      dataPtr->view = d_viewMatrix;
+      dataPtr->view = getViewMatrixTransposed();
       dataPtr->projection = d_projMatrix;
     }
 

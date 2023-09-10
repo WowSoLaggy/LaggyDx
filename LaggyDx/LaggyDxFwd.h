@@ -105,6 +105,8 @@ namespace Dx
 
   struct RefreshRate;
 
+  class ISpriteShader;
+
 } // ns Dx
 
 

@@ -6,9 +6,9 @@
 
 namespace Dx
 {
-  std::unique_ptr<ISpriteShader> ISpriteShader::create()
+  std::unique_ptr<ISpriteShader> ISpriteShader::create(const ICamera2* i_camera)
   {
-    return std::make_unique<SpriteShader>();
+    return std::make_unique<SpriteShader>(i_camera);
   }
 
 } // ns Dx
