@@ -155,6 +155,7 @@
     <ClInclude Include="ChannelInfo.h" />
     <ClInclude Include="DefaultMeshes.h" />
     <ClInclude Include="DxResourceWrapper.h" />
+    <ClInclude Include="FreeCamera2Controller.h" />
     <ClInclude Include="HeightMap.h" />
     <ClInclude Include="IBitmap.h" />
     <ClInclude Include="ICamera2.h" />
@@ -309,6 +310,7 @@
     <ClCompile Include="CBuffer.cpp" />
     <ClCompile Include="Checkbox.cpp" />
     <ClCompile Include="DefaultMeshes.cpp" />
+    <ClCompile Include="FreeCamera2Controller.cpp" />
     <ClCompile Include="HeightMap.cpp" />
     <ClCompile Include="ICamera2.cpp" />
     <ClCompile Include="ISpriteShader.cpp" />

@@ -606,6 +606,9 @@
     <ClInclude Include="Camera2.h">
       <Filter>src\Cameras\Camera2</Filter>
     </ClInclude>
+    <ClInclude Include="FreeCamera2Controller.h">
+      <Filter>src\InputControllers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -940,6 +943,9 @@
     </ClCompile>
     <ClCompile Include="ICamera2.cpp">
       <Filter>src\Cameras\Camera2</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeCamera2Controller.cpp">
+      <Filter>src\InputControllers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
