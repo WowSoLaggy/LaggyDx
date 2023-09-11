@@ -1,14 +1,12 @@
 #pragma once
 
 #include "ActionsMap.h"
-#include "CollisionManager.h"
 #include "IInputDevice.h"
 #include "IRenderDevice.h"
 #include "IRenderer2d.h"
 #include "IResourceController.h"
 #include "LaggyDxFwd.h"
 #include "MouseState.h"
-#include "ObjectCollection.h"
 
 #include <LaggySdk/EventHandler.h>
 #include <LaggySdk/FpsCounter.h>
