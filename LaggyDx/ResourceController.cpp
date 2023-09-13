@@ -18,13 +18,6 @@ namespace Dx
 {
   namespace
   {
-
-    bool isDirNotDots(struct dirent* pEntity)
-    {
-      return pEntity && (pEntity->d_type == DT_DIR) &&
-        (strcmp(pEntity->d_name, ".") != 0) && (strcmp(pEntity->d_name, "..") != 0);
-    }
-
     template <typename T>
     T& getResource(const ResourcesMap& i_map, const std::string& i_name)
     {
@@ -126,52 +119,42 @@ namespace Dx
 
   void ResourceController::indexResourcesInDir(const fs::path& i_dirName)
   {
-    auto* pDir = opendir(i_dirName.string().c_str());
-    if (!pDir)
-      return;
-
-    struct dirent* pEntity = nullptr;
-    while (pEntity = readdir(pDir))
+    for (const auto& it : fs::directory_iterator(i_dirName))
     {
-      if (isDirNotDots(pEntity))
+      const auto& path = it.path();
+
+      if (it.is_directory())
       {
-        indexResourcesInDir(i_dirName / pEntity->d_name);
-        continue;
+        indexResourcesInDir(path);
       }
-
-      if (pEntity->d_type != DT_REG)
+      else if (it.is_regular_file())
       {
-        // Not a regular file - we don't care
-        continue;
+        const std::regex texturePattern("\\w*.(dds|png|bmp|jpg|jpeg|tiff|gif)$");
+        const std::regex modelCmoPattern("\\w*.(cmo)$");
+        const std::regex vsBinPattern("\\w*.(vs)$");
+        const std::regex vsHlslPattern("\\w*.(vs.hlsl)$");
+        const std::regex psBinPattern("\\w*.(ps)$");
+        const std::regex psHlslPattern("\\w*.(ps.hlsl)$");
+        const std::regex fontPattern("\\w*.(spritefont)$");
+        const std::regex fbxPattern("\\w*.(fbx)$");
+
+        if (std::regex_match(path.filename().string(), modelCmoPattern))
+          d_resources.insert({ path.string(), std::make_shared<MeshResourceCmo>(path) });
+        else if (std::regex_match(path.filename().string(), texturePattern))
+          d_resources.insert({ path.string(), std::make_shared<Texture>(path) });
+        else if (std::regex_match(path.filename().string(), vsBinPattern))
+          d_resources.insert({ path.string(), std::make_shared<VsBinResource>(path) });
+        else if (std::regex_match(path.filename().string(), vsHlslPattern))
+          d_resources.insert({ path.string(), std::make_shared<VsHlslResource>(path) });
+        else if (std::regex_match(path.filename().string(), psBinPattern))
+          d_resources.insert({ path.string(), std::make_shared<PsBinResource>(path) });
+        else if (std::regex_match(path.filename().string(), psHlslPattern))
+          d_resources.insert({ path.string(), std::make_shared<PsHlslResource>(path) });
+        else if (std::regex_match(path.filename().string(), fontPattern))
+          d_resources.insert({ path.string(), std::make_shared<FontResource>(path) });
+        else if (std::regex_match(path.filename().string(), fbxPattern))
+          d_resources.insert({ path.string(), std::make_shared<FbxResource>(path) });
       }
-
-      const std::regex texturePattern("\\w*.(dds|png|bmp|jpg|jpeg|tiff|gif)$");
-      const std::regex modelCmoPattern("\\w*.(cmo)$");
-      const std::regex vsBinPattern("\\w*.(vs)$");
-      const std::regex vsHlslPattern("\\w*.(vs.hlsl)$");
-      const std::regex psBinPattern("\\w*.(ps)$");
-      const std::regex psHlslPattern("\\w*.(ps.hlsl)$");
-      const std::regex fontPattern("\\w*.(spritefont)$");
-      const std::regex fbxPattern("\\w*.(fbx)$");
-
-      const auto resourceName = i_dirName / pEntity->d_name;
-
-      if (std::regex_match(pEntity->d_name, modelCmoPattern))
-        d_resources.insert({ resourceName.string(), std::make_shared<MeshResourceCmo>(resourceName) });
-      else if (std::regex_match(pEntity->d_name, texturePattern))
-        d_resources.insert({ resourceName.string(), std::make_shared<Texture>(resourceName) });
-      else if (std::regex_match(pEntity->d_name, vsBinPattern))
-        d_resources.insert({ resourceName.string(), std::make_shared<VsBinResource>(resourceName) });
-      else if (std::regex_match(pEntity->d_name, vsHlslPattern))
-        d_resources.insert({ resourceName.string(), std::make_shared<VsHlslResource>(resourceName) });
-      else if (std::regex_match(pEntity->d_name, psBinPattern))
-        d_resources.insert({ resourceName.string(), std::make_shared<PsBinResource>(resourceName) });
-      else if (std::regex_match(pEntity->d_name, psHlslPattern))
-        d_resources.insert({ resourceName.string(), std::make_shared<PsHlslResource>(resourceName) });
-      else if (std::regex_match(pEntity->d_name, fontPattern))
-        d_resources.insert({ resourceName.string(), std::make_shared<FontResource>(resourceName) });
-      else if (std::regex_match(pEntity->d_name, fbxPattern))
-        d_resources.insert({ resourceName.string(), std::make_shared<FbxResource>(resourceName) });
     }
   }
 
