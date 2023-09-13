@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ActionsMap.h"
+#include "AppSettings.h"
 #include "IInputDevice.h"
 #include "IRenderDevice.h"
 #include "IRenderer2d.h"
@@ -23,13 +24,15 @@ namespace Dx
     static App& get();
 
   public:
-    explicit App(const AppSettings& i_appSettings);
+    explicit App(AppSettings i_settings);
     virtual ~App();
 
     void run();
     void stop();
 
     void processEvent(const Sdk::IEvent& i_event) override;
+
+    [[nodiscard]] const AppSettings& getSettings() const;
 
     [[nodiscard]] IInputDevice& getInputDevice();
     [[nodiscard]] const IInputDevice& getInputDevice() const;
@@ -71,6 +74,8 @@ namespace Dx
 
   private:
     static App* s_this;
+
+    const AppSettings d_settings;
 
     bool d_stop = false;
 

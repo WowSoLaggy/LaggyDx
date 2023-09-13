@@ -13,7 +13,8 @@ namespace Dx
     int refreshRate = 60;
 
     std::string applicationName = "DxApp";
-    fs::path assetsFolder = "Data/Assets/";
+    fs::path dataFolder = "Data";
+    fs::path assetsFolder = dataFolder / "Assets";
 
     bool debugMode = false;
   };
