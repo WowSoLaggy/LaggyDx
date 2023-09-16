@@ -14,6 +14,7 @@ namespace Dx
   void Label::setText(std::string i_text)
   {
     d_text.setText(i_text);
+    setSize(d_text.getSize());
   }
 
   const std::string& Label::getText() const
