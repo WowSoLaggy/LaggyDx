@@ -79,4 +79,10 @@ namespace Dx
     XMFLOAT2 _reserved{ 0, 0 };
   };
 
+  struct UvOffsetDesc
+  {
+    XMFLOAT2 offset{ 0, 0 };
+    XMFLOAT2 multiplier{ 1, 1 };
+  };
+
 } // ns Dx

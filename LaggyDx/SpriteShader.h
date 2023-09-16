@@ -12,7 +12,10 @@ namespace Dx
   public:
     SpriteShader(const ICamera2* i_camera);
 
-    virtual void draw(const ISprite& i_sprite) const override;
+    virtual void draw(
+      const ISprite& i_sprite,
+      const UvOffset* i_uvOffset = nullptr,
+      bool i_disableCameraView = false) const override;
 
   private:
     const ICamera2* d_camera = nullptr;
@@ -20,6 +23,9 @@ namespace Dx
     std::unique_ptr<IMesh> d_spriteMesh;
     
     CBuffer d_matrixBuffer;
+    CBuffer d_uvOffsetBuffer;
+
+    const UvOffset d_defaultUvOffset;
 
     DirectX::XMMATRIX d_defaultViewMatrix;
     DirectX::XMMATRIX d_projMatrix;
@@ -27,8 +33,9 @@ namespace Dx
 
     void createSpriteMesh();
 
-    void setXfmMatrices(const ISprite& i_sprite) const;
+    void setXfmMatrices(const ISprite& i_sprite, bool i_disableCameraView) const;
     void setTexture(const ISprite& i_sprite) const;
+    void setUvOffset(const UvOffset& i_uvOffset) const;
     void setGeometryBuffers() const;
   };
 

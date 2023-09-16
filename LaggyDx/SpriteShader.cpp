@@ -20,6 +20,7 @@ namespace Dx
   SpriteShader::SpriteShader(const ICamera2* i_camera)
     : d_camera(i_camera)
     , d_matrixBuffer(getRenderDevice(), sizeof(WorldViewProj))
+    , d_uvOffsetBuffer(getRenderDevice(), sizeof(UvOffsetDesc))
     , d_emptyTexture(getResourceController().getTexture("white.png"))
   {
     getShaders().initVs(g_spriteVs, sizeof(g_spriteVs), getVertexLayoutPos2Text());
@@ -32,12 +33,16 @@ namespace Dx
   }
 
 
-  void SpriteShader::draw(const ISprite& i_sprite) const
+  void SpriteShader::draw(
+    const ISprite& i_sprite,
+    const UvOffset* i_uvOffset,
+    bool i_disableCameraView) const
   {
     setRenderStates();
     setShaders();
-    setXfmMatrices(i_sprite);
+    setXfmMatrices(i_sprite, i_disableCameraView);
     setTexture(i_sprite);
+    setUvOffset(i_uvOffset ? *i_uvOffset : d_defaultUvOffset);
     setGeometryBuffers();
     drawIndexed(d_spriteMesh->getIndexBuffer().getIndexCount(), 0);
   }
@@ -62,7 +67,7 @@ namespace Dx
   }
 
 
-  void SpriteShader::setXfmMatrices(const ISprite& i_sprite) const
+  void SpriteShader::setXfmMatrices(const ISprite& i_sprite, bool i_disableCameraView) const
   {
     auto getWorldMatrixTransposed = [&]()
     {
@@ -81,7 +86,7 @@ namespace Dx
 
     auto getViewMatrixTransposed = [&]()
     {
-      if (!d_camera)
+      if (i_disableCameraView || !d_camera)
         return d_defaultViewMatrix;
 
       const auto& offset = -d_camera->getOffset();
@@ -113,6 +118,24 @@ namespace Dx
       texturePtr = texture->getTexturePtr();
 
     getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 1, &texturePtr);
+  }
+
+  void SpriteShader::setUvOffset(const UvOffset& i_uvOffset) const
+  {
+    {
+      D3D11_MAPPED_SUBRESOURCE mappedResource;
+      getRenderDevice().getDeviceContextPtr()->Map(d_uvOffsetBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+      auto* dataPtr = (UvOffsetDesc*)mappedResource.pData;
+      dataPtr->offset.x = i_uvOffset.offset.x;
+      dataPtr->offset.y = i_uvOffset.offset.y;
+      dataPtr->multiplier.x = i_uvOffset.multiplier.x;
+      dataPtr->multiplier.y = i_uvOffset.multiplier.y;
+    }
+
+    getRenderDevice().getDeviceContextPtr()->Unmap(d_uvOffsetBuffer.get(), 0);
+
+    getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(1, 1, d_uvOffsetBuffer.getPp());
   }
 
   void SpriteShader::setGeometryBuffers() const

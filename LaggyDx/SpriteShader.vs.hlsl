@@ -5,6 +5,12 @@ cbuffer MatrixBuffer
   matrix projectionMatrix;
 };
 
+cbuffer UvOffsetBuffer
+{
+  float2 offset;
+  float2 multiplier;
+};
+
 
 struct VertexInputType
 {
@@ -22,7 +28,7 @@ struct PixelInputType
 PixelInputType main(VertexInputType input)
 {
   PixelInputType output;
-  output.tex = input.tex;
+  output.tex = float2(input.tex.x * multiplier.x + offset.x, input.tex.y * multiplier.y + offset.y);
   
   output.position = float4(input.position, 0.5f, 1);
   
