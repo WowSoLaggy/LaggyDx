@@ -115,6 +115,23 @@ namespace Dx
 
       break;
     }
+    case LayoutAlign::LeftToRight_BottomSide:
+    {
+      float xNext = 0;
+      for (auto& ctrlNode : getChildren())
+      {
+        auto& ctrl = dynamic_cast<IControl&>(*ctrlNode);
+        if (!ctrl.getVisible())
+          continue;
+
+        const auto newPos = bordersOffset + Sdk::Vector2F{ xNext, getSize().y - ctrl.getSize().y };
+        ctrl.setPosition(newPos);
+
+        xNext += ctrl.getSize().x + d_offsetBetweenElements;
+      }
+
+      break;
+    }
     default:
       CONTRACT_ASSERT(false);
     }
