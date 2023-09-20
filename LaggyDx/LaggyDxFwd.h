@@ -79,6 +79,9 @@ namespace Dx
   class Slider;
   class RadioButton;
   class RadioGroup;
+  class Grid;
+  class GridItem;
+  using GridItems = std::vector<GridItem*>;
 
   class IGuiEffect;
 

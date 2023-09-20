@@ -609,6 +609,12 @@
     <ClInclude Include="FreeCamera2Controller.h">
       <Filter>src\InputControllers</Filter>
     </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>src\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="GridItem.h">
+      <Filter>src\Gui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -946,6 +952,12 @@
     </ClCompile>
     <ClCompile Include="FreeCamera2Controller.cpp">
       <Filter>src\InputControllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>src\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="GridItem.cpp">
+      <Filter>src\Gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
