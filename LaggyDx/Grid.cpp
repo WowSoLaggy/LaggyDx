@@ -12,17 +12,6 @@ namespace Dx
 {
   namespace
   {
-    const std::string TextureName_T = "Grid_T.png";
-    const std::string TextureName_TL = "Grid_TL.png";
-    const std::string TextureName_TR = "Grid_TR.png";
-    const std::string TextureName_L = "Grid_L.png";
-    const std::string TextureName_R = "Grid_R.png";
-    const std::string TextureName_B = "Grid_B.png";
-    const std::string TextureName_BL = "Grid_BL.png";
-    const std::string TextureName_BR = "Grid_BR.png";
-    const std::string TextureName_Slot = "Grid_Slot.png";
-    const std::string TextureName_Selection = "Grid_Selection.png";
-
     const Dx::ITexture& getTexture(const fs::path& i_name)
     {
       const auto& rc = Dx::App::get().getResourceController();
@@ -59,18 +48,58 @@ namespace Dx
   }
 
 
+  void Grid::setTextures(
+    std::string i_textureName_T,
+    std::string i_textureName_TL,
+    std::string i_textureName_TR,
+    std::string i_textureName_L,
+    std::string i_textureName_R,
+    std::string i_textureName_B,
+    std::string i_textureName_BL,
+    std::string i_textureName_BR,
+    std::string i_textureName_Slot,
+    std::string i_textureName_Selection)
+  {
+    d_textureName_T = i_textureName_T;
+    d_textureName_TL = i_textureName_TL;
+    d_textureName_TR = i_textureName_TR;
+    d_textureName_L = i_textureName_L;
+    d_textureName_R = i_textureName_R;
+    d_textureName_B = i_textureName_B;
+    d_textureName_BL = i_textureName_BL;
+    d_textureName_BR = i_textureName_BR;
+    d_textureName_Slot = i_textureName_Slot;
+    d_textureName_Selection = i_textureName_Selection;
+
+    recreateGridSprites();
+  }
+
+
   void Grid::recreateGridSprites()
   {
-    const auto& texture_T(getTexture(TextureName_T));
-    const auto& texture_TL(getTexture(TextureName_TL));
-    const auto& texture_TR(getTexture(TextureName_TR));
-    const auto& texture_L(getTexture(TextureName_L));
-    const auto& texture_R(getTexture(TextureName_R));
-    const auto& texture_B(getTexture(TextureName_B));
-    const auto& texture_BL(getTexture(TextureName_BL));
-    const auto& texture_BR(getTexture(TextureName_BR));
-    const auto& texture_Slot(getTexture(TextureName_Slot));
-    const auto& texture_Selection(getTexture(TextureName_Selection));
+    if (
+      d_textureName_T.empty() ||
+      d_textureName_TL.empty() ||
+      d_textureName_TR.empty() ||
+      d_textureName_L.empty() ||
+      d_textureName_R.empty() ||
+      d_textureName_B.empty() ||
+      d_textureName_BL.empty() ||
+      d_textureName_BR.empty() ||
+      d_textureName_Slot.empty())
+    {
+      return;
+    }
+
+    const auto& texture_T(getTexture(d_textureName_T));
+    const auto& texture_TL(getTexture(d_textureName_TL));
+    const auto& texture_TR(getTexture(d_textureName_TR));
+    const auto& texture_L(getTexture(d_textureName_L));
+    const auto& texture_R(getTexture(d_textureName_R));
+    const auto& texture_B(getTexture(d_textureName_B));
+    const auto& texture_BL(getTexture(d_textureName_BL));
+    const auto& texture_BR(getTexture(d_textureName_BR));
+    const auto& texture_Slot(getTexture(d_textureName_Slot));
 
     d_slotWidth = texture_Slot.getDescription().size().x;
     d_slotHeight = texture_Slot.getDescription().size().y;
@@ -104,6 +133,8 @@ namespace Dx
       sprite.resetSizeToTexture();
     for (auto& sprite : d_slotSprites)
       sprite.resetSizeToTexture();
+
+    recreateItemSprites();
   }
 
   void Grid::recreateItemSprites()
