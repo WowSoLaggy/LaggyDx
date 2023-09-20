@@ -22,12 +22,19 @@ namespace Dx
     int d_slotsX = 0;
     int d_slotsY = 0;
 
+    int d_cornerWidth = 0;
+    int d_cornerHeight = 0;
+    int d_slotWidth = 0;
+    int d_slotHeight = 0;
+
     std::vector<Dx::Sprite> d_gridSprites;
     std::vector<Dx::Sprite> d_slotSprites;
+    std::vector<Dx::Sprite> d_itemSprites;
 
     GridItems d_items;
 
     void recreateGridSprites();
+    void recreateItemSprites();
   };
 
 } // ns Dx

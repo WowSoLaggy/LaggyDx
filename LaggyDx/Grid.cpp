@@ -46,6 +46,8 @@ namespace Dx
       i_renderer.renderSprite(sprite);
     for (const auto& sprite : d_slotSprites)
       i_renderer.renderSprite(sprite);
+    for (const auto& sprite : d_itemSprites)
+      i_renderer.renderSprite(sprite);
   }
 
 
@@ -70,32 +72,32 @@ namespace Dx
     const auto& texture_Slot(getTexture(TextureName_Slot));
     const auto& texture_Selection(getTexture(TextureName_Selection));
 
-    const int slotWidth = texture_Slot.getDescription().size().x;
-    const int slotHeight = texture_Slot.getDescription().size().y;
-    const int cornerWidth = texture_TL.getDescription().size().x;
-    const int cornerHeight = texture_TL.getDescription().size().y;
+    d_slotWidth = texture_Slot.getDescription().size().x;
+    d_slotHeight = texture_Slot.getDescription().size().y;
+    d_cornerWidth = texture_TL.getDescription().size().x;
+    d_cornerHeight = texture_TL.getDescription().size().y;
 
     d_gridSprites.push_back(Dx::Sprite{ &texture_TL, { 0, 0 } });
-    d_gridSprites.push_back(Dx::Sprite{ &texture_TR, { cornerWidth + d_slotsX * slotWidth, 0 } });
-    d_gridSprites.push_back(Dx::Sprite{ &texture_BL, { 0, cornerHeight + d_slotsY * slotHeight } });
-    d_gridSprites.push_back(Dx::Sprite{ &texture_BR, { cornerWidth + d_slotsX * slotWidth, cornerHeight + d_slotsY * slotHeight } });
+    d_gridSprites.push_back(Dx::Sprite{ &texture_TR, { d_cornerWidth + d_slotsX * d_slotWidth, 0 } });
+    d_gridSprites.push_back(Dx::Sprite{ &texture_BL, { 0, d_cornerHeight + d_slotsY * d_slotHeight } });
+    d_gridSprites.push_back(Dx::Sprite{ &texture_BR, { d_cornerWidth + d_slotsX * d_slotWidth, d_cornerHeight + d_slotsY * d_slotHeight } });
 
     for (int i = 0; i < d_slotsX; ++i)
     {
-      d_gridSprites.push_back(Dx::Sprite{ &texture_T, { cornerWidth + slotWidth * i, 0 } });
-      d_gridSprites.push_back(Dx::Sprite{ &texture_B, { cornerWidth + slotWidth * i, cornerHeight + d_slotsY * slotHeight } });
+      d_gridSprites.push_back(Dx::Sprite{ &texture_T, { d_cornerWidth + d_slotWidth * i, 0 } });
+      d_gridSprites.push_back(Dx::Sprite{ &texture_B, { d_cornerWidth + d_slotWidth * i, d_cornerHeight + d_slotsY * d_slotHeight } });
     }
 
     for (int i = 0; i < d_slotsY; ++i)
     {
-      d_gridSprites.push_back(Dx::Sprite{ &texture_L, { 0, cornerHeight + slotHeight * i } });
-      d_gridSprites.push_back(Dx::Sprite{ &texture_R, { cornerWidth + slotWidth * d_slotsX, cornerHeight + slotHeight * i } });
+      d_gridSprites.push_back(Dx::Sprite{ &texture_L, { 0, d_cornerHeight + d_slotHeight * i } });
+      d_gridSprites.push_back(Dx::Sprite{ &texture_R, { d_cornerWidth + d_slotWidth * d_slotsX, d_cornerHeight + d_slotHeight * i } });
     }
 
     for (int y = 0; y < d_slotsY; ++y)
     {
       for (int x = 0; x < d_slotsX; ++x)
-        d_slotSprites.push_back(Dx::Sprite{ &texture_Slot, { cornerWidth + slotWidth * x, cornerHeight + slotHeight * y } });
+        d_slotSprites.push_back(Dx::Sprite{ &texture_Slot, { d_cornerWidth + d_slotWidth * x, d_cornerHeight + d_slotHeight * y } });
     }
 
     for (auto& sprite : d_gridSprites)
@@ -104,10 +106,36 @@ namespace Dx
       sprite.resetSizeToTexture();
   }
 
+  void Grid::recreateItemSprites()
+  {
+    const Sdk::Vector2I borderSize(d_cornerWidth, d_cornerHeight);
+    const Sdk::Vector2I slotSize(d_slotWidth, d_slotHeight);
+    const Sdk::Vector2I slotHalfSize(d_slotWidth / 2, d_slotHeight / 2);
+
+    int itemIndex = -1;
+    for (const auto& itemPtr : d_items)
+    {
+      ++itemIndex;
+      if (itemPtr == nullptr)
+        continue;
+      
+      Dx::Sprite sprite(&getTexture(itemPtr->getTextureName()));
+      sprite.resetSizeToTexture();
+
+      const Sdk::Vector2I itemPos(itemIndex % d_slotsX, itemIndex / d_slotsX);
+      const Sdk::Vector2I itemHalfSize(sprite.getSize() / 2);
+      const auto pos = borderSize + itemPos * slotSize + (slotHalfSize - itemHalfSize) + Sdk::Vector2I{1, 1};
+      sprite.setPosition(pos);
+
+      d_itemSprites.push_back(std::move(sprite));
+    }
+  }
+
 
   void Grid::setItems(GridItems i_items)
   {
     d_items = std::move(i_items);
+    recreateItemSprites();
   }
 
 } // ns Dx

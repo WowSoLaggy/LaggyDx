@@ -81,7 +81,7 @@ namespace Dx
   class RadioGroup;
   class Grid;
   class GridItem;
-  using GridItems = std::vector<GridItem*>;
+  using GridItems = std::vector<std::shared_ptr<GridItem>>;
 
   class IGuiEffect;
 

@@ -6,8 +6,8 @@ namespace Dx
   class GridItem
   {
   public:
-    void setTexture(std::string i_textureName);
-    const std::string& getTexture() const;
+    void setTextureName(std::string i_textureName);
+    const std::string& getTextureName() const;
 
     void setOnClickHandler(std::function<void()> i_onClickHandler);
 
