@@ -40,6 +40,13 @@ namespace Dx
   }
 
 
+  void Grid::onMouseClick(MouseKey i_key)
+  {
+    if (i_key != MouseKey::Left)
+      return;
+  }
+
+
   void Grid::resize(const int i_slotsX, const int i_slotsY)
   {
     d_slotsX = i_slotsX;

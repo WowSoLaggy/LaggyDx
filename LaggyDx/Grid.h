@@ -13,6 +13,7 @@ namespace Dx
     Grid(int i_slotsX, int i_slotsY);
 
     virtual void render(Dx::IRenderer2d& i_renderer) const override;
+    virtual void onMouseClick(MouseKey i_key) override;
 
     void resize(int i_slotsX, int i_slotsY);
 
