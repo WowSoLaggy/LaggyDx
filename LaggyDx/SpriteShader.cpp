@@ -21,6 +21,7 @@ namespace Dx
     : d_camera(i_camera)
     , d_matrixBuffer(getRenderDevice(), sizeof(WorldViewProj))
     , d_uvOffsetBuffer(getRenderDevice(), sizeof(UvOffsetDesc))
+    , d_colorBuffer(getRenderDevice(), sizeof(ColorDesc))
     , d_emptyTexture(getResourceController().getTexture("white.png"))
   {
     getShaders().initVs(g_spriteVs, sizeof(g_spriteVs), getVertexLayoutPos2Text());
@@ -43,6 +44,7 @@ namespace Dx
     setXfmMatrices(i_sprite, i_disableCameraView);
     setTexture(i_sprite);
     setUvOffset(i_uvOffset ? *i_uvOffset : d_defaultUvOffset);
+    setColor(i_sprite.getColor());
     setGeometryBuffers();
     drawIndexed(d_spriteMesh->getIndexBuffer().getIndexCount(), 0);
   }
@@ -136,6 +138,24 @@ namespace Dx
     getRenderDevice().getDeviceContextPtr()->Unmap(d_uvOffsetBuffer.get(), 0);
 
     getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(1, 1, d_uvOffsetBuffer.getPp());
+  }
+
+  void SpriteShader::setColor(const Sdk::Vector4F& i_color) const
+  {
+    {
+      D3D11_MAPPED_SUBRESOURCE mappedResource;
+      getRenderDevice().getDeviceContextPtr()->Map(d_colorBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+      auto* dataPtr = (ColorDesc*)mappedResource.pData;
+      dataPtr->color.x = i_color.x;
+      dataPtr->color.y = i_color.y;
+      dataPtr->color.z = i_color.z;
+      dataPtr->color.w = i_color.w;
+    }
+
+    getRenderDevice().getDeviceContextPtr()->Unmap(d_colorBuffer.get(), 0);
+
+    getRenderDevice().getDeviceContextPtr()->PSSetConstantBuffers(0, 1, d_colorBuffer.getPp());
   }
 
   void SpriteShader::setGeometryBuffers() const

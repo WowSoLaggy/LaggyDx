@@ -2,6 +2,12 @@ Texture2D shaderTexture;
 SamplerState SampleType;
 
 
+cbuffer ColorBuffer
+{
+  float4 color;
+};
+
+
 struct PixelInputType
 {
   float4 position : SV_POSITION;
@@ -11,5 +17,5 @@ struct PixelInputType
 
 float4 main(PixelInputType input) : SV_TARGET
 {
-	return shaderTexture.Sample(SampleType, input.tex);
+  return shaderTexture.Sample(SampleType, input.tex) * color;
 }

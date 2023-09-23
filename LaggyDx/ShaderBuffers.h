@@ -85,4 +85,9 @@ namespace Dx
     XMFLOAT2 multiplier{ 1, 1 };
   };
 
+  struct ColorDesc
+  {
+    XMFLOAT4 color{ 1, 1, 1, 1 };
+  };
+
 } // ns Dx
