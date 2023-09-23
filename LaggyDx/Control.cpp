@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Control.h"
 
+#include "App.h"
 #include "ControlEvents.h"
 #include "IGuiEffect.h"
 
@@ -77,14 +78,24 @@ namespace Dx
     }
   }
 
-  void Control::onMouseClick(MouseKey i_key)
+  bool Control::onMouseClick(MouseKey i_key)
   {
+    if (!getVisible())
+      return false;
+
+    bool handled = false;
     for (auto& child : getChildren())
     {
       const auto childPtr = std::dynamic_pointer_cast<IControl>(child);
       if (childPtr->getVisible())
-        childPtr->onMouseClick(i_key);
+        handled = childPtr->onMouseClick(i_key) || handled;
     }
+
+    if (handled)
+      return true;
+
+    const auto& mousePos = App::get().getInputDevice().getMousePosition();
+    return getRectAbsolute().containsPoint(mousePos.getVector<float>());
   }
 
   void Control::onMouseRelease(MouseKey i_key)

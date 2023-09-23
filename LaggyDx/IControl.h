@@ -34,7 +34,7 @@ namespace Dx
     virtual bool getVisible() const = 0;
 
     virtual void onMouseMove() = 0;
-    virtual void onMouseClick(MouseKey i_key) = 0;
+    virtual bool onMouseClick(MouseKey i_key) = 0;
     virtual void onMouseRelease(MouseKey i_key) = 0;
 
     virtual void addEffect(std::shared_ptr<IGuiEffect> i_effect) = 0;

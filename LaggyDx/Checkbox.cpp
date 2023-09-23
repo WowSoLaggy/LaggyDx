@@ -36,7 +36,7 @@ namespace Dx
     }
   }
 
-  void Checkbox::onMouseClick(MouseKey i_key)
+  bool Checkbox::onMouseClick(MouseKey i_key)
   {
     if (i_key == MouseKey::Left)
     {
@@ -45,8 +45,11 @@ namespace Dx
       {
         setState(isChecked() ? CheckboxState::HoverUnticked : CheckboxState::HoverTicked);
         onCheck();
+        return true;
       }
     }
+
+    return Control::onMouseClick(i_key);
   }
 
 

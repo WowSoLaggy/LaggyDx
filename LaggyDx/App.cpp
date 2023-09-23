@@ -250,12 +250,18 @@ namespace Dx
       action->operator()();
   }
 
-  void App::onMouseClick(MouseKey i_key)
+  bool App::onMouseClick(MouseKey i_key)
   {
-    getForm().onMouseClick(i_key);
+    if (getForm().onMouseClick(i_key))
+      return true;
 
     if (const auto* action = d_actionsMap.getAction(i_key, ActionType::OnPress))
+    {
       action->operator()();
+      return true;
+    }
+
+    return false;
   }
 
   void App::onMouseRelease(MouseKey i_key)

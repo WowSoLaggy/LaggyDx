@@ -43,20 +43,23 @@ namespace Dx
   }
 
 
-  void Grid::onMouseClick(MouseKey i_key)
+  bool Grid::onMouseClick(MouseKey i_key)
   {
     if (i_key == MouseKey::Right)
       onRightMouseClick();
-    if (i_key == MouseKey::Left)
-      onLeftMouseClick();
+    else if (i_key == MouseKey::Left)
+    {
+      if (onLeftMouseClick())
+        return true;
+    }
 
-    Control::onMouseClick(i_key);
+    return Control::onMouseClick(i_key);
   }
 
-  void Grid::onLeftMouseClick()
+  bool Grid::onLeftMouseClick()
   {
     if (!d_selectionEnabled)
-      return;
+      return false;
 
     const auto& cursorPos = App::get().getInputDevice().getMousePosition() - getPositionAbsolute().getVector<int>();
     for (int ind = 0; ind < d_slotSprites.size(); ++ind)
@@ -64,9 +67,11 @@ namespace Dx
       if (d_slotSprites[ind].getRect().containsPoint(cursorPos))
       {
         selectItem(ind);
-        return;
+        return true;
       }
     }
+
+    return false;
   }
 
   void Grid::onRightMouseClick()

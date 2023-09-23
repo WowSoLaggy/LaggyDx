@@ -21,7 +21,7 @@ namespace Dx
     Sdk::Vector2I getSidesSize() const;
 
     virtual void onMouseMove() override;
-    virtual void onMouseClick(MouseKey i_key) override;
+    virtual bool onMouseClick(MouseKey i_key) override;
     virtual void onMouseRelease(MouseKey i_key) override;
 
     void setTextureBack(const std::string& i_textureName);

@@ -39,14 +39,19 @@ namespace Dx
     }
   }
 
-  void Button::onMouseClick(MouseKey i_key)
+  bool Button::onMouseClick(MouseKey i_key)
   {
     if (i_key == MouseKey::Left)
     {
       const auto& mousePos = App::get().getInputDevice().getMousePosition();
       if (getRectAbsolute().getRect<int>().containsPoint(mousePos))
+      {
         setState(ButtonState::Pressed);
+        return true;
+      }
     }
+
+    return Control::onMouseClick(i_key);
   }
 
   void Button::onMouseRelease(MouseKey i_key)

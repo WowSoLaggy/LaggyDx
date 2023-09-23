@@ -24,14 +24,19 @@ namespace Dx
   }
 
 
-  void RadioButton::onMouseClick(MouseKey i_key)
+  bool RadioButton::onMouseClick(MouseKey i_key)
   {
     if (i_key == MouseKey::Left)
     {
       const auto& mousePos = App::get().getInputDevice().getMousePosition();
       if (getRectAbsolute().getRect<int>().containsPoint(mousePos))
+      {
         check();
+        return true;
+      }
     }
+
+    return Control::onMouseClick(i_key);
   }
 
 

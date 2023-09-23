@@ -69,7 +69,7 @@ namespace Dx
 
     virtual void onMouseMove(Sdk::Vector2I i_moveDiff);
     virtual void onMouseWheel(int i_distance);
-    virtual void onMouseClick(MouseKey i_key);
+    virtual bool onMouseClick(MouseKey i_key);
     virtual void onMouseRelease(MouseKey i_key);
 
   private:

@@ -22,7 +22,7 @@ namespace Dx
 
     virtual void render(IRenderer2d& i_renderer) const override;
 
-    virtual void onMouseClick(MouseKey i_key) override;
+    virtual bool onMouseClick(MouseKey i_key) override;
 
     void check();
     void uncheck();

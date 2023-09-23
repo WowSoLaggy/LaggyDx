@@ -68,24 +68,36 @@ namespace Dx
     followMouse();
   }
 
-  void Slider::onMouseClick(MouseKey i_key)
+  bool Slider::onMouseClick(MouseKey i_key)
   {
-    if (i_key != MouseKey::Left)
-      return;
-
-    const auto mousePos = App::get().getInputDevice().getMousePosition() - getPositionAbsolute().getVector<int>();
-    
-    if (d_spriteSlider.getRect().containsPoint(mousePos))
-      d_isCurrentlyDragged = true;
-    else if (d_spriteLeftSide.getRect().containsPoint(mousePos))
-      setCurrentValue(d_minValue);
-    else if (d_spriteRightSide.getRect().containsPoint(mousePos))
-      setCurrentValue(d_maxValue);
-    else if (d_spriteBack.getRect().containsPoint(mousePos))
+    if (i_key == MouseKey::Left)
     {
-      d_isCurrentlyDragged = true;
-      followMouse();
+      const auto mousePos = App::get().getInputDevice().getMousePosition() - getPositionAbsolute().getVector<int>();
+
+      if (d_spriteSlider.getRect().containsPoint(mousePos))
+      {
+        d_isCurrentlyDragged = true;
+        return true;
+      }
+      else if (d_spriteLeftSide.getRect().containsPoint(mousePos))
+      {
+        setCurrentValue(d_minValue);
+        return true;
+      }
+      else if (d_spriteRightSide.getRect().containsPoint(mousePos))
+      {
+        setCurrentValue(d_maxValue);
+        return true;
+      }
+      else if (d_spriteBack.getRect().containsPoint(mousePos))
+      {
+        d_isCurrentlyDragged = true;
+        followMouse();
+        return true;
+      }
     }
+
+    return Control::onMouseClick(i_key);
   }
 
   void Slider::onMouseRelease(MouseKey i_key)

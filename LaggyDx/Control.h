@@ -28,7 +28,7 @@ namespace Dx
     virtual void update(double i_dt) override;
 
     virtual void onMouseMove() override;
-    virtual void onMouseClick(MouseKey i_key) override;
+    virtual bool onMouseClick(MouseKey i_key) override;
     virtual void onMouseRelease(MouseKey i_key) override;
 
     virtual void addEffect(std::shared_ptr<IGuiEffect> i_effect) override;
