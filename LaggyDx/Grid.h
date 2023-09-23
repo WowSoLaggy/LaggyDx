@@ -31,6 +31,11 @@ namespace Dx
 
     void setItems(GridItems i_items);
 
+    void setSelectionEnabled(bool i_selectionEnabled);
+    void setEmptySelectionEnabled(bool i_emptySelectionEnabled);
+    void selectItem(int i_itemIndex);
+    void unselectItem();
+
   private:
     int d_slotsX = 0;
     int d_slotsY = 0;
@@ -54,11 +59,24 @@ namespace Dx
     std::vector<Dx::Sprite> d_gridSprites;
     std::vector<Dx::Sprite> d_slotSprites;
     std::vector<Dx::Sprite> d_itemSprites;
+    Dx::Sprite d_selectionSprite;
 
     GridItems d_items;
 
+    bool d_selectionEnabled = false;
+    bool d_emptySelectionEnabled = false;
+    std::optional<int> d_selectedIndex;
+    void onSelectionEnabled();
+    void onSelectionDisabled();
+    void onEmptySelectionEnabled();
+    void onEmptySelectionDisabled();
+    bool hasItemAt(int i_index);
+
     void recreateGridSprites();
     void recreateItemSprites();
+
+    void onLeftMouseClick();
+    void onRightMouseClick();
   };
 
 } // ns Dx

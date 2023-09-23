@@ -37,13 +37,41 @@ namespace Dx
       i_renderer.renderSprite(sprite);
     for (const auto& sprite : d_itemSprites)
       i_renderer.renderSprite(sprite);
+
+    if (d_selectedIndex)
+      i_renderer.renderSprite(d_selectionSprite);
   }
 
 
   void Grid::onMouseClick(MouseKey i_key)
   {
-    if (i_key != MouseKey::Left)
+    if (i_key == MouseKey::Right)
+      onRightMouseClick();
+    if (i_key == MouseKey::Left)
+      onLeftMouseClick();
+
+    Control::onMouseClick(i_key);
+  }
+
+  void Grid::onLeftMouseClick()
+  {
+    if (!d_selectionEnabled)
       return;
+
+    const auto& cursorPos = App::get().getInputDevice().getMousePosition() - getPositionAbsolute().getVector<int>();
+    for (int ind = 0; ind < d_slotSprites.size(); ++ind)
+    {
+      if (d_slotSprites[ind].getRect().containsPoint(cursorPos))
+      {
+        selectItem(ind);
+        return;
+      }
+    }
+  }
+
+  void Grid::onRightMouseClick()
+  {
+    unselectItem();
   }
 
 
@@ -175,5 +203,71 @@ namespace Dx
     d_items = std::move(i_items);
     recreateItemSprites();
   }
+
+
+  void Grid::setSelectionEnabled(const bool i_selectionEnabled)
+  {
+    i_selectionEnabled ? onSelectionEnabled() : onSelectionDisabled();
+  }
+
+  void Grid::setEmptySelectionEnabled(const bool i_emptySelectionEnabled)
+  {
+    i_emptySelectionEnabled ? onEmptySelectionEnabled() : onEmptySelectionDisabled();
+  }
+
+  void Grid::onSelectionEnabled()
+  {
+    d_selectionEnabled = true;
+
+    d_selectionSprite.setTexture(getTexture(d_textureName_Selection));
+    d_selectionSprite.resetSizeToTexture();
+  }
+
+  void Grid::onSelectionDisabled()
+  {
+    d_selectionEnabled = false;
+    unselectItem();
+  }
+
+  void Grid::onEmptySelectionEnabled()
+  {
+    d_emptySelectionEnabled = true;
+  }
+
+  void Grid::onEmptySelectionDisabled()
+  {
+    d_emptySelectionEnabled = false;
+
+    if (d_selectedIndex && hasItemAt(*d_selectedIndex))
+      unselectItem();
+  }
+
+  bool Grid::hasItemAt(const int i_index)
+  {
+    if (i_index < 0 || i_index >= d_items.size())
+      return false;
+    return d_items[i_index] != nullptr;
+  }
+
+  void Grid::selectItem(const int i_itemIndex)
+  {
+    if (!d_selectionEnabled)
+      return;
+    if (!d_emptySelectionEnabled && !hasItemAt(i_itemIndex))
+      return;
+
+    d_selectedIndex = i_itemIndex;
+
+    const Sdk::Vector2I itemPos(i_itemIndex % d_slotsX, i_itemIndex / d_slotsX);
+    const Sdk::Vector2I cornerSize(d_cornerWidth, d_cornerWidth);
+    const Sdk::Vector2I slotSize(d_slotWidth, d_slotHeight);
+    d_selectionSprite.setPosition(cornerSize + itemPos * slotSize);
+  }
+
+  void Grid::unselectItem()
+  {
+    d_selectedIndex = std::nullopt;
+  }
+
 
 } // ns Dx
