@@ -14,17 +14,4 @@ namespace Dx
     return d_textureName;
   }
 
-
-  void GridItem::setOnClickHandler(std::function<void()> i_onClickHandler)
-  {
-    d_onClickHandler = i_onClickHandler;
-  }
-
-
-  void GridItem::onClick()
-  {
-    if (d_onClickHandler)
-      d_onClickHandler();
-  }
-
 } // ns Dx

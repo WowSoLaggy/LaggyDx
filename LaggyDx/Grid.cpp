@@ -262,12 +262,28 @@ namespace Dx
     const Sdk::Vector2I cornerSize(d_cornerWidth, d_cornerWidth);
     const Sdk::Vector2I slotSize(d_slotWidth, d_slotHeight);
     d_selectionSprite.setPosition(cornerSize + itemPos * slotSize);
+
+    if (d_onItemSelectedHandler)
+      d_onItemSelectedHandler(SAFE_DEREF(d_items.at(*d_selectedIndex)));
   }
 
   void Grid::unselectItem()
   {
     d_selectedIndex = std::nullopt;
+
+    if (d_onItemUnselectedHandler)
+      d_onItemUnselectedHandler();
   }
 
+
+  void Grid::setOnItemSelected(OnGridItemSelectedHandler i_handler)
+  {
+    d_onItemSelectedHandler = std::move(i_handler);
+  }
+
+  void Grid::setOnItemUnselected(OnGridItemUnselectedHandler i_handler)
+  {
+    d_onItemUnselectedHandler = std::move(i_handler);
+  }
 
 } // ns Dx

@@ -7,6 +7,10 @@
 
 namespace Dx
 {
+  using OnGridItemSelectedHandler = std::function<void(const GridItem&)>;
+  using OnGridItemUnselectedHandler = std::function<void()>;
+
+
   class Grid : public Dx::Control
   {
   public:
@@ -36,6 +40,9 @@ namespace Dx
     void selectItem(int i_itemIndex);
     void unselectItem();
 
+    void setOnItemSelected(OnGridItemSelectedHandler i_handler);
+    void setOnItemUnselected(OnGridItemUnselectedHandler i_handler);
+
   private:
     int d_slotsX = 0;
     int d_slotsY = 0;
@@ -62,6 +69,9 @@ namespace Dx
     Dx::Sprite d_selectionSprite;
 
     GridItems d_items;
+
+    OnGridItemSelectedHandler d_onItemSelectedHandler;
+    OnGridItemUnselectedHandler d_onItemUnselectedHandler;
 
     bool d_selectionEnabled = false;
     bool d_emptySelectionEnabled = false;
