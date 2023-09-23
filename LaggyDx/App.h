@@ -67,7 +67,7 @@ namespace Dx
     virtual void render();
     virtual void renderGui();
 
-    virtual void onMouseMove(Sdk::Vector2I i_move);
+    virtual void onMouseMove(Sdk::Vector2I i_moveDiff);
     virtual void onMouseWheel(int i_distance);
     virtual void onMouseClick(MouseKey i_key);
     virtual void onMouseRelease(MouseKey i_key);

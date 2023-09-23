@@ -237,9 +237,9 @@ namespace Dx
       resetRelativeMouseState();
   }
 
-  void App::onMouseMove(Sdk::Vector2I i_move)
+  void App::onMouseMove(Sdk::Vector2I i_moveDiff)
   {
-    notify(OnMouseMovedEvent(std::move(i_move)));
+    notify(OnMouseMovedEvent(std::move(i_moveDiff)));
     getForm().onMouseMove();
   }
 
