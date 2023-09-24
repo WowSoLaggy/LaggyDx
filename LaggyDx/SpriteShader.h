@@ -36,6 +36,7 @@ namespace Dx
 
     void setXfmMatrices(const ISprite& i_sprite, bool i_disableCameraView) const;
     void setTexture(const ISprite& i_sprite) const;
+    UvOffset getUvOffset(const ISprite& i_sprite, const UvOffset* i_customUvOffset) const;
     void setUvOffset(const UvOffset& i_uvOffset) const;
     void setColor(const Sdk::Vector4F& i_color) const;
     void setGeometryBuffers() const;

@@ -43,7 +43,7 @@ namespace Dx
     setShaders();
     setXfmMatrices(i_sprite, i_disableCameraView);
     setTexture(i_sprite);
-    setUvOffset(i_uvOffset ? *i_uvOffset : d_defaultUvOffset);
+    setUvOffset(getUvOffset(i_sprite, i_uvOffset));
     setColor(i_sprite.getColor());
     setGeometryBuffers();
     drawIndexed(d_spriteMesh->getIndexBuffer().getIndexCount(), 0);
@@ -122,6 +122,14 @@ namespace Dx
       texturePtr = d_emptyTexture.getTexturePtr();
 
     getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 1, &texturePtr);
+  }
+
+  UvOffset SpriteShader::getUvOffset(const ISprite& i_sprite, const UvOffset* i_customUvOffset) const
+  {
+    if (i_customUvOffset)
+      return *i_customUvOffset;
+
+    return d_defaultUvOffset;
   }
 
   void SpriteShader::setUvOffset(const UvOffset& i_uvOffset) const
