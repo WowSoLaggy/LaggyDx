@@ -8,9 +8,10 @@ namespace Dx
   class CursorUtils
   {
   public:
-    CursorUtils() = delete;
-
     static const Sdk::Vector2I& getPosition();
+
+  private:
+    CursorUtils() = delete;
   };
 
 } // ns Dx
