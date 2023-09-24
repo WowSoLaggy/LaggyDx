@@ -215,6 +215,7 @@
     <ClInclude Include="Slider.h" />
     <ClInclude Include="SpriteShader.h" />
     <ClInclude Include="TextureBase.h" />
+    <ClInclude Include="TextureUtils.h" />
     <ClInclude Include="ThirdPersonCamera.h" />
     <ClInclude Include="FontResource.h" />
     <ClInclude Include="IAnimationController3d.h" />
@@ -354,6 +355,7 @@
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="SpriteShader.cpp" />
     <ClCompile Include="TextureBase.cpp" />
+    <ClCompile Include="TextureUtils.cpp" />
     <ClCompile Include="Tri.cpp" />
     <ClCompile Include="VertexLayout.cpp" />
     <ClCompile Include="VertexTypes.cpp" />
