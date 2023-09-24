@@ -10,7 +10,7 @@ namespace Dx
       return;
 
     d_animationTime += i_dt;
-    while (d_animationTime > d_animation->frameTime)
+    while (d_animation && (d_animationTime > d_animation->frameTime))
       advanceFrame();
   }
 
@@ -51,7 +51,7 @@ namespace Dx
     {
       // Already final frame
       
-      if (!d_timesLeftToPlay || *d_timesLeftToPlay > 0)
+      if (!d_timesLeftToPlay || *d_timesLeftToPlay > 1)
       {
         // Restart animation
 
