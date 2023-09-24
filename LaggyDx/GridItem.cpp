@@ -4,14 +4,14 @@
 
 namespace Dx
 {
-  void GridItem::setTextureName(std::string i_textureName)
+  void GridItem::setTexture(const Dx::ITexture* i_texture)
   {
-    d_textureName = std::move(i_textureName);
+    d_texture = i_texture;
   }
 
-  const std::string& GridItem::getTextureName() const
+  const Dx::ITexture* GridItem::getTexture() const
   {
-    return d_textureName;
+    return d_texture;
   }
 
 } // ns Dx

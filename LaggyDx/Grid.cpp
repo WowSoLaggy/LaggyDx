@@ -2,25 +2,15 @@
 #include "Grid.h"
 
 #include "App.h"
+#include "GridItem.h"
 #include "ImageDescription.h"
 #include "IRenderer2d.h"
 #include "ITexture.h"
-#include "GridItem.h"
+#include "TextureUtils.h"
 
 
 namespace Dx
 {
-  namespace
-  {
-    const Dx::ITexture& getTexture(const fs::path& i_name)
-    {
-      const auto& rc = Dx::App::get().getResourceController();
-      return rc.getTexture(i_name);
-    }
-
-  } // anonym NS
-
-
   Grid::Grid(const int i_slotsX, const int i_slotsY)
   {
     resize(i_slotsX, i_slotsY);
@@ -131,15 +121,15 @@ namespace Dx
       return;
     }
 
-    const auto& texture_T(getTexture(d_textureName_T));
-    const auto& texture_TL(getTexture(d_textureName_TL));
-    const auto& texture_TR(getTexture(d_textureName_TR));
-    const auto& texture_L(getTexture(d_textureName_L));
-    const auto& texture_R(getTexture(d_textureName_R));
-    const auto& texture_B(getTexture(d_textureName_B));
-    const auto& texture_BL(getTexture(d_textureName_BL));
-    const auto& texture_BR(getTexture(d_textureName_BR));
-    const auto& texture_Slot(getTexture(d_textureName_Slot));
+    const auto& texture_T(TextureUtils::getTexture(d_textureName_T));
+    const auto& texture_TL(TextureUtils::getTexture(d_textureName_TL));
+    const auto& texture_TR(TextureUtils::getTexture(d_textureName_TR));
+    const auto& texture_L(TextureUtils::getTexture(d_textureName_L));
+    const auto& texture_R(TextureUtils::getTexture(d_textureName_R));
+    const auto& texture_B(TextureUtils::getTexture(d_textureName_B));
+    const auto& texture_BL(TextureUtils::getTexture(d_textureName_BL));
+    const auto& texture_BR(TextureUtils::getTexture(d_textureName_BR));
+    const auto& texture_Slot(TextureUtils::getTexture(d_textureName_Slot));
 
     d_slotWidth = texture_Slot.getDescription().size().x;
     d_slotHeight = texture_Slot.getDescription().size().y;
@@ -190,7 +180,7 @@ namespace Dx
       if (itemPtr == nullptr)
         continue;
       
-      Dx::Sprite sprite(&getTexture(itemPtr->getTextureName()));
+      Dx::Sprite sprite(itemPtr->getTexture());
       sprite.resetSizeToTexture();
 
       const Sdk::Vector2I itemPos(itemIndex % d_slotsX, itemIndex / d_slotsX);
@@ -224,7 +214,7 @@ namespace Dx
   {
     d_selectionEnabled = true;
 
-    d_selectionSprite.setTexture(getTexture(d_textureName_Selection));
+    d_selectionSprite.setTexture(TextureUtils::getTexture(d_textureName_Selection));
     d_selectionSprite.resetSizeToTexture();
   }
 

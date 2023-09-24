@@ -1,5 +1,7 @@
 #pragma once
 
+#include "LaggyDxFwd.h"
+
 
 namespace Dx
 {
@@ -8,11 +10,11 @@ namespace Dx
   public:
     virtual ~GridItem() = default;
 
-    void setTextureName(std::string i_textureName);
-    const std::string& getTextureName() const;
+    void setTexture(const Dx::ITexture* i_texture);
+    const Dx::ITexture* getTexture() const;
 
   private:
-    std::string d_textureName;
+    const Dx::ITexture* d_texture;
   };
 
 } // ns Dx
