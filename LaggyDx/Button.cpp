@@ -54,7 +54,7 @@ namespace Dx
     return Control::onMouseClick(i_key);
   }
 
-  void Button::onMouseRelease(MouseKey i_key)
+  bool Button::onMouseRelease(MouseKey i_key)
   {
     if (i_key == MouseKey::Left && d_state == ButtonState::Pressed)
     {
@@ -66,7 +66,11 @@ namespace Dx
       }
       else
         setState(ButtonState::Normal);
+
+      return true;
     }
+
+    return false;
   }
 
 

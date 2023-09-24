@@ -29,7 +29,7 @@ namespace Dx
 
     virtual void onMouseMove() override;
     virtual bool onMouseClick(MouseKey i_key) override;
-    virtual void onMouseRelease(MouseKey i_key) override;
+    virtual bool onMouseRelease(MouseKey i_key) override;
 
     virtual void addEffect(std::shared_ptr<IGuiEffect> i_effect) override;
 

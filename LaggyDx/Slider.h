@@ -22,7 +22,7 @@ namespace Dx
 
     virtual void onMouseMove() override;
     virtual bool onMouseClick(MouseKey i_key) override;
-    virtual void onMouseRelease(MouseKey i_key) override;
+    virtual bool onMouseRelease(MouseKey i_key) override;
 
     void setTextureBack(const std::string& i_textureName);
     void setTextureSlider(const std::string& i_textureName);

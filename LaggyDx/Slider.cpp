@@ -100,10 +100,15 @@ namespace Dx
     return Control::onMouseClick(i_key);
   }
 
-  void Slider::onMouseRelease(MouseKey i_key)
+  bool Slider::onMouseRelease(MouseKey i_key)
   {
-    if (i_key == MouseKey::Left)
+    if (i_key == MouseKey::Left && d_isCurrentlyDragged)
+    {
       d_isCurrentlyDragged = false;
+      return true;
+    }
+
+    return false;
   }
 
 

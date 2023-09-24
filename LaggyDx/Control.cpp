@@ -70,7 +70,7 @@ namespace Dx
 
   void Control::onMouseMove()
   {
-    for (auto& child : getChildren())
+    for (auto& child : std::ranges::reverse_view(getChildren()))
     {
       const auto childPtr = std::dynamic_pointer_cast<IControl>(child);
       if (childPtr->getVisible())
@@ -83,29 +83,33 @@ namespace Dx
     if (!getVisible())
       return false;
 
-    bool handled = false;
-    for (auto& child : getChildren())
+    for (auto& child : std::ranges::reverse_view(getChildren()))
     {
       const auto childPtr = std::dynamic_pointer_cast<IControl>(child);
       if (childPtr->getVisible())
-        handled = childPtr->onMouseClick(i_key) || handled;
+      {
+        if (childPtr->onMouseClick(i_key))
+          return true;
+      }
     }
-
-    if (handled)
-      return true;
 
     const auto& mousePos = App::get().getInputDevice().getMousePosition();
     return getRectAbsolute().containsPoint(mousePos.getVector<float>());
   }
 
-  void Control::onMouseRelease(MouseKey i_key)
+  bool Control::onMouseRelease(MouseKey i_key)
   {
-    for (auto& child : getChildren())
+    for (auto& child : std::ranges::reverse_view(getChildren()))
     {
       const auto childPtr = std::dynamic_pointer_cast<IControl>(child);
       if (childPtr->getVisible())
-        childPtr->onMouseRelease(i_key);
+      {
+        if (childPtr->onMouseRelease(i_key))
+          return true;
+      }
     }
+
+    return false;
   }
 
 
@@ -114,6 +118,5 @@ namespace Dx
     i_effect->setControl(*this);
     d_effects.push_back(i_effect);
   }
-
 
 } // Dx

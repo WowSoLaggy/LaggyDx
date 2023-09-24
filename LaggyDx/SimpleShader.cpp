@@ -21,7 +21,7 @@ namespace Dx
     , d_cameraBuffer(getRenderDevice(), sizeof(CameraDesc))
     , d_lightBuffer(getRenderDevice(), sizeof(LightDesc))
     , d_camera(i_camera)
-    , d_emptyTexture(getResourceController().getTexture("white.png"))
+    , d_emptyTexture(getResourceController().getTexture("White.png"))
   {
     getShaders().initVs(g_simpleVs, sizeof(g_simpleVs), getVertexLayoutPos3NormText());
     getShaders().initPs(g_simplePs, sizeof(g_simplePs));
