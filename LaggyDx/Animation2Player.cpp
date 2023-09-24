@@ -4,7 +4,7 @@
 
 namespace Dx
 {
-  void Animation2Player::update(double i_dt)
+  void Animation2Player::update(const double i_dt)
   {
     if (!d_animation)
       return;
