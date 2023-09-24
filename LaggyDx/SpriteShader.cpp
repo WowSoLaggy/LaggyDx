@@ -105,9 +105,9 @@ namespace Dx
       dataPtr->world = getWorldMatrixTransposed();
       dataPtr->view = getViewMatrixTransposed();
       dataPtr->projection = d_projMatrix;
+    
+      getRenderDevice().getDeviceContextPtr()->Unmap(d_matrixBuffer.get(), 0);
     }
-
-    getRenderDevice().getDeviceContextPtr()->Unmap(d_matrixBuffer.get(), 0);
 
     getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(0, 1, d_matrixBuffer.getPp());
   }
@@ -135,9 +135,9 @@ namespace Dx
       dataPtr->offset.y = i_uvOffset.offset.y;
       dataPtr->multiplier.x = i_uvOffset.multiplier.x;
       dataPtr->multiplier.y = i_uvOffset.multiplier.y;
-    }
 
-    getRenderDevice().getDeviceContextPtr()->Unmap(d_uvOffsetBuffer.get(), 0);
+      getRenderDevice().getDeviceContextPtr()->Unmap(d_uvOffsetBuffer.get(), 0);
+    }
 
     getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(1, 1, d_uvOffsetBuffer.getPp());
   }
@@ -153,9 +153,9 @@ namespace Dx
       dataPtr->color.y = i_color.y;
       dataPtr->color.z = i_color.z;
       dataPtr->color.w = i_color.w;
-    }
 
-    getRenderDevice().getDeviceContextPtr()->Unmap(d_colorBuffer.get(), 0);
+      getRenderDevice().getDeviceContextPtr()->Unmap(d_colorBuffer.get(), 0);
+    }
 
     getRenderDevice().getDeviceContextPtr()->PSSetConstantBuffers(0, 1, d_colorBuffer.getPp());
   }
