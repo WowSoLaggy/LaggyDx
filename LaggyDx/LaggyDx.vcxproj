@@ -148,6 +148,7 @@
     <ClInclude Include="ActionType.h" />
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="Animation2Player.h" />
     <ClInclude Include="Bitmap.h" />
     <ClInclude Include="Camera2.h" />
     <ClInclude Include="Camera3Base.h" />
@@ -305,6 +306,7 @@
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="AnimatedSprite_save.cpp" />
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Animation2Player.cpp" />
     <ClCompile Include="AnimationController3d.cpp" />
     <ClCompile Include="Bitmap.cpp" />
     <ClCompile Include="Button.cpp" />

@@ -151,6 +151,9 @@
     <Filter Include="src\Cameras\Camera2">
       <UniqueIdentifier>{370a6260-52d9-4cb8-8023-594a9bfab283}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Animation2d">
+      <UniqueIdentifier>{2f8f31f1-25fc-4e0b-b48d-3bb61c388af5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -615,6 +618,9 @@
     <ClInclude Include="GridItem.h">
       <Filter>src\Gui</Filter>
     </ClInclude>
+    <ClInclude Include="Animation2Player.h">
+      <Filter>src\Animation2d</Filter>
+    </ClInclude>
     <ClInclude Include="TextureUtils.h">
       <Filter>src\Utils</Filter>
     </ClInclude>
@@ -961,6 +967,9 @@
     </ClCompile>
     <ClCompile Include="GridItem.cpp">
       <Filter>src\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation2Player.cpp">
+      <Filter>src\Animation2d</Filter>
     </ClCompile>
     <ClCompile Include="TextureUtils.cpp">
       <Filter>src\Utils</Filter>
