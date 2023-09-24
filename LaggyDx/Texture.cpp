@@ -73,6 +73,8 @@ namespace Dx
 
     d_description.width = (int)d_textureDesc.Width;
     d_description.height = (int)d_textureDesc.Height;
+    d_description.frameWidth = d_description.width;
+    d_description.frameHeight = d_description.height;
 
     d_alphaMask.resize(d_description.width * d_description.height, true);
     d_solidAlpha = true;
@@ -92,8 +94,8 @@ namespace Dx
     CONTRACT_ASSERT(reader.parse(file, root, false));
 
     const auto& descriptionNode = root["Description"];
-    d_description.width = descriptionNode["Width"].asInt();
-    d_description.height = descriptionNode["Height"].asInt();
+    d_description.frameWidth = descriptionNode["Width"].asInt();
+    d_description.frameHeight = descriptionNode["Height"].asInt();
     d_description.alpha = descriptionNode["Alpha"].asBool();
 
     const auto& animationsNode = root["Animations"];
@@ -167,7 +169,7 @@ namespace Dx
       return true;
 
     if (i_frame != 0)
-      i_coords.x += i_frame * d_description.width;
+      i_coords.x += i_frame * d_description.frameWidth;
 
     return d_alphaMask.at(i_coords.x + i_coords.y * d_textureDesc.Width);
   }

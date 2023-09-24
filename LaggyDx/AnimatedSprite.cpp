@@ -9,10 +9,10 @@ namespace Dx
 {
   RECT AnimatedSprite::getSourceRect() const
   {
-    const int width = d_texture->getDescription().width;
-    const int height = d_texture->getDescription().height;
+    const int frameWidth = d_texture->getDescription().frameWidth;
+    const int frameHeight = d_texture->getDescription().frameHeight;
 
-    return { d_curFrame * width, 0, (d_curFrame + 1) * width, height };
+    return { d_curFrame * frameWidth, 0, (d_curFrame + 1) * frameWidth, frameHeight };
   }
 
 

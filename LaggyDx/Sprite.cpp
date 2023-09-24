@@ -30,7 +30,7 @@ namespace Dx
 
   void Sprite::resetSizeToTexture()
   {
-    d_size = d_texture ? d_texture->getDescription().size() : Sdk::Vector2I{ 0, 0 };
+    d_size = d_texture ? d_texture->getDescription().frameSize() : Sdk::Vector2I{ 0, 0 };
   }
 
 
