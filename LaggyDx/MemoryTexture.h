@@ -16,6 +16,7 @@ namespace Dx
     virtual const ImageDescription& getDescription() const override;
     virtual const Animations2Map& getAnimationsMap() const override;
 
+    virtual bool hasAlpha() const override;
     virtual bool checkAlpha(Sdk::Vector2I i_coords, int i_frame = 0) const override;
 
     virtual ID3D11ShaderResourceView* getTexturePtr() const override;

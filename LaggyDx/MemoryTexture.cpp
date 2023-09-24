@@ -28,6 +28,11 @@ namespace Dx
     CONTRACT_ASSERT(false);
   }
 
+  bool MemoryTexture::hasAlpha() const
+  {
+    // Not implemented
+    CONTRACT_ASSERT(false);
+  }
   bool MemoryTexture::checkAlpha(Sdk::Vector2I i_coords, int i_frame) const
   {
     // Not implemented

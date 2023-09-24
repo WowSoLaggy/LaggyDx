@@ -94,8 +94,8 @@ namespace Dx
     CONTRACT_ASSERT(reader.parse(file, root, false));
 
     const auto& descriptionNode = root["Description"];
-    d_description.frameWidth = descriptionNode["Width"].asInt();
-    d_description.frameHeight = descriptionNode["Height"].asInt();
+    d_description.frameWidth = descriptionNode["FrameWidth"].asInt();
+    d_description.frameHeight = descriptionNode["FrameHeight"].asInt();
     d_description.alpha = descriptionNode["Alpha"].asBool();
 
     const auto& animationsNode = root["Animations"];
@@ -161,6 +161,11 @@ namespace Dx
           d_solidAlpha = false;
       }
     }
+  }
+
+  bool Texture::hasAlpha() const
+  {
+    return !d_solidAlpha;
   }
 
   bool Texture::checkAlpha(Sdk::Vector2I i_coords, int i_frame /*= 0*/) const
