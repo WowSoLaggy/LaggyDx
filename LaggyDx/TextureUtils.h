@@ -8,6 +8,8 @@ namespace Dx
   class TextureUtils
   {
   public:
+    TextureUtils() = delete;
+
     static const Dx::ITexture& getTexture(const fs::path& i_name);
   };
 

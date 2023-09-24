@@ -624,6 +624,9 @@
     <ClInclude Include="TextureUtils.h">
       <Filter>src\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="CursorUtils.h">
+      <Filter>src\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -972,6 +975,9 @@
       <Filter>src\Animation2d</Filter>
     </ClCompile>
     <ClCompile Include="TextureUtils.cpp">
+      <Filter>src\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="CursorUtils.cpp">
       <Filter>src\Utils</Filter>
     </ClCompile>
   </ItemGroup>
