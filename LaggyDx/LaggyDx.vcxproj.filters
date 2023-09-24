@@ -627,6 +627,9 @@
     <ClInclude Include="CursorUtils.h">
       <Filter>src\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="AnimationEvents.h">
+      <Filter>src\Animation2d</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

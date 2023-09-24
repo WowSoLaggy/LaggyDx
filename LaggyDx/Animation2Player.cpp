@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Animation2Player.h"
 
+#include "AnimationEvents.h"
+
 
 namespace Dx
 {
@@ -15,24 +17,31 @@ namespace Dx
   }
 
 
-  void Animation2Player::playAnimation(ImageAnimation i_animation, std::optional<int> i_times)
+  void Animation2Player::playAnimation(const ImageAnimation* i_animation, std::optional<int> i_times)
   {
-    d_animation = std::move(i_animation);
+    d_animation = i_animation;
     d_animationTime = 0;
     d_isForwardAnimation = d_animation->end >= d_animation->start;
     d_timesLeftToPlay = i_times;
+    d_curFrame = d_animation->start;
   }
 
   void Animation2Player::stopAnimation()
   {
-    d_animation.reset();
+    d_animation = nullptr;
     d_animationTime = 0;
+    notify(AnimationStoppedEvent());
   }
 
 
   int Animation2Player::getCurrentFrame() const
   {
     return d_curFrame;
+  }
+
+  bool Animation2Player::isPlaying() const
+  {
+    return d_animation;
   }
 
 

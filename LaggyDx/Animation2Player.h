@@ -2,21 +2,24 @@
 
 #include "ImageAnimation.h"
 
+#include <LaggySdk/EventHandler.h>
+
 
 namespace Dx
 {
-  class Animation2Player
+  class Animation2Player : public Sdk::EventHandler
   {
   public:
     void update(double i_dt);
 
-    void playAnimation(ImageAnimation i_animation, std::optional<int> i_times);
+    void playAnimation(const ImageAnimation* i_animation, std::optional<int> i_times);
     void stopAnimation();
 
     int getCurrentFrame() const;
+    bool isPlaying() const;
 
   private:
-    std::optional<ImageAnimation> d_animation;
+    const ImageAnimation* d_animation = nullptr;
     double d_animationTime = 0;
     int d_curFrame = 0;
     bool d_isForwardAnimation = true;
