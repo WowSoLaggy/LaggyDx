@@ -114,10 +114,12 @@ namespace Dx
 
   void SpriteShader::setTexture(const ISprite& i_sprite) const
   {
-    auto* texturePtr = d_emptyTexture.getTexturePtr();
+    ID3D11ShaderResourceView* texturePtr = nullptr;
 
     if (const auto* texture = i_sprite.getTexture())
       texturePtr = texture->getTexturePtr();
+    else
+      texturePtr = d_emptyTexture.getTexturePtr();
 
     getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 1, &texturePtr);
   }
