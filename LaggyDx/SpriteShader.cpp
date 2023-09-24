@@ -129,6 +129,17 @@ namespace Dx
     if (i_customUvOffset)
       return *i_customUvOffset;
 
+    if (i_sprite.hasAnimation())
+    {
+      const float frameRatio = i_sprite.getFrameRatio();
+      const int currentFrame = i_sprite.getCurrentFrame();
+
+      UvOffset uvOffset;
+      uvOffset.multiplier.x = frameRatio;
+      uvOffset.offset.x = frameRatio * currentFrame;
+      return uvOffset;
+    }
+
     return d_defaultUvOffset;
   }
 

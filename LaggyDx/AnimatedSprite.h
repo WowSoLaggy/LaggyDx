@@ -13,6 +13,10 @@ namespace Dx
 
     void setCurrentFrame(int i_curFrame);
 
+    virtual bool hasAnimation() const override;
+    virtual int getCurrentFrame() const override;
+    virtual float getFrameRatio() const override;
+
   private:
     int d_curFrame = 0;
 

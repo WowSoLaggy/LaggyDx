@@ -44,4 +44,21 @@ namespace Dx
   {
     return { d_position, d_position + d_size };
   }
+
+
+  bool Sprite::hasAnimation() const
+  {
+    return false;
+  }
+
+  int Sprite::getCurrentFrame() const
+  {
+    CONTRACT_EXPECT(false);
+  }
+
+  float Sprite::getFrameRatio() const
+  {
+    CONTRACT_EXPECT(false);
+  }
+
 } // ns Dx

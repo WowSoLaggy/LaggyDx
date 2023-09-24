@@ -20,6 +20,10 @@ namespace Dx
     virtual const Sdk::Vector2I& getSize() const = 0;
     virtual const Sdk::Vector4F& getColor() const = 0;
     virtual RECT getSourceRect() const = 0;
+
+    virtual bool hasAnimation() const = 0;
+    virtual int getCurrentFrame() const = 0;
+    virtual float getFrameRatio() const = 0;
   };
 
 } // ns Dx

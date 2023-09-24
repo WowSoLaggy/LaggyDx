@@ -33,6 +33,10 @@ namespace Dx
 
     void setRotation(double i_rotation) { d_rotation = i_rotation; }
 
+    virtual bool hasAnimation() const override;
+    virtual int getCurrentFrame() const override;
+    virtual float getFrameRatio() const override;
+
   protected:
     const ITexture* d_texture = nullptr;
     Sdk::Vector2I d_position = Sdk::Vector2I::zero();
