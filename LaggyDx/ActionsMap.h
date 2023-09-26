@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Action.h"
 #include "ActionType.h"
 #include "KeyboardKeys.h"
+#include "LaggyDxFwd.h"
 #include "MouseKeys.h"
 
 #include <LaggySdk/PairHash.h>

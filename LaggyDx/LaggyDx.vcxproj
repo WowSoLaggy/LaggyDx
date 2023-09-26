@@ -143,7 +143,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Aabb.h" />
-    <ClInclude Include="Action.h" />
     <ClInclude Include="ActionsMap.h" />
     <ClInclude Include="ActionType.h" />
     <ClInclude Include="AnimatedSprite.h" />
@@ -303,7 +302,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aabb.cpp" />
-    <ClCompile Include="Action.cpp" />
     <ClCompile Include="ActionsMap.cpp" />
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="AnimatedSprite_save.cpp" />

@@ -113,6 +113,8 @@ namespace Dx
   class ISpriteShader;
 
   using Color = Sdk::Vector4F;
+  using Action = std::function<void()>;
+
 } // ns Dx
 
 

@@ -264,9 +264,6 @@
     <ClInclude Include="Object2Base.h">
       <Filter>src\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Action.h">
-      <Filter>src\Actions</Filter>
-    </ClInclude>
     <ClInclude Include="ActionsMap.h">
       <Filter>src\Actions</Filter>
     </ClInclude>
@@ -715,9 +712,6 @@
     </ClCompile>
     <ClCompile Include="Object2Base.cpp">
       <Filter>src\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Action.cpp">
-      <Filter>src\Actions</Filter>
     </ClCompile>
     <ClCompile Include="ActionsMap.cpp">
       <Filter>src\Actions</Filter>
