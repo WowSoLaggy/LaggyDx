@@ -1,5 +1,7 @@
 #pragma once
 
+#include <LaggySdk/Vector.h>
+
 #include <unordered_map>
 
 
@@ -110,6 +112,7 @@ namespace Dx
 
   class ISpriteShader;
 
+  using Color = Sdk::Vector4F;
 } // ns Dx
 
 
