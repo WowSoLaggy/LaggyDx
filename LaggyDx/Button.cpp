@@ -7,7 +7,15 @@
 
 namespace Dx
 {
-  void Button::setTextureName(ButtonState i_state, std::string i_textureName)
+  void Button::setTextureName(const std::string& i_textureName)
+  {
+    for (int i = 0; i < static_cast<int>(ButtonState::Count); ++i)
+      d_textures[static_cast<ButtonState>(i)] = i_textureName;
+    
+    updateTexture();
+  }
+
+  void Button::setTextureName(const ButtonState i_state, std::string i_textureName)
   {
     d_textures[i_state] = std::move(i_textureName);
     if (i_state == d_state)

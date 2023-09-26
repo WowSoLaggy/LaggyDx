@@ -9,14 +9,17 @@ namespace Dx
 {
   enum class ButtonState
   {
-    Normal,
+    Normal = 0,
     Hover,
     Pressed,
+
+    Count
   };
 
   class Button : public Control
   {
   public:
+    void setTextureName(const std::string& i_textureName);
     void setTextureName(ButtonState i_state, std::string i_textureName);
 
     virtual void render(IRenderer2d& i_renderer) const override;

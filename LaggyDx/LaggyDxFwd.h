@@ -73,6 +73,7 @@ namespace Dx
   class Shape3d;
 
   class IControl;
+  class Control;
   class Label;
   class Panel;
   class Layout;
