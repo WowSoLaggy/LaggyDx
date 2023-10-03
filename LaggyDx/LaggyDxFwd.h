@@ -116,6 +116,13 @@ namespace Dx
   using Color = Sdk::Vector4F;
   using Action = std::function<void()>;
 
+  namespace thd
+  {
+    class ITile;
+    class ITileCollection;
+
+  } // ns thd
+
 } // ns Dx
 
 

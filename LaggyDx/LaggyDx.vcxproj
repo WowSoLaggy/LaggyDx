@@ -165,6 +165,8 @@
     <ClInclude Include="ICamera2.h" />
     <ClInclude Include="ISprite.h" />
     <ClInclude Include="ISpriteShader.h" />
+    <ClInclude Include="ITile.h" />
+    <ClInclude Include="ITileCollection.h" />
     <ClInclude Include="MemoryTexture.h" />
     <ClInclude Include="RefreshRate.h" />
     <ClInclude Include="Roam.h" />
@@ -287,6 +289,8 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="StaticCollider.h" />
     <ClInclude Include="Text.h" />
+    <ClInclude Include="BufferTile.h" />
+    <ClInclude Include="Simulation.h" />
     <ClInclude Include="TopologyTypes.h" />
     <ClInclude Include="Tri.h" />
     <ClInclude Include="VertexLayout.h" />
@@ -359,6 +363,7 @@
     <ClCompile Include="SpriteShader.cpp" />
     <ClCompile Include="TextureBase.cpp" />
     <ClCompile Include="TextureUtils.cpp" />
+    <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="Tri.cpp" />
     <ClCompile Include="VertexLayout.cpp" />
     <ClCompile Include="VertexTypes.cpp" />

@@ -154,6 +154,9 @@
     <Filter Include="src\Animation2d">
       <UniqueIdentifier>{2f8f31f1-25fc-4e0b-b48d-3bb61c388af5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\ThermoDynamics">
+      <UniqueIdentifier>{bbe36852-c078-44c7-9ae1-b405991925f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -627,6 +630,18 @@
     <ClInclude Include="AnimationEvents.h">
       <Filter>src\Animation2d</Filter>
     </ClInclude>
+    <ClInclude Include="ITile.h">
+      <Filter>src\ThermoDynamics</Filter>
+    </ClInclude>
+    <ClInclude Include="ITileCollection.h">
+      <Filter>src\ThermoDynamics</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferTile.h">
+      <Filter>src\ThermoDynamics</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation.h">
+      <Filter>src\ThermoDynamics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -976,6 +991,9 @@
     </ClCompile>
     <ClCompile Include="CursorUtils.cpp">
       <Filter>src\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation.cpp">
+      <Filter>src\ThermoDynamics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
