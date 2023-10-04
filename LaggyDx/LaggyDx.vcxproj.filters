@@ -642,6 +642,9 @@
     <ClInclude Include="Simulation.h">
       <Filter>src\ThermoDynamics</Filter>
     </ClInclude>
+    <ClInclude Include="Gradient.h">
+      <Filter>src\Colors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -994,6 +997,9 @@
     </ClCompile>
     <ClCompile Include="Simulation.cpp">
       <Filter>src\ThermoDynamics</Filter>
+    </ClCompile>
+    <ClCompile Include="Gradient.cpp">
+      <Filter>src\Colors</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

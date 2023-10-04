@@ -158,6 +158,7 @@
     <ClInclude Include="DefaultMeshes.h" />
     <ClInclude Include="DxResourceWrapper.h" />
     <ClInclude Include="FreeCamera2Controller.h" />
+    <ClInclude Include="Gradient.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="GridItem.h" />
     <ClInclude Include="HeightMap.h" />
@@ -321,6 +322,7 @@
     <ClCompile Include="CursorUtils.cpp" />
     <ClCompile Include="DefaultMeshes.cpp" />
     <ClCompile Include="FreeCamera2Controller.cpp" />
+    <ClCompile Include="Gradient.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="GridItem.cpp" />
     <ClCompile Include="HeightMap.cpp" />
