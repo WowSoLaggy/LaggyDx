@@ -55,7 +55,7 @@ namespace Dx
       const double t2 = tile2->getT();
       const double tDiff = t2 - t1;
 
-      constexpr double K = 0.1;
+      constexpr double K = 0.05;
       const double tChange = tDiff * d_dt * K;
 
       d_buffer[i_coords1].T += tChange;
