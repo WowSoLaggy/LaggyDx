@@ -80,7 +80,7 @@ namespace Dx
       const float ySize = (float)i_sprite.getSize().y;
       const auto worldMatrix =
         XMMatrixScaling(scale * xSize, scale * ySize, 1) *
-        XMMatrixRotationRollPitchYaw(0, 0, 0) *
+        XMMatrixRotationRollPitchYaw(0, 0, rotation) *
         XMMatrixTranslation((float)position.x, (float)position.y, 0);
 
       return XMMatrixTranspose(worldMatrix);
