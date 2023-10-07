@@ -4,6 +4,8 @@
 #include "LaggyDxFwd.h"
 #include "Sprite.h"
 
+#include <LaggySdk/Vector.h>
+
 
 namespace Dx
 {
@@ -14,12 +16,12 @@ namespace Dx
   class Grid : public Dx::Control
   {
   public:
-    Grid(int i_slotsX, int i_slotsY);
+    Grid(Sdk::Vector2I i_slotsNumber);
 
     virtual void render(Dx::IRenderer2d& i_renderer) const override;
     virtual bool onMouseClick(MouseKey i_key) override;
 
-    void resize(int i_slotsX, int i_slotsY);
+    void resize(Sdk::Vector2I i_slotsNumber);
 
     void setTextures(
       std::string i_textureName_T,
@@ -44,8 +46,7 @@ namespace Dx
     void setOnItemUnselected(OnGridItemUnselectedHandler i_handler);
 
   private:
-    int d_slotsX = 0;
-    int d_slotsY = 0;
+    Sdk::Vector2I d_slotsNumber;
 
     std::string d_textureName_T;
     std::string d_textureName_TL;
@@ -58,10 +59,8 @@ namespace Dx
     std::string d_textureName_Slot;
     std::string d_textureName_Selection;
 
-    int d_cornerWidth = 0;
-    int d_cornerHeight = 0;
-    int d_slotWidth = 0;
-    int d_slotHeight = 0;
+    Sdk::Vector2I d_slotSize;
+    Sdk::Vector2I d_cornerSize;
 
     std::vector<Dx::Sprite> d_gridSprites;
     std::vector<Dx::Sprite> d_slotSprites;

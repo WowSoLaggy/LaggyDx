@@ -11,8 +11,8 @@ namespace Dx
   {
     CONTRACT_EXPECT(d_texture);
 
-    const int frameWidth = d_texture->getDescription().frameWidth;
-    const int frameHeight = d_texture->getDescription().frameHeight;
+    const int frameWidth = d_texture->getDescription().frameSize.x;
+    const int frameHeight = d_texture->getDescription().frameSize.y;
 
     return { d_curFrame * frameWidth, 0, (d_curFrame + 1) * frameWidth, frameHeight };
   }
@@ -37,7 +37,7 @@ namespace Dx
   float AnimatedSprite::getFrameRatio() const
   {
     CONTRACT_EXPECT(d_texture);
-    return (float)d_texture->getDescription().frameWidth / d_texture->getDescription().width;
+    return (float)d_texture->getDescription().frameSize.x / d_texture->getDescription().size.x;
   }
 
 } // ns Dx

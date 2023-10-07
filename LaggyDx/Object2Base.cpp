@@ -25,7 +25,7 @@ namespace Dx
     const auto& rc = App::get().getResourceController();
     const auto& texture = rc.getTexture(i_textureName);
     d_sprite.setTexture(texture);
-    d_sprite.setSize(texture.getDescription().size());
+    d_sprite.setSize(texture.getDescription().size);
 
     updateRotationOrigin();
     updateTranslation();

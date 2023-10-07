@@ -11,9 +11,9 @@
 
 namespace Dx
 {
-  Grid::Grid(const int i_slotsX, const int i_slotsY)
+  Grid::Grid(Sdk::Vector2I i_slotsNumber)
   {
-    resize(i_slotsX, i_slotsY);
+    resize(std::move(i_slotsNumber));
   }
 
 
@@ -70,10 +70,9 @@ namespace Dx
   }
 
 
-  void Grid::resize(const int i_slotsX, const int i_slotsY)
+  void Grid::resize(Sdk::Vector2I i_slotsNumber)
   {
-    d_slotsX = i_slotsX;
-    d_slotsY = i_slotsY;
+    d_slotsNumber = std::move(i_slotsNumber);
     recreateGridSprites();
   }
 
@@ -131,32 +130,30 @@ namespace Dx
     const auto& texture_BR(TextureUtils::getTexture(d_textureName_BR));
     const auto& texture_Slot(TextureUtils::getTexture(d_textureName_Slot));
 
-    d_slotWidth = texture_Slot.getDescription().size().x;
-    d_slotHeight = texture_Slot.getDescription().size().y;
-    d_cornerWidth = texture_TL.getDescription().size().x;
-    d_cornerHeight = texture_TL.getDescription().size().y;
+    d_slotSize = texture_Slot.getDescription().size;
+    d_cornerSize = texture_TL.getDescription().size;
 
     d_gridSprites.push_back(Dx::Sprite{ &texture_TL, { 0, 0 } });
-    d_gridSprites.push_back(Dx::Sprite{ &texture_TR, { d_cornerWidth + d_slotsX * d_slotWidth, 0 } });
-    d_gridSprites.push_back(Dx::Sprite{ &texture_BL, { 0, d_cornerHeight + d_slotsY * d_slotHeight } });
-    d_gridSprites.push_back(Dx::Sprite{ &texture_BR, { d_cornerWidth + d_slotsX * d_slotWidth, d_cornerHeight + d_slotsY * d_slotHeight } });
+    d_gridSprites.push_back(Dx::Sprite{ &texture_TR, { d_cornerSize.x + d_slotsNumber.x * d_slotSize.x, 0 } });
+    d_gridSprites.push_back(Dx::Sprite{ &texture_BL, { 0, d_cornerSize.y + d_slotsNumber.y * d_slotSize.y } });
+    d_gridSprites.push_back(Dx::Sprite{ &texture_BR, { d_cornerSize.x + d_slotsNumber.x * d_slotSize.x, d_cornerSize.y + d_slotsNumber.y * d_slotSize.y } });
 
-    for (int i = 0; i < d_slotsX; ++i)
+    for (int i = 0; i < d_slotsNumber.x; ++i)
     {
-      d_gridSprites.push_back(Dx::Sprite{ &texture_T, { d_cornerWidth + d_slotWidth * i, 0 } });
-      d_gridSprites.push_back(Dx::Sprite{ &texture_B, { d_cornerWidth + d_slotWidth * i, d_cornerHeight + d_slotsY * d_slotHeight } });
+      d_gridSprites.push_back(Dx::Sprite{ &texture_T, { d_cornerSize.x + d_slotSize.x * i, 0 } });
+      d_gridSprites.push_back(Dx::Sprite{ &texture_B, { d_cornerSize.x + d_slotSize.x * i, d_cornerSize.y + d_slotsNumber.y * d_slotSize.y } });
     }
 
-    for (int i = 0; i < d_slotsY; ++i)
+    for (int i = 0; i < d_slotsNumber.y; ++i)
     {
-      d_gridSprites.push_back(Dx::Sprite{ &texture_L, { 0, d_cornerHeight + d_slotHeight * i } });
-      d_gridSprites.push_back(Dx::Sprite{ &texture_R, { d_cornerWidth + d_slotWidth * d_slotsX, d_cornerHeight + d_slotHeight * i } });
+      d_gridSprites.push_back(Dx::Sprite{ &texture_L, { 0, d_cornerSize.y + d_slotSize.y * i } });
+      d_gridSprites.push_back(Dx::Sprite{ &texture_R, { d_cornerSize.x + d_slotSize.x * d_slotsNumber.x, d_cornerSize.y + d_slotSize.y * i } });
     }
 
-    for (int y = 0; y < d_slotsY; ++y)
+    for (int y = 0; y < d_slotsNumber.y; ++y)
     {
-      for (int x = 0; x < d_slotsX; ++x)
-        d_slotSprites.push_back(Dx::Sprite{ &texture_Slot, { d_cornerWidth + d_slotWidth * x, d_cornerHeight + d_slotHeight * y } });
+      for (int x = 0; x < d_slotsNumber.x; ++x)
+        d_slotSprites.push_back(Dx::Sprite{ &texture_Slot, { d_cornerSize.x + d_slotSize.x * x, d_cornerSize.y + d_slotSize.y * y } });
     }
 
     for (auto& sprite : d_gridSprites)
@@ -169,9 +166,7 @@ namespace Dx
 
   void Grid::recreateItemSprites()
   {
-    const Sdk::Vector2I borderSize(d_cornerWidth, d_cornerHeight);
-    const Sdk::Vector2I slotSize(d_slotWidth, d_slotHeight);
-    const Sdk::Vector2I slotHalfSize(d_slotWidth / 2, d_slotHeight / 2);
+    const auto slotHalfSize = d_slotSize / 2;
 
     int itemIndex = -1;
     for (const auto& itemPtr : d_items)
@@ -183,9 +178,9 @@ namespace Dx
       Dx::Sprite sprite(itemPtr->getTexture());
       sprite.resetSizeToTexture();
 
-      const Sdk::Vector2I itemPos(itemIndex % d_slotsX, itemIndex / d_slotsX);
+      const Sdk::Vector2I itemPos(itemIndex % d_slotsNumber.x, itemIndex / d_slotsNumber.x);
       const Sdk::Vector2I itemHalfSize(sprite.getSize() / 2);
-      const auto pos = borderSize + itemPos * slotSize + (slotHalfSize - itemHalfSize) + Sdk::Vector2I{1, 1};
+      const auto pos = d_cornerSize + itemPos * d_slotSize + (slotHalfSize - itemHalfSize) + Sdk::Vector2I{1, 1};
       sprite.setPosition(pos);
 
       d_itemSprites.push_back(std::move(sprite));
@@ -253,10 +248,8 @@ namespace Dx
 
     d_selectedIndex = i_itemIndex;
 
-    const Sdk::Vector2I itemPos(i_itemIndex % d_slotsX, i_itemIndex / d_slotsX);
-    const Sdk::Vector2I cornerSize(d_cornerWidth, d_cornerWidth);
-    const Sdk::Vector2I slotSize(d_slotWidth, d_slotHeight);
-    d_selectionSprite.setPosition(cornerSize + itemPos * slotSize);
+    const Sdk::Vector2I itemPos(i_itemIndex % d_slotsNumber.x, i_itemIndex / d_slotsNumber.x);
+    d_selectionSprite.setPosition(d_cornerSize + itemPos * d_slotSize);
 
     if (d_onItemSelectedHandler)
       d_onItemSelectedHandler(SAFE_DEREF(d_items.at(*d_selectedIndex)));

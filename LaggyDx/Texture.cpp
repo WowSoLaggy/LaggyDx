@@ -71,12 +71,10 @@ namespace Dx
     d_texture->GetResource(reinterpret_cast<ID3D11Resource**>(&textureResource));
     textureResource->GetDesc(&d_textureDesc);
 
-    d_description.width = (int)d_textureDesc.Width;
-    d_description.height = (int)d_textureDesc.Height;
-    d_description.frameWidth = d_description.width;
-    d_description.frameHeight = d_description.height;
+    d_description.size = { (int)d_textureDesc.Width, (int)d_textureDesc.Height };
+    d_description.frameSize = d_description.size;
 
-    d_alphaMask.resize(d_description.width * d_description.height, true);
+    d_alphaMask.resize(d_description.size.x * d_description.size.y, true);
     d_solidAlpha = true;
   }
 
@@ -94,8 +92,8 @@ namespace Dx
     CONTRACT_ASSERT(reader.parse(file, root, false));
 
     const auto& descriptionNode = root["Description"];
-    d_description.frameWidth = descriptionNode["FrameWidth"].asInt();
-    d_description.frameHeight = descriptionNode["FrameHeight"].asInt();
+    d_description.frameSize.x = descriptionNode["FrameWidth"].asInt();
+    d_description.frameSize.y = descriptionNode["FrameHeight"].asInt();
     d_description.alpha = descriptionNode["Alpha"].asBool();
 
     const auto& animationsNode = root["Animations"];
@@ -174,7 +172,7 @@ namespace Dx
       return true;
 
     if (i_frame != 0)
-      i_coords.x += i_frame * d_description.frameWidth;
+      i_coords.x += i_frame * d_description.frameSize.x;
 
     return d_alphaMask.at(i_coords.x + i_coords.y * d_textureDesc.Width);
   }
