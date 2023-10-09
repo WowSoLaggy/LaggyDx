@@ -190,6 +190,7 @@ namespace Dx
 
   void Grid::setItems(GridItems i_items)
   {
+    CONTRACT_EXPECT(i_items.size() <= d_slotsNumber.x * d_slotsNumber.y);
     d_items = std::move(i_items);
     recreateItemSprites();
   }
