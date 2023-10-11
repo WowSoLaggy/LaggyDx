@@ -645,6 +645,9 @@
     <ClInclude Include="Gradient.h">
       <Filter>src\Colors</Filter>
     </ClInclude>
+    <ClInclude Include="FontUtils.h">
+      <Filter>src\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1000,6 +1003,9 @@
     </ClCompile>
     <ClCompile Include="Gradient.cpp">
       <Filter>src\Colors</Filter>
+    </ClCompile>
+    <ClCompile Include="FontUtils.cpp">
+      <Filter>src\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

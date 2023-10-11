@@ -157,6 +157,7 @@
     <ClInclude Include="CursorUtils.h" />
     <ClInclude Include="DefaultMeshes.h" />
     <ClInclude Include="DxResourceWrapper.h" />
+    <ClInclude Include="FontUtils.h" />
     <ClInclude Include="FreeCamera2Controller.h" />
     <ClInclude Include="Gradient.h" />
     <ClInclude Include="Grid.h" />
@@ -321,6 +322,7 @@
     <ClCompile Include="Checkbox.cpp" />
     <ClCompile Include="CursorUtils.cpp" />
     <ClCompile Include="DefaultMeshes.cpp" />
+    <ClCompile Include="FontUtils.cpp" />
     <ClCompile Include="FreeCamera2Controller.cpp" />
     <ClCompile Include="Gradient.cpp" />
     <ClCompile Include="Grid.cpp" />
