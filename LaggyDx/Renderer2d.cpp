@@ -177,7 +177,7 @@ namespace Dx
   void Renderer2d::renderRect(const Sdk::RectI& i_rect, const Sdk::Vector4F& i_color)
   {
     auto rectTranslated = i_rect;
-    rectTranslated.move({ (int)d_translation.x, (int)d_translation.y });
+    rectTranslated.move<int>({ (int)d_translation.x, (int)d_translation.y });
 
     auto* context = d_renderDevice.getDeviceContextPtr();
 
