@@ -29,20 +29,20 @@ namespace Dx
     return *s_this;
   }
 
-  App::App(AppSettings i_settings)
+  App::App(std::unique_ptr<AppSettings> i_settings)
     : d_settings(std::move(i_settings))
   {
     const auto hres = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
     CONTRACT_ASSERT(!FAILED(hres));
 
-    const Sdk::Vector2I resolution = { d_settings.screenWidth, d_settings.screenHeight };
+    const Sdk::Vector2I resolution = { getSettings().screenWidth, getSettings().screenHeight };
 
-    d_window = std::make_unique<Sdk::Window>(resolution, d_settings.applicationName);
+    d_window = std::make_unique<Sdk::Window>(resolution, getSettings().applicationName);
 
-    d_renderDevice = IRenderDevice::create(d_window->getHWnd(), resolution, d_settings.refreshRate, d_settings.debugMode);
+    d_renderDevice = IRenderDevice::create(d_window->getHWnd(), resolution, getSettings().refreshRate, getSettings().debugMode);
     CONTRACT_ENSURE(d_renderDevice);
 
-    d_resourceController = IResourceController::create(*d_renderDevice, d_settings.assetsFolder);
+    d_resourceController = IResourceController::create(*d_renderDevice, getSettings().assetsFolder);
     CONTRACT_ENSURE(d_resourceController);
 
     d_renderer2d = IRenderer2d::create(*d_renderDevice, resolution);
@@ -68,7 +68,7 @@ namespace Dx
 
   const AppSettings& App::getSettings() const
   {
-    return d_settings;
+    return SAFE_DEREF(d_settings);
   }
 
   IInputDevice& App::getInputDevice() { return *d_inputDevice; }

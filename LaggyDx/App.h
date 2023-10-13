@@ -24,7 +24,7 @@ namespace Dx
     static App& get();
 
   public:
-    explicit App(AppSettings i_settings);
+    explicit App(std::unique_ptr<AppSettings> i_settings);
     virtual ~App();
 
     void run();
@@ -75,7 +75,7 @@ namespace Dx
   private:
     static App* s_this;
 
-    const AppSettings d_settings;
+    const std::unique_ptr<AppSettings> d_settings;
 
     bool d_stop = false;
 

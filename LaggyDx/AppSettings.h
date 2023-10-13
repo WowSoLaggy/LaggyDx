@@ -7,6 +7,8 @@ namespace Dx
 {
   struct AppSettings
   {
+    virtual ~AppSettings() = default;
+
     int screenWidth = 1600;
     int screenHeight = 900;
 
