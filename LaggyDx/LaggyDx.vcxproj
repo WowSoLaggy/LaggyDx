@@ -154,6 +154,8 @@
     <ClInclude Include="Camera3Base.h" />
     <ClInclude Include="CBuffer.h" />
     <ClInclude Include="ChannelInfo.h" />
+    <ClInclude Include="Console.h" />
+    <ClInclude Include="ConsoleEvents.h" />
     <ClInclude Include="CursorUtils.h" />
     <ClInclude Include="DefaultMeshes.h" />
     <ClInclude Include="DxResourceWrapper.h" />
@@ -320,6 +322,7 @@
     <ClCompile Include="Camera3Base.cpp" />
     <ClCompile Include="CBuffer.cpp" />
     <ClCompile Include="Checkbox.cpp" />
+    <ClCompile Include="Console.cpp" />
     <ClCompile Include="CursorUtils.cpp" />
     <ClCompile Include="DefaultMeshes.cpp" />
     <ClCompile Include="FontUtils.cpp" />

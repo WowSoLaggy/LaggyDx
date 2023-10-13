@@ -116,6 +116,10 @@ namespace Dx
   using Color = Sdk::Vector4F;
   using Action = std::function<void()>;
 
+  class Console;
+  using ConsoleLine = std::pair<std::chrono::system_clock::time_point, std::string>;
+  using ConsoleLines = std::vector<ConsoleLine>;
+
   namespace thd
   {
     class ITile;

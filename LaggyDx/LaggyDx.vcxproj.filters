@@ -157,6 +157,9 @@
     <Filter Include="src\ThermoDynamics">
       <UniqueIdentifier>{bbe36852-c078-44c7-9ae1-b405991925f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Console">
+      <UniqueIdentifier>{4715ccf0-1da0-43f9-b8ed-b8d30ce50858}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -648,6 +651,12 @@
     <ClInclude Include="FontUtils.h">
       <Filter>src\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>src\Console</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleEvents.h">
+      <Filter>src\Console</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1006,6 +1015,9 @@
     </ClCompile>
     <ClCompile Include="FontUtils.cpp">
       <Filter>src\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.cpp">
+      <Filter>src\Console</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
