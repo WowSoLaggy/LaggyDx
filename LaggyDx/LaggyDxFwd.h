@@ -117,7 +117,13 @@ namespace Dx
   using Action = std::function<void()>;
 
   class Console;
-  using ConsoleLine = std::pair<std::chrono::system_clock::time_point, std::string>;
+  enum class ConsoleLineType
+  {
+    Debug,
+    Info,
+    Error,
+  };
+  using ConsoleLine = std::tuple<std::chrono::system_clock::time_point, ConsoleLineType, std::string>;
   using ConsoleLines = std::vector<ConsoleLine>;
 
   namespace thd
