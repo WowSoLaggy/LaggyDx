@@ -6,6 +6,15 @@
 
 namespace Dx
 {
+  void Animation2Player::pushFields()
+  {
+    pushField("animationTime", d_animationTime);
+    pushField("curFrame", d_curFrame);
+    if (d_timesLeftToPlay)
+      pushField("timesLeftToPlay", *d_timesLeftToPlay);
+  }
+
+
   void Animation2Player::update(const double i_dt)
   {
     if (!d_animation)

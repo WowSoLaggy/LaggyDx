@@ -3,13 +3,16 @@
 #include "ImageAnimation.h"
 
 #include <LaggySdk/EventHandler.h>
+#include <LaggySdk/ISerializable.h>
 
 
 namespace Dx
 {
-  class Animation2Player : public Sdk::EventHandler
+  class Animation2Player : public Sdk::EventHandler, public Sdk::ISerializable
   {
   public:
+    virtual void pushFields() override;
+
     void update(double i_dt);
 
     void playAnimation(const ImageAnimation* i_animation, std::optional<int> i_times);
