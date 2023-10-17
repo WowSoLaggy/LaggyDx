@@ -18,6 +18,7 @@ namespace Dx
     virtual const Sdk::Vector2I& getResolution() const override;
     virtual void setClearColor(const Sdk::Vector4F& i_clearColor) override;
     virtual void resetState() override;
+    virtual void resetShaders() override;
 
     virtual void prepareDepthBufferTexture() const override;
     virtual const ITexture& getDepthBufferTexture() const override;

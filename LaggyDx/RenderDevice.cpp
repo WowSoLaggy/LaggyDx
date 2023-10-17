@@ -128,7 +128,15 @@ namespace Dx
     setRasterizerState(getDefaultRasterizerDescription());
     setDepthStencilState(getDefaultDepthStencilDescription());
     setBlendState(getDefaultBlendDescription());
+    resetShaders();
   }
+
+  void RenderDevice::resetShaders()
+  {
+    d_deviceContext->VSSetShader(nullptr, nullptr, 0);
+    d_deviceContext->PSSetShader(nullptr, nullptr, 0);
+  }
+
 
   const D3D11_RASTERIZER_DESC& RenderDevice::getRasterizerState() const
   {

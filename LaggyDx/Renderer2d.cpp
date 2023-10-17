@@ -41,6 +41,8 @@ namespace Dx
 
   void Renderer2d::beginScene()
   {
+    d_renderDevice.resetState();
+
     d_spriteBatch.Begin(SpriteSortMode::SpriteSortMode_Deferred, d_states->NonPremultiplied());
     
     d_primitiveEffect.SetWorld(XMMatrixIdentity());
@@ -49,6 +51,8 @@ namespace Dx
 
   void Renderer2d::beginScene(const Sdk::Vector2F& i_translation)
   {
+    d_renderDevice.resetState();
+
     beginScene(i_translation, { 0.0f, 0.0f }, 0.0f, { 0.0f, 0.0f }, 0.0f, { 1.0f, 1.0f });
   }
 
@@ -56,6 +60,9 @@ namespace Dx
                               const Sdk::Vector2F& i_rotationOrigin,
                               const float i_rotation)
   {
+    d_renderDevice.resetState();
+
+
     beginScene(i_translation, i_rotationOrigin, i_rotation, { 0.0f, 0.0f }, 0.0f, { 1.0f, 1.0f });
   }
 
@@ -63,6 +70,9 @@ namespace Dx
                               const Sdk::Vector2F& i_scalingOrigin,
                               const Sdk::Vector2F& i_scaling)
   {
+    d_renderDevice.resetState();
+
+
     beginScene(i_translation, { 0.0f, 0.0f }, 0.0f, i_scalingOrigin, 0, i_scaling);
   }
 
@@ -73,6 +83,9 @@ namespace Dx
                               float i_scalingOrientation,
                               const Sdk::Vector2F& i_scaling)
   {
+    d_renderDevice.resetState();
+
+
     const auto m = XMMatrixTransformation2D(
       { i_scalingOrigin.x, i_scalingOrigin.y },   // scaling origin
       i_scalingOrientation,                       // scaling orientation
