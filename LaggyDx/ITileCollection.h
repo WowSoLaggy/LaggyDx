@@ -2,6 +2,7 @@
 
 #include "LaggyDxFwd.h"
 
+#include <LaggySdk/Rect.h>
 #include <LaggySdk/Vector.h>
 
 
@@ -16,10 +17,7 @@ namespace Dx
     public:
       virtual ~ITileCollection() = default;
 
-      virtual int minX() const = 0;
-      virtual int minY() const = 0;
-      virtual int maxX() const = 0;
-      virtual int maxY() const = 0;
+      virtual const Sdk::RectI& getRect() const = 0;
 
       virtual std::shared_ptr<ITile> getTile(const Sdk::Vector2I& i_coords) const = 0;
     };

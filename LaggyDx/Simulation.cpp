@@ -24,14 +24,10 @@ namespace Dx
       CONTRACT_EXPECT(d_tiles);
       CONTRACT_EXPECT(d_buffer.empty());
 
-      const int minX = d_tiles->minX();
-      const int minY = d_tiles->minY();
-      const int maxX = d_tiles->maxX();
-      const int maxY = d_tiles->maxY();
-
-      for (int y = minY; y < maxY; ++y)
+      const auto& rect = d_tiles->getRect();
+      for (int y = rect.top(); y < rect.bottom(); ++y)
       {
-        for (int x = minX; x < maxX; ++x)
+        for (int x = rect.left(); x < rect.right(); ++x)
           exchangeAtCoords({ x, y });
       }
     }
