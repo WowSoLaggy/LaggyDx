@@ -131,6 +131,11 @@ namespace Dx
     class ITile;
     class ITileCollection;
 
+    using GasName = std::string;
+    using GasesMap = std::unordered_map<GasName, int>;
+    class VolumeUnit;
+    struct GasPrototype;
+
   } // ns thd
 
 } // ns Dx

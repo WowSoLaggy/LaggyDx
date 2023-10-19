@@ -657,6 +657,12 @@
     <ClInclude Include="ConsoleEvents.h">
       <Filter>src\Console</Filter>
     </ClInclude>
+    <ClInclude Include="GasPrototype.h">
+      <Filter>src\ThermoDynamics</Filter>
+    </ClInclude>
+    <ClInclude Include="VolumeUnit.h">
+      <Filter>src\ThermoDynamics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1018,6 +1024,9 @@
     </ClCompile>
     <ClCompile Include="Console.cpp">
       <Filter>src\Console</Filter>
+    </ClCompile>
+    <ClCompile Include="VolumeUnit.cpp">
+      <Filter>src\ThermoDynamics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

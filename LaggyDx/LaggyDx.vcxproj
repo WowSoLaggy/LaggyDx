@@ -161,6 +161,7 @@
     <ClInclude Include="DxResourceWrapper.h" />
     <ClInclude Include="FontUtils.h" />
     <ClInclude Include="FreeCamera2Controller.h" />
+    <ClInclude Include="GasPrototype.h" />
     <ClInclude Include="Gradient.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="GridItem.h" />
@@ -299,6 +300,7 @@
     <ClInclude Include="Tri.h" />
     <ClInclude Include="VertexLayout.h" />
     <ClInclude Include="VertexTypes.h" />
+    <ClInclude Include="VolumeUnit.h" />
     <ClInclude Include="VsBinResource.h" />
     <ClInclude Include="VsHlslResource.h" />
     <ClInclude Include="VsResource.h" />
@@ -374,6 +376,7 @@
     <ClCompile Include="Tri.cpp" />
     <ClCompile Include="VertexLayout.cpp" />
     <ClCompile Include="VertexTypes.cpp" />
+    <ClCompile Include="VolumeUnit.cpp" />
     <ClCompile Include="VsBinResource.cpp" />
     <ClCompile Include="ThirdPersonCamera.cpp" />
     <ClCompile Include="ColliderBase.cpp" />
