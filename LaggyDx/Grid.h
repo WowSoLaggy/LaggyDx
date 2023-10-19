@@ -83,9 +83,10 @@ namespace Dx
 
     void recreateGridSprites();
     void recreateItemSprites();
+    void recalculateSize();
 
     bool onLeftMouseClick();
-    void onRightMouseClick();
+    bool onRightMouseClick();
   };
 
 } // ns Dx

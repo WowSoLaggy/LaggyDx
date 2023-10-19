@@ -36,7 +36,10 @@ namespace Dx
   bool Grid::onMouseClick(MouseKey i_key)
   {
     if (i_key == MouseKey::Right)
-      onRightMouseClick();
+    {
+      if (onRightMouseClick())
+        return true;
+    }
     else if (i_key == MouseKey::Left)
     {
       if (onLeftMouseClick())
@@ -64,9 +67,13 @@ namespace Dx
     return false;
   }
 
-  void Grid::onRightMouseClick()
+  bool Grid::onRightMouseClick()
   {
+    if (!d_selectedIndex)
+      return false;
+
     unselectItem();
+    return true;
   }
 
 
@@ -162,6 +169,7 @@ namespace Dx
       sprite.resetSizeToTexture();
 
     recreateItemSprites();
+    recalculateSize();
   }
 
   void Grid::recreateItemSprites()
@@ -185,6 +193,14 @@ namespace Dx
 
       d_itemSprites.push_back(std::move(sprite));
     }
+  }
+
+  void Grid::recalculateSize()
+  {
+    const auto totalSize =
+      d_cornerSize.getVector<float>() * 2 +
+      d_slotSize.getVector<float>() * d_slotsNumber.getVector<float>();
+    setSize(totalSize);
   }
 
 
