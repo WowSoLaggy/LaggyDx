@@ -100,10 +100,11 @@ namespace Dx
     for (const auto& animationNode : animationsNode)
     {
       ImageAnimation animation;
+      animation.name = animationNode["Name"].asString();
       animation.start = animationNode["Start"].asInt();
       animation.end = animationNode["End"].asInt();
       animation.frameTime = animationNode["FrameTime"].asDouble();
-      d_animations[animationNode["Name"].asString()] = animation;
+      d_animations[animation.name] = animation;
     }
   }
 

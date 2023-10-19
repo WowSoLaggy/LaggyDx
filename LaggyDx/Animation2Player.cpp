@@ -8,10 +8,10 @@ namespace Dx
 {
   void Animation2Player::pushFields()
   {
+    pushField("animationName", d_animationName);
     pushField("animationTime", d_animationTime);
     pushField("curFrame", d_curFrame);
-    if (d_timesLeftToPlay)
-      pushField("timesLeftToPlay", *d_timesLeftToPlay);
+    pushOptional("timesLeftToPlay", d_timesLeftToPlay);
   }
 
 
@@ -26,18 +26,27 @@ namespace Dx
   }
 
 
-  void Animation2Player::playAnimation(const ImageAnimation* i_animation, std::optional<int> i_times)
+  void Animation2Player::playAnimation(
+    const ImageAnimation* i_animation, std::optional<int> i_times, const bool i_resetTime)
   {
+    CONTRACT_EXPECT(i_animation);
+
     d_animation = i_animation;
-    d_animationTime = 0;
+    d_animationName = d_animation->name;
     d_isForwardAnimation = d_animation->end >= d_animation->start;
     d_timesLeftToPlay = i_times;
-    d_curFrame = d_animation->start;
+
+    if (i_resetTime)
+    {
+      d_animationTime = 0;
+      d_curFrame = d_animation->start;
+    }
   }
 
   void Animation2Player::stopAnimation()
   {
     d_animation = nullptr;
+    d_animationName.clear();
     d_animationTime = 0;
     notify(AnimationStoppedEvent());
   }
@@ -51,6 +60,20 @@ namespace Dx
   bool Animation2Player::isPlaying() const
   {
     return d_animation;
+  }
+
+
+  const std::string& Animation2Player::getAnimationName() const
+  {
+    return d_animationName;
+  }
+
+  int Animation2Player::getTimesLeft() const
+  {
+    if (!d_timesLeftToPlay.has_value())
+      return 1;
+
+    return std::max(0, *d_timesLeftToPlay);
   }
 
 
