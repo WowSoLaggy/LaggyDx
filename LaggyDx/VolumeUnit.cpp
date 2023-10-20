@@ -6,6 +6,11 @@ namespace Dx
 {
   namespace thd
   {
+    void VolumeUnit::pushFields()
+    {
+      pushField("volume", d_volume);
+    }
+
     void VolumeUnit::setVolume(const double i_volume)
     {
       d_volume = i_volume;
