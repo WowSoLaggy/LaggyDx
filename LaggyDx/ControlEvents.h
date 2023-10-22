@@ -30,4 +30,9 @@ namespace Dx
     const RadioButton& d_radioButton;
   };
 
+
+  class ButtonPressedEvent : public Sdk::IEvent
+  {
+  };
+
 } // ns Dx

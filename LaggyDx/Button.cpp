@@ -2,6 +2,7 @@
 #include "Button.h"
 
 #include "App.h"
+#include "ControlEvents.h"
 #include "IFontResource.h"
 
 
@@ -110,7 +111,10 @@ namespace Dx
   void Button::onPress()
   {
     if (d_onPress)
+    {
       d_onPress();
+      notify(ButtonPressedEvent());
+    }
   }
 
   void Button::setOnPress(std::function<void()> i_onPress)
