@@ -131,10 +131,13 @@ namespace Dx
     class ITile;
     class ITileCollection;
 
+    using GasId = int;
     using GasName = std::string;
-    using GasesMap = std::unordered_map<GasName, int>;
+    using GasesMap = std::unordered_map<GasId, int>;
     class VolumeUnit;
     struct GasPrototype;
+    using GasPrototypePtr = std::shared_ptr<GasPrototype>;
+    using GasPrototypes = std::vector<GasPrototypePtr>;
 
   } // ns thd
 

@@ -9,6 +9,7 @@ namespace Dx
   {
     struct GasPrototype
     {
+      GasId id = 0;
       GasName name;
     };
 

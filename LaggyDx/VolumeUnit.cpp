@@ -31,5 +31,11 @@ namespace Dx
       return gasesSum / d_volume;
     }
 
+
+    void VolumeUnit::addGas(const GasId i_gasId, const int i_count)
+    {
+      d_gases[i_gasId] += i_count;
+    }
+
   } // ns thd
 } // ns Dx

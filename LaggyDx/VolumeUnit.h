@@ -19,6 +19,8 @@ namespace Dx
 
       double getPressure() const;
 
+      void addGas(GasId i_gasId, int i_count);
+
     private:
       double d_volume = 1;
       GasesMap d_gases;
