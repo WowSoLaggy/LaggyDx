@@ -19,6 +19,12 @@ namespace Dx
     }
 
 
+    void Simulation::exchange(VolumeUnit& io_unit1, VolumeUnit& io_unit2)
+    {
+      exchange(io_unit1, io_unit2, io_unit1, io_unit2);
+    }
+
+
     void Simulation::exchangeAll()
     {
       CONTRACT_EXPECT(d_tiles);
@@ -47,6 +53,8 @@ namespace Dx
       CONTRACT_EXPECT(tile1);
       CONTRACT_EXPECT(tile2);
 
+      //exchange(tile1->getVolumeUnit(), tile2->getVolumeUnit(), d_buffer[i_coords1].volumeUnit, d_buffer[i_coords2].volumeUnit);
+
       const double t1 = tile1->getT();
       const double t2 = tile2->getT();
       const double tDiff = t2 - t1;
@@ -58,6 +66,30 @@ namespace Dx
       d_buffer[i_coords2].T -= tChange;
     }
 
+    void Simulation::exchange(const VolumeUnit& i_src1, const VolumeUnit& i_src2, VolumeUnit& io_dst1, VolumeUnit& io_dst2)
+    {
+      const double p1 = i_src1.getPressure();
+      const double p2 = i_src2.getPressure();
+      const double pDiffHalf = std::abs(p2 - p1) / 2.0;
+
+      if (p1 > p2)
+      {
+        const double giveRatio = pDiffHalf / p1;
+        const auto gasesToShare = i_src1.extractGases(giveRatio);
+
+        io_dst1.removeGases(gasesToShare, true);
+        io_dst2.addGases(gasesToShare, true);
+      }
+      else
+      {
+        const double giveRatio = pDiffHalf / p2;
+        const auto gasesToShare = i_src2.extractGases(giveRatio);
+
+        io_dst2.removeGases(gasesToShare, true);
+        io_dst1.addGases(gasesToShare, true);
+      }
+    }
+
 
     void Simulation::storeBuffer()
     {
@@ -65,9 +97,10 @@ namespace Dx
 
       for (const auto& [coord, tileSrc] : d_buffer)
       {
-        auto tileDst = d_tiles->getTile(coord);
-        CONTRACT_EXPECT(tileDst);
-        tileDst->setT(tileDst->getT() + tileSrc.T);
+        auto& tileDst = SAFE_DEREF(d_tiles->getTile(coord));
+
+        tileDst.setT(tileDst.getT() + tileSrc.T);
+        tileDst.getVolumeUnit().addGases(tileSrc.volumeUnit.getGases());
       }
 
       d_buffer.clear();
