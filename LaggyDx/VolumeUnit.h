@@ -14,12 +14,14 @@ namespace Dx
     public:
       virtual void pushFields() override;
 
+      const GasesMap& getGases() const;
+
       void setVolume(double i_volume);
       double getVolume() const;
 
       double getPressure() const;
 
-      void addGas(GasId i_gasId, int i_count);
+      void addGas(GasId i_gasId, int i_amount);
 
     private:
       double d_volume = 1;

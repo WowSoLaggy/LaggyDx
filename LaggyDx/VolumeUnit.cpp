@@ -11,6 +11,13 @@ namespace Dx
       pushField("volume", d_volume);
     }
 
+
+    const GasesMap& VolumeUnit::getGases() const
+    {
+      return d_gases;
+    }
+
+
     void VolumeUnit::setVolume(const double i_volume)
     {
       d_volume = i_volume;
@@ -32,9 +39,9 @@ namespace Dx
     }
 
 
-    void VolumeUnit::addGas(const GasId i_gasId, const int i_count)
+    void VolumeUnit::addGas(const GasId i_gasId, const int i_amount)
     {
-      d_gases[i_gasId] += i_count;
+      d_gases[i_gasId] += i_amount;
     }
 
   } // ns thd
