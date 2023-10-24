@@ -72,9 +72,11 @@ namespace Dx
       const double p2 = i_src2.getPressure();
       const double pDiffHalf = std::abs(p2 - p1) / 2.0;
 
+      constexpr double K = 0.5;
+
       if (p1 > p2)
       {
-        const double giveRatio = pDiffHalf / p1;
+        const double giveRatio = pDiffHalf / p1 * d_dt * K;
         const auto gasesToShare = i_src1.extractGases(giveRatio);
 
         io_dst1.removeGases(gasesToShare, true);
@@ -82,7 +84,7 @@ namespace Dx
       }
       else
       {
-        const double giveRatio = pDiffHalf / p2;
+        const double giveRatio = pDiffHalf / p2 * d_dt * K;
         const auto gasesToShare = i_src2.extractGases(giveRatio);
 
         io_dst2.removeGases(gasesToShare, true);
