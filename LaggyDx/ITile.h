@@ -1,7 +1,6 @@
 #pragma once
 
 #include "LaggyDxFwd.h"
-#include "VolumeUnit.h"
 
 
 namespace Dx
@@ -16,8 +15,8 @@ namespace Dx
       virtual double getT() const = 0;
       virtual void setT(double i_t) = 0;
 
-      virtual VolumeUnit& getVolumeUnit() = 0;
-      virtual const VolumeUnit& getVolumeUnit() const = 0;
+      virtual Unit& getUnit() = 0;
+      virtual const Unit& getUnit() const = 0;
     };
 
   } // ns thd

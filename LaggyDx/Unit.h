@@ -9,13 +9,14 @@ namespace Dx
 {
   namespace thd
   {
-    class VolumeUnit : public Sdk::ISerializable
+    class Unit : public Sdk::ISerializable
     {
     public:
       virtual void pushFields() override;
       virtual Sdk::FieldHandled onFieldNotFound(const std::string& i_name, const Json::Value& i_json) override;
 
       const GasesMap& getGases() const;
+      bool hasGas() const;
 
       void setVolume(double i_volume);
       double getVolume() const;

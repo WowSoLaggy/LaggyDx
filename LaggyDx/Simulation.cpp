@@ -19,7 +19,7 @@ namespace Dx
     }
 
 
-    void Simulation::exchange(VolumeUnit& io_unit1, VolumeUnit& io_unit2)
+    void Simulation::exchange(Unit& io_unit1, Unit& io_unit2)
     {
       exchange(io_unit1, io_unit2, io_unit1, io_unit2);
     }
@@ -53,7 +53,7 @@ namespace Dx
       CONTRACT_EXPECT(tile1);
       CONTRACT_EXPECT(tile2);
 
-      //exchange(tile1->getVolumeUnit(), tile2->getVolumeUnit(), d_buffer[i_coords1].volumeUnit, d_buffer[i_coords2].volumeUnit);
+      exchange(tile1->getUnit(), tile2->getUnit(), d_buffer[i_coords1].unit, d_buffer[i_coords2].unit);
 
       const double t1 = tile1->getT();
       const double t2 = tile2->getT();
@@ -66,8 +66,11 @@ namespace Dx
       d_buffer[i_coords2].T -= tChange;
     }
 
-    void Simulation::exchange(const VolumeUnit& i_src1, const VolumeUnit& i_src2, VolumeUnit& io_dst1, VolumeUnit& io_dst2)
+    void Simulation::exchange(const Unit& i_src1, const Unit& i_src2, Unit& io_dst1, Unit& io_dst2)
     {
+      if (!i_src1.hasGas() && !i_src2.hasGas())
+        return;
+
       const double p1 = i_src1.getPressure();
       const double p2 = i_src2.getPressure();
       const double pDiffHalf = std::abs(p2 - p1) / 2.0;
@@ -103,7 +106,7 @@ namespace Dx
         CONTRACT_EXPECT(tileDst);
 
         tileDst->setT(tileDst->getT() + tileSrc.T);
-        tileDst->getVolumeUnit().addGases(tileSrc.volumeUnit.getGases());
+        tileDst->getUnit().addGases(tileSrc.unit.getGases());
       }
 
       d_buffer.clear();

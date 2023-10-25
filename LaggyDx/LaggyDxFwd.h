@@ -134,7 +134,7 @@ namespace Dx
     using GasId = int;
     using GasName = std::string;
     using GasesMap = std::unordered_map<GasId, int>;
-    class VolumeUnit;
+    class Unit;
     struct GasPrototype;
     using GasPrototypePtr = std::shared_ptr<GasPrototype>;
     using GasPrototypes = std::vector<GasPrototypePtr>;

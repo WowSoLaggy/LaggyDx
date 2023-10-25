@@ -1,6 +1,6 @@
 #pragma once
 
-#include "VolumeUnit.h"
+#include "Unit.h"
 
 
 namespace Dx
@@ -10,7 +10,7 @@ namespace Dx
     struct BufferTile
     {
       double T = 0;
-      VolumeUnit volumeUnit;
+      Unit unit;
     };
 
   } // ns thd

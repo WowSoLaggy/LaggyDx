@@ -300,7 +300,7 @@
     <ClInclude Include="Tri.h" />
     <ClInclude Include="VertexLayout.h" />
     <ClInclude Include="VertexTypes.h" />
-    <ClInclude Include="VolumeUnit.h" />
+    <ClInclude Include="Unit.h" />
     <ClInclude Include="VsBinResource.h" />
     <ClInclude Include="VsHlslResource.h" />
     <ClInclude Include="VsResource.h" />
@@ -376,7 +376,7 @@
     <ClCompile Include="Tri.cpp" />
     <ClCompile Include="VertexLayout.cpp" />
     <ClCompile Include="VertexTypes.cpp" />
-    <ClCompile Include="VolumeUnit.cpp" />
+    <ClCompile Include="Unit.cpp" />
     <ClCompile Include="VsBinResource.cpp" />
     <ClCompile Include="ThirdPersonCamera.cpp" />
     <ClCompile Include="ColliderBase.cpp" />
