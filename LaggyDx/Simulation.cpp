@@ -99,10 +99,11 @@ namespace Dx
 
       for (const auto& [coord, tileSrc] : d_buffer)
       {
-        auto& tileDst = SAFE_DEREF(d_tiles->getTile(coord));
+        auto tileDst = d_tiles->getTile(coord);
+        CONTRACT_EXPECT(tileDst);
 
-        tileDst.setT(tileDst.getT() + tileSrc.T);
-        tileDst.getVolumeUnit().addGases(tileSrc.volumeUnit.getGases());
+        tileDst->setT(tileDst->getT() + tileSrc.T);
+        tileDst->getVolumeUnit().addGases(tileSrc.volumeUnit.getGases());
       }
 
       d_buffer.clear();
