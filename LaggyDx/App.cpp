@@ -54,7 +54,7 @@ namespace Dx
 
     d_form = std::make_unique<Form>();
 
-    Sdk::setCursorToCenter();
+    Sdk::setCursorToCenter(*d_window);
     d_window->show();
 
     s_this = this;
