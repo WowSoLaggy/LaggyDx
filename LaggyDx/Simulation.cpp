@@ -15,13 +15,7 @@ namespace Dx
       d_tiles = &i_tiles;
 
       exchangeAll();
-      storeBuffer();
-    }
-
-
-    void Simulation::exchange(Unit& io_unit1, Unit& io_unit2)
-    {
-      exchange(io_unit1, io_unit2, io_unit1, io_unit2);
+      storeBufferToTiles();
     }
 
 
@@ -34,17 +28,19 @@ namespace Dx
       for (int y = rect.top(); y < rect.bottom(); ++y)
       {
         for (int x = rect.left(); x < rect.right(); ++x)
-          exchangeAtCoords({ x, y });
+          exchangeForTileAtCoords({ x, y });
       }
     }
 
-    void Simulation::exchangeAtCoords(const Sdk::Vector2I& i_coords)
+    void Simulation::exchangeForTileAtCoords(const Sdk::Vector2I& i_coords)
     {
-      exchange(i_coords, i_coords + Sdk::Vector2I{ 1, 0 });
-      exchange(i_coords, i_coords + Sdk::Vector2I{ 0, 1 });
+      const std::vector<Sdk::Vector2I> coordsToExchange = { i_coords + Sdk::Vector2I{ -1, 0 },
+                                                            i_coords + Sdk::Vector2I{ 0, -1 } };
+      for (const auto& coords : coordsToExchange)
+        exchangeBetweenCoords(i_coords, coords);
     }
 
-    void Simulation::exchange(const Sdk::Vector2I& i_coords1, const Sdk::Vector2I& i_coords2)
+    void Simulation::exchangeBetweenCoords(const Sdk::Vector2I& i_coords1, const Sdk::Vector2I& i_coords2)
     {
       CONTRACT_EXPECT(d_tiles);
 
@@ -53,10 +49,15 @@ namespace Dx
       CONTRACT_EXPECT(tile1);
       CONTRACT_EXPECT(tile2);
 
-      exchange(tile1->getUnit(), tile2->getUnit(), d_buffer[i_coords1].unit, d_buffer[i_coords2].unit);
+      heatExchange(*tile1, *tile2, i_coords1, i_coords2);
+      gasExchange(tile1->getUnit(), tile2->getUnit(), d_buffer[i_coords1].unit, d_buffer[i_coords2].unit);
+    }
 
-      const double t1 = tile1->getT();
-      const double t2 = tile2->getT();
+
+    void Simulation::heatExchange(const ITile& i_tile1, const ITile& i_tile2, const Sdk::Vector2I& i_coords1, const Sdk::Vector2I& i_coords2)
+    {
+      const double t1 = i_tile1.getT();
+      const double t2 = i_tile2.getT();
       const double tDiff = t2 - t1;
 
       constexpr double K = 0.05;
@@ -66,7 +67,7 @@ namespace Dx
       d_buffer[i_coords2].T -= tChange;
     }
 
-    void Simulation::exchange(const Unit& i_src1, const Unit& i_src2, Unit& io_dst1, Unit& io_dst2)
+    void Simulation::gasExchange(const Unit& i_src1, const Unit& i_src2, Unit& io_dst1, Unit& io_dst2)
     {
       if (!i_src1.hasGas() && !i_src2.hasGas())
         return;
@@ -96,7 +97,8 @@ namespace Dx
     }
 
 
-    void Simulation::storeBuffer()
+    /// Store the buffer values into the tiles
+    void Simulation::storeBufferToTiles()
     {
       CONTRACT_EXPECT(d_tiles);
 
