@@ -25,9 +25,9 @@ namespace Dx
       CONTRACT_EXPECT(d_buffer.empty());
 
       const auto& rect = d_tiles->getRect();
-      for (int y = rect.top(); y < rect.bottom(); ++y)
+      for (int y = rect.top(); y <= rect.bottom(); ++y)
       {
-        for (int x = rect.left(); x < rect.right(); ++x)
+        for (int x = rect.left(); x <= rect.right(); ++x)
           exchangeForTileAtCoords({ x, y });
       }
     }
@@ -35,7 +35,10 @@ namespace Dx
     void Simulation::exchangeForTileAtCoords(const Sdk::Vector2I& i_coords)
     {
       const std::vector<Sdk::Vector2I> coordsToExchange = { i_coords + Sdk::Vector2I{ -1, 0 },
-                                                            i_coords + Sdk::Vector2I{ 0, -1 } };
+                                                            i_coords + Sdk::Vector2I{ 0, -1 },
+                                                            i_coords + Sdk::Vector2I{ 1, 0 },
+                                                            i_coords + Sdk::Vector2I{ 0, 1 } };
+
       for (const auto& coords : coordsToExchange)
         exchangeBetweenCoords(i_coords, coords);
     }
@@ -49,25 +52,28 @@ namespace Dx
       CONTRACT_EXPECT(tile1);
       CONTRACT_EXPECT(tile2);
 
-      heatExchange(*tile1, *tile2, i_coords1, i_coords2);
-      gasExchange(tile1->getUnit(), tile2->getUnit(), d_buffer[i_coords1].unit, d_buffer[i_coords2].unit);
+      heatExchange(*tile1, *tile2, i_coords1);
+      gasExchange(tile1->getUnit(), tile2->getUnit(), d_buffer[i_coords1].unit);
     }
 
 
-    void Simulation::heatExchange(const ITile& i_tile1, const ITile& i_tile2, const Sdk::Vector2I& i_coords1, const Sdk::Vector2I& i_coords2)
+    void Simulation::heatExchange(const ITile& i_tile1, const ITile& i_tile2, const Sdk::Vector2I& i_coords1)
     {
       const double t1 = i_tile1.getT();
       const double t2 = i_tile2.getT();
       const double tDiff = t2 - t1;
 
+      const double insulationFactor1 = i_tile1.getInsulationFactor();
+      const double insulationFactor2 = i_tile2.getInsulationFactor();
+      const double insulationFactor = std::min(insulationFactor1, insulationFactor2);
+
       constexpr double K = 0.05;
-      const double tChange = tDiff * d_dt * K;
+      const double tChange = K * tDiff * d_dt * insulationFactor;
 
       d_buffer[i_coords1].T += tChange;
-      d_buffer[i_coords2].T -= tChange;
     }
 
-    void Simulation::gasExchange(const Unit& i_src1, const Unit& i_src2, Unit& io_dst1, Unit& io_dst2)
+    void Simulation::gasExchange(const Unit& i_src1, const Unit& i_src2, Unit& io_dst1)
     {
       if (!i_src1.hasGas() && !i_src2.hasGas())
         return;
@@ -84,14 +90,12 @@ namespace Dx
         const auto gasesToShare = i_src1.extractGases(giveRatio);
 
         io_dst1.removeGases(gasesToShare, true);
-        io_dst2.addGases(gasesToShare, true);
       }
       else
       {
         const double giveRatio = pDiffHalf / p2 * d_dt * K;
         const auto gasesToShare = i_src2.extractGases(giveRatio);
 
-        io_dst2.removeGases(gasesToShare, true);
         io_dst1.addGases(gasesToShare, true);
       }
     }
