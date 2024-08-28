@@ -27,7 +27,9 @@ namespace Dx
       void exchangeBetweenCoords(const Sdk::Vector2I& i_coords1, const Sdk::Vector2I& i_coords2);
 
       void heatExchange(const ITile& i_tile1, const ITile& i_tile2, const Sdk::Vector2I& i_coords1);
-      void gasExchange(const Unit& i_src1, const Unit& i_src2, Unit& io_dst1);
+      void gasExchange(const ITile& i_tile1, const ITile& i_tile2, Unit& io_dst1);
+
+      void removeGasIfAirtight(const Sdk::Vector2I& i_coords);
 
       void storeBufferToTiles();
     };

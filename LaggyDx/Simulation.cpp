@@ -9,6 +9,18 @@ namespace Dx
 {
   namespace thd
   {
+    namespace
+    {
+      const std::vector<Sdk::Vector2I> getCoordsToExchange(const Sdk::Vector2I& i_coords)
+      {
+        return { i_coords + Sdk::Vector2I{ -1, 0 },
+                 i_coords + Sdk::Vector2I{ 0, -1 },
+                 i_coords + Sdk::Vector2I{ 1, 0 },
+                 i_coords + Sdk::Vector2I{ 0, 1 } };
+      }
+
+    } // anonym ns
+
     void Simulation::update(const double i_dt, const ITileCollection& i_tiles)
     {
       d_dt = i_dt;
@@ -34,15 +46,14 @@ namespace Dx
 
     void Simulation::exchangeForTileAtCoords(const Sdk::Vector2I& i_coords)
     {
-      const std::vector<Sdk::Vector2I> coordsToExchange = { i_coords + Sdk::Vector2I{ -1, 0 },
-                                                            i_coords + Sdk::Vector2I{ 0, -1 },
-                                                            i_coords + Sdk::Vector2I{ 1, 0 },
-                                                            i_coords + Sdk::Vector2I{ 0, 1 } };
-
-      for (const auto& coords : coordsToExchange)
+      for (const auto& coords : getCoordsToExchange(i_coords))
         exchangeBetweenCoords(i_coords, coords);
+
+      // If tile is airtight but still has gases, exchange them with neighbors
+      removeGasIfAirtight(i_coords);
     }
 
+    
     void Simulation::exchangeBetweenCoords(const Sdk::Vector2I& i_coords1, const Sdk::Vector2I& i_coords2)
     {
       CONTRACT_EXPECT(d_tiles);
@@ -53,7 +64,7 @@ namespace Dx
       CONTRACT_EXPECT(tile2);
 
       heatExchange(*tile1, *tile2, i_coords1);
-      gasExchange(tile1->getUnit(), tile2->getUnit(), d_buffer[i_coords1].unit);
+      gasExchange(*tile1, *tile2, d_buffer[i_coords1].unit);
     }
 
 
@@ -65,16 +76,21 @@ namespace Dx
 
       const double insulationFactor1 = i_tile1.getInsulationFactor();
       const double insulationFactor2 = i_tile2.getInsulationFactor();
-      const double insulationFactor = std::min(insulationFactor1, insulationFactor2);
+      const double effectiveInsulationFactor = std::min(insulationFactor1, insulationFactor2);
 
       constexpr double K = 0.05;
-      const double tChange = K * tDiff * d_dt * insulationFactor;
+      const double tChange = K * tDiff * d_dt * effectiveInsulationFactor;
 
       d_buffer[i_coords1].T += tChange;
     }
 
-    void Simulation::gasExchange(const Unit& i_src1, const Unit& i_src2, Unit& io_dst1)
+    void Simulation::gasExchange(const ITile& i_tile1, const ITile& i_tile2, Unit& io_dst1)
     {
+      if (i_tile1.isAirTight() || i_tile2.isAirTight())
+        return;
+
+      const auto i_src1 = i_tile1.getUnit();
+      const auto i_src2 = i_tile2.getUnit();
       if (!i_src1.hasGas() && !i_src2.hasGas())
         return;
 
@@ -82,7 +98,7 @@ namespace Dx
       const double p2 = i_src2.getPressure();
       const double pDiffHalf = std::abs(p2 - p1) / 2.0;
 
-      constexpr double K = 0.5;
+      constexpr double K = 4.0;
 
       if (p1 > p2)
       {
@@ -98,6 +114,42 @@ namespace Dx
 
         io_dst1.addGases(gasesToShare, true);
       }
+    }
+
+
+    void Simulation::removeGasIfAirtight(const Sdk::Vector2I& i_coords)
+    {
+      const auto tilePtr = d_tiles->getTile(i_coords);
+      auto& tile = SAFE_DEREF(tilePtr);
+
+      if (!tile.isAirTight() || !tile.getUnit().hasGas())
+        return;
+
+      // Collect coords of neighbors that are not airtight
+      std::vector<Sdk::Vector2I> coordsToExchange;
+      for (const auto& coords : getCoordsToExchange(i_coords))
+      {
+        const auto neighTilePtr = d_tiles->getTile(coords);
+        const auto& neighTile = SAFE_DEREF(neighTilePtr);
+        if (!neighTile.isAirTight())
+          coordsToExchange.push_back(coords);
+      }
+
+      if (!coordsToExchange.empty())
+      {
+        const double giveRatio = 1.0 / coordsToExchange.size();
+        for (const auto& coords : coordsToExchange)
+        {
+          const auto gasesToShare = tile.getUnit().extractGases(giveRatio);
+
+          auto& bufferUnit = d_buffer[coords].unit;
+          bufferUnit.addGases(gasesToShare, true);
+
+          //d_buffer[i_coords].unit.removeGases(gasesToShare, true);
+        }
+      }
+
+      tile.getUnit().clear();
     }
 
 

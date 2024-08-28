@@ -16,6 +16,7 @@ namespace Dx
       virtual void setT(double i_t) = 0;
 
       virtual double getInsulationFactor() const = 0; // 0 - perfect insulation, 1 - perfect heat conduction
+      virtual bool isAirTight() const = 0;
 
       virtual Unit& getUnit() = 0;
       virtual const Unit& getUnit() const = 0;
