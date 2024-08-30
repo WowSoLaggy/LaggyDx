@@ -20,6 +20,8 @@ namespace Dx
 
       virtual Unit& getUnit() = 0;
       virtual const Unit& getUnit() const = 0;
+
+      virtual void afterUpdate() {};
     };
 
   } // ns thd

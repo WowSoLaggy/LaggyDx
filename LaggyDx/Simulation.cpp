@@ -4,6 +4,8 @@
 #include "ITile.h"
 #include "ITileCollection.h"
 
+#include <LaggySdk/Shuffle.h>
+
 
 namespace Dx
 {
@@ -17,6 +19,13 @@ namespace Dx
                  i_coords + Sdk::Vector2I{ 0, -1 },
                  i_coords + Sdk::Vector2I{ 1, 0 },
                  i_coords + Sdk::Vector2I{ 0, 1 } };
+      }
+
+      const std::vector<Sdk::Vector2I> getShuffledCoordsToExchange(const Sdk::Vector2I& i_coords)
+      {
+        auto coords = getCoordsToExchange(i_coords);
+        Sdk::shuffleVector(coords);
+        return coords;
       }
 
     } // anonym ns
@@ -40,13 +49,20 @@ namespace Dx
       for (int y = rect.top(); y <= rect.bottom(); ++y)
       {
         for (int x = rect.left(); x <= rect.right(); ++x)
+        {
+          if (x == 8 && y == 8)
+          {
+            int a = 0;
+            a = 10;
+          }
           exchangeForTileAtCoords({ x, y });
+        }
       }
     }
 
     void Simulation::exchangeForTileAtCoords(const Sdk::Vector2I& i_coords)
     {
-      for (const auto& coords : getCoordsToExchange(i_coords))
+      for (const auto& coords : getShuffledCoordsToExchange(i_coords))
         exchangeBetweenCoords(i_coords, coords);
 
       // If tile is airtight but still has gases, exchange them with neighbors
@@ -64,7 +80,7 @@ namespace Dx
       CONTRACT_EXPECT(tile2);
 
       heatExchange(*tile1, *tile2, i_coords1);
-      gasExchange(*tile1, *tile2, d_buffer[i_coords1].unit);
+      gasExchange(*tile1, *tile2, d_buffer[i_coords1]);
     }
 
 
@@ -84,7 +100,7 @@ namespace Dx
       d_buffer[i_coords1].T += tChange;
     }
 
-    void Simulation::gasExchange(const ITile& i_tile1, const ITile& i_tile2, Unit& io_dst1)
+    void Simulation::gasExchange(const ITile& i_tile1, const ITile& i_tile2, BufferTile& io_dst1)
     {
       if (i_tile1.isAirTight() || i_tile2.isAirTight())
         return;
@@ -96,23 +112,38 @@ namespace Dx
 
       const double p1 = i_src1.getPressure();
       const double p2 = i_src2.getPressure();
-      const double pDiffHalf = std::abs(p2 - p1) / 2.0;
+      const double pressureDifference = std::abs(p2 - p1);
+      if (pressureDifference <= 2)
+        return;
+      const double equilibriumPressure = pressureDifference / 2.0;
 
       constexpr double K = 4.0;
 
       if (p1 > p2)
       {
-        const double giveRatio = pDiffHalf / p1 * d_dt * K;
+        const double ratioToHalf = equilibriumPressure / p1;
+        const double maxRatio = ratioToHalf / 4; // to be sure that all 4 neightbors will get some gas
+        const double giveRatio = std::min(ratioToHalf * d_dt * K, maxRatio);
         const auto gasesToShare = i_src1.extractGases(giveRatio);
 
-        io_dst1.removeGases(gasesToShare, true);
+        io_dst1.unit.removeGases(gasesToShare, true);
       }
       else
       {
-        const double giveRatio = pDiffHalf / p2 * d_dt * K;
+        const double ratioToHalf = equilibriumPressure / p2;
+        const double maxRatio = ratioToHalf / 4; // to be sure that all 4 neightbors will get some gas
+        const double giveRatio = std::min(ratioToHalf * d_dt * K, maxRatio);
         const auto gasesToShare = i_src2.extractGases(giveRatio);
 
-        io_dst1.addGases(gasesToShare, true);
+        io_dst1.unit.addGases(gasesToShare, true);
+
+        // Calculate T change with the gas exchange
+        int totalGasShared = 0;
+        for (const auto& gas : gasesToShare)
+          totalGasShared += gas.second;
+
+        const double newT = (i_tile1.getT() * i_src1.getGasAmount() + i_tile2.getT() * totalGasShared) / (i_src1.getGasAmount() + totalGasShared);
+        io_dst1.T = newT - i_tile1.getT();
       }
     }
 
@@ -144,8 +175,6 @@ namespace Dx
 
           auto& bufferUnit = d_buffer[coords].unit;
           bufferUnit.addGases(gasesToShare, true);
-
-          //d_buffer[i_coords].unit.removeGases(gasesToShare, true);
         }
       }
 
@@ -165,6 +194,8 @@ namespace Dx
 
         tileDst->setT(tileDst->getT() + tileSrc.T);
         tileDst->getUnit().addGases(tileSrc.unit.getGases());
+
+        tileDst->afterUpdate();
       }
 
       d_buffer.clear();

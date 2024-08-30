@@ -68,6 +68,11 @@ namespace Dx
       return d_gasAmount > 0;
     }
 
+    int Unit::getGasAmount() const
+    {
+      return d_gasAmount;
+    }
+
 
     void Unit::setVolume(const double i_volume)
     {
@@ -127,7 +132,7 @@ namespace Dx
       
       for (const auto& [id, amount] : d_gases)
       {
-        const int amountToTake = (int)(amount * i_ratio);
+        const int amountToTake = (int)std::ceil(i_ratio * amount);
         res[id] += amountToTake;
       }
 

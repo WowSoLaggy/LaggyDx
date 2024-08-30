@@ -17,6 +17,7 @@ namespace Dx
 
       const GasesMap& getGases() const;
       bool hasGas() const;
+      int getGasAmount() const;
 
       void setVolume(double i_volume);
       double getVolume() const;
