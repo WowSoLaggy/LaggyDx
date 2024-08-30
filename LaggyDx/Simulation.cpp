@@ -86,8 +86,13 @@ namespace Dx
 
     void Simulation::heatExchange(const ITile& i_tile1, const ITile& i_tile2, const Sdk::Vector2I& i_coords1)
     {
-      const double t1 = i_tile1.getT();
-      const double t2 = i_tile2.getT();
+      const auto t1Opt = i_tile1.getT();
+      const auto t2Opt = i_tile2.getT();
+      if (!t1Opt || !t2Opt)
+        return;
+
+      const double t1 = *t1Opt;
+      const double t2 = *t2Opt;
       const double tDiff = t2 - t1;
 
       const double insulationFactor1 = i_tile1.getInsulationFactor();
@@ -128,7 +133,7 @@ namespace Dx
 
         io_dst1.unit.removeGases(gasesToShare, true);
       }
-      else
+      else // p2 >= p1
       {
         const double ratioToHalf = equilibriumPressure / p2;
         const double maxRatio = ratioToHalf / 4; // to be sure that all 4 neightbors will get some gas
@@ -142,8 +147,19 @@ namespace Dx
         for (const auto& gas : gasesToShare)
           totalGasShared += gas.second;
 
-        const double newT = (i_tile1.getT() * i_src1.getGasAmount() + i_tile2.getT() * totalGasShared) / (i_src1.getGasAmount() + totalGasShared);
-        io_dst1.T = newT - i_tile1.getT();
+        const auto t1Opt = i_tile1.getT();
+        const auto t2Opt = i_tile2.getT();
+        CONTRACT_ASSERT(t2Opt);
+        const double t2 = *t2Opt;
+
+        if (!t1Opt)
+          io_dst1.T = t2;
+        else
+        {
+          const double t1 = *t1Opt;
+          const double newT = (t1 * i_src1.getGasAmount() + t2 * totalGasShared) / (i_src1.getGasAmount() + totalGasShared);
+          io_dst1.T = newT - t1;
+        }
       }
     }
 
@@ -192,7 +208,12 @@ namespace Dx
         auto tileDst = d_tiles->getTile(coord);
         CONTRACT_EXPECT(tileDst);
 
-        tileDst->setT(tileDst->getT() + tileSrc.T);
+        const auto curTOpt = tileDst->getT();
+        if (!curTOpt)
+          tileDst->setT(tileSrc.T);
+        else
+          tileDst->setT(*tileDst->getT() + tileSrc.T);
+
         tileDst->getUnit().addGases(tileSrc.unit.getGases());
 
         tileDst->afterUpdate();

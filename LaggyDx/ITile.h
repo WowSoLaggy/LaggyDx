@@ -12,7 +12,8 @@ namespace Dx
     public:
       virtual ~ITile() = default;
 
-      virtual double getT() const = 0;
+      // Optional because tiles may have no temperature (e.g. vacuum)
+      virtual std::optional<double> getT() const = 0;
       virtual void setT(double i_t) = 0;
 
       virtual double getInsulationFactor() const = 0; // 0 - perfect insulation, 1 - perfect heat conduction
