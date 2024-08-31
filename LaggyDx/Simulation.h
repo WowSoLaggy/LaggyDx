@@ -31,7 +31,7 @@ namespace Dx
 
       void removeGasIfAirtight(const Sdk::Vector2I& i_coords);
 
-      void storeBufferToTiles();
+      void storeBufferToTiles(double i_dt);
     };
 
   } // ns thd

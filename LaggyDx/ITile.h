@@ -22,7 +22,7 @@ namespace Dx
       virtual Unit& getUnit() = 0;
       virtual const Unit& getUnit() const = 0;
 
-      virtual void afterUpdate() {};
+      virtual void afterUpdate(double i_dt) {};
     };
 
   } // ns thd

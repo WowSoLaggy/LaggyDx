@@ -36,7 +36,7 @@ namespace Dx
       d_tiles = &i_tiles;
 
       exchangeAll();
-      storeBufferToTiles();
+      storeBufferToTiles(i_dt);
     }
 
 
@@ -199,7 +199,7 @@ namespace Dx
 
 
     /// Store the buffer values into the tiles
-    void Simulation::storeBufferToTiles()
+    void Simulation::storeBufferToTiles(const double i_dt)
     {
       CONTRACT_EXPECT(d_tiles);
 
@@ -216,7 +216,7 @@ namespace Dx
 
         tileDst->getUnit().addGases(tileSrc.unit.getGases());
 
-        tileDst->afterUpdate();
+        tileDst->afterUpdate(i_dt);
       }
 
       d_buffer.clear();
