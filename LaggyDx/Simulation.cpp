@@ -28,6 +28,26 @@ namespace Dx
         return coords;
       }
 
+      double getHeatTransferAmount(const IThdObject& i_obj1, const IThdObject& i_obj2, const double i_dt)
+      {
+        const auto t1Opt = i_obj1.getTemperature();
+        const auto t2Opt = i_obj2.getTemperature();
+        if (!t1Opt || !t2Opt)
+          return 0;
+
+        const double t1 = *t1Opt;
+        const double t2 = *t2Opt;
+        const double tDiff = t1 - t2;
+
+        const double thermalConductivity1 = i_obj1.getThermalConductivity();
+        const double thermalConductivity2 = i_obj2.getThermalConductivity();
+        const double effectiveThermalConductivity = 2 * thermalConductivity1 * thermalConductivity2 /
+          (thermalConductivity1 + thermalConductivity2);
+
+        const double heatTransfer = effectiveThermalConductivity * tDiff * i_dt;
+        return heatTransfer;
+      }
+
     } // anonym ns
 
     void Simulation::update(const double i_dt, const ITileCollection& i_tiles)
@@ -89,19 +109,11 @@ namespace Dx
 
     void Simulation::heatExchangeWithTile(const ITile& i_tile1, const ITile& i_tile2, const Sdk::Vector2I& i_coords1)
     {
-      const auto t1Opt = i_tile1.getTemperature();
-      const auto t2Opt = i_tile2.getTemperature();
-      if (!t1Opt || !t2Opt)
+      if (!i_tile1.getUnit().hasGas() || !i_tile2.getUnit().hasGas())
         return;
 
-      const double t1 = *t1Opt;
-      const double t2 = *t2Opt;
-      const double tDiff = t2 - t1;
-
-      constexpr double K = 0.05;
-      const double tChange = K * tDiff * d_dt;
-
-      d_buffer[i_coords1].T += tChange;
+      const double heatTransfer = getHeatTransferAmount(i_tile1, i_tile2, d_dt);
+      d_buffer[i_coords1].T -= heatTransfer / i_tile1.getHeatCapacity();
     }
 
     void Simulation::gasExchange(const ITile& i_tile1, const ITile& i_tile2, BufferTile& io_dst1)
@@ -160,7 +172,6 @@ namespace Dx
       }
     }
 
-
     void Simulation::heatExchangeWithObjects(const Sdk::Vector2I& i_coords)
     {
       CONTRACT_EXPECT(d_tiles);
@@ -185,20 +196,8 @@ namespace Dx
         if (!tAgentOpt)
           continue;
 
-        const double tAgent = *tAgentOpt;
-        const double tTile = *tOpt;
-        const double tDiff = tAgent - tTile;
-
-        const double agentThermalConductivity = agent->getThermalConductivity();
-        const double tileThermalConductivity = tile.getThermalConductivity();
-        const double effectiveThermalConductivity = 2 * agentThermalConductivity * tileThermalConductivity /
-          (agentThermalConductivity + tileThermalConductivity);
-
-        const double heatTransfer = effectiveThermalConductivity * tDiff * d_dt;
-
-        // Update temperatures based on heat capacity
-
-        agent->setTemperature(tAgent - heatTransfer / agent->getHeatCapacity());
+        const double heatTransfer = getHeatTransferAmount(*agent, tile, d_dt);
+        agent->setTemperature(*tAgentOpt - heatTransfer / agent->getHeatCapacity());
         d_buffer[i_coords].T += heatTransfer / tile.getHeatCapacity();
       }
     }
