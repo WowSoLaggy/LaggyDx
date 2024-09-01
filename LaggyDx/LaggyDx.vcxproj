@@ -170,6 +170,7 @@
     <ClInclude Include="ICamera2.h" />
     <ClInclude Include="ISprite.h" />
     <ClInclude Include="ISpriteShader.h" />
+    <ClInclude Include="IThdObject.h" />
     <ClInclude Include="ITile.h" />
     <ClInclude Include="ITileCollection.h" />
     <ClInclude Include="MemoryTexture.h" />

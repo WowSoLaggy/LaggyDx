@@ -663,6 +663,9 @@
     <ClInclude Include="Unit.h">
       <Filter>src\ThermoDynamics</Filter>
     </ClInclude>
+    <ClInclude Include="IThdObject.h">
+      <Filter>src\ThermoDynamics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

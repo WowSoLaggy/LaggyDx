@@ -65,6 +65,9 @@ namespace Dx
       for (const auto& coords : getShuffledCoordsToExchange(i_coords))
         exchangeBetweenCoords(i_coords, coords);
 
+      // If tile has objects, exchange heat with them
+      heatExchangeWithObjects(i_coords);
+
       // If tile is airtight but still has gases, exchange them with neighbors
       removeGasIfAirtight(i_coords);
     }
@@ -79,15 +82,15 @@ namespace Dx
       CONTRACT_EXPECT(tile1);
       CONTRACT_EXPECT(tile2);
 
-      heatExchange(*tile1, *tile2, i_coords1);
+      heatExchangeWithTile(*tile1, *tile2, i_coords1);
       gasExchange(*tile1, *tile2, d_buffer[i_coords1]);
     }
 
 
-    void Simulation::heatExchange(const ITile& i_tile1, const ITile& i_tile2, const Sdk::Vector2I& i_coords1)
+    void Simulation::heatExchangeWithTile(const ITile& i_tile1, const ITile& i_tile2, const Sdk::Vector2I& i_coords1)
     {
-      const auto t1Opt = i_tile1.getT();
-      const auto t2Opt = i_tile2.getT();
+      const auto t1Opt = i_tile1.getTemperature();
+      const auto t2Opt = i_tile2.getTemperature();
       if (!t1Opt || !t2Opt)
         return;
 
@@ -95,12 +98,8 @@ namespace Dx
       const double t2 = *t2Opt;
       const double tDiff = t2 - t1;
 
-      const double insulationFactor1 = i_tile1.getInsulationFactor();
-      const double insulationFactor2 = i_tile2.getInsulationFactor();
-      const double effectiveInsulationFactor = std::min(insulationFactor1, insulationFactor2);
-
       constexpr double K = 0.05;
-      const double tChange = K * tDiff * d_dt * effectiveInsulationFactor;
+      const double tChange = K * tDiff * d_dt;
 
       d_buffer[i_coords1].T += tChange;
     }
@@ -127,17 +126,15 @@ namespace Dx
       if (p1 > p2)
       {
         const double ratioToHalf = equilibriumPressure / p1;
-        const double maxRatio = ratioToHalf / 4; // to be sure that all 4 neightbors will get some gas
-        const double giveRatio = std::min(ratioToHalf * d_dt * K, maxRatio);
+        const double giveRatio = std::min(ratioToHalf * d_dt * K, ratioToHalf);
         const auto gasesToShare = i_src1.extractGases(giveRatio);
 
         io_dst1.unit.removeGases(gasesToShare, true);
       }
-      else // p2 >= p1
+      else if (p2 > p1)
       {
         const double ratioToHalf = equilibriumPressure / p2;
-        const double maxRatio = ratioToHalf / 4; // to be sure that all 4 neightbors will get some gas
-        const double giveRatio = std::min(ratioToHalf * d_dt * K, maxRatio);
+        const double giveRatio = std::min(ratioToHalf * d_dt * K, ratioToHalf);
         const auto gasesToShare = i_src2.extractGases(giveRatio);
 
         io_dst1.unit.addGases(gasesToShare, true);
@@ -147,8 +144,8 @@ namespace Dx
         for (const auto& gas : gasesToShare)
           totalGasShared += gas.second;
 
-        const auto t1Opt = i_tile1.getT();
-        const auto t2Opt = i_tile2.getT();
+        const auto t1Opt = i_tile1.getTemperature();
+        const auto t2Opt = i_tile2.getTemperature();
         CONTRACT_ASSERT(t2Opt);
         const double t2 = *t2Opt;
 
@@ -164,8 +161,53 @@ namespace Dx
     }
 
 
+    void Simulation::heatExchangeWithObjects(const Sdk::Vector2I& i_coords)
+    {
+      CONTRACT_EXPECT(d_tiles);
+
+      const auto tilePtr = d_tiles->getTile(i_coords);
+      auto& tile = SAFE_DEREF(tilePtr);
+
+      // No gas in tile - no heat exchange with objects
+      // (considering that objects don't exchange heat with each other, only via gases)
+      if (!tile.getUnit().hasGas())
+        return;
+
+      // No tile temperature - no heat exchange with objects
+      const auto tOpt = tile.getTemperature();
+      if (!tOpt)
+        return;
+
+      for (auto* agent : tile.getHeatAgents())
+      {
+        CONTRACT_ASSERT(agent);
+        const auto tAgentOpt = agent->getTemperature();
+        if (!tAgentOpt)
+          continue;
+
+        const double tAgent = *tAgentOpt;
+        const double tTile = *tOpt;
+        const double tDiff = tAgent - tTile;
+
+        const double agentThermalConductivity = agent->getThermalConductivity();
+        const double tileThermalConductivity = tile.getThermalConductivity();
+        const double effectiveThermalConductivity = 2 * agentThermalConductivity * tileThermalConductivity /
+          (agentThermalConductivity + tileThermalConductivity);
+
+        const double heatTransfer = effectiveThermalConductivity * tDiff * d_dt;
+
+        // Update temperatures based on heat capacity
+
+        agent->setTemperature(tAgent - heatTransfer / agent->getHeatCapacity());
+        d_buffer[i_coords].T += heatTransfer / tile.getHeatCapacity();
+      }
+    }
+
+
     void Simulation::removeGasIfAirtight(const Sdk::Vector2I& i_coords)
     {
+      CONTRACT_EXPECT(d_tiles);
+
       const auto tilePtr = d_tiles->getTile(i_coords);
       auto& tile = SAFE_DEREF(tilePtr);
 
@@ -208,11 +250,11 @@ namespace Dx
         auto tileDst = d_tiles->getTile(coord);
         CONTRACT_EXPECT(tileDst);
 
-        const auto curTOpt = tileDst->getT();
+        const auto curTOpt = tileDst->getTemperature();
         if (!curTOpt)
-          tileDst->setT(tileSrc.T);
+          tileDst->setTemperature(tileSrc.T);
         else
-          tileDst->setT(*tileDst->getT() + tileSrc.T);
+          tileDst->setTemperature(*tileDst->getTemperature() + tileSrc.T);
 
         tileDst->getUnit().addGases(tileSrc.unit.getGases());
 
