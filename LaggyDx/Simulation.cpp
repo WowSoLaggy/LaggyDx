@@ -102,12 +102,12 @@ namespace Dx
       CONTRACT_EXPECT(tile1);
       CONTRACT_EXPECT(tile2);
 
-      heatExchangeWithTile(*tile1, *tile2, i_coords1);
-      gasExchange(*tile1, *tile2, d_buffer[i_coords1]);
+      heatExchangeWithNeighborTile(*tile1, *tile2, i_coords1);
+      gasPressureFlow(*tile1, *tile2, d_buffer[i_coords1]);
     }
 
 
-    void Simulation::heatExchangeWithTile(const ITile& i_tile1, const ITile& i_tile2, const Sdk::Vector2I& i_coords1)
+    void Simulation::heatExchangeWithNeighborTile(const ITile& i_tile1, const ITile& i_tile2, const Sdk::Vector2I& i_coords1)
     {
       if (!i_tile1.getUnit().hasGas() || !i_tile2.getUnit().hasGas())
         return;
@@ -116,7 +116,7 @@ namespace Dx
       d_buffer[i_coords1].T -= heatTransfer / i_tile1.getHeatCapacity();
     }
 
-    void Simulation::gasExchange(const ITile& i_tile1, const ITile& i_tile2, BufferTile& io_dst1)
+    void Simulation::gasPressureFlow(const ITile& i_tile1, const ITile& i_tile2, BufferTile& io_dst1)
     {
       if (i_tile1.isAirTight() || i_tile2.isAirTight())
         return;
