@@ -8,17 +8,13 @@ namespace Dx
 {
   namespace thd
   {
-    class ITile : public IThdObject
+    class ITile
     {
     public:
-      virtual bool isAirTight() const = 0;
+      virtual ~ITile() = default;
 
-      virtual Unit& getUnit() = 0;
-      virtual const Unit& getUnit() const = 0;
-
-      virtual std::vector<IThdObject*> getHeatAgents() const = 0;
-
-      virtual void afterUpdate(double i_dt) {};
+      // Returns all objects that participate in the heat exchange
+      virtual std::vector<IThdObject*> getThdObjects() const = 0;
     };
 
   } // ns thd

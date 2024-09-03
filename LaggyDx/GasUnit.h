@@ -9,7 +9,7 @@ namespace Dx
 {
   namespace thd
   {
-    class Unit : public Sdk::ISerializable
+    class GasUnit : public Sdk::ISerializable
     {
     public:
       virtual void pushFields() override;
@@ -28,7 +28,7 @@ namespace Dx
       void addGas(GasId i_gasId, int i_amount, bool i_allowNegative = false);
       void addGases(const GasesMap& i_gases, bool i_allowNegative = false);
       void removeGases(const GasesMap& i_gases, bool i_allowNegative = false);
-      GasesMap extractGases(double i_ratio) const;
+      GasesMap calculateGasesPerRatio(double i_ratio) const;
 
     private:
       double d_volume = 1;

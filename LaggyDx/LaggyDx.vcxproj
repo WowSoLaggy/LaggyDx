@@ -295,13 +295,12 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="StaticCollider.h" />
     <ClInclude Include="Text.h" />
-    <ClInclude Include="BufferTile.h" />
     <ClInclude Include="Simulation.h" />
     <ClInclude Include="TopologyTypes.h" />
     <ClInclude Include="Tri.h" />
     <ClInclude Include="VertexLayout.h" />
     <ClInclude Include="VertexTypes.h" />
-    <ClInclude Include="Unit.h" />
+    <ClInclude Include="GasUnit.h" />
     <ClInclude Include="VsBinResource.h" />
     <ClInclude Include="VsHlslResource.h" />
     <ClInclude Include="VsResource.h" />
@@ -336,6 +335,7 @@
     <ClCompile Include="HeightMap.cpp" />
     <ClCompile Include="ICamera2.cpp" />
     <ClCompile Include="ISpriteShader.cpp" />
+    <ClCompile Include="IThdObject.cpp" />
     <ClCompile Include="MemoryTexture.cpp" />
     <ClCompile Include="Roam.cpp" />
     <ClCompile Include="FbxResource.cpp" />
@@ -377,7 +377,7 @@
     <ClCompile Include="Tri.cpp" />
     <ClCompile Include="VertexLayout.cpp" />
     <ClCompile Include="VertexTypes.cpp" />
-    <ClCompile Include="Unit.cpp" />
+    <ClCompile Include="GasUnit.cpp" />
     <ClCompile Include="VsBinResource.cpp" />
     <ClCompile Include="ThirdPersonCamera.cpp" />
     <ClCompile Include="ColliderBase.cpp" />

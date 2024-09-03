@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Unit.h"
+#include "GasUnit.h"
 
 #include <LaggySdk/StringUtils.h>
 
@@ -35,7 +35,7 @@ namespace Dx
     } // anonym NS
 
 
-    void Unit::pushFields()
+    void GasUnit::pushFields()
     {
       pushField("volume", d_volume);
       pushField("gasAmount", d_gasAmount);
@@ -44,7 +44,7 @@ namespace Dx
         pushField(createGasTag(id), amount);
     }
 
-    Sdk::FieldHandled Unit::onFieldNotFound(const std::string& i_name, const Json::Value& i_json)
+    Sdk::FieldHandled GasUnit::onFieldNotFound(const std::string& i_name, const Json::Value& i_json)
     {
       if (isGasTag(i_name))
       {
@@ -58,46 +58,46 @@ namespace Dx
     }
 
 
-    const GasesMap& Unit::getGases() const
+    const GasesMap& GasUnit::getGases() const
     {
       return d_gases;
     }
 
-    bool Unit::hasGas() const
+    bool GasUnit::hasGas() const
     {
       return d_gasAmount > 0;
     }
 
-    int Unit::getGasAmount() const
+    int GasUnit::getGasAmount() const
     {
       return d_gasAmount;
     }
 
 
-    void Unit::setVolume(const double i_volume)
+    void GasUnit::setVolume(const double i_volume)
     {
       d_volume = i_volume;
     }
 
-    double Unit::getVolume() const
+    double GasUnit::getVolume() const
     {
       return d_volume;
     }
 
 
-    double Unit::getPressure() const
+    double GasUnit::getPressure() const
     {
       return d_gasAmount / d_volume;
     }
 
 
-    void Unit::clear()
+    void GasUnit::clear()
     {
       d_gases.clear();
       d_gasAmount = 0;
     }
 
-    void Unit::addGas(const GasId i_gasId, const int i_amount, bool i_allowNegative)
+    void GasUnit::addGas(const GasId i_gasId, const int i_amount, bool i_allowNegative)
     {
       if (!i_allowNegative)
       {
@@ -114,19 +114,19 @@ namespace Dx
       }
     }
 
-    void Unit::addGases(const GasesMap& i_gases, bool i_allowNegative)
+    void GasUnit::addGases(const GasesMap& i_gases, bool i_allowNegative)
     {
       for (auto& [id, amount] : i_gases)
         addGas(id, amount, i_allowNegative);
     }
 
-    void Unit::removeGases(const GasesMap& i_gases, bool i_allowNegative)
+    void GasUnit::removeGases(const GasesMap& i_gases, bool i_allowNegative)
     {
       for (auto& [id, amount] : i_gases)
         addGas(id, -amount, i_allowNegative);
     }
 
-    GasesMap Unit::extractGases(const double i_ratio) const
+    GasesMap GasUnit::calculateGasesPerRatio(const double i_ratio) const
     {
       GasesMap res;
       

@@ -639,9 +639,6 @@
     <ClInclude Include="ITileCollection.h">
       <Filter>src\ThermoDynamics</Filter>
     </ClInclude>
-    <ClInclude Include="BufferTile.h">
-      <Filter>src\ThermoDynamics</Filter>
-    </ClInclude>
     <ClInclude Include="Simulation.h">
       <Filter>src\ThermoDynamics</Filter>
     </ClInclude>
@@ -660,7 +657,7 @@
     <ClInclude Include="GasPrototype.h">
       <Filter>src\ThermoDynamics</Filter>
     </ClInclude>
-    <ClInclude Include="Unit.h">
+    <ClInclude Include="GasUnit.h">
       <Filter>src\ThermoDynamics</Filter>
     </ClInclude>
     <ClInclude Include="IThdObject.h">
@@ -1028,7 +1025,10 @@
     <ClCompile Include="Console.cpp">
       <Filter>src\Console</Filter>
     </ClCompile>
-    <ClCompile Include="Unit.cpp">
+    <ClCompile Include="GasUnit.cpp">
+      <Filter>src\ThermoDynamics</Filter>
+    </ClCompile>
+    <ClCompile Include="IThdObject.cpp">
       <Filter>src\ThermoDynamics</Filter>
     </ClCompile>
   </ItemGroup>
