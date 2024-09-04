@@ -27,7 +27,7 @@ namespace Dx
 
         const double thermalConductivity1 = i_obj1.getThermalConductivity();
         const double thermalConductivity2 = i_obj2.getThermalConductivity();
-        const double thermalConductivityEffective = thermalConductivity1 + thermalConductivity2 / 2;
+        const double thermalConductivityEffective = (thermalConductivity1 + thermalConductivity2) / 2;
 
         const double heatTransfer = thermalConductivityEffective * tDiff * i_dt;
         i_obj1.transferHeat(heatTransfer);
