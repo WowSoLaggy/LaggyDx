@@ -23,12 +23,16 @@ namespace Dx
 
     void IThdObject::transferHeat(const double i_heatAmount)
     {
-      d_temperatureIntermediate += i_heatAmount / getHeatCapacity();
+      if (!d_temperatureIntermediate)
+        d_temperatureIntermediate = getTemperature();
+
+      *d_temperatureIntermediate += i_heatAmount / getHeatCapacity();
     }
 
     void IThdObject::applyTemperature()
     {
-      setTemperature(d_temperatureIntermediate);
+      if (d_temperatureIntermediate)
+        setTemperature(*d_temperatureIntermediate);
     }
 
   } // ns thd

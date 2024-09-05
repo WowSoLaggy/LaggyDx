@@ -131,6 +131,8 @@ namespace Dx
     class ITile;
     class ITileCollection;
 
+    class IThdObject;
+
     using GasId = std::int32_t;
     using GasName = std::string;
     using GasesMap = std::map<GasId, int>;

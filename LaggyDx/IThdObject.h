@@ -26,8 +26,8 @@ namespace Dx
       void applyTemperature();
 
     private:
-      // This is a helper variable to store the temperature calculated in applyTemperature()
-      double d_temperatureIntermediate = 0;
+      // This is a helper variable to store the temperature calculated in applyTemperature().
+      std::optional<double> d_temperatureIntermediate;
     };
 
   } // ns thd

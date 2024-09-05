@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Simulation.h"
 
+#include "GasUnit.h"
 #include "ITile.h"
 #include "ITileCollection.h"
 
@@ -19,22 +20,8 @@ namespace Dx
                  i_coords + Sdk::Vector2I{ 0, 1 } };
       }
 
-      void exchangeHeat(IThdObject& i_obj1, IThdObject& i_obj2, const double i_dt)
-      {
-        const double t1 = i_obj1.getTemperature();
-        const double t2 = i_obj2.getTemperature();
-        const double tDiff = t2 - t1;
-
-        const double thermalConductivity1 = i_obj1.getThermalConductivity();
-        const double thermalConductivity2 = i_obj2.getThermalConductivity();
-        const double thermalConductivityEffective = (thermalConductivity1 + thermalConductivity2) / 2;
-
-        const double heatTransfer = thermalConductivityEffective * tDiff * i_dt;
-        i_obj1.transferHeat(heatTransfer);
-        i_obj2.transferHeat(-heatTransfer);
-      }
-
     } // anonym ns
+
 
     void Simulation::update(const double i_dt, const ITileCollection& i_tiles)
     {
@@ -67,79 +54,26 @@ namespace Dx
       for (int j = 0; j < thdObjects.size(); ++j)
       {
         for (int i = j + 1; i < thdObjects.size(); ++i)
-          exchangeHeat(SAFE_DEREF(thdObjects[j]), SAFE_DEREF(thdObjects[i]), d_dt);
+          exchangeHeat(SAFE_DEREF(thdObjects[j]), SAFE_DEREF(thdObjects[i]));
 
         for (const auto& coords : getCoordsToExchange(i_coords))
         {
-          const auto tileNeighbor = d_tiles->getTile(i_coords);
+          const auto tileNeighbor = d_tiles->getTile(coords);
           if (!tileNeighbor)
             continue; // Skip if the neighbor is out of the area
 
           const auto& thdObjectsNeighbor = tileNeighbor->getThdObjects();
           for (const auto& thdObjectNeighbor : thdObjectsNeighbor)
-            exchangeHeat(SAFE_DEREF(thdObjects[j]), SAFE_DEREF(thdObjectNeighbor), d_dt);
+          {
+            exchangeHeat(SAFE_DEREF(thdObjects[j]), SAFE_DEREF(thdObjectNeighbor));
+
+            if (thdObjects[j]->isGas() && thdObjectNeighbor->isGas())
+              exchangeGas(SAFE_DEREF(thdObjects[j]), SAFE_DEREF(thdObjectNeighbor));
+          }
         }
       }
     }
 
-    //void Simulation::gasPressureFlow(const ITile& i_tile1, const ITile& i_tile2, BufferTile& io_dst1)
-    //{
-    //  if (i_tile1.isAirTight() || i_tile2.isAirTight())
-    //    return;
-
-    //  const auto i_src1 = i_tile1.getUnit();
-    //  const auto i_src2 = i_tile2.getUnit();
-    //  if (!i_src1.hasGas() && !i_src2.hasGas())
-    //    return;
-
-    //  const double p1 = i_src1.getPressure();
-    //  const double p2 = i_src2.getPressure();
-    //  const double pressureDifference = std::abs(p2 - p1);
-    //  if (pressureDifference <= 2)
-    //    return;
-    //  const double equilibriumPressure = pressureDifference / 2.0;
-
-    //  constexpr double K = 4.0;
-
-    //  if (p1 > p2)
-    //  {
-    //    const double ratioToHalf = equilibriumPressure / p1;
-    //    const double giveRatio = std::min(ratioToHalf * d_dt * K, ratioToHalf);
-    //    const auto gasesToShare = i_src1.extractGases(giveRatio);
-
-    //    io_dst1.unit.removeGases(gasesToShare, true);
-    //  }
-    //  else if (p2 > p1)
-    //  {
-    //    const double ratioToHalf = equilibriumPressure / p2;
-    //    const double giveRatio = std::min(ratioToHalf * d_dt * K, ratioToHalf);
-    //    const auto gasesToShare = i_src2.extractGases(giveRatio);
-
-    //    io_dst1.unit.addGases(gasesToShare, true);
-
-    //    // Calculate T change with the gas exchange
-    //    int totalGasShared = 0;
-    //    for (const auto& gas : gasesToShare)
-    //      totalGasShared += gas.second;
-
-    //    const auto t1Opt = i_tile1.getTemperature();
-    //    const auto t2Opt = i_tile2.getTemperature();
-    //    CONTRACT_ASSERT(t2Opt);
-    //    const double t2 = *t2Opt;
-
-    //    if (!t1Opt)
-    //      io_dst1.T = t2;
-    //    else
-    //    {
-    //      const double t1 = *t1Opt;
-    //      const double newT = (t1 * i_src1.getGasAmount() + t2 * totalGasShared) / (i_src1.getGasAmount() + totalGasShared);
-    //      io_dst1.T = newT - t1;
-    //    }
-    //  }
-    //}
-
-
-    /// Store the buffer values into the tiles
     void Simulation::applyNewState()
     {
       CONTRACT_EXPECT(d_tiles);
@@ -158,6 +92,65 @@ namespace Dx
             thdObject->applyTemperature();
           }
         }
+      }
+    }
+
+
+    void Simulation::exchangeHeat(IThdObject& i_obj1, IThdObject& i_obj2)
+    {
+      if (const auto gasUnit = i_obj1.getGasUnit(); gasUnit && gasUnit->getPressure() < 100)
+        return;
+      if (const auto gasUnit = i_obj2.getGasUnit(); gasUnit && gasUnit->getPressure() < 100)
+        return;
+
+      const double t1 = i_obj1.getTemperature();
+      const double t2 = i_obj2.getTemperature();
+      const double tDiff = t2 - t1;
+
+      const double thermalConductivity = std::min(i_obj1.getThermalConductivity(), i_obj2.getThermalConductivity());
+
+      const double heatTransfer = thermalConductivity * tDiff * d_dt;
+      i_obj1.transferHeat(heatTransfer);
+      i_obj2.transferHeat(-heatTransfer);
+    }
+
+    void Simulation::exchangeGas(IThdObject& i_obj1, IThdObject& i_obj2)
+    {
+      auto& gas1 = SAFE_DEREF(i_obj1.getGasUnit());
+      auto& gas2 = SAFE_DEREF(i_obj2.getGasUnit());
+
+      const double p1 = gas1.getPressure();
+      const double p2 = gas2.getPressure();
+      const double pDiff = std::abs(p2 - p1);
+
+      const double PressureThresholdForFlow = 2;
+      const double Permeability = 2; // Size of the hole to transfer gases apprx in m^2
+
+      if (pDiff > PressureThresholdForFlow)
+      {
+        // Significant pressure difference -> gases flow dominant
+        const int gasAmountToFlow = (int)std::ceil(Permeability * pDiff * d_dt);
+
+        auto& gasSrc = p1 > p2 ? gas1 : gas2;
+        auto& gasDst = p1 > p2 ? gas2 : gas1;
+        auto& objSrc = p1 > p2 ? i_obj1 : i_obj2;
+        auto& objDst = p1 > p2 ? i_obj2 : i_obj1;
+
+        const double g2 = gasDst.getGasAmount();
+        const double t2 = objDst.getTemperature();
+
+        const auto gasesToFlow = gasSrc.removeAmountOfGases(gasAmountToFlow);
+        gasDst.addGases(gasesToFlow);
+
+        const double dG = gasDst.getGasAmount() - g2;
+        const double t1 = objSrc.getTemperature();
+
+        const double tNew = (g2 * t2 + dG * t1) / (g2 + dG);
+        objDst.setTemperature(tNew);
+      }
+      else
+      {
+        // Minimal pressure difference -> diffusion dominates
       }
     }
 

@@ -24,11 +24,12 @@ namespace Dx
 
       double getPressure() const;
 
-      void clear();
-      void addGas(GasId i_gasId, int i_amount, bool i_allowNegative = false);
-      void addGases(const GasesMap& i_gases, bool i_allowNegative = false);
-      void removeGases(const GasesMap& i_gases, bool i_allowNegative = false);
-      GasesMap calculateGasesPerRatio(double i_ratio) const;
+      void clearGases();
+      void addGas(GasId i_gasId, int i_amount);
+      void removeGas(GasId i_gasId, int i_amount);
+      void addGases(const GasesMap& i_gases);
+      void removeGases(const GasesMap& i_gases);
+      GasesMap removeAmountOfGases(int i_amount);
 
     private:
       double d_volume = 1;

@@ -22,6 +22,10 @@ namespace Dx
       void updateTile(const Sdk::Vector2I& i_coords);
 
       void applyNewState();
+
+    private:
+      void exchangeHeat(IThdObject& i_obj1, IThdObject& i_obj2);
+      void exchangeGas(IThdObject& i_obj1, IThdObject& i_obj2);
     };
 
   } // ns thd

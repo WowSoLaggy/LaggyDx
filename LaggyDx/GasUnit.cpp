@@ -91,49 +91,49 @@ namespace Dx
     }
 
 
-    void GasUnit::clear()
+    void GasUnit::clearGases()
     {
       d_gases.clear();
       d_gasAmount = 0;
     }
 
-    void GasUnit::addGas(const GasId i_gasId, const int i_amount, bool i_allowNegative)
+    void GasUnit::addGas(const GasId i_gasId, const int i_amount)
     {
-      if (!i_allowNegative)
-      {
-        const int oldAmount = d_gases[i_gasId];
-        d_gases[i_gasId] = std::max(0, d_gases[i_gasId] + i_amount);
-        const int newAmount = d_gases[i_gasId];
+      const int oldAmount = d_gases[i_gasId];
+      d_gases[i_gasId] = std::max(0, d_gases[i_gasId] + i_amount);
+      const int newAmount = d_gases[i_gasId];
 
-        d_gasAmount += newAmount - oldAmount;
-      }
-      else
-      {
-        d_gases[i_gasId] += i_amount;
-        d_gasAmount += i_amount;
-      }
+      d_gasAmount += newAmount - oldAmount;
     }
 
-    void GasUnit::addGases(const GasesMap& i_gases, bool i_allowNegative)
+    void GasUnit::removeGas(GasId i_gasId, int i_amount)
+    {
+      addGas(i_gasId, -i_amount);
+    }
+
+    void GasUnit::addGases(const GasesMap& i_gases)
     {
       for (auto& [id, amount] : i_gases)
-        addGas(id, amount, i_allowNegative);
+        addGas(id, amount);
     }
 
-    void GasUnit::removeGases(const GasesMap& i_gases, bool i_allowNegative)
+    void GasUnit::removeGases(const GasesMap& i_gases)
     {
       for (auto& [id, amount] : i_gases)
-        addGas(id, -amount, i_allowNegative);
+        addGas(id, -amount);
     }
 
-    GasesMap GasUnit::calculateGasesPerRatio(const double i_ratio) const
+    GasesMap GasUnit::removeAmountOfGases(const int i_amount)
     {
       GasesMap res;
+
+      const double ratioToRemove = (double)i_amount / d_gasAmount;
       
       for (const auto& [id, amount] : d_gases)
       {
-        const int amountToTake = (int)std::ceil(i_ratio * amount);
+        const int amountToTake = (int)std::ceil(ratioToRemove * amount);
         res[id] += amountToTake;
+        removeGas(id, amountToTake);
       }
 
       return res;
