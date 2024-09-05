@@ -25,8 +25,8 @@ namespace Dx
       double getPressure() const;
 
       void clearGases();
-      void addGas(GasId i_gasId, int i_amount);
-      void removeGas(GasId i_gasId, int i_amount);
+      int addGas(GasId i_gasId, int i_amount); // returns actual amount added
+      int removeGas(GasId i_gasId, int i_amount); // returns actual amount removed
       void addGases(const GasesMap& i_gases);
       void removeGases(const GasesMap& i_gases);
       GasesMap removeAmountOfGases(int i_amount);

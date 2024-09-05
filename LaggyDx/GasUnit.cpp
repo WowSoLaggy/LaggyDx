@@ -97,18 +97,24 @@ namespace Dx
       d_gasAmount = 0;
     }
 
-    void GasUnit::addGas(const GasId i_gasId, const int i_amount)
+    int GasUnit::addGas(const GasId i_gasId, const int i_amount)
     {
       const int oldAmount = d_gases[i_gasId];
       d_gases[i_gasId] = std::max(0, d_gases[i_gasId] + i_amount);
       const int newAmount = d_gases[i_gasId];
 
-      d_gasAmount += newAmount - oldAmount;
+      if (d_gases[i_gasId] == 0)
+        d_gases.erase(i_gasId);
+
+      const int diff = newAmount - oldAmount;
+      d_gasAmount += diff;
+
+      return diff;
     }
 
-    void GasUnit::removeGas(GasId i_gasId, int i_amount)
+    int GasUnit::removeGas(GasId i_gasId, int i_amount)
     {
-      addGas(i_gasId, -i_amount);
+      return -addGas(i_gasId, -i_amount);
     }
 
     void GasUnit::addGases(const GasesMap& i_gases)
@@ -128,13 +134,16 @@ namespace Dx
       GasesMap res;
 
       const double ratioToRemove = (double)i_amount / d_gasAmount;
-      
+
       for (const auto& [id, amount] : d_gases)
       {
         const int amountToTake = (int)std::ceil(ratioToRemove * amount);
-        res[id] += amountToTake;
-        removeGas(id, amountToTake);
+        res[id] = amountToTake;
       }
+
+      // Actually remove gases
+      for (const auto& [id, amount] : res)
+        removeGas(id, amount);
 
       return res;
     }

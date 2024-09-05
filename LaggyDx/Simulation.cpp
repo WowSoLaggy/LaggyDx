@@ -5,7 +5,9 @@
 #include "ITile.h"
 #include "ITileCollection.h"
 
+#include <LaggySdk/MapUtils.h>
 #include <LaggySdk/Shuffle.h>
+#include <LaggySdk/VectorUtils.h>
 
 
 namespace Dx
@@ -18,6 +20,14 @@ namespace Dx
       {
         return { i_coords + Sdk::Vector2I{ 1, 0 },
                  i_coords + Sdk::Vector2I{ 0, 1 } };
+      }
+
+      const std::set<GasId> collectGasesForDiffusion(const GasUnit& i_gas1, const GasUnit& i_gas2)
+      {
+        const auto gases1 = Sdk::keys(i_gas1.getGases());
+        const auto gases2 = Sdk::keys(i_gas2.getGases());
+
+        return Sdk::mergeVectorsToSet(gases1, gases2);
       }
 
     } // anonym ns
@@ -124,11 +134,12 @@ namespace Dx
       const double pDiff = std::abs(p2 - p1);
 
       const double PressureThresholdForFlow = 2;
-      const double Permeability = 2; // Size of the hole to transfer gases apprx in m^2
 
       if (pDiff > PressureThresholdForFlow)
       {
         // Significant pressure difference -> gases flow dominant
+
+        const double Permeability = 2; // Size of the hole to transfer gases apprx in m^2
         const int gasAmountToFlow = (int)std::ceil(Permeability * pDiff * d_dt);
 
         auto& gasSrc = p1 > p2 ? gas1 : gas2;
@@ -151,6 +162,25 @@ namespace Dx
       else
       {
         // Minimal pressure difference -> diffusion dominates
+
+        const double DiffusionCoefficient = 0.1; // Diffusion coefficient
+
+        const auto gasesForDiffusion = collectGasesForDiffusion(gas1, gas2);
+        if (gasesForDiffusion.size() < 2)
+          return;
+
+        for (const auto gasId : gasesForDiffusion)
+        {
+          // Get gas concentration or zero if no gas
+          const double amount1 = gas1.getGases().count(gasId) ? gas1.getGases().at(gasId) : 0;
+          const double amount2 = gas2.getGases().count(gasId) ? gas2.getGases().at(gasId) : 0;
+          const double concentrationDiff = amount1 - amount2;
+
+          const int gasAmountToExchange = (int)std::ceil(DiffusionCoefficient * concentrationDiff * d_dt);
+
+          const int actualAmountRemoved = gas1.removeGas(gasId, gasAmountToExchange);
+          gas2.addGas(gasId, actualAmountRemoved);
+        }
       }
     }
 
