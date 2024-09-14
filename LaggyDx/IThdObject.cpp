@@ -29,6 +29,12 @@ namespace Dx
       *d_temperatureIntermediate += i_heatAmount / getHeatCapacity();
     }
 
+
+    void IThdObject::setTemperatureIntermediate(const double i_t)
+    {
+      d_temperatureIntermediate = i_t;
+    }
+
     void IThdObject::applyTemperature()
     {
       if (d_temperatureIntermediate)

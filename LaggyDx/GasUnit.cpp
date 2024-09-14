@@ -137,8 +137,8 @@ namespace Dx
 
       for (const auto& [id, amount] : d_gases)
       {
-        const int amountToTake = (int)std::ceil(ratioToRemove * amount);
-        res[id] = amountToTake;
+        const int amountToTake = (int)(ratioToRemove * amount);
+        res[id] = std::max(amountToTake, 1);
       }
 
       // Actually remove gases

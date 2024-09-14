@@ -157,7 +157,7 @@ namespace Dx
         const double t1 = objSrc.getTemperature();
 
         const double tNew = (g2 * t2 + dG * t1) / (g2 + dG);
-        objDst.setTemperature(tNew);
+        objDst.setTemperatureIntermediate(tNew);
       }
       else
       {

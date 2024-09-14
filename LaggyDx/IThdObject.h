@@ -23,6 +23,8 @@ namespace Dx
       [[nodiscard]] virtual const GasUnit* getGasUnit() const;
 
       void transferHeat(double i_heatAmount);
+
+      void setTemperatureIntermediate(double i_t);
       void applyTemperature();
 
     private:
