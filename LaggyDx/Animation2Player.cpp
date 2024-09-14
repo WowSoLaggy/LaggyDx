@@ -39,7 +39,7 @@ namespace Dx
     if (i_resetTime)
     {
       d_animationTime = 0;
-      d_curFrame = d_animation->start;
+      setFrame(d_animation->start);
     }
   }
 
@@ -77,6 +77,13 @@ namespace Dx
   }
 
 
+  void Animation2Player::setFrame(const int i_frame)
+  {
+    d_curFrame = i_frame;
+    notify(AnimationFrameChangedEvent(i_frame, SAFE_DEREF(d_animation).getFrameCount()));
+  }
+
+
   void Animation2Player::advanceFrame()
   {
     CONTRACT_EXPECT(d_animation);
@@ -85,7 +92,7 @@ namespace Dx
     {
       // Not final frame - just iterate to the next one
 
-      d_curFrame = d_isForwardAnimation ? d_curFrame + 1 : d_curFrame - 1;
+      setFrame(d_isForwardAnimation ? d_curFrame + 1 : d_curFrame - 1);
       d_animationTime -= d_animation->frameTime;
     }
     else
@@ -96,7 +103,7 @@ namespace Dx
       {
         // Restart animation
 
-        d_curFrame = d_animation->start;
+        setFrame(d_animation->start);
         d_animationTime -= d_animation->frameTime;
 
         if (d_timesLeftToPlay)

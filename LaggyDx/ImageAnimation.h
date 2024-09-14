@@ -10,5 +10,7 @@ namespace Dx
     int start = 0;
     int end = 0;
     double frameTime = 0;
+
+    int getFrameCount() const { return std::abs(end - start) + 1; }
   };
 } // ns Dx

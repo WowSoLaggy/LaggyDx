@@ -32,6 +32,7 @@ namespace Dx
     bool d_isForwardAnimation = true;
     std::optional<int> d_timesLeftToPlay;
 
+    void setFrame(int i_frame);
     void advanceFrame();
   };
 
