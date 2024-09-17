@@ -10,6 +10,7 @@ namespace Dx
   {
     pushField("animationName", d_animationName);
     pushField("animationTime", d_animationTime);
+    pushField("timeSinceLastFrame", d_timeSinceLastFrame);
     pushField("curFrame", d_curFrame);
     pushOptional("timesLeftToPlay", d_timesLeftToPlay);
   }
@@ -21,8 +22,12 @@ namespace Dx
       return;
 
     d_animationTime += i_dt;
-    while (d_animation && (d_animationTime > d_animation->frameTime))
+    d_timeSinceLastFrame += i_dt;
+    while (d_animation && (d_timeSinceLastFrame > d_animation->frameTime))
       advanceFrame();
+
+    if (d_animation)
+      notify(AnimationTimeUpdatedEvent(d_animationTime, d_animation->frameTime * d_animation->getFrameCount()));
   }
 
 
@@ -39,6 +44,7 @@ namespace Dx
     if (i_resetTime)
     {
       d_animationTime = 0;
+      d_timeSinceLastFrame = 0;
       setFrame(d_animation->start);
     }
   }
@@ -48,6 +54,7 @@ namespace Dx
     d_animation = nullptr;
     d_animationName.clear();
     d_animationTime = 0;
+    d_timeSinceLastFrame = 0;
     notify(AnimationStoppedEvent());
   }
 
@@ -94,7 +101,7 @@ namespace Dx
       // Not final frame - just iterate to the next one
 
       setFrame(d_isForwardAnimation ? d_curFrame + 1 : d_curFrame - 1);
-      d_animationTime -= d_animation->frameTime;
+      d_timeSinceLastFrame -= d_animation->frameTime;
     }
     else
     {
@@ -105,7 +112,7 @@ namespace Dx
         // Restart animation
 
         setFrame(d_animation->start);
-        d_animationTime -= d_animation->frameTime;
+        d_timeSinceLastFrame -= d_animation->frameTime;
 
         if (d_timesLeftToPlay)
           *d_timesLeftToPlay -= 1;

@@ -28,6 +28,7 @@ namespace Dx
     const ImageAnimation* d_animation = nullptr;
     std::string d_animationName;
     double d_animationTime = 0;
+    double d_timeSinceLastFrame = 0;
     int d_curFrame = 0;
     bool d_isForwardAnimation = true;
     std::optional<int> d_timesLeftToPlay;

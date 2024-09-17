@@ -25,4 +25,19 @@ namespace Dx
     int d_animationLength = 0;
   };
 
-} // Dx
+  class AnimationTimeUpdatedEvent : public Sdk::IEvent
+  {
+  public:
+    AnimationTimeUpdatedEvent(const double i_time, const double i_totalTime)
+      : d_time(i_time), d_totalTime(i_totalTime)
+    {
+    }
+
+    [[nodiscard]] double getTime() const { return d_time; }
+    [[nodiscard]] double getTotalTime() const { return d_totalTime; }
+
+  private:
+    double d_time = 0;
+    double d_totalTime = 0;
+  };
+} // ns Dx
