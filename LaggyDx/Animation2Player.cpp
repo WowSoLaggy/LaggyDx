@@ -80,7 +80,8 @@ namespace Dx
   void Animation2Player::setFrame(const int i_frame)
   {
     d_curFrame = i_frame;
-    notify(AnimationFrameChangedEvent(i_frame, SAFE_DEREF(d_animation).getFrameCount()));
+    const int frameRelativeToStart = std::abs(d_curFrame - d_animation->start) + 1;
+    notify(AnimationFrameChangedEvent(frameRelativeToStart, SAFE_DEREF(d_animation).getFrameCount()));
   }
 
 

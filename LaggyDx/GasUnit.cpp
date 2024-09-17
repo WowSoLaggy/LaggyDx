@@ -87,7 +87,21 @@ namespace Dx
 
     double GasUnit::getPressure() const
     {
+      if (d_gasAmount == 0)
+        return 0;
       return d_gasAmount / d_volume;
+    }
+
+
+    bool GasUnit::hasTrappedGas() const
+    {
+      return d_gasAmount > 0 && d_volume == 0;
+    }
+
+
+    bool GasUnit::participateInGasSimulation() const
+    {
+      return d_volume > 0 || d_gasAmount > 0;
     }
 
 
@@ -142,8 +156,11 @@ namespace Dx
       }
 
       // Actually remove gases
-      for (const auto& [id, amount] : res)
-        removeGas(id, amount);
+      for (auto& [id, amount] : res)
+      {
+        const int actuallyRemoved = removeGas(id, amount);
+        amount = actuallyRemoved;
+      }
 
       return res;
     }

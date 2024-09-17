@@ -129,18 +129,25 @@ namespace Dx
       auto& gas1 = SAFE_DEREF(i_obj1.getGasUnit());
       auto& gas2 = SAFE_DEREF(i_obj2.getGasUnit());
 
+      if (!gas1.participateInGasSimulation() || !gas2.participateInGasSimulation())
+        return;
+
       const double p1 = gas1.getPressure();
       const double p2 = gas2.getPressure();
       const double pDiff = std::abs(p2 - p1);
 
       const double PressureThresholdForFlow = 2;
 
-      if (pDiff > PressureThresholdForFlow)
+      const bool hasTrappedGas = gas1.hasTrappedGas() || gas2.hasTrappedGas();
+
+      if (hasTrappedGas || pDiff > PressureThresholdForFlow)
       {
         // Significant pressure difference -> gases flow dominant
 
         const double Permeability = 2; // Size of the hole to transfer gases apprx in m^2
-        const int gasAmountToFlow = (int)std::ceil(Permeability * pDiff * d_dt);
+        const int gasAmountToFlow = hasTrappedGas ?
+          std::numeric_limits<int>::max() :
+          (int)std::ceil(Permeability * pDiff * d_dt);
 
         auto& gasSrc = p1 > p2 ? gas1 : gas2;
         auto& gasDst = p1 > p2 ? gas2 : gas1;

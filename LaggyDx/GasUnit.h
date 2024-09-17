@@ -16,13 +16,22 @@ namespace Dx
       virtual Sdk::FieldHandled onFieldNotFound(const std::string& i_name, const Json::Value& i_json) override;
 
       const GasesMap& getGases() const;
-      bool hasGas() const;
-      int getGasAmount() const;
+      [[nodiscard]] bool hasGas() const;
+      [[nodiscard]] int getGasAmount() const;
 
       void setVolume(double i_volume);
-      double getVolume() const;
+      [[nodiscard]] double getVolume() const;
 
-      double getPressure() const;
+      [[nodiscard]] double getPressure() const;
+
+      // Returns whether the unit contains gas but has no volume.
+      // It may happen that gas has no volume but still has some amount (e.g. after the door is closed).
+      // It leads to infinite pressure that shall be handled separately.
+      [[nodiscard]] bool hasTrappedGas() const;
+
+      // Returns true if gas has volume OR gas amount.
+      // It may happen that gas has no volume but still has some amount (e.g. after the door is closed)
+      [[nodiscard]] bool participateInGasSimulation() const;
 
       void clearGases();
       int addGas(GasId i_gasId, int i_amount); // returns actual amount added
