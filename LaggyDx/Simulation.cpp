@@ -60,7 +60,7 @@ namespace Dx
       const auto tile = d_tiles->getTile(i_coords);
       CONTRACT_ASSERT(tile);
 
-      const auto& thdObjects = tile->getThdObjects();
+      const auto& thdObjects = tile->getThdObjectsAll();
       for (int j = 0; j < thdObjects.size(); ++j)
       {
         for (int i = j + 1; i < thdObjects.size(); ++i)
@@ -72,7 +72,7 @@ namespace Dx
           if (!tileNeighbor)
             continue; // Skip if the neighbor is out of the area
 
-          const auto& thdObjectsNeighbor = tileNeighbor->getThdObjects();
+          const auto& thdObjectsNeighbor = tileNeighbor->getThdObjectsExternal();
           for (const auto& thdObjectNeighbor : thdObjectsNeighbor)
           {
             exchangeHeat(SAFE_DEREF(thdObjects[j]), SAFE_DEREF(thdObjectNeighbor));
@@ -96,7 +96,7 @@ namespace Dx
           auto tile = d_tiles->getTile({ x, y });
           CONTRACT_ASSERT(tile);
 
-          for (const auto& thdObject : tile->getThdObjects())
+          for (const auto& thdObject : tile->getThdObjectsAll())
           {
             CONTRACT_ASSERT(thdObject);
             thdObject->applyTemperature();

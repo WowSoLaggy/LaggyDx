@@ -13,8 +13,11 @@ namespace Dx
     public:
       virtual ~ITile() = default;
 
-      // Returns all objects that participate in the heat exchange
-      virtual std::vector<IThdObject*> getThdObjects() const = 0;
+      // Returns all objects that participate in the heat exchange for this tile
+      virtual std::vector<IThdObject*> getThdObjectsAll() const = 0;
+
+      // Returns all objects that participate in the heat or gas exchange with the neighbor tile
+      virtual std::vector<IThdObject*> getThdObjectsExternal() const = 0;
     };
 
   } // ns thd
