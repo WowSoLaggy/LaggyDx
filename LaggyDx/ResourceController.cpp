@@ -119,6 +119,12 @@ namespace Dx
 
   void ResourceController::indexResourcesInDir(const fs::path& i_dirName)
   {
+    // Check that @i_dirName is a directory and exists
+    if (!fs::exists(i_dirName) || !fs::is_directory(i_dirName))
+    {
+      CONTRACT_THROW("ResourceController::indexResourcesInDir: The provided path is not a directory or does not exist.");
+    }
+
     for (const auto& it : fs::directory_iterator(i_dirName))
     {
       const auto& path = it.path();
