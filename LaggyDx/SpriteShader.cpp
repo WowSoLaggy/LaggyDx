@@ -72,19 +72,39 @@ namespace Dx
   void SpriteShader::setXfmMatrices(const ISprite& i_sprite, bool i_disableCameraView) const
   {
     auto getWorldMatrixTransposed = [&]()
-    {
-      const auto& position = i_sprite.getPosition();
-      const float rotation = (float)i_sprite.getRotation();
-      const float scale = (float)i_sprite.getScale();
-      const float xSize = (float)i_sprite.getSize().x;
-      const float ySize = (float)i_sprite.getSize().y;
-      const auto worldMatrix =
-        XMMatrixScaling(scale * xSize, scale * ySize, 1) *
-        XMMatrixRotationRollPitchYaw(0, 0, rotation) *
-        XMMatrixTranslation((float)position.x, (float)position.y, 0);
+      {
+        const auto& position = i_sprite.getPosition();
+        const float rotation = (float)i_sprite.getRotation();
+        const float scale = (float)i_sprite.getScale();
+        const float xSize = (float)i_sprite.getSize().x;
+        const float ySize = (float)i_sprite.getSize().y;
+        const float xRotationOrigin = (float)i_sprite.getRotationOrigin().x;
+        const float yRotationOrigin = (float)i_sprite.getRotationOrigin().y;
 
-      return XMMatrixTranspose(worldMatrix);
-    };
+        // Calculate the sprite's center offset based on the rotation origin
+        const auto spriteCenter = XMVectorSet(
+          xRotationOrigin * xSize,
+          yRotationOrigin * ySize,
+          0,
+          0);
+
+        // Transformation matrices
+        const auto translationToOrigin = XMMatrixTranslationFromVector(-spriteCenter); // Move to rotation origin
+        const auto translationToWorld = XMMatrixTranslation((float)position.x, (float)position.y, 0); // World position
+
+        // Construct the world matrix
+        const auto worldMatrix =
+          XMMatrixScaling(scale * xSize, scale * ySize, 1) *  // Apply scaling
+          translationToOrigin *                               // Move to rotation origin
+          XMMatrixRotationRollPitchYaw(0, 0, rotation) *      // Apply rotation
+          XMMatrixTranslationFromVector(spriteCenter) *       // Move back to top-left
+          translationToWorld;                                 // Translate to world position
+
+        // Return the transposed world matrix
+        return XMMatrixTranspose(worldMatrix);
+      };
+
+
 
     auto getViewMatrixTransposed = [&]()
     {

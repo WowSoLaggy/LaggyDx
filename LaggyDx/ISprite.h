@@ -19,6 +19,7 @@ namespace Dx
     virtual double getScale() const = 0;
     virtual const Sdk::Vector2I& getSize() const = 0;
     virtual const Sdk::Vector4F& getColor() const = 0;
+    virtual const Sdk::Vector2F& getRotationOrigin() const = 0;
     virtual RECT getSourceRect() const = 0;
 
     virtual bool hasAnimation() const = 0;

@@ -17,6 +17,7 @@ namespace Dx
     virtual double getScale() const override { return d_scale; }
     virtual const Sdk::Vector2I& getSize() const override { return d_size; }
     virtual const Sdk::Vector4F& getColor() const override { return d_color; }
+    virtual const Sdk::Vector2F& getRotationOrigin() const override { return d_rotationOrigin; }
     virtual RECT getSourceRect() const override;
 
     void setTexture(const ITexture* i_texture);
@@ -32,6 +33,7 @@ namespace Dx
     void resetSizeToTexture();
 
     void setRotation(double i_rotation) { d_rotation = i_rotation; }
+    void setRotationOrigin(Sdk::Vector2F i_rotationOrigin) { d_rotationOrigin = std::move(i_rotationOrigin); }
 
     virtual bool hasAnimation() const override;
     virtual int getCurrentFrame() const override;
@@ -42,6 +44,7 @@ namespace Dx
     Sdk::Vector2I d_position = Sdk::Vector2I::zero();
     Sdk::Vector2I d_size = Sdk::Vector2I::zero();
     Sdk::Vector4F d_color = Sdk::Vector4F::identity();
+    Sdk::Vector2F d_rotationOrigin = Sdk::Vector2F::zero();
     double d_rotation = 0.0;
     double d_scale = 1.0;
 
