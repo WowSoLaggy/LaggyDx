@@ -10,7 +10,7 @@ namespace Dx
     Sdk::Vector2D point;
     Sdk::Vector2D normal;
 
-    CollisionPointNormal inverse()
+    CollisionPointNormal inverse() const
     {
       return { point, -normal };
     }
