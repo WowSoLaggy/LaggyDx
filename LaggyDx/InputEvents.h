@@ -50,7 +50,7 @@ namespace Dx
     {
     }
 
-    const Sdk::Vector2I& move() const { return d_move; }
+    const Sdk::Vector2I& getMove() const { return d_move; }
 
   private:
     const Sdk::Vector2I d_move;

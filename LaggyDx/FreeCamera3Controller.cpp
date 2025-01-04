@@ -73,7 +73,7 @@ namespace Dx
 
     else if (const auto* event = dynamic_cast<const OnMouseMovedEvent*>(&i_event))
     {
-      onMouseMoved(event->move());
+      onMouseMoved(event->getMove());
     }
   }
 
