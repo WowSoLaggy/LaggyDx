@@ -11,8 +11,9 @@ namespace Dx
   {
   public:
     void setTexture(const ITexture& i_texture);
-
     void setColor(Sdk::Vector4F i_color);
+    void setRotation(float i_rotation);
+    void setRotationOrigin(Sdk::Vector2F i_rotationOrigin);
     
     virtual void setSize(Sdk::Vector2F i_size) override;
 

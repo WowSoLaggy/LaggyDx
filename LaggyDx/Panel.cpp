@@ -11,13 +11,22 @@ namespace Dx
     d_sprite.setTexture(i_texture);
   }
 
-
   void Panel::setColor(Sdk::Vector4F i_color)
   {
     d_sprite.setColor(std::move(i_color));
   }
 
-  
+  void Panel::setRotation(float i_rotation)
+  {
+    d_sprite.setRotation(i_rotation);
+  }
+
+  void Panel::setRotationOrigin(Sdk::Vector2F i_rotationOrigin)
+  {
+    d_sprite.setRotationOrigin(std::move(i_rotationOrigin));
+  }
+
+
   void Panel::setSize(Sdk::Vector2F i_size)
   {
     d_sprite.setSize({ (int)i_size.x, (int)i_size.y });

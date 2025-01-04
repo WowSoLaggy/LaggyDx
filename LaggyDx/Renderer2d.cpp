@@ -161,9 +161,13 @@ namespace Dx
 
     const auto sourceRect = i_sprite.getSourceRect();
 
+    const float rotation = (float)i_sprite.getRotation();
+    const auto& rotationOrigin = i_sprite.getRotationOrigin();
+
     d_spriteBatch.Draw(texture->getTexturePtr(),
-                       destinationRect, &sourceRect,
-                       { color.x, color.y, color.z, color.w });
+      destinationRect, &sourceRect,
+      { color.x, color.y, color.z, color.w },
+      rotation, { rotationOrigin.x, rotationOrigin.y });
 
     ++d_renderedSprites;
   }
