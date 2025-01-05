@@ -5,12 +5,9 @@
 
 namespace Dx
 {
-  class TextureUtils
+  namespace TextureUtils
   {
-  public:
-    TextureUtils() = delete;
+    const Dx::ITexture& getTexture(const fs::path& i_name);
 
-    static const Dx::ITexture& getTexture(const fs::path& i_name);
-  };
-
+  } // ns TextureUtils
 } // ns Dx

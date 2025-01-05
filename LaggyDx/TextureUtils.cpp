@@ -6,10 +6,13 @@
 
 namespace Dx
 {
-  const Dx::ITexture& TextureUtils::getTexture(const fs::path& i_name)
+  namespace TextureUtils
   {
-    const auto& rc = Dx::App::get().getResourceController();
-    return rc.getTexture(i_name);
-  }
+    const Dx::ITexture& getTexture(const fs::path& i_name)
+    {
+      const auto& rc = Dx::App::get().getResourceController();
+      return rc.getTexture(i_name);
+    }
 
+  } // ns TextureUtils
 } // ns Dx
