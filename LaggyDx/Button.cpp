@@ -23,6 +23,17 @@ namespace Dx
       updateTexture();
   }
 
+  void Button::setSize(Sdk::Vector2F i_size)
+  {
+    Control::setSize(std::move(i_size));
+    updateTextOffset();
+  }
+
+  void Button::resetSizeToTexture()
+  {
+    setSize(d_sprite.getSize().getVector<float>());
+  }
+
 
   void Button::render(IRenderer2d& i_renderer) const
   {
@@ -96,6 +107,19 @@ namespace Dx
   }
 
 
+  void Button::setTextAlignment(const TextAlignment i_alignment)
+  {
+    d_textAlignment = i_alignment;
+    updateTextOffset();
+  }
+
+  void Button::setBorderTextOffset(const int i_offset)
+  {
+    d_borderTextOffset = i_offset;
+    updateTextOffset();
+  }
+
+
   void Button::setTextScale(const float i_scale)
   {
     d_text.setScale(i_scale);
@@ -129,8 +153,6 @@ namespace Dx
     d_sprite.setTexture(rc.getTexture(d_textures[d_state]));
     d_sprite.resetSizeToTexture();
 
-    setSize(d_sprite.getSize().getVector<float>());
-
     updateTextOffset();
   }
 
@@ -140,10 +162,22 @@ namespace Dx
       return;
 
     const auto textSize = d_text.getSize();
-    d_textOffset = {
-      (float)((float)d_sprite.getSize().x - textSize.x) / 2,
-      (float)((float)d_sprite.getSize().y - textSize.y) / 2
-    };
+
+    switch (d_textAlignment)
+    {
+    case TextAlignment::Left:
+      d_textOffset = { (float)d_borderTextOffset, (float)((float)getSize().y - textSize.y) / 2 };
+      break;
+    case TextAlignment::Center:
+      d_textOffset = {
+        (float)((float)getSize().x - textSize.x) / 2,
+        (float)((float)getSize().y - textSize.y) / 2
+      };
+      break;
+    case TextAlignment::Right:
+      d_textOffset = { (float)getSize().x - textSize.x - d_borderTextOffset, (float)((float)getSize().y - textSize.y) / 2 };
+      break;
+    }
   }
 
   void Button::setState(ButtonState i_state)

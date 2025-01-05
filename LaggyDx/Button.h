@@ -16,6 +16,13 @@ namespace Dx
     Count
   };
 
+  enum class TextAlignment
+  {
+    Left,
+    Center,
+    Right
+  };
+
   class Button : public Control
   {
   public:
@@ -28,8 +35,14 @@ namespace Dx
     virtual bool onMouseClick(MouseKey i_key) override;
     virtual bool onMouseRelease(MouseKey i_key) override;
 
+    virtual void setSize(Sdk::Vector2F i_size) override;
+    void resetSizeToTexture();
+
     void setText(std::string i_text);
     void setFont(const std::string& i_fontName);
+
+    void setTextAlignment(TextAlignment i_alignment);
+    void setBorderTextOffset(int i_offset);
 
     void setTextScale(float i_scale);
     float getTextScale() const;
@@ -45,6 +58,8 @@ namespace Dx
     std::unordered_map<ButtonState, std::string> d_textures;
 
     Sdk::Vector2F d_textOffset;
+    int d_borderTextOffset = 10;
+    TextAlignment d_textAlignment = TextAlignment::Center;
 
     std::function<void()> d_onPress;
 
