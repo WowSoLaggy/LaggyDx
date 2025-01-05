@@ -11,7 +11,6 @@ namespace Dx
     d_mouse = std::make_unique<Mouse>();
     d_mouse->SetWindow(i_hWnd);
     
-    hideCursor();
     setMouseAbsoluteMode();
 
     d_keyboard = std::make_unique<Keyboard>();
