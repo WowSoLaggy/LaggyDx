@@ -192,25 +192,13 @@ namespace Dx
   void App::handleKeyboard(const KeyboardState& i_keyboardState)
   {
     for (const auto key : getKeys(i_keyboardState.getPressedKeys()))
-    {
-      notify(OnKeyPressedEvent(key));
-      if (const auto* action = d_actionsMap.getAction(key, ActionType::OnPress))
-        action->operator()();
-    }
+      onKeyPressed(key);
 
     for (const auto key : getKeys(i_keyboardState.getReleasedKeys()))
-    {
-      notify(OnKeyReleasedEvent(key));
-      if (const auto* action = d_actionsMap.getAction(key, ActionType::OnRelease))
-        action->operator()();
-    }
+      onKeyReleased(key);
 
     for (const auto key : getKeys(i_keyboardState.getCurrentKeys()))
-    {
-      notify(OnKeyCurrentEvent(key));
-      if (const auto* action = d_actionsMap.getAction(key, ActionType::Continuous))
-        action->operator()();
-    }
+      onKeyCurrent(key);
   }
 
   void App::handleMouse(MouseState i_mouseState)
@@ -236,6 +224,29 @@ namespace Dx
     if (d_mouseState.getMode() == MouseMode::Relative)
       resetRelativeMouseState();
   }
+
+
+  void App::onKeyPressed(KeyboardKey i_key)
+  {
+    notify(OnKeyPressedEvent(i_key));
+    if (const auto* action = d_actionsMap.getAction(i_key, ActionType::OnPress))
+      action->operator()();
+  }
+
+  void App::onKeyReleased(KeyboardKey i_key)
+  {
+    notify(OnKeyReleasedEvent(i_key));
+    if (const auto* action = d_actionsMap.getAction(i_key, ActionType::OnRelease))
+      action->operator()();
+  }
+
+  void App::onKeyCurrent(KeyboardKey i_key)
+  {
+    notify(OnKeyCurrentEvent(i_key));
+    if (const auto* action = d_actionsMap.getAction(i_key, ActionType::Continuous))
+      action->operator()();
+  }
+
 
   void App::onMouseMove(Sdk::Vector2I i_moveDiff)
   {

@@ -67,6 +67,9 @@ namespace Dx
     virtual void render();
     virtual void renderGui();
 
+    virtual void onKeyPressed(KeyboardKey i_key);
+    virtual void onKeyReleased(KeyboardKey i_key);
+    virtual void onKeyCurrent(KeyboardKey i_key);
     virtual void onMouseMove(Sdk::Vector2I i_moveDiff);
     virtual void onMouseWheel(int i_distance);
     virtual bool onMouseClick(MouseKey i_key);
