@@ -46,6 +46,12 @@ namespace Dx
   }
 
 
+  void Label::setTextOffset(Sdk::Vector2F i_offset)
+  {
+    d_textOffset = std::move(i_offset);
+  }
+
+
   void Label::setTextScale(const float i_scale)
   {
     d_text.setScale(i_scale);
@@ -66,7 +72,7 @@ namespace Dx
 
   void Label::render(IRenderer2d& i_renderer) const
   {
-    d_text.render(i_renderer, getPositionAbsolute());
+    d_text.render(i_renderer, d_textOffset + getPositionAbsolute());
   }
 
 } // ns Dx
