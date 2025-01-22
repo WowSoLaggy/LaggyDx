@@ -48,7 +48,8 @@ namespace Dx
     if (dist.length() <= i_circle1.getRadius() + i_circle2.getRadius())
     {
       const auto point = i_circle2.getCenter() + dist / 2;
-      const auto normal = Sdk::normalize(dist);
+      // If dist is zero, then assign { 0, 1 } as normal to avoid division by zero and UB
+      const auto normal = dist == Sdk::Vector2D::zero() ? Sdk::Vector2D{ 0, 1 } : Sdk::normalize(dist);
       return CollisionPointNormal{ point, normal };
     }
 
