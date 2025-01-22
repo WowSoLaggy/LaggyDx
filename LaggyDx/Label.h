@@ -20,7 +20,8 @@ namespace Dx
     void setTextColor(Sdk::Vector4F i_color);
     const Sdk::Vector4F& getTextColor() const;
 
-    void setTextOffset(Sdk::Vector2F i_offset);
+    void setTextOffsetLeftTop(Sdk::Vector2F i_offset);
+    void setTextOffsetRightBottom(Sdk::Vector2F i_offset);
 
     void setTextScale(float i_scale);
     float getTextScale() const;
@@ -32,7 +33,8 @@ namespace Dx
   private:
     Text d_text;
     Sdk::Vector4F d_originalTextColor = Sdk::Vector4F::identity();
-    Sdk::Vector2F d_textOffset;
+    Sdk::Vector2F d_textOffsetLeftTop;
+    Sdk::Vector2F d_textOffsetRightBottom;
   };
 
 } // Dx

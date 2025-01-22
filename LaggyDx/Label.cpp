@@ -8,13 +8,13 @@ namespace Dx
 {
   Sdk::Vector2F Label::getSize() const
   {
-    return d_text.getSize();
+    return d_text.getSize() + d_textOffsetLeftTop + d_textOffsetRightBottom;
   }
 
   void Label::setText(std::string i_text)
   {
     d_text.setText(i_text);
-    setSize(d_text.getSize());
+    setSize(getSize());
   }
 
   const std::string& Label::getText() const
@@ -46,10 +46,8 @@ namespace Dx
   }
 
 
-  void Label::setTextOffset(Sdk::Vector2F i_offset)
-  {
-    d_textOffset = std::move(i_offset);
-  }
+  void Label::setTextOffsetLeftTop(Sdk::Vector2F i_offset) { d_textOffsetLeftTop = std::move(i_offset); }
+  void Label::setTextOffsetRightBottom(Sdk::Vector2F i_offset) { d_textOffsetRightBottom = std::move(i_offset); }
 
 
   void Label::setTextScale(const float i_scale)
@@ -72,7 +70,7 @@ namespace Dx
 
   void Label::render(IRenderer2d& i_renderer) const
   {
-    d_text.render(i_renderer, d_textOffset + getPositionAbsolute());
+    d_text.render(i_renderer, d_textOffsetLeftTop + getPositionAbsolute());
   }
 
 } // ns Dx
