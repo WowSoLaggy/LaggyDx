@@ -8,7 +8,10 @@
 
 namespace Dx
 {
-  void Control::setPosition(Sdk::Vector2F i_position) { d_position = std::move(i_position); }
+  void Control::setPosition(Sdk::Vector2F i_position)
+  {
+    d_position = { (float)(int)i_position.x, (float)(int)i_position.y };
+  }
   Sdk::Vector2F Control::getPositionAbsolute() const
   {
     if (const auto* parentControl = dynamic_cast<const Control*>(getParent()))
