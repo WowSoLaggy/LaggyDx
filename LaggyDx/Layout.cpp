@@ -98,6 +98,25 @@ namespace Dx
 
       break;
     }
+    case LayoutAlign::TopToBottom_Center_FromTop:
+    {
+      float yNext = 0;
+      for (auto& ctrlNode : getChildren())
+      {
+        auto& ctrl = dynamic_cast<IControl&>(*ctrlNode);
+        if (!ctrl.getVisible())
+          continue;
+
+        const auto ctrlHalfWidth = ctrl.getSize().x / 2;
+        const auto ownHalfWidthPos = getPositionRelative().x + getSize().x / 2;
+        const auto newPos = bordersOffset + Sdk::Vector2F{ ownHalfWidthPos - ctrlHalfWidth, yNext };
+        ctrl.setPosition(newPos);
+
+        yNext += ctrl.getSize().y + d_offsetBetweenElements;
+      }
+
+      break;
+    }
     case LayoutAlign::LeftToRight_TopSide:
     {
       float xNext = 0;

@@ -8,7 +8,8 @@ namespace Dx
   enum class LayoutAlign
   {
     TopToBottom_LeftSide, // controls are aligned from top to bottom, along the left layout border
-    TopToBottom_Center, // controls are aligned from top to bottom, along the center
+    TopToBottom_Center, // controls are aligned from top to bottom, along the center, start from the center
+    TopToBottom_Center_FromTop, // controls are aligned from top to bottom, along the center, start from the top
     LeftToRight_TopSide,  // controls are aligned from left to right, along the top layout border
     LeftToRight_BottomSide,  // controls are aligned from left to right, along the bottom layout border
   };
