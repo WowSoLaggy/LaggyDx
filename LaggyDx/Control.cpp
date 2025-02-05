@@ -71,6 +71,11 @@ namespace Dx
   }
 
 
+  bool Control::getIsClickable() const
+  {
+    return true;
+  }
+
   void Control::onMouseMove()
   {
     for (auto& child : std::ranges::reverse_view(getChildren()))
@@ -95,6 +100,9 @@ namespace Dx
           return true;
       }
     }
+
+    if (!getIsClickable())
+      return false;
 
     const auto& mousePos = App::get().getInputDevice().getMousePosition();
     return getRectAbsolute().containsPoint(mousePos.getVector<float>());

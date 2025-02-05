@@ -12,6 +12,7 @@ namespace Dx
     TopToBottom_Center_FromTop, // controls are aligned from top to bottom, along the center, start from the top
     LeftToRight_TopSide,  // controls are aligned from left to right, along the top layout border
     LeftToRight_BottomSide,  // controls are aligned from left to right, along the bottom layout border
+    RightToLeft_BottomSide,  // controls are aligned along the bottom layout border, sticking to the right border
   };
 
   class Layout : public Control
@@ -22,6 +23,8 @@ namespace Dx
     virtual void addChild(std::shared_ptr<TreeNode> i_child) override;
     virtual void removeChild(TreeNode& i_child) override;
     virtual void removeChildren() override;
+
+    virtual bool getIsClickable() const override;
 
     void setOffsetBetweenElements(int i_offset);
     int getOffsetBetweenElements() const;

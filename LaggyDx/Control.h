@@ -27,6 +27,7 @@ namespace Dx
     virtual void render(IRenderer2d& i_renderer) const override;
     virtual void update(double i_dt) override;
 
+    virtual bool getIsClickable() const override;
     virtual void onMouseMove() override;
     virtual bool onMouseClick(MouseKey i_key) override;
     virtual bool onMouseRelease(MouseKey i_key) override;

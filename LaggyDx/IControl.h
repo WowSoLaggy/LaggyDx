@@ -33,6 +33,7 @@ namespace Dx
     virtual void setVisible(bool i_visible) = 0;
     virtual bool getVisible() const = 0;
 
+    virtual bool getIsClickable() const = 0;
     virtual void onMouseMove() = 0;
     virtual bool onMouseClick(MouseKey i_key) = 0;
     virtual bool onMouseRelease(MouseKey i_key) = 0;

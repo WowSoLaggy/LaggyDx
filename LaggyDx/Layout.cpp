@@ -41,6 +41,12 @@ namespace Dx
     onChildrenChanged();
   }
 
+
+  bool Layout::getIsClickable() const
+  {
+    return false;
+  }
+
   
   void Layout::onChildrenChanged()
   {
@@ -147,6 +153,24 @@ namespace Dx
         ctrl.setPosition(newPos);
 
         xNext += ctrl.getSize().x + d_offsetBetweenElements;
+      }
+
+      break;
+    }
+    case LayoutAlign::RightToLeft_BottomSide:
+    {
+      float xNext = getSize().x;
+      for (auto& ctrlNode : getChildren())
+      {
+        auto& ctrl = dynamic_cast<IControl&>(*ctrlNode);
+        if (!ctrl.getVisible())
+          continue;
+
+        xNext -= ctrl.getSize().x;
+        const auto newPos = Sdk::Vector2F{ xNext, getSize().y - ctrl.getSize().y } - bordersOffset;
+        ctrl.setPosition(newPos);
+
+        xNext -= d_offsetBetweenElements;
       }
 
       break;
