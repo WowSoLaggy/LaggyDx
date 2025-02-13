@@ -12,8 +12,8 @@ namespace Dx
     RenderDevice(HWND i_hWnd, Sdk::Vector2I i_resolution, const int i_refreshRate, bool i_debugMode);
     virtual ~RenderDevice() override;
 
-    virtual void beginScene() override;
-    virtual void endScene() override;
+    virtual void begin() override;
+    virtual void end() override;
 
     virtual const Sdk::Vector2I& getResolution() const override;
     virtual void setClearColor(const Sdk::Vector4F& i_clearColor) override;

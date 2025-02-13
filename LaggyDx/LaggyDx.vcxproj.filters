@@ -669,9 +669,6 @@
     <ClInclude Include="TextRenderer.h">
       <Filter>src\Renderers\TextRenderer</Filter>
     </ClInclude>
-    <ClInclude Include="TextRendererGuard.h">
-      <Filter>src\Renderers\TextRenderer</Filter>
-    </ClInclude>
     <ClInclude Include="ITextRenderer.h">
       <Filter>src\Renderers\TextRenderer</Filter>
     </ClInclude>
@@ -1044,9 +1041,6 @@
       <Filter>src\ThermoDynamics</Filter>
     </ClCompile>
     <ClCompile Include="TextRenderer.cpp">
-      <Filter>src\Renderers\TextRenderer</Filter>
-    </ClCompile>
-    <ClCompile Include="TextRendererGuard.cpp">
       <Filter>src\Renderers\TextRenderer</Filter>
     </ClCompile>
   </ItemGroup>

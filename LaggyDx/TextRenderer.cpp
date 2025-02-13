@@ -18,11 +18,11 @@ namespace Dx
   }
 
 
-  void TextRenderer::beginScene()
+  void TextRenderer::begin()
   {
     d_spriteBatch->Begin(SpriteSortMode::SpriteSortMode_Deferred, d_states->NonPremultiplied());
   }
-  void TextRenderer::endScene()
+  void TextRenderer::end()
   {
     d_spriteBatch->End();
   }

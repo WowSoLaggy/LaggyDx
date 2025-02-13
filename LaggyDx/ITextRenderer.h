@@ -10,8 +10,8 @@ namespace Dx
   class ITextRenderer
   {
   public:
-    virtual void beginScene() = 0;
-    virtual void endScene() = 0;
+    virtual void begin() = 0;
+    virtual void end() = 0;
 
     virtual void render(
       const std::string& i_text,

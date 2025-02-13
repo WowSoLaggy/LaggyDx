@@ -106,7 +106,7 @@ namespace Dx
   }
 
 
-  void RenderDevice::beginScene()
+  void RenderDevice::begin()
   {
     // Clear the back buffer
     d_deviceContext->ClearRenderTargetView(d_renderTargetView.get(), d_clearColor);
@@ -115,7 +115,7 @@ namespace Dx
     d_deviceContext->ClearDepthStencilView(d_depthStencilView.get(), D3D11_CLEAR_DEPTH, 1.0f, 0);
   }
 
-  void RenderDevice::endScene()
+  void RenderDevice::end()
   {
     // Present the back buffer to the screen since rendering is complete
     unsigned int nominator = c_vSyncEnabled ? 1 : 0;

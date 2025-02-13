@@ -17,8 +17,8 @@ namespace Dx
   public:
     virtual ~IRenderDevice() = default;
 
-    virtual void beginScene() = 0;
-    virtual void endScene() = 0;
+    virtual void begin() = 0;
+    virtual void end() = 0;
 
     virtual const Sdk::Vector2I& getResolution() const = 0;
     virtual void setClearColor(const Sdk::Vector4F& i_clearColor) = 0;

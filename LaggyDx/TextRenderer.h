@@ -10,8 +10,8 @@ namespace Dx
   public:
     TextRenderer();
 
-    virtual void beginScene() override;
-    virtual void endScene() override;
+    virtual void begin() override;
+    virtual void end() override;
 
     virtual void render(
       const std::string& i_text,

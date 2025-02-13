@@ -13,12 +13,12 @@
 #include "KeyUtils.h"
 #include "Renderer2dGuard.h"
 #include "TextRenderer.h"
-#include "TextRendererGuard.h"
 
 #include <LaggySdk/Cursor.h>
 #include <LaggySdk/HandleMessages.h>
 #include <LaggySdk/Locker.h>
 #include <LaggySdk/Random.h>
+#include <LaggySdk/ScopeGuard.h>
 #include <LaggySdk/Vector.h>
 
 
@@ -165,15 +165,13 @@ namespace Dx
     updateGui(dt);
 
     {
+      CONTRACT_ASSERT(d_renderDevice);
       const Sdk::Locker scopeLocker(*d_renderDevice);
+      Sdk::ScopeGuard scopeGuardRenderDevice(*d_renderDevice);
+      Sdk::ScopeGuard scopeGuardTextRenderer(SAFE_DEREF(d_textRenderer));
 
-      d_renderDevice->beginScene();
-      {
-        TextRendererGuard textRendererGuard(SAFE_DEREF(d_textRenderer));
-        render();
-        renderGui();
-      }
-      d_renderDevice->endScene();
+      render();
+      renderGui();
     }
   }
 

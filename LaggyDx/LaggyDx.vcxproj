@@ -226,7 +226,6 @@
     <ClInclude Include="Slider.h" />
     <ClInclude Include="SpriteShader.h" />
     <ClInclude Include="TextRenderer.h" />
-    <ClInclude Include="TextRendererGuard.h" />
     <ClInclude Include="TextureBase.h" />
     <ClInclude Include="TextureUtils.h" />
     <ClInclude Include="ThirdPersonCamera.h" />
@@ -375,7 +374,6 @@
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="SpriteShader.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
-    <ClCompile Include="TextRendererGuard.cpp" />
     <ClCompile Include="TextureBase.cpp" />
     <ClCompile Include="TextureUtils.cpp" />
     <ClCompile Include="Simulation.cpp" />
