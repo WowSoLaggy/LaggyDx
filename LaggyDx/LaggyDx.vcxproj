@@ -170,6 +170,7 @@
     <ClInclude Include="ICamera2.h" />
     <ClInclude Include="ISprite.h" />
     <ClInclude Include="ISpriteShader.h" />
+    <ClInclude Include="ITextRenderer.h" />
     <ClInclude Include="IThdObject.h" />
     <ClInclude Include="ITile.h" />
     <ClInclude Include="ITileCollection.h" />
@@ -224,6 +225,8 @@
     <ClInclude Include="SkydomeShader.h" />
     <ClInclude Include="Slider.h" />
     <ClInclude Include="SpriteShader.h" />
+    <ClInclude Include="TextRenderer.h" />
+    <ClInclude Include="TextRendererGuard.h" />
     <ClInclude Include="TextureBase.h" />
     <ClInclude Include="TextureUtils.h" />
     <ClInclude Include="ThirdPersonCamera.h" />
@@ -371,6 +374,8 @@
     <ClCompile Include="SkydomeShader.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="SpriteShader.cpp" />
+    <ClCompile Include="TextRenderer.cpp" />
+    <ClCompile Include="TextRendererGuard.cpp" />
     <ClCompile Include="TextureBase.cpp" />
     <ClCompile Include="TextureUtils.cpp" />
     <ClCompile Include="Simulation.cpp" />

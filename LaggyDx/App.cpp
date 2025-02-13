@@ -12,6 +12,8 @@
 #include "KeyboardState.h"
 #include "KeyUtils.h"
 #include "Renderer2dGuard.h"
+#include "TextRenderer.h"
+#include "TextRendererGuard.h"
 
 #include <LaggySdk/Cursor.h>
 #include <LaggySdk/HandleMessages.h>
@@ -32,6 +34,8 @@ namespace Dx
   App::App(std::unique_ptr<AppSettings> i_settings)
     : d_settings(std::move(i_settings))
   {
+    s_this = this;
+
     const auto hres = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
     CONTRACT_ASSERT(!FAILED(hres));
 
@@ -48,6 +52,9 @@ namespace Dx
     d_renderer2d = IRenderer2d::create(*d_renderDevice, resolution);
     CONTRACT_ENSURE(d_renderer2d);
 
+    d_textRenderer = std::make_unique<TextRenderer>();
+    CONTRACT_ENSURE(d_textRenderer);
+
     d_inputDevice = IInputDevice::create(d_window->getHWnd());
     CONTRACT_ENSURE(d_inputDevice);
     connectTo(*d_inputDevice);
@@ -56,8 +63,6 @@ namespace Dx
 
     Sdk::setCursorToCenter(*d_window);
     d_window->show();
-
-    s_this = this;
   }
 
   App::~App()
@@ -71,21 +76,23 @@ namespace Dx
     return SAFE_DEREF(d_settings);
   }
 
-  IInputDevice& App::getInputDevice() { return *d_inputDevice; }
-  const IInputDevice& App::getInputDevice() const { return *d_inputDevice; }
-  IRenderDevice& App::getRenderDevice() { return *d_renderDevice; }
-  const IRenderDevice& App::getRenderDevice() const { return *d_renderDevice; }
-  IResourceController& App::getResourceController() { return *d_resourceController; }
-  const IResourceController& App::getResourceController() const { return *d_resourceController; }
-  IRenderer2d& App::getRenderer2d() { return *d_renderer2d; }
-  const IRenderer2d& App::getRenderer2d() const { return *d_renderer2d; }
+  IInputDevice& App::getInputDevice() { return SAFE_DEREF(d_inputDevice); }
+  const IInputDevice& App::getInputDevice() const { return SAFE_DEREF(d_inputDevice); }
+  IRenderDevice& App::getRenderDevice() { return SAFE_DEREF(d_renderDevice); }
+  const IRenderDevice& App::getRenderDevice() const { return SAFE_DEREF(d_renderDevice); }
+  IResourceController& App::getResourceController() { return SAFE_DEREF(d_resourceController); }
+  const IResourceController& App::getResourceController() const { return SAFE_DEREF(d_resourceController); }
+  IRenderer2d& App::getRenderer2d() { return SAFE_DEREF(d_renderer2d); }
+  const IRenderer2d& App::getRenderer2d() const { return SAFE_DEREF(d_renderer2d); }
+  ITextRenderer& App::getTextRenderer() { return SAFE_DEREF(d_textRenderer); }
+  const ITextRenderer& App::getTextRenderer() const { return SAFE_DEREF(d_textRenderer); }
 
   ActionsMap& App::getActionsMap() { return d_actionsMap; }
   const ActionsMap& App::getActionsMap() const { return d_actionsMap; }
   void App::setActionsMap(ActionsMap i_actionsMap) { d_actionsMap = std::move(i_actionsMap); }
 
-  IControl& App::getForm() { return *d_form; }
-  const IControl& App::getForm() const { return *d_form; }
+  IControl& App::getForm() { return SAFE_DEREF(d_form); }
+  const IControl& App::getForm() const { return SAFE_DEREF(d_form); }
 
   double App::getGlobalTime() const { return d_globalTime; }
   const Sdk::FpsCounter& App::getFpsCounter() const { return d_fpsCounter; }
@@ -161,8 +168,11 @@ namespace Dx
       const Sdk::Locker scopeLocker(*d_renderDevice);
 
       d_renderDevice->beginScene();
-      render();
-      renderGui();
+      {
+        TextRendererGuard textRendererGuard(SAFE_DEREF(d_textRenderer));
+        render();
+        renderGui();
+      }
       d_renderDevice->endScene();
     }
   }

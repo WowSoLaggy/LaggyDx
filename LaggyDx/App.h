@@ -6,6 +6,7 @@
 #include "IRenderDevice.h"
 #include "IRenderer2d.h"
 #include "IResourceController.h"
+#include "ITextRenderer.h"
 #include "LaggyDxFwd.h"
 #include "MouseState.h"
 
@@ -42,6 +43,8 @@ namespace Dx
     [[nodiscard]] const IResourceController& getResourceController() const;
     [[nodiscard]] IRenderer2d& getRenderer2d();
     [[nodiscard]] const IRenderer2d& getRenderer2d() const;
+    [[nodiscard]] ITextRenderer& getTextRenderer();
+    [[nodiscard]] const ITextRenderer& getTextRenderer() const;
 
     [[nodiscard]] ActionsMap& getActionsMap();
     [[nodiscard]] const ActionsMap& getActionsMap() const;
@@ -90,6 +93,7 @@ namespace Dx
     std::unique_ptr<IRenderDevice> d_renderDevice;
     std::unique_ptr<IResourceController> d_resourceController;
     std::unique_ptr<IRenderer2d> d_renderer2d;
+    std::unique_ptr<ITextRenderer> d_textRenderer;
 
     ActionsMap d_actionsMap;
 

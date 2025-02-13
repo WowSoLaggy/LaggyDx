@@ -24,7 +24,7 @@ namespace Dx
     void setScale(float i_scale);
     float getScale() const;
 
-    void render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_position) const;
+    void render(const Sdk::Vector2F& i_position) const;
 
   private:
     std::string d_text;

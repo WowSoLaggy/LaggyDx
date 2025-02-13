@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Renderer2d.h"
 
-#include "FontResource.h"
 #include "IShape2d.h"
 #include "RenderDevice.h"
 #include "ResourceController.h"
@@ -13,7 +12,7 @@
 
 namespace Dx
 {
-  Renderer2d::Renderer2d(IRenderDevice& io_renderDevice, const Sdk::Vector2I i_resolution)
+  Renderer2d::Renderer2d(IRenderDevice& io_renderDevice, Sdk::Vector2I i_resolution)
     : d_renderDevice(dynamic_cast<RenderDevice&>(io_renderDevice))
     , d_resolution(std::move(i_resolution))
     , d_spriteBatch(d_renderDevice.getDeviceContextPtr())
@@ -130,22 +129,6 @@ namespace Dx
     return std::exchange(d_renderedSprites, 0);
   }
 
-
-  void Renderer2d::renderText(const std::string& i_text,
-                              const IFontResource& i_fontResource,
-                              const Sdk::Vector4F& i_color,
-                              float i_scale)
-  {
-    const auto& fontResource = dynamic_cast<const FontResource&>(i_fontResource);
-
-    fontResource.getSpriteFont()->DrawString(&d_spriteBatch,
-                                             Sdk::s2ws(i_text).c_str(),
-                                             XMFLOAT2(d_translation.x, d_translation.y),
-                                             { i_color.x, i_color.y, i_color.z, i_color.w },
-                                             0,
-                                             { 0, 0 },
-                                             i_scale);
-  }
 
   void Renderer2d::renderSprite(const Sprite& i_sprite)
   {

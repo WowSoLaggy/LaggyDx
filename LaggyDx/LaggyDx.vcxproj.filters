@@ -160,6 +160,9 @@
     <Filter Include="src\Console">
       <UniqueIdentifier>{4715ccf0-1da0-43f9-b8ed-b8d30ce50858}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Renderers\TextRenderer">
+      <UniqueIdentifier>{659b826c-08fd-4672-89f1-bdcf976d7b2e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -663,6 +666,15 @@
     <ClInclude Include="IThdObject.h">
       <Filter>src\ThermoDynamics</Filter>
     </ClInclude>
+    <ClInclude Include="TextRenderer.h">
+      <Filter>src\Renderers\TextRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRendererGuard.h">
+      <Filter>src\Renderers\TextRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="ITextRenderer.h">
+      <Filter>src\Renderers\TextRenderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1030,6 +1042,12 @@
     </ClCompile>
     <ClCompile Include="IThdObject.cpp">
       <Filter>src\ThermoDynamics</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRenderer.cpp">
+      <Filter>src\Renderers\TextRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRendererGuard.cpp">
+      <Filter>src\Renderers\TextRenderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
