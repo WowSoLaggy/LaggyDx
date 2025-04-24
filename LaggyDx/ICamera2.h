@@ -13,8 +13,8 @@ namespace Dx
   public:
     virtual ~ICamera2() = default;
 
-    virtual const Sdk::Vector2I& getOffset() const = 0;
-    virtual void setOffset(Sdk::Vector2I i_offset) = 0;
+    virtual const Sdk::Vector2F& getOffset() const = 0;
+    virtual void setOffset(Sdk::Vector2F i_offset) = 0;
   };
 
 } // ns Dx

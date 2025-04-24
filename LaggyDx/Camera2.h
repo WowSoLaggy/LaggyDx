@@ -8,11 +8,11 @@ namespace Dx
   class Camera2 : public ICamera2
   {
   public:
-    virtual const Sdk::Vector2I& getOffset() const override;
-    virtual void setOffset(Sdk::Vector2I i_offset) override;
+    virtual const Sdk::Vector2F& getOffset() const override;
+    virtual void setOffset(Sdk::Vector2F i_offset) override;
 
   private:
-    Sdk::Vector2I d_offset;
+    Sdk::Vector2F d_offset;
   };
 
 } // ns Dx
