@@ -8,14 +8,14 @@ namespace Dx
   class Sprite : public ISprite
   {
   public:
-    Sprite(const ITexture* i_texture = nullptr, Sdk::Vector2I i_position = Sdk::Vector2I::zero(),
-           Sdk::Vector2I i_size = Sdk::Vector2I::zero(), Sdk::Vector4F i_color = Sdk::Vector4F::identity());
+    Sprite(const ITexture* i_texture = nullptr, Sdk::Vector2F i_position = Sdk::Vector2F::zero(),
+           Sdk::Vector2F i_size = Sdk::Vector2F::zero(), Sdk::Vector4F i_color = Sdk::Vector4F::identity());
 
     virtual const ITexture* getTexture() const override { return d_texture; }
-    virtual const Sdk::Vector2I& getPosition() const override { return d_position; }
+    virtual const Sdk::Vector2F& getPosition() const override { return d_position; }
     virtual double getRotation() const override { return d_rotation; }
     virtual double getScale() const override { return d_scale; }
-    virtual const Sdk::Vector2I& getSize() const override { return d_size; }
+    virtual const Sdk::Vector2F& getSize() const override { return d_size; }
     virtual const Sdk::Vector4F& getColor() const override { return d_color; }
     virtual const Sdk::Vector2F& getRotationOrigin() const override { return d_rotationOrigin; }
     virtual RECT getSourceRect() const override;
@@ -23,13 +23,13 @@ namespace Dx
     void setTexture(const ITexture* i_texture);
     void setTexture(const ITexture& i_texture);
 
-    void setPosition(Sdk::Vector2I i_position) { d_position = std::move(i_position); }
+    void setPosition(Sdk::Vector2F i_position) { d_position = std::move(i_position); }
 
-    Sdk::RectI getRect() const;
+    Sdk::RectF getRect() const;
 
     void setColor(Sdk::Vector4F i_color) { d_color = std::move(i_color); }
 
-    void setSize(Sdk::Vector2I i_size) { d_size = std::move(i_size); }
+    void setSize(Sdk::Vector2F i_size) { d_size = std::move(i_size); }
     void resetSizeToTexture();
 
     void setRotation(double i_rotation) { d_rotation = i_rotation; }
@@ -41,8 +41,8 @@ namespace Dx
 
   protected:
     const ITexture* d_texture = nullptr;
-    Sdk::Vector2I d_position = Sdk::Vector2I::zero();
-    Sdk::Vector2I d_size = Sdk::Vector2I::zero();
+    Sdk::Vector2F d_position = Sdk::Vector2F::zero();
+    Sdk::Vector2F d_size = Sdk::Vector2F::zero();
     Sdk::Vector4F d_color = Sdk::Vector4F::identity();
     Sdk::Vector2F d_rotationOrigin = Sdk::Vector2F::zero();
     double d_rotation = 0.0;

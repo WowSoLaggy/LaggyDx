@@ -18,7 +18,7 @@ namespace Dx
 
     virtual Sdk::Vector2F getSize() const override;
     /// Returns sum of sizes of both left and right sides
-    Sdk::Vector2I getSidesSize() const;
+    Sdk::Vector2F getSidesSize() const;
 
     virtual void onMouseMove() override;
     virtual bool onMouseClick(MouseKey i_key) override;
@@ -32,7 +32,7 @@ namespace Dx
     void setFont(const std::string& i_fontName);
     void setLabelsScale(float i_scale);
 
-    void setLength(int i_length);
+    void setLength(float i_length);
 
     void setMinValue(double i_minValue);
     void setMaxValue(double i_maxValue);
@@ -74,7 +74,7 @@ namespace Dx
     bool d_showLabelCurrent = true;
     int d_labelsPrecision = 0;
 
-    int d_length = 0;
+    float d_length = 0;
     bool d_isCurrentlyDragged = false;
 
     double d_minValue = 0;
@@ -85,14 +85,14 @@ namespace Dx
 
     void rearrange();
     void updateSliderPosition();
-    int getSliderOffset() const;
+    float getSliderOffset() const;
     /// \param i_offset - int relatively to d_spriteBack position
-    double getSliderRatio(int i_offset) const;
+    double getSliderRatio(float i_offset) const;
     void followMouse();
 
-    Sdk::Vector2I getLabelMinPosition() const;
-    Sdk::Vector2I getLabelMaxPosition() const;
-    Sdk::Vector2I getLabelCurrentPosition() const;
+    Sdk::Vector2F getLabelMinPosition() const;
+    Sdk::Vector2F getLabelMaxPosition() const;
+    Sdk::Vector2F getLabelCurrentPosition() const;
     
     void updateLabelMinPosition();
     void updateLabelMaxPosition();

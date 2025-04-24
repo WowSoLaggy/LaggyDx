@@ -136,8 +136,8 @@ namespace Dx
     if (!texture)
       return;
 
-    const auto pos = i_sprite.getPosition() + Sdk::Vector2I{ (int)d_translation.x, (int)d_translation.y };
-    const auto& size = i_sprite.getSize();
+    const auto pos = (i_sprite.getPosition() + d_translation).getVector<int>();
+    const auto size = i_sprite.getSize().getVector<int>();
 
     const RECT destinationRect{ pos.x, pos.y, pos.x + size.x, pos.y + size.y };
     const auto& color = i_sprite.getColor();

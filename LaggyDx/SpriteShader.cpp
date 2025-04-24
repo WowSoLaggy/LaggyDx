@@ -90,7 +90,7 @@ namespace Dx
 
         // Transformation matrices
         const auto translationToOrigin = XMMatrixTranslationFromVector(-spriteCenter); // Move to rotation origin
-        const auto translationToWorld = XMMatrixTranslation((float)position.x, (float)position.y, 0); // World position
+        const auto translationToWorld = XMMatrixTranslation(position.x, position.y, 0); // World position
 
         // Construct the world matrix
         const auto worldMatrix =

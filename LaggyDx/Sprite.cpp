@@ -7,8 +7,8 @@
 
 namespace Dx
 {
-  Sprite::Sprite(const ITexture* i_texture /*= nullptr*/, Sdk::Vector2I i_position /*= Sdk::Vector2I::zero()*/,
-                 Sdk::Vector2I i_size /*= Sdk::Vector2I::zero()*/, Sdk::Vector4F i_color /*= Sdk::Vector4F::identity()*/)
+  Sprite::Sprite(const ITexture* i_texture /*= nullptr*/, Sdk::Vector2F i_position /*= Sdk::Vector2I::zero()*/,
+                 Sdk::Vector2F i_size /*= Sdk::Vector2I::zero()*/, Sdk::Vector4F i_color /*= Sdk::Vector4F::identity()*/)
     : d_texture(i_texture)
     , d_position(i_position)
     , d_size(i_size)
@@ -30,17 +30,18 @@ namespace Dx
 
   void Sprite::resetSizeToTexture()
   {
-    d_size = d_texture ? d_texture->getDescription().frameSize : Sdk::Vector2I{ 0, 0 };
+    const auto size = d_texture ? d_texture->getDescription().frameSize : Sdk::Vector2I{ 0, 0 };
+    d_size = size.getVector<float>();
   }
 
 
   RECT Sprite::getSourceRect() const
   {
-    return { 0, 0, d_size.x, d_size.y };
+    return { 0, 0, (int)d_size.x, (int)d_size.y };
   }
 
 
-  Sdk::RectI Sprite::getRect() const
+  Sdk::RectF Sprite::getRect() const
   {
     return { d_position, d_position + d_size };
   }

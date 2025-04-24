@@ -54,7 +54,7 @@ namespace Dx
     if (!d_selectionEnabled)
       return false;
 
-    const auto& cursorPos = App::get().getInputDevice().getMousePosition() - getPositionAbsolute().getVector<int>();
+    const auto& cursorPos = App::get().getInputDevice().getMousePosition().getVector<float>() - getPositionAbsolute();
     for (int ind = 0; ind < d_slotSprites.size(); ++ind)
     {
       if (d_slotSprites[ind].getRect().containsPoint(cursorPos))
@@ -137,8 +137,8 @@ namespace Dx
     const auto& texture_BR(TextureUtils::getTexture(d_textureName_BR));
     const auto& texture_Slot(TextureUtils::getTexture(d_textureName_Slot));
 
-    d_slotSize = texture_Slot.getDescription().size;
-    d_cornerSize = texture_TL.getDescription().size;
+    d_slotSize = texture_Slot.getDescription().size.getVector<float>();
+    d_cornerSize = texture_TL.getDescription().size.getVector<float>();
 
     d_gridSprites.push_back(Dx::Sprite{ &texture_TL, { 0, 0 } });
     d_gridSprites.push_back(Dx::Sprite{ &texture_TR, { d_cornerSize.x + d_slotsNumber.x * d_slotSize.x, 0 } });
@@ -187,8 +187,8 @@ namespace Dx
       sprite.resetSizeToTexture();
 
       const Sdk::Vector2I itemPos(itemIndex % d_slotsNumber.x, itemIndex / d_slotsNumber.x);
-      const Sdk::Vector2I itemHalfSize(sprite.getSize() / 2);
-      const auto pos = d_cornerSize + itemPos * d_slotSize + (slotHalfSize - itemHalfSize) + Sdk::Vector2I{1, 1};
+      const Sdk::Vector2F itemHalfSize(sprite.getSize() / 2);
+      const auto pos = d_cornerSize + itemPos.getVector<float>() * d_slotSize + (slotHalfSize - itemHalfSize) + Sdk::Vector2F{1, 1};
       sprite.setPosition(pos);
 
       d_itemSprites.push_back(std::move(sprite));
@@ -266,7 +266,7 @@ namespace Dx
     d_selectedIndex = i_itemIndex;
 
     const Sdk::Vector2I itemPos(i_itemIndex % d_slotsNumber.x, i_itemIndex / d_slotsNumber.x);
-    d_selectionSprite.setPosition(d_cornerSize + itemPos * d_slotSize);
+    d_selectionSprite.setPosition(d_cornerSize + itemPos.getVector<float>() * d_slotSize);
 
     if (d_onItemSelectedHandler)
       d_onItemSelectedHandler(SAFE_DEREF(d_items.at(*d_selectedIndex)));

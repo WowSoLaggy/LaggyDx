@@ -29,7 +29,7 @@ namespace Dx
 
   void Panel::setSize(Sdk::Vector2F i_size)
   {
-    d_sprite.setSize({ (int)i_size.x, (int)i_size.y });
+    d_sprite.setSize({ i_size.x, i_size.y });
     Control::setSize(i_size);
   }
 

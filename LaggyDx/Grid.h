@@ -59,8 +59,8 @@ namespace Dx
     std::string d_textureName_Slot;
     std::string d_textureName_Selection;
 
-    Sdk::Vector2I d_slotSize;
-    Sdk::Vector2I d_cornerSize;
+    Sdk::Vector2F d_slotSize;
+    Sdk::Vector2F d_cornerSize;
 
     std::vector<Dx::Sprite> d_gridSprites;
     std::vector<Dx::Sprite> d_slotSprites;

@@ -40,7 +40,7 @@ namespace Dx
 
   Sdk::Vector2F Slider::getSize() const
   {
-    auto size = Sdk::Vector2I{
+    auto size = Sdk::Vector2F{
       d_spriteLeftSide.getSize().x + d_spriteBack.getSize().x + d_spriteRightSide.getSize().x,
       d_spriteSlider.getSize().y }.getVector<float>();
 
@@ -54,7 +54,7 @@ namespace Dx
     return size;
   }
 
-  Sdk::Vector2I Slider::getSidesSize() const
+  Sdk::Vector2F Slider::getSidesSize() const
   {
     return d_spriteLeftSide.getSize() + d_spriteRightSide.getSize();
   }
@@ -72,7 +72,7 @@ namespace Dx
   {
     if (i_key == MouseKey::Left)
     {
-      const auto mousePos = App::get().getInputDevice().getMousePosition() - getPositionAbsolute().getVector<int>();
+      const auto mousePos = App::get().getInputDevice().getMousePosition().getVector<float>() - getPositionAbsolute();
 
       if (d_spriteSlider.getRect().containsPoint(mousePos))
       {
@@ -164,7 +164,7 @@ namespace Dx
   }
 
 
-  void Slider::setLength(const int i_length)
+  void Slider::setLength(const float i_length)
   {
     d_length = i_length;
     rearrange();
@@ -223,9 +223,9 @@ namespace Dx
     d_spriteBack.resetSizeToTexture();
     d_spriteBack.setSize({ d_length, d_spriteBack.getSize().y });
 
-    const int backStart = d_spriteLeftSide.getSize().x;
-    const int backEnd = backStart + d_spriteBack.getSize().x;
-    const int yOffset = (d_spriteSlider.getSize().y - d_spriteBack.getSize().y) / 2;
+    const float backStart = d_spriteLeftSide.getSize().x;
+    const float backEnd = backStart + d_spriteBack.getSize().x;
+    const float yOffset = (d_spriteSlider.getSize().y - d_spriteBack.getSize().y) / 2;
 
     d_spriteLeftSide.setPosition({ 0, yOffset });
     d_spriteBack.setPosition({ backStart, yOffset });
@@ -240,13 +240,13 @@ namespace Dx
     d_spriteSlider.setPosition({ d_spriteLeftSide.getSize().x + getSliderOffset(), 0 });
   }
 
-  int Slider::getSliderOffset() const
+  float Slider::getSliderOffset() const
   {
     const double ratio = (d_currentValue - d_minValue) / (d_maxValue - d_minValue);
-    return (int)(d_length * ratio) - d_spriteSlider.getSize().x / 2;
+    return (float)(d_length * ratio - d_spriteSlider.getSize().x / 2);
   }
 
-  double Slider::getSliderRatio(int i_offset) const
+  double Slider::getSliderRatio(const float i_offset) const
   {
     const double ratio = (double)i_offset / (double)d_length;
     return Sdk::clamp(ratio, 0.0, 1.0);
@@ -254,9 +254,9 @@ namespace Dx
 
   void Slider::followMouse()
   {
-    const int mouseX =
+    const float mouseX =
       App::get().getInputDevice().getMousePosition().x -
-      (int)getPositionAbsolute().x -
+      getPositionAbsolute().x -
       d_spriteBack.getPosition().x;
 
     setRelativeValue(getSliderRatio(mouseX));
@@ -302,23 +302,22 @@ namespace Dx
   }
 
 
-  Sdk::Vector2I Slider::getLabelMinPosition() const
+  Sdk::Vector2F Slider::getLabelMinPosition() const
   {
-    const int textSizeHalfX = (int)(d_textMin.getSize().x / 2);
     return { 0, d_spriteSlider.getSize().y };
   }
 
-  Sdk::Vector2I Slider::getLabelMaxPosition() const
+  Sdk::Vector2F Slider::getLabelMaxPosition() const
   {
-    const int textSizeX = (int)d_textMax.getSize().x;
-    const int rightSideEndX = d_spriteRightSide.getPosition().x + d_spriteRightSide.getSize().x;
+    const float textSizeX = d_textMax.getSize().x;
+    const float rightSideEndX = d_spriteRightSide.getPosition().x + d_spriteRightSide.getSize().x;
     return { rightSideEndX - textSizeX, d_spriteSlider.getSize().y };
   }
 
-  Sdk::Vector2I Slider::getLabelCurrentPosition() const
+  Sdk::Vector2F Slider::getLabelCurrentPosition() const
   {
-    const int textSizeHalfX = (int)(d_textCurrent.getSize().x / 2);
-    const int barCenterX = d_spriteBack.getPosition().x + d_spriteBack.getSize().x / 2;
+    const float textSizeHalfX = d_textCurrent.getSize().x / 2;
+    const float barCenterX = d_spriteBack.getPosition().x + d_spriteBack.getSize().x / 2;
     return { barCenterX - textSizeHalfX, d_spriteSlider.getSize().y };
   }
 
