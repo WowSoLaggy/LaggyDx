@@ -17,11 +17,11 @@ namespace Dx
   class Shader2d : public ShaderBase
   {
   public:
+    // Immediate mode
     virtual void draw(
       const ISprite& i_sprite,
       const UvOffset* i_uvOffset = nullptr,
       bool i_disableCameraView = false) const = 0;
-
   };
 
 } // ns Dx

@@ -34,10 +34,22 @@ namespace Dx
   }
 
 
+  void SpriteShader::end() const
+  {
+    for (const auto& [_, drawList] : d_delayedDraws)
+    {
+      for (const auto& drawData : drawList)
+        draw(drawData.sprite, drawData.uvOffset, drawData.disableCameraView);
+    }
+
+    d_delayedDraws.clear();
+  }
+
+
   void SpriteShader::draw(
     const ISprite& i_sprite,
     const UvOffset* i_uvOffset,
-    bool i_disableCameraView) const
+    const bool i_disableCameraView) const
   {
     setRenderStates();
     setShaders();
@@ -47,6 +59,16 @@ namespace Dx
     setColor(i_sprite.getColor());
     setGeometryBuffers();
     drawIndexed(d_spriteMesh->getIndexBuffer().getIndexCount(), 0);
+  }
+
+
+  void SpriteShader::drawDelayed(
+    const AnimatedSprite& i_sprite,
+    const int i_layer,
+    const UvOffset* i_uvOffset,
+    const bool i_disableCameraView) const
+  {
+    d_delayedDraws[i_layer].emplace_back(i_sprite, i_uvOffset, i_disableCameraView);
   }
 
 

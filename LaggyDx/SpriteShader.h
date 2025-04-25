@@ -1,5 +1,6 @@
 #pragma once
 
+#include "AnimatedSprite.h"
 #include "CBuffer.h"
 #include "IMesh.h"
 #include "ISpriteShader.h"
@@ -7,13 +8,37 @@
 
 namespace Dx
 {
+  class DelayedDrawData
+  {
+  public:
+    DelayedDrawData(const AnimatedSprite& i_sprite, const UvOffset* i_uvOffset, bool i_disableCameraView)
+      : sprite(i_sprite)
+      , uvOffset(i_uvOffset)
+      , disableCameraView(i_disableCameraView)
+    {
+    }
+
+    const AnimatedSprite sprite;
+    const UvOffset* uvOffset;
+    bool disableCameraView;
+  };
+
+
   class SpriteShader : public ISpriteShader
   {
   public:
     SpriteShader(const ICamera2* i_camera);
 
+    virtual void end() const override;
+
     virtual void draw(
       const ISprite& i_sprite,
+      const UvOffset* i_uvOffset = nullptr,
+      bool i_disableCameraView = false) const override;
+
+    virtual void drawDelayed(
+      const AnimatedSprite& i_sprite,
+      int i_layer = 0,
       const UvOffset* i_uvOffset = nullptr,
       bool i_disableCameraView = false) const override;
 
@@ -21,6 +46,8 @@ namespace Dx
     const ICamera2* d_camera = nullptr;
     const ITexture& d_emptyTexture;
     std::unique_ptr<IMesh> d_spriteMesh;
+
+    mutable std::map<int, std::vector<DelayedDrawData>> d_delayedDraws;
     
     CBuffer d_matrixBuffer;
     CBuffer d_uvOffsetBuffer;
