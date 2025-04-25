@@ -14,4 +14,9 @@ namespace Dx
     d_offset = std::move(i_offset);
   }
 
+  void Camera2::move(const Sdk::Vector2F& i_offset)
+  {
+    d_offset += i_offset;
+  }
+
 } // ns Dx
