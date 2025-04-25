@@ -10,6 +10,10 @@ namespace Dx
   {
     d_sprite.setTexture(i_texture);
   }
+  void Panel::setTexture(const std::string& i_textureName)
+  {
+    d_sprite.setTexture(i_textureName);
+  }
 
   void Panel::setColor(Sdk::Vector4F i_color)
   {

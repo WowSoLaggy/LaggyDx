@@ -22,6 +22,7 @@ namespace Dx
 
     void setTexture(const ITexture* i_texture);
     void setTexture(const ITexture& i_texture);
+    void setTexture(const std::string& i_textureName);
 
     void setPosition(Sdk::Vector2F i_position) { d_position = std::move(i_position); }
 

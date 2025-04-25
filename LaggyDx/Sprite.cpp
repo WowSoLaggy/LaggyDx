@@ -3,6 +3,7 @@
 
 #include "ImageDescription.h"
 #include "ITexture.h"
+#include "TextureUtils.h"
 
 
 namespace Dx
@@ -21,10 +22,13 @@ namespace Dx
   {
     d_texture = i_texture;
   }
-
   void Sprite::setTexture(const ITexture& i_texture)
   {
     setTexture(&i_texture);
+  }
+  void Sprite::setTexture(const std::string& i_textureName)
+  {
+    setTexture(TextureUtils::getTexture(i_textureName));
   }
 
 
