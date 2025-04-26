@@ -41,7 +41,8 @@ namespace Dx
 
   RECT Sprite::getSourceRect() const
   {
-    return { 0, 0, (int)d_size.x, (int)d_size.y };
+    const auto textureSize = d_texture ? d_texture->getDescription().frameSize : Sdk::Vector2I{ 0, 0 };
+    return { 0, 0, textureSize.x, textureSize.y };
   }
 
 

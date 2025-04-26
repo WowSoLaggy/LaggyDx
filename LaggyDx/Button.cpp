@@ -4,6 +4,8 @@
 #include "App.h"
 #include "ControlEvents.h"
 #include "IFontResource.h"
+#include "ImageDescription.h"
+#include "ITexture.h"
 
 
 namespace Dx
@@ -25,13 +27,15 @@ namespace Dx
 
   void Button::setSize(Sdk::Vector2F i_size)
   {
-    Control::setSize(std::move(i_size));
+    Control::setSize(i_size);
+    d_sprite.setSize(std::move(i_size));
     updateTextOffset();
   }
 
   void Button::resetSizeToTexture()
   {
-    setSize(d_sprite.getSize().getVector<float>());
+    const auto textureSize = d_sprite.getTexture() ? d_sprite.getTexture()->getDescription().frameSize : Sdk::Vector2I{ 0, 0 };
+    setSize(textureSize.getVector<float>());
   }
 
 
@@ -151,9 +155,6 @@ namespace Dx
   {
     const auto& rc = App::get().getResourceController();
     d_sprite.setTexture(rc.getTexture(d_textures[d_state]));
-    d_sprite.resetSizeToTexture();
-
-    updateTextOffset();
   }
 
   void Button::updateTextOffset()
@@ -170,8 +171,8 @@ namespace Dx
       break;
     case TextAlignment::Center:
       d_textOffset = {
-        (float)((float)getSize().x - textSize.x) / 2,
-        (float)((float)getSize().y - textSize.y) / 2
+        std::round(((float)getSize().x - textSize.x) / 2),
+        std::round(((float)getSize().y - textSize.y) / 2)
       };
       break;
     case TextAlignment::Right:
