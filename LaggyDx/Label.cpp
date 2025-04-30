@@ -71,6 +71,7 @@ namespace Dx
   void Label::render(IRenderer2d& i_renderer) const
   {
     d_text.render(d_textOffsetLeftTop + getPositionAbsolute());
+    Control::render(i_renderer);
   }
 
 } // ns Dx
