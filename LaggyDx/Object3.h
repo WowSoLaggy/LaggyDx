@@ -24,6 +24,7 @@ namespace Dx
     
     virtual void setModel(std::shared_ptr<IModel> i_model) override;
     virtual void setTexture(const ITexture& i_texture) override;
+    virtual void setTexture(const std::string& i_textureName) override;
 
   private:
     Sdk::Vector3F d_position;

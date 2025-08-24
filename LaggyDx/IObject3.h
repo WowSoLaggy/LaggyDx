@@ -27,6 +27,7 @@ namespace Dx
 
     virtual void setModel(std::shared_ptr<IModel> i_model) = 0;
     virtual void setTexture(const ITexture& i_texture) = 0;
+    virtual void setTexture(const std::string& i_textureName) = 0;
   };
 
 } // ns Dx

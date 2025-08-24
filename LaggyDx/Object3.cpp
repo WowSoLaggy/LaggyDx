@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Object3.h"
 
+#include "TextureUtils.h"
+
 
 namespace Dx
 {
@@ -27,5 +29,6 @@ namespace Dx
 
   void Object3::setModel(std::shared_ptr<IModel> i_model) { d_model = i_model; }
   void Object3::setTexture(const ITexture& i_texture) { d_texture = &i_texture; }
+  void Object3::setTexture(const std::string& i_textureName) { d_texture = &TextureUtils::getTexture(i_textureName); }
 
 } // ns Dx
