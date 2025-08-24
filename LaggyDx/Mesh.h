@@ -8,10 +8,10 @@ namespace Dx
   class Mesh : public IMesh
   {
   public:
-    virtual void setVertexBuffer(std::unique_ptr<VertexBuffer> i_vb) override;
+    virtual void setVertexBuffer(std::shared_ptr<VertexBuffer> i_vb) override;
     virtual const VertexBuffer& getVertexBuffer() const override;
     
-    virtual void setIndexBuffer(std::unique_ptr<IndexBuffer> i_ib) override;
+    virtual void setIndexBuffer(std::shared_ptr<IndexBuffer> i_ib) override;
     virtual const IndexBuffer& getIndexBuffer() const override;
 
     virtual std::vector<MaterialSpan>& getMaterials() override;
@@ -24,8 +24,8 @@ namespace Dx
     virtual Topology getTopology() const override;
 
   private:
-    std::unique_ptr<VertexBuffer> d_vertexBuffer;
-    std::unique_ptr<IndexBuffer> d_indexBuffer;
+    std::shared_ptr<VertexBuffer> d_vertexBuffer;
+    std::shared_ptr<IndexBuffer> d_indexBuffer;
     
     std::vector<MaterialSpan> d_materials;
     Aabb d_aabb;

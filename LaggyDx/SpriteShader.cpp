@@ -3,12 +3,14 @@
 
 #include "DefaultMeshes.h"
 #include "ICamera2.h"
+#include "IndexBuffer.h"
 #include "IResourceController.h"
 #include "IShape2d.h"
 #include "ISprite.h"
 #include "ITexture.h"
 #include "RenderDevice.h"
 #include "ShaderBuffers.h"
+#include "VertexBuffer.h"
 #include "VertexLayout.h"
 
 #include "Generated/Sprite.gen.ps.h"

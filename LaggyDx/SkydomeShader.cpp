@@ -2,12 +2,14 @@
 #include "SkydomeShader.h"
 
 #include "ICamera3.h"
+#include "IndexBuffer.h"
 #include "IObject3.h"
 #include "IResourceController.h"
 #include "Model.h"
 #include "RenderDevice.h"
 #include "ShadersUtils.h"
 #include "Texture.h"
+#include "VertexBuffer.h"
 #include "VertexLayout.h"
 
 #include "Generated/Skydome.gen.ps.h"

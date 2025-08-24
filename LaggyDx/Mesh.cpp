@@ -1,10 +1,13 @@
 #include "stdafx.h"
 #include "Mesh.h"
 
+#include "IndexBuffer.h"
+#include "VertexBuffer.h"
+
 
 namespace Dx
 {
-  void Mesh::setVertexBuffer(std::unique_ptr<VertexBuffer> i_vb)
+  void Mesh::setVertexBuffer(std::shared_ptr<VertexBuffer> i_vb)
   {
     d_vertexBuffer = std::move(i_vb);
   }
@@ -14,7 +17,7 @@ namespace Dx
     return *d_vertexBuffer;
   }
 
-  void Mesh::setIndexBuffer(std::unique_ptr<IndexBuffer> i_ib)
+  void Mesh::setIndexBuffer(std::shared_ptr<IndexBuffer> i_ib)
   {
     d_indexBuffer = std::move(i_ib);
   }
