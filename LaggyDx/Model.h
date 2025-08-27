@@ -9,22 +9,22 @@ namespace Dx
   class Model : public IModel
   {
   public:
-    virtual const std::vector<std::unique_ptr<IMesh>>& getMeshes() const override;
+    virtual const std::vector<std::shared_ptr<IMesh>>& getMeshes() const override;
     virtual const AnimationsMap& getAnimations() const override;
     virtual const Aabb& getAabb() const override;
     virtual const IMesh& getAabbMesh() const override;
 
-    void addMesh(std::unique_ptr<IMesh> i_mesh);
+    void addMesh(std::shared_ptr<IMesh> i_mesh);
     void setAnimations(AnimationsMap i_animations);
 
     void createAabbMesh(IRenderDevice& i_renderDevice);
 
   private:
-    std::vector<std::unique_ptr<IMesh>> d_meshes;
+    std::vector<std::shared_ptr<IMesh>> d_meshes;
     AnimationsMap d_animations;
 
     Aabb d_aabb;
-    std::unique_ptr<IMesh> d_aabbMesh;
+    std::shared_ptr<IMesh> d_aabbMesh;
     void updateAabb();
   };
 

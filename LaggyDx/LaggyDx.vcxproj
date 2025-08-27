@@ -162,18 +162,21 @@
     <ClInclude Include="FontUtils.h" />
     <ClInclude Include="FreeCamera2Controller.h" />
     <ClInclude Include="GasPrototype.h" />
+    <ClInclude Include="GltfResource.h" />
     <ClInclude Include="Gradient.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="GridItem.h" />
     <ClInclude Include="HeightMap.h" />
     <ClInclude Include="IBitmap.h" />
     <ClInclude Include="ICamera2.h" />
+    <ClInclude Include="IGltfResource.h" />
     <ClInclude Include="ISprite.h" />
     <ClInclude Include="ISpriteShader.h" />
     <ClInclude Include="ITextRenderer.h" />
     <ClInclude Include="IThdObject.h" />
     <ClInclude Include="ITile.h" />
     <ClInclude Include="ITileCollection.h" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="MemoryTexture.h" />
     <ClInclude Include="RefreshRate.h" />
     <ClInclude Include="Roam.h" />
@@ -225,6 +228,8 @@
     <ClInclude Include="SkydomeShader.h" />
     <ClInclude Include="Slider.h" />
     <ClInclude Include="SpriteShader.h" />
+    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="stb_image_write.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="TextureBase.h" />
     <ClInclude Include="TextureUtils.h" />
@@ -298,6 +303,7 @@
     <ClInclude Include="StaticCollider.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Simulation.h" />
+    <ClInclude Include="tiny_gltf.h" />
     <ClInclude Include="TopologyTypes.h" />
     <ClInclude Include="Tri.h" />
     <ClInclude Include="VertexLayout.h" />
@@ -331,6 +337,7 @@
     <ClCompile Include="DefaultMeshes.cpp" />
     <ClCompile Include="FontUtils.cpp" />
     <ClCompile Include="FreeCamera2Controller.cpp" />
+    <ClCompile Include="GltfResource.cpp" />
     <ClCompile Include="Gradient.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="GridItem.cpp" />

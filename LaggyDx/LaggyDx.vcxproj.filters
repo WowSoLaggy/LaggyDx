@@ -163,6 +163,15 @@
     <Filter Include="src\Renderers\TextRenderer">
       <UniqueIdentifier>{659b826c-08fd-4672-89f1-bdcf976d7b2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="libs\tiny_gltf">
+      <UniqueIdentifier>{a22d10d9-2f65-4d8b-83c5-17059d549f35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\miniz">
+      <UniqueIdentifier>{a916a5c5-8b8e-45f5-9486-80c375d9f429}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\ofbx">
+      <UniqueIdentifier>{fd872562-ed2f-4b27-81a9-ab209f4bf813}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -392,12 +401,6 @@
     </ClInclude>
     <ClInclude Include="Layout.h">
       <Filter>src\Gui</Filter>
-    </ClInclude>
-    <ClInclude Include="ofbx.h">
-      <Filter>libs</Filter>
-    </ClInclude>
-    <ClInclude Include="miniz.h">
-      <Filter>libs</Filter>
     </ClInclude>
     <ClInclude Include="Object3.h">
       <Filter>src\Objects</Filter>
@@ -672,6 +675,30 @@
     <ClInclude Include="ITextRenderer.h">
       <Filter>src\Renderers\TextRenderer</Filter>
     </ClInclude>
+    <ClInclude Include="tiny_gltf.h">
+      <Filter>libs\tiny_gltf</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>libs\tiny_gltf</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image_write.h">
+      <Filter>libs\tiny_gltf</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>libs\tiny_gltf</Filter>
+    </ClInclude>
+    <ClInclude Include="miniz.h">
+      <Filter>libs\miniz</Filter>
+    </ClInclude>
+    <ClInclude Include="ofbx.h">
+      <Filter>libs\ofbx</Filter>
+    </ClInclude>
+    <ClInclude Include="IGltfResource.h">
+      <Filter>src\Resources\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="GltfResource.h">
+      <Filter>src\Resources\Models</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -838,12 +865,6 @@
     </ClCompile>
     <ClCompile Include="Layout.cpp">
       <Filter>src\Gui</Filter>
-    </ClCompile>
-    <ClCompile Include="ofbx.cpp">
-      <Filter>libs</Filter>
-    </ClCompile>
-    <ClCompile Include="miniz.cpp">
-      <Filter>libs</Filter>
     </ClCompile>
     <ClCompile Include="Object3.cpp">
       <Filter>src\Objects</Filter>
@@ -1042,6 +1063,15 @@
     </ClCompile>
     <ClCompile Include="TextRenderer.cpp">
       <Filter>src\Renderers\TextRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="miniz.cpp">
+      <Filter>libs\miniz</Filter>
+    </ClCompile>
+    <ClCompile Include="ofbx.cpp">
+      <Filter>libs\ofbx</Filter>
+    </ClCompile>
+    <ClCompile Include="GltfResource.cpp">
+      <Filter>src\Resources\Models</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

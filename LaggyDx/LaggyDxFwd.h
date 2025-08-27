@@ -33,6 +33,7 @@ namespace Dx
   class IFontResource;
   class FontResource;
   class IFbxResource;
+  class IGltfResource;
 
   class VertexBuffer;
   class IndexBuffer;

@@ -22,6 +22,7 @@ namespace Dx
     virtual const IVsResource& getVs(const fs::path& i_name) const override;
     virtual const IFontResource& getFont(const fs::path& i_name) const override;
     virtual const IFbxResource& getFbx(const fs::path& i_name) const override;
+    virtual const IGltfResource& getGltf(const fs::path& i_name) const override;
 
     virtual void loadResources() const override;
     virtual void unloadResources() const override;

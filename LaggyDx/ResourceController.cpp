@@ -3,6 +3,7 @@
 
 #include "FbxResource.h"
 #include "FontResource.h"
+#include "GltfResource.h"
 #include "MeshResourceCmo.h"
 #include "PsBinResource.h"
 #include "PsHlslResource.h"
@@ -98,6 +99,13 @@ namespace Dx
     return res;
   }
 
+  const IGltfResource& ResourceController::getGltf(const fs::path& i_name) const
+  {
+    auto& res = getResource<IGltfResource>(d_resources, i_name, d_resourceFolder);
+    loadResource(res);
+    return res;
+  }
+
 
   void ResourceController::loadResource(ILoadableResource& i_resource) const
   {
@@ -143,6 +151,7 @@ namespace Dx
         const std::regex psHlslPattern("\\w*.(ps.hlsl)$");
         const std::regex fontPattern("\\w*.(spritefont)$");
         const std::regex fbxPattern("\\w*.(fbx)$");
+        const std::regex gltfPattern("\\w*.(glb|gltf)$");
 
         if (std::regex_match(path.filename().string(), modelCmoPattern))
           d_resources.insert({ path.string(), std::make_shared<MeshResourceCmo>(path) });
@@ -160,6 +169,8 @@ namespace Dx
           d_resources.insert({ path.string(), std::make_shared<FontResource>(path) });
         else if (std::regex_match(path.filename().string(), fbxPattern))
           d_resources.insert({ path.string(), std::make_shared<FbxResource>(path) });
+        else if (std::regex_match(path.filename().string(), gltfPattern))
+          d_resources.insert({ path.string(), std::make_shared<GltfResource>(path) });
       }
     }
   }

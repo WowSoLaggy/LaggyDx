@@ -6,7 +6,7 @@
 
 namespace Dx
 {
-  const std::vector<std::unique_ptr<IMesh>>& Model::getMeshes() const { return d_meshes; }
+  const std::vector<std::shared_ptr<IMesh>>& Model::getMeshes() const { return d_meshes; }
   const AnimationsMap& Model::getAnimations() const { return d_animations; }
   const Aabb& Model::getAabb() const { return d_aabb; }
   const IMesh& Model::getAabbMesh() const
@@ -16,7 +16,7 @@ namespace Dx
   }
 
 
-  void Model::addMesh(std::unique_ptr<IMesh> i_mesh)
+  void Model::addMesh(std::shared_ptr<IMesh> i_mesh)
   {
     d_meshes.push_back(std::move(i_mesh));
     updateAabb();
