@@ -31,6 +31,11 @@ namespace Dx
   float Aabb::getMaxZ() const { return d_zMax; }
 
 
+  float Aabb::getLengthX() const { return d_xMax - d_xMin; }
+  float Aabb::getLengthY() const { return d_yMax - d_yMin; }
+  float Aabb::getLengthZ() const { return d_zMax - d_zMin; }
+
+
   void Aabb::mergeWith(const Aabb& i_other)
   {
     d_xMin = std::min(d_xMin, i_other.d_xMin);

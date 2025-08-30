@@ -216,6 +216,38 @@ namespace Dx
       CONTRACT_THROW("Unreachable code");
     }
 
+    Aabb calculateAabb(const std::vector<float>& i_positions)
+    {
+      if (i_positions.size() < 3)
+        return Aabb();
+
+      float xMin = i_positions[0];
+      float xMax = i_positions[0];
+      float yMin = i_positions[1];
+      float yMax = i_positions[1];
+      float zMin = i_positions[2];
+      float zMax = i_positions[2];
+
+      const int vertexCount = (int)i_positions.size() / 3;
+      for (int i = 1; i < vertexCount; ++i)
+      {
+        float x = i_positions[i * 3 + 0];
+        float y = i_positions[i * 3 + 1];
+        float z = i_positions[i * 3 + 2];
+
+        if (x < xMin) xMin = x;
+        if (x > xMax) xMax = x;
+
+        if (y < yMin) yMin = y;
+        if (y > yMax) yMax = y;
+
+        if (z < zMin) zMin = z;
+        if (z > zMax) zMax = z;
+      }
+
+      return Aabb(xMin, xMax, yMin, yMax, zMin, zMax);
+    }
+
   } // anon NS
 
 
@@ -255,21 +287,11 @@ namespace Dx
         const auto indices = extractIndices(gltfModel, primitive);
         const auto indexBuffer = std::make_shared<IndexBuffer>(i_renderDevice, indices);
 
-        // --- Compute AABB (pseudo-code, adapt as needed) ---
-        /*Aabb aabb;
-        if (!positions.empty())
-        {
-          for (size_t i = 0; i < positions.size(); i += 3)
-          {
-            Sdk::Vector3F p{ positions[i], positions[i + 1], positions[i + 2] };
-            aabb.expandToInclude(p);
-          }
-        }*/
-
         // Create mesh and add to model
         auto mesh = std::make_shared<Mesh>();
         mesh->setVertexBuffer(vertexBuffer);
         mesh->setIndexBuffer(indexBuffer);
+        mesh->setAabb(calculateAabb(positions));
 
         // Setup material
         MaterialSpan matSpan;

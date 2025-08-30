@@ -22,6 +22,10 @@ namespace Dx
     float getMinZ() const;
     float getMaxZ() const;
 
+    float getLengthX() const;
+    float getLengthY() const;
+    float getLengthZ() const;
+
     void mergeWith(const Aabb& i_other);
     std::optional<double> intersect(const Sdk::RayF& i_ray) const;
     void translate(const Sdk::Vector3F& i_translation);
