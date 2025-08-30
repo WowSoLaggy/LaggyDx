@@ -567,7 +567,7 @@
     <ClInclude Include="IFontResource.h">
       <Filter>src\Resources\Fonts</Filter>
     </ClInclude>
-    <ClInclude Include="MemoryTexture.h">
+    <ClInclude Include="TextureView.h">
       <Filter>src\Resources\Textures</Filter>
     </ClInclude>
     <ClInclude Include="TextureBase.h">
@@ -698,6 +698,9 @@
     </ClInclude>
     <ClInclude Include="GltfResource.h">
       <Filter>src\Resources\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryTexture.h">
+      <Filter>src\Resources\Textures</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -989,7 +992,7 @@
     <ClCompile Include="FontResource.cpp">
       <Filter>src\Resources\Fonts</Filter>
     </ClCompile>
-    <ClCompile Include="MemoryTexture.cpp">
+    <ClCompile Include="TextureView.cpp">
       <Filter>src\Resources\Textures</Filter>
     </ClCompile>
     <ClCompile Include="TextureBase.cpp">
@@ -1072,6 +1075,9 @@
     </ClCompile>
     <ClCompile Include="GltfResource.cpp">
       <Filter>src\Resources\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryTexture.cpp">
+      <Filter>src\Resources\Textures</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,7 @@
 #include "IndexBuffer.h"
 #include "Mesh.h"
 #include "Model.h"
+#include "TextureUtils.h"
 #include "VertexBuffer.h"
 #include "VertexTypes.h"
 
@@ -165,6 +166,56 @@ namespace Dx
       return vertices;
     }
 
+    std::shared_ptr<MemoryTexture> extractTexture(const IRenderDevice& i_renderDevice,
+      const tinygltf::Model& gltfModel, const tinygltf::Primitive& primitive)
+    {
+      if (primitive.material >= 0 && primitive.material < gltfModel.materials.size())
+      {
+        const auto& gltfMaterial = gltfModel.materials[primitive.material];
+        if (gltfMaterial.pbrMetallicRoughness.baseColorTexture.index >= 0)
+        {
+          int textureIndex = gltfMaterial.pbrMetallicRoughness.baseColorTexture.index;
+          if (textureIndex < gltfModel.textures.size())
+          {
+            const auto& gltfTexture = gltfModel.textures[textureIndex];
+            if (gltfTexture.source >= 0 && gltfTexture.source < gltfModel.images.size())
+            {
+              //const auto& gltfImage = gltfModel.images[gltfTexture.source];
+              //textureName = gltfImage.uri; // This is the filename (relative to the glTF file)
+
+              const auto& gltfImage = gltfModel.images[gltfTexture.source];
+
+              if (!gltfImage.uri.empty())
+              {
+                // External file
+                CONTRACT_THROW("Not Implemented");
+              }
+              else if (!gltfImage.image.empty())
+              {
+                // Decoded pixel data (RGBA, etc.)
+                // gltfImage.image: std::vector<unsigned char>
+                // gltfImage.width, gltfImage.height, gltfImage.component
+                return TextureUtils::createMemoryTexture(
+                  i_renderDevice,
+                  gltfImage.image.data(),
+                  static_cast<int>(gltfImage.width),
+                  static_cast<int>(gltfImage.height),
+                  static_cast<TextureUtils::GlChannels>(gltfImage.component));
+              }
+              else if (gltfImage.bufferView >= 0)
+              {
+                // Raw image bytes (PNG/JPEG) in buffer
+                // You can extract the bytes and decode as needed
+                CONTRACT_THROW("Not Implemented");
+              }
+            }
+          }
+        }
+      }
+
+      CONTRACT_THROW("Unreachable code");
+    }
+
   } // anon NS
 
 
@@ -224,7 +275,7 @@ namespace Dx
         MaterialSpan matSpan;
         matSpan.startIndex = 0;
         matSpan.count = indexBuffer->getIndexCount();
-        matSpan.material.textureName = "White.png";
+        matSpan.material.texture = extractTexture(i_renderDevice, gltfModel, primitive);
         mesh->getMaterials().push_back(std::move(matSpan));
 
         model->addMesh(mesh);

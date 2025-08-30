@@ -5,6 +5,7 @@
 #include "IndexBuffer.h"
 #include "IObject3.h"
 #include "IResourceController.h"
+#include "MemoryTexture.h"
 #include "Model.h"
 #include "RenderDevice.h"
 #include "ShadersUtils.h"
@@ -156,6 +157,11 @@ namespace Dx
       const auto& texture = getResourceController().getTexture(i_material.textureName);
       auto* texturePtr = texture.getTexturePtr();
 
+      getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 1, &texturePtr);
+    }
+    else if (i_material.texture)
+    {
+      auto* texturePtr = i_material.texture->getTexturePtr();
       getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 1, &texturePtr);
     }
   }

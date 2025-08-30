@@ -1,21 +1,17 @@
 #pragma once
 
-#include "ITexture.h"
-#include "DxResourceWrapper.h"
+#include "TextureBase.h"
 
 
 namespace Dx
 {
-  class MemoryTexture : public ITexture
+  // Memory texture DOESN'T own texture ptr!
+  class TextureView : public TextureBase
   {
   public:
-    MemoryTexture(DxResourceWrapper<ID3D11Texture2D> i_texture, ID3D11ShaderResourceView& i_srv);
-    virtual ~MemoryTexture() override;
+    TextureView(ID3D11ShaderResourceView* i_texture, const D3D11_TEXTURE2D_DESC& i_desc);
 
     virtual fs::path getFilename() const override;
-
-    virtual void load(IRenderDevice& i_renderDevice) override;
-    virtual void unload() override;
 
     virtual const ImageDescription& getDescription() const override;
     virtual const Animations2Map& getAnimationsMap() const override;
@@ -23,14 +19,15 @@ namespace Dx
     virtual bool hasAlpha() const override;
     virtual bool checkAlpha(Sdk::Vector2I i_coords, int i_frame = 0) const override;
 
-    virtual const std::shared_ptr<IBitmap> getBitmap(IRenderDevice& i_renderDevice) const override;
-
     virtual ID3D11ShaderResourceView* getTexturePtr() const override;
     virtual const D3D11_TEXTURE2D_DESC& getTextureDesc() const override;
 
+    virtual void load(IRenderDevice& i_renderDevice) override;
+    virtual void unload() override;
+
   private:
-    DxResourceWrapper<ID3D11Texture2D> d_texture;
-    ID3D11ShaderResourceView& d_srv;
+    ID3D11ShaderResourceView* d_texture = nullptr;
+    std::shared_ptr<D3D11_TEXTURE2D_DESC> d_textureDesc;
   };
 
 } // ns Dx

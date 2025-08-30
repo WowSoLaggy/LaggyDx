@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "RenderDevice.h"
 
-#include "MemoryTexture.h"
 #include "RefreshRate.h"
+#include "TextureView.h"
 
 
 namespace Dx
@@ -368,7 +368,7 @@ namespace Dx
     CONTRACT_ASSERT(d_depthStencilTextureView.isNotNullptr());
 
     // Create depth buffer texture
-    d_depthBufferTexture = std::make_shared<MemoryTexture>(d_depthStencilTextureView.get(), depthTextureDesc);
+    d_depthBufferTexture = std::make_shared<TextureView>(d_depthStencilTextureView.get(), depthTextureDesc);
   }
 
   void RenderDevice::attachViewport()

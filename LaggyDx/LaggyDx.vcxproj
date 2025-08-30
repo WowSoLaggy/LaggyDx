@@ -178,6 +178,7 @@
     <ClInclude Include="ITileCollection.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="MemoryTexture.h" />
+    <ClInclude Include="TextureView.h" />
     <ClInclude Include="RefreshRate.h" />
     <ClInclude Include="Roam.h" />
     <ClInclude Include="FirstPersonCamera.h" />
@@ -346,6 +347,7 @@
     <ClCompile Include="ISpriteShader.cpp" />
     <ClCompile Include="IThdObject.cpp" />
     <ClCompile Include="MemoryTexture.cpp" />
+    <ClCompile Include="TextureView.cpp" />
     <ClCompile Include="Roam.cpp" />
     <ClCompile Include="FbxResource.cpp" />
     <ClCompile Include="FirstPersonCamera.cpp" />
