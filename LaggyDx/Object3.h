@@ -1,8 +1,6 @@
 #pragma once
 
-#include "IndexBuffer.h"
 #include "IObject3.h"
-#include "VertexBuffer.h"
 
 namespace Dx
 {
