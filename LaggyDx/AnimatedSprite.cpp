@@ -7,6 +7,13 @@
 
 namespace Dx
 {
+  AnimatedSprite::AnimatedSprite(const std::string& i_textureName, Sdk::Vector2F i_size)
+  {
+    setTexture(i_textureName);
+    setSize(std::move(i_size));
+  }
+
+
   RECT AnimatedSprite::getSourceRect() const
   {
     CONTRACT_EXPECT(d_texture);

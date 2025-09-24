@@ -9,6 +9,9 @@ namespace Dx
   class AnimatedSprite : public Sprite
   {
   public:
+    AnimatedSprite() = default;
+    AnimatedSprite(const std::string& i_textureName, Sdk::Vector2F i_size);
+
     virtual RECT getSourceRect() const override;
 
     void setCurrentFrame(int i_curFrame);
