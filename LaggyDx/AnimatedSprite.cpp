@@ -7,10 +7,11 @@
 
 namespace Dx
 {
-  AnimatedSprite::AnimatedSprite(const std::string& i_textureName, Sdk::Vector2F i_size)
+  AnimatedSprite::AnimatedSprite(const std::string& i_textureName, Sdk::Vector2F i_size, Color i_color)
   {
     setTexture(i_textureName);
     setSize(std::move(i_size));
+    setColor(std::move(i_color));
   }
 
 

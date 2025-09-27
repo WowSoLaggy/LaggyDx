@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Colors.h"
 #include "ImageAnimation.h"
 #include "Sprite.h"
 
@@ -10,7 +11,7 @@ namespace Dx
   {
   public:
     AnimatedSprite() = default;
-    AnimatedSprite(const std::string& i_textureName, Sdk::Vector2F i_size);
+    AnimatedSprite(const std::string& i_textureName, Sdk::Vector2F i_size, Color i_color = Colors::White);
 
     virtual RECT getSourceRect() const override;
 
