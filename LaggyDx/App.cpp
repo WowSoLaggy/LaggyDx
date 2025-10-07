@@ -283,12 +283,18 @@ namespace Dx
     return false;
   }
 
-  void App::onMouseRelease(MouseKey i_key)
+  bool App::onMouseRelease(MouseKey i_key)
   {
-    getForm().onMouseRelease(i_key);
+    if (getForm().onMouseRelease(i_key))
+      return true;
 
     if (const auto* action = d_actionsMap.getAction(i_key, ActionType::OnRelease))
+    {
       action->operator()();
+      return true;
+    }
+
+    return false;
   }
 
 
