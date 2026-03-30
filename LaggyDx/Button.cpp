@@ -18,9 +18,9 @@ namespace Dx
     updateTexture();
   }
 
-  void Button::setTextureName(const ButtonState i_state, std::string i_textureName)
+  void Button::setTextureName(const std::string& i_textureName, const ButtonState i_state)
   {
-    d_textures[i_state] = std::move(i_textureName);
+    d_textures[i_state] = i_textureName;
     if (i_state == d_state)
       updateTexture();
   }

@@ -27,7 +27,7 @@ namespace Dx
   {
   public:
     void setTextureName(const std::string& i_textureName);
-    void setTextureName(ButtonState i_state, std::string i_textureName);
+    void setTextureName(const std::string& i_textureName, ButtonState i_state);
 
     virtual void render(IRenderer2d& i_renderer) const override;
 
