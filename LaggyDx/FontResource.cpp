@@ -20,6 +20,7 @@ namespace Dx
     auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
 
     d_spriteFont = std::make_shared<SpriteFont>(renderDevice.getDevicePtr(), d_fontFilePath.wstring().c_str());
+    d_spriteFont->SetPixelAlignment(true);
   }
 
   void FontResource::unload()
