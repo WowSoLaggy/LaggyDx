@@ -10,7 +10,7 @@ namespace Dx
   enum class ButtonState
   {
     Normal = 0,
-    Hover,
+    Hovered,
     Pressed,
 
     Count

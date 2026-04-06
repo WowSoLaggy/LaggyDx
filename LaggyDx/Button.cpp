@@ -54,11 +54,11 @@ namespace Dx
     if (getRectAbsolute().getRect<int>().containsPoint(mousePos))
     {
       if (d_state == ButtonState::Normal)
-        setState(ButtonState::Hover);
+        setState(ButtonState::Hovered);
     }
     else
     {
-      if (d_state == ButtonState::Hover)
+      if (d_state == ButtonState::Hovered)
         setState(ButtonState::Normal);
     }
   }
@@ -85,7 +85,7 @@ namespace Dx
       const auto& mousePos = App::get().getInputDevice().getMousePosition();
       if (getRectAbsolute().getRect<int>().containsPoint(mousePos))
       {
-        setState(ButtonState::Hover);
+        setState(ButtonState::Hovered);
         onPress();
       }
       else
