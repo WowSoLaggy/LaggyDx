@@ -12,7 +12,6 @@
 #include "KeyboardState.h"
 #include "KeyUtils.h"
 #include "Renderer2dGuard.h"
-#include "TextRenderer.h"
 
 #include <LaggySdk/Cursor.h>
 #include <LaggySdk/HandleMessages.h>
@@ -52,9 +51,6 @@ namespace Dx
     d_renderer2d = IRenderer2d::create(*d_renderDevice, resolution);
     CONTRACT_ENSURE(d_renderer2d);
 
-    d_textRenderer = std::make_unique<TextRenderer>();
-    CONTRACT_ENSURE(d_textRenderer);
-
     d_inputDevice = IInputDevice::create(d_window->getHWnd());
     CONTRACT_ENSURE(d_inputDevice);
     connectTo(*d_inputDevice);
@@ -84,8 +80,6 @@ namespace Dx
   const IResourceController& App::getResourceController() const { return SAFE_DEREF(d_resourceController); }
   IRenderer2d& App::getRenderer2d() { return SAFE_DEREF(d_renderer2d); }
   const IRenderer2d& App::getRenderer2d() const { return SAFE_DEREF(d_renderer2d); }
-  ITextRenderer& App::getTextRenderer() { return SAFE_DEREF(d_textRenderer); }
-  const ITextRenderer& App::getTextRenderer() const { return SAFE_DEREF(d_textRenderer); }
 
   ActionsMap& App::getActionsMap() { return d_actionsMap; }
   const ActionsMap& App::getActionsMap() const { return d_actionsMap; }
@@ -168,7 +162,6 @@ namespace Dx
       CONTRACT_ASSERT(d_renderDevice);
       const Sdk::Locker scopeLocker(*d_renderDevice);
       Sdk::ScopeGuard scopeGuardRenderDevice(*d_renderDevice);
-      Sdk::ScopeGuard scopeGuardTextRenderer(SAFE_DEREF(d_textRenderer));
 
       render();
       renderGui();

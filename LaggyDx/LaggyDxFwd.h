@@ -17,7 +17,6 @@ namespace Dx
   class IRenderer2d;
   class IRenderer3d;
   class ISimpleRenderer;
-  class ITextRenderer;
 
   class IResourceController;
   class ILoadableResource;

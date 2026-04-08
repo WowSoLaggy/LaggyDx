@@ -160,9 +160,6 @@
     <Filter Include="src\Console">
       <UniqueIdentifier>{4715ccf0-1da0-43f9-b8ed-b8d30ce50858}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Renderers\TextRenderer">
-      <UniqueIdentifier>{659b826c-08fd-4672-89f1-bdcf976d7b2e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="libs\tiny_gltf">
       <UniqueIdentifier>{a22d10d9-2f65-4d8b-83c5-17059d549f35}</UniqueIdentifier>
     </Filter>
@@ -669,12 +666,6 @@
     <ClInclude Include="IThdObject.h">
       <Filter>src\ThermoDynamics</Filter>
     </ClInclude>
-    <ClInclude Include="TextRenderer.h">
-      <Filter>src\Renderers\TextRenderer</Filter>
-    </ClInclude>
-    <ClInclude Include="ITextRenderer.h">
-      <Filter>src\Renderers\TextRenderer</Filter>
-    </ClInclude>
     <ClInclude Include="tiny_gltf.h">
       <Filter>libs\tiny_gltf</Filter>
     </ClInclude>
@@ -1063,9 +1054,6 @@
     </ClCompile>
     <ClCompile Include="IThdObject.cpp">
       <Filter>src\ThermoDynamics</Filter>
-    </ClCompile>
-    <ClCompile Include="TextRenderer.cpp">
-      <Filter>src\Renderers\TextRenderer</Filter>
     </ClCompile>
     <ClCompile Include="miniz.cpp">
       <Filter>libs\miniz</Filter>

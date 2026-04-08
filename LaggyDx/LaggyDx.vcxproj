@@ -172,7 +172,6 @@
     <ClInclude Include="IGltfResource.h" />
     <ClInclude Include="ISprite.h" />
     <ClInclude Include="ISpriteShader.h" />
-    <ClInclude Include="ITextRenderer.h" />
     <ClInclude Include="IThdObject.h" />
     <ClInclude Include="ITile.h" />
     <ClInclude Include="ITileCollection.h" />
@@ -231,7 +230,6 @@
     <ClInclude Include="SpriteShader.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="stb_image_write.h" />
-    <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="TextureBase.h" />
     <ClInclude Include="TextureUtils.h" />
     <ClInclude Include="ThirdPersonCamera.h" />
@@ -382,7 +380,6 @@
     <ClCompile Include="SkydomeShader.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="SpriteShader.cpp" />
-    <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="TextureBase.cpp" />
     <ClCompile Include="TextureUtils.cpp" />
     <ClCompile Include="Simulation.cpp" />
