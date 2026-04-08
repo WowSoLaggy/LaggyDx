@@ -30,11 +30,11 @@ namespace Dx
     i_renderer.renderSprite(d_spriteSlider);
 
     if (d_showLabelMin)
-      d_textMin.render(pos + d_textMinPosition);
+      d_textMin.render(i_renderer, pos + d_textMinPosition);
     if (d_showLabelMax)
-      d_textMax.render(pos + d_textMaxPosition);
+      d_textMax.render(i_renderer, pos + d_textMaxPosition);
     if (d_showLabelCurrent)
-      d_textCurrent.render(pos + d_textCurrentPosition);
+      d_textCurrent.render(i_renderer, pos + d_textCurrentPosition);
   }
 
 

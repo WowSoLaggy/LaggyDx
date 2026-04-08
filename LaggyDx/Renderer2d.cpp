@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Renderer2d.h"
 
+#include "FontResource.h"
 #include "IShape2d.h"
 #include "RenderDevice.h"
 #include "ResourceController.h"
@@ -153,6 +154,25 @@ namespace Dx
       rotation, { rotationOrigin.x, rotationOrigin.y });
 
     ++d_renderedSprites;
+  }
+
+  void Renderer2d::renderText(
+    const std::string& i_text,
+    const IFontResource& i_fontResource,
+    const Sdk::Vector2F& i_translation,
+    const Sdk::Vector4F& i_color,
+    float i_scale)
+  {
+    const auto& fontResource = dynamic_cast<const FontResource&>(i_fontResource);
+
+    fontResource.getSpriteFont()->DrawString(
+      &d_spriteBatch,
+      Sdk::s2ws(i_text).c_str(),
+      XMFLOAT2(i_translation.x, i_translation.y),
+      { i_color.x, i_color.y, i_color.z, i_color.w },
+      0,
+      { 0, 0 },
+      i_scale);
   }
 
   void Renderer2d::renderLine(const Sdk::Vector2F& i_start, const Sdk::Vector2F& i_end,

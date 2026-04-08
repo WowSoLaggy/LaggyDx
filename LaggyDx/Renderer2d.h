@@ -41,6 +41,13 @@ namespace Dx
                             const Sdk::Vector4F& i_color) override;
     virtual void renderRect(const Sdk::RectI& i_rect, const Sdk::Vector4F& i_color) override;
 
+    virtual void renderText(
+      const std::string& i_text,
+      const IFontResource& i_fontResource,
+      const Sdk::Vector2F& i_translation,
+      const Sdk::Vector4F& i_color,
+      float i_scale) override;
+
   private:
     RenderDevice& d_renderDevice;
     Sdk::Vector2I d_resolution;

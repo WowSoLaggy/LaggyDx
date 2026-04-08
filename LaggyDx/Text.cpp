@@ -9,15 +9,10 @@
 
 namespace Dx
 {
-  void Text::render(const Sdk::Vector2F& i_position) const
+  void Text::render(IRenderer2d& i_renderer, const Sdk::Vector2F& i_position) const
   {
-    CONTRACT_ASSERT(d_text.empty() || d_fontResource);
-
-    if (d_fontResource && !d_text.empty())
-    {
-      const auto& textRenderer = App::get().getTextRenderer();
-      textRenderer.render(d_text, *d_fontResource, i_position, d_color, d_scale);
-    }
+    if (!d_text.empty())
+      i_renderer.renderText(d_text, SAFE_DEREF(d_fontResource), i_position, d_color, d_scale);
   }
 
 
