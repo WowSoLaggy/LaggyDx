@@ -123,6 +123,24 @@ namespace Dx
 
       break;
     }
+    case LayoutAlign::TopToBottom_CenterBottom:
+    {
+      float yNext = getSize().y;
+      const auto& childrenReversed = getChildren() | std::views::reverse;
+      for (auto& ctrlNode : childrenReversed)
+      {
+        auto& ctrl = dynamic_cast<IControl&>(*ctrlNode);
+        if (!ctrl.getVisible())
+          continue;
+        yNext -= ctrl.getSize().y;
+        const auto ctrlHalfWidth = ctrl.getSize().x / 2;
+        const auto ownHalfWidthPos = getPositionRelative().x + getSize().x / 2;
+        const auto newPos = Sdk::Vector2F{ ownHalfWidthPos - ctrlHalfWidth, yNext } - bordersOffset;
+        ctrl.setPosition(newPos);
+        yNext -= d_offsetBetweenElements;
+      }
+      break;
+    }
     case LayoutAlign::LeftToRight_TopSide:
     {
       float xNext = 0;
