@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Control.h"
-#include "Sprite.h"
+#include "AnimatedSprite.h"
 #include "Text.h"
 
 
@@ -47,11 +47,13 @@ namespace Dx
     void setTextScale(float i_scale);
     float getTextScale() const;
 
+    void setColor(Sdk::Vector4F i_color);
+
     void onPress();
     void setOnPress(std::function<void()> i_onPress);
 
   private:
-    Sprite d_sprite;
+    AnimatedSprite d_sprite;
     Text d_text;
 
     ButtonState d_state = ButtonState::Normal;

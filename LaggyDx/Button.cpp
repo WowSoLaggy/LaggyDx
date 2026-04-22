@@ -136,6 +136,12 @@ namespace Dx
   }
 
 
+  void Button::setColor(Sdk::Vector4F i_color)
+  {
+    d_sprite.setColor(std::move(i_color));
+  }
+
+
   void Button::onPress()
   {
     if (d_onPress)
