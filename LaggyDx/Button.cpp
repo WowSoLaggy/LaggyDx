@@ -50,6 +50,9 @@ namespace Dx
 
   void Button::onMouseMove()
   {
+    if (d_state == ButtonState::Disabled)
+      return;
+
     const auto& mousePos = App::get().getInputDevice().getMousePosition();
     if (getRectAbsolute().getRect<int>().containsPoint(mousePos))
     {
@@ -65,6 +68,9 @@ namespace Dx
 
   bool Button::onMouseClick(MouseKey i_key)
   {
+    if (d_state == ButtonState::Disabled)
+      return false;
+
     if (i_key == MouseKey::Left)
     {
       const auto& mousePos = App::get().getInputDevice().getMousePosition();
@@ -80,6 +86,9 @@ namespace Dx
 
   bool Button::onMouseRelease(MouseKey i_key)
   {
+    if (d_state == ButtonState::Disabled)
+      return false;
+
     if (i_key == MouseKey::Left && d_state == ButtonState::Pressed)
     {
       const auto& mousePos = App::get().getInputDevice().getMousePosition();
@@ -139,6 +148,20 @@ namespace Dx
   void Button::setColor(Sdk::Vector4F i_color)
   {
     d_sprite.setColor(std::move(i_color));
+  }
+
+
+  void Button::setDisabled(const bool i_disabled)
+  {
+    if (i_disabled)
+      setState(ButtonState::Disabled);
+    else if (d_state == ButtonState::Disabled)
+      setState(ButtonState::Normal);
+  }
+
+  bool Button::isDisabled() const
+  {
+    return d_state == ButtonState::Disabled;
   }
 
 

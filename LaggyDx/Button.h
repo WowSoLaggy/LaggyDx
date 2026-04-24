@@ -12,6 +12,7 @@ namespace Dx
     Normal = 0,
     Hovered,
     Pressed,
+    Disabled,
 
     Count
   };
@@ -48,6 +49,9 @@ namespace Dx
     float getTextScale() const;
 
     void setColor(Sdk::Vector4F i_color);
+
+    void setDisabled(bool i_disabled);
+    bool isDisabled() const;
 
     void onPress();
     void setOnPress(std::function<void()> i_onPress);
