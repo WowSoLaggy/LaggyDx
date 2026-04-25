@@ -113,6 +113,11 @@ namespace Dx
     updateTextOffset();
   }
 
+  void Button::setTextColor(Sdk::Vector4F i_color)
+  {
+    d_text.setColor(colorWithAlpha(i_color, (float)getOpacity()));
+  }
+
   void Button::setFont(const std::string& i_fontName)
   {
     d_text.setFont(i_fontName);

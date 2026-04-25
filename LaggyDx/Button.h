@@ -40,6 +40,7 @@ namespace Dx
     void resetSizeToTexture();
 
     void setText(std::string i_text);
+    void setTextColor(Sdk::Vector4F i_color);
     void setFont(const std::string& i_fontName);
 
     void setTextAlignment(TextAlignment i_alignment);
