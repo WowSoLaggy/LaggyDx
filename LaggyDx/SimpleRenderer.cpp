@@ -26,7 +26,7 @@ namespace Dx
     , d_camera(i_camera)
     , d_pixelShader(i_resourceController.getPs("SimpleShader.ps.hlsl"))
     , d_vertexShader(i_resourceController.getVs("SimpleShader.vs.hlsl"))
-    , d_emptyTexture(i_resourceController.getTexture("White.png"))
+    , d_emptyTexture(i_resourceController.getTexture("white.png"))
   {
     createBuffers();
   }

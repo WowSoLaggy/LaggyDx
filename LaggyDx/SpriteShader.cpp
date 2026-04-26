@@ -24,7 +24,7 @@ namespace Dx
     , d_matrixBuffer(getRenderDevice(), sizeof(WorldViewProj))
     , d_uvOffsetBuffer(getRenderDevice(), sizeof(UvOffsetDesc))
     , d_colorBuffer(getRenderDevice(), sizeof(ColorDesc))
-    , d_emptyTexture(getResourceController().getTexture("White.png"))
+    , d_emptyTexture(getResourceController().getTexture("white.png"))
   {
     getShaders().initVs(g_spriteVs, sizeof(g_spriteVs), getVertexLayoutPos2Text());
     getShaders().initPs(g_spritePs, sizeof(g_spritePs));

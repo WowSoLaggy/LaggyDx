@@ -28,7 +28,7 @@ namespace Dx
     , d_waveBuffer(getRenderDevice(), sizeof(WaveDesc))
     , d_texturesDisplacementBuffer(getRenderDevice(), sizeof(TextureDisplacementDesc))
     , d_camera(i_camera)
-    , d_emptyTexture(getResourceController().getTexture("White.png"))
+    , d_emptyTexture(getResourceController().getTexture("white.png"))
     , d_bumpTexture(getResourceController().getTexture("bump.png"))
   {
     getShaders().initVs(g_oceanVs, sizeof(g_oceanVs), getVertexLayoutPos3NormText());

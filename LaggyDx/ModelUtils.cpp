@@ -36,7 +36,7 @@ namespace Dx
       MaterialSpan matSpan;
       matSpan.startIndex = 0;
       matSpan.count = (int)i_shape.getInds().size();
-      matSpan.material.textureName = "White.png";
+      matSpan.material.textureName = "white.png";
       mesh->getMaterials().push_back(std::move(matSpan));
     }
 
@@ -88,7 +88,7 @@ namespace Dx
     MaterialSpan matSpan;
     matSpan.startIndex = 0;
     matSpan.count = (int)inds.size();
-    matSpan.material.textureName = "White.png";
+    matSpan.material.textureName = "white.png";
 
     mesh->getMaterials().push_back(std::move(matSpan));
 
