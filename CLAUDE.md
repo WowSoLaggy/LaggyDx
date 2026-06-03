@@ -122,6 +122,128 @@ A separate sub-namespace under `Dx::thd` for a tile-based thermal/gas simulation
 
 `Console` is a debug overlay with `ConsoleLineType` (Debug/Info/Error) entries; `App::getFpsCounter()` exposes the `Sdk::FpsCounter`.
 
+## Building a 2D game with LaggyDx
+
+The sibling `AllodsApp` project (`..\AllodsApp\AllodsApp`) is the canonical example. The pattern below is taken from it.
+
+### Entry point and `App` subclass
+
+`WinMain` is one line — construct your `App` subclass and call `run()`:
+
+```cpp
+int WinMain(HINSTANCE, HINSTANCE, LPSTR, int) { Game().run(); return 0; }
+```
+
+Subclass `Dx::App`, pass an `AppSettings` (resolution, assets folder) to the base constructor, and override the protected virtuals. The minimum set for a 2D game is `onStart`, `update(double dt)`, `render()`, plus whichever input hooks you need (`onMouseMove`, `onMouseClick`, `onMouseRelease` — note both click hooks return `bool` where `true` means consumed):
+
+```cpp
+class Game : public Dx::App {
+public:
+  Game() : Dx::App(makeSettings()), d_gui(*this), d_actions(*this) {}
+private:
+  void onStart() override;
+  void update(double dt) override;
+  void render() override;
+  bool onMouseClick(Dx::MouseKey k) override;
+};
+```
+
+### Main loop (what `App::run()` already does for you)
+
+You do not write the loop. `App::run()` calls `onStart()`, then per frame: ticks the timer, polls `IInputDevice` and dispatches `onKey*`/`onMouse*` (which both fire SDK events AND look up callbacks in the `ActionsMap`), calls `notify(OnUpdate(dt))`, then `update(dt)` → `updateGui(dt)` → render block → `render()` → `renderGui()`. The render block is already wrapped in a `Sdk::Locker(*renderDevice)` + `Sdk::ScopeGuard(*renderDevice)`, so your `render()` override just issues draws.
+
+Your `update(double dt)` typically forwards to your simulation: tick the session, the GUI manager, and the view controller. Your `render()` typically forwards to the view controller. See `AllodsApp/Game.cpp` for the canonical shape.
+
+### Input: `ActionsMap` and direct overrides
+
+Two ways to consume input, used together:
+
+1. **`Dx::ActionsMap`** — declarative map of `(KeyboardKey | MouseKey, ActionType)` → `Action` (`std::function<void()>`). `ActionType` is `OnPress` / `OnRelease` / `Continuous`. Build a map and install it with `App::setActionsMap(std::move(map))`. Swap maps when game state changes (main menu vs in-game vs dev mode). Example from `AllodsApp/ActionsController.cpp`:
+
+   ```cpp
+   Dx::ActionsMap actions;
+   actions.setAction(Dx::KeyboardKey::Escape, [&]{ session.onEscape(); }, Dx::ActionType::OnPress);
+   actions.setAction(Dx::KeyboardKey::F1, [&]{ session.enableDevMode(); }, Dx::ActionType::OnPress);
+   d_game.setActionsMap(std::move(actions));
+   ```
+
+2. **Override the virtuals** when you need to inspect the event, consume it conditionally, or route it through layered systems (GUI first, world second). The GUI tree already short-circuits mouse events: if a control consumes the click, `App::onMouseClick` returns `true` and the `ActionsMap` is NOT invoked. Your override should follow the same protocol — call the base first, then your world handler:
+
+   ```cpp
+   bool Game::onMouseClick(Dx::MouseKey k) {
+     if (Dx::App::onMouseClick(k)) return true;       // GUI ate it
+     if (d_session && d_session->onMouseClick(k)) return true;
+     return false;
+   }
+   ```
+
+Cursor position comes from `Dx::CursorUtils::getPosition()` (returns `Vector2I`). For relative-mouse / FPS-style input, switch `MouseMode` and the engine re-centers each frame.
+
+### Rendering 2D objects
+
+Use `Dx::ISpriteShader` for sprite-based 2D rendering. Create it once per scene with a camera:
+
+```cpp
+d_shader = Dx::ISpriteShader::create(&camera);  // ICamera2&
+```
+
+Then per frame, build a `Dx::Sprite` or `Dx::AnimatedSprite`, configure it, and call `shader.draw(sprite)`. Textures come from the resource controller — fetch by filename relative to `AppSettings::assetsFolder`:
+
+```cpp
+const auto* tex = Dx::App::get().getResourceController().getTexture("Space.png");
+Dx::AnimatedSprite sprite;
+sprite.setTexture(tex);
+sprite.resetSizeToTexture();
+sprite.setCurrentFrame(animFrame);
+sprite.setPosition(worldPos - sprite.getSize() / 2);  // Vector2F
+shader.draw(sprite);
+```
+
+For scrolling backgrounds, pass a `Dx::UvOffset` to `shader.draw(sprite, &uvOffset, /*ignoreCamera=*/true)` — see `BackgroundView.cpp`. The camera (`ICamera2`) gives you `getOffset()` in world space; sprites' positions are world-space `Vector2F` and the shader applies the camera transform.
+
+Typical organization: one `View` class per kind of thing (`TileView`, `ObjectView`, `BackgroundView`, …) holding only render code. A central `ViewController::render()` walks the world and calls the views in z-order. State (positions, animation frames) lives on the game-side objects, not the views.
+
+### GUI: building the control tree
+
+The root `Dx::Form` is owned by `App` and reachable via `App::getForm()`. Build a UI by constructing controls as `std::shared_ptr`, configuring them, and `addChild`-ing them to a parent. The engine handles updating and rendering automatically (`App::updateGui` / `App::renderGui`).
+
+A small factory module per project (see `AllodsApp/GuiCreator.cpp`) is the recommended pattern — it lets you apply a consistent skin (fonts, button textures) in one place:
+
+```cpp
+Dx::Button& GuiCreator::createMenuButton(Dx::IControl& parent) {
+  auto ctrl = std::make_shared<Dx::Button>();
+  parent.addChild(ctrl);
+  ctrl->setFont(Fonts::getMenuFont());
+  ctrl->setTextureName("Button.png",        Dx::ButtonState::Normal);
+  ctrl->setTextureName("ButtonLight.png",   Dx::ButtonState::Hovered);
+  ctrl->setTextureName("ButtonPressed.png", Dx::ButtonState::Pressed);
+  ctrl->resetSizeToTexture();
+  return *ctrl;
+}
+```
+
+Example main-menu construction (from `GuiManager_mainMenu.cpp`):
+
+```cpp
+auto& bg = GuiCreator::createPanel(d_game.getForm());
+bg.setTexture("Black.png");
+bg.setSize(getResolution());
+
+auto& layout = GuiCreator::createLayout(d_game.getForm());
+layout.setSize(getResolution());
+layout.setAlign(Dx::LayoutAlign::TopToBottom_Center);
+
+auto& btn = GuiCreator::createMenuButton(layout);
+btn.setText("Start New Game");
+btn.setOnPress(std::bind(&Game::newSession, &d_game));
+```
+
+Tear it down with `d_game.getForm().removeChildren()` when switching screens. Available widgets are listed in the "GUI: retained-mode control tree" section above (`Label`, `Panel`, `Layout`, `Button`, `Checkbox`, `Slider`, `RadioButton`, `RadioGroup`, `Grid`, `Text`). Screen resolution for layout sizing: `App::get().getRenderDevice().getResolution()` (returns `Vector2I` — convert with `.getVector<float>()`).
+
+### Wiring subsystems together: events
+
+Most cross-subsystem communication uses `Sdk::EventHandler`. Your `App` subclass is already an `EventHandler`; controllers and managers `connectTo(parent)` in their constructor and override `processEvent(const Sdk::IEvent&)` with a `dynamic_cast` chain. This is how `ActionsController`, `GuiManager`, and `ViewController` all keep their state in sync with `Game` and `Session` without owning each other directly.
+
 ## Conventions worth matching
 
 Same as the sibling `LaggySdk` project:
