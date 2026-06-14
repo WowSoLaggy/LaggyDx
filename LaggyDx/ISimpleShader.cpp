@@ -6,9 +6,9 @@
 
 namespace Dx
 {
-  std::unique_ptr<ISimpleShader> ISimpleShader::create(const ICamera3& i_camera)
+  std::shared_ptr<ISimpleShader> ISimpleShader::create(const ICamera3& i_camera)
   {
-    return std::make_unique<SimpleShader>(i_camera);
+    return std::make_shared<SimpleShader>(i_camera);
   }
 
 } // ns Dx
