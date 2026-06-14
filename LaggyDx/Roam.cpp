@@ -116,12 +116,26 @@ namespace Dx
 
     if (i_tri->baseNeighbor && i_tri->baseNeighbor->baseNeighbor != i_tri)
       divideTri(i_tri->baseNeighbor, i_heightMap);
-    
-    auto newPointPos = (d_points.at(i_tri->ind2).position + d_points.at(i_tri->ind3).position) / 2;
-    if (i_heightMap)
-      newPointPos.y = (float)i_heightMap->getHeight(newPointPos.x, newPointPos.z);
-    d_points.push_back(VertexPos3NormText::pos(std::move(newPointPos)));
-    int newInd = (int)d_points.size() - 1;
+
+    // If the base neighbor already split, it created the midpoint vertex on
+    // our shared edge — reuse that index instead of pushing a duplicate.
+    // Otherwise adjacent triangles end up with two coincident vertices that
+    // each get only their own side's face-normal averaged, producing a hard
+    // shading seam along every internal edge.
+    int newInd;
+    if (i_tri->baseNeighbor && i_tri->baseNeighbor->leftChild)
+    {
+      // Both children of baseNeighbor were created with the midpoint at ind1.
+      newInd = i_tri->baseNeighbor->leftChild->ind1;
+    }
+    else
+    {
+      auto newPointPos = (d_points.at(i_tri->ind2).position + d_points.at(i_tri->ind3).position) / 2;
+      if (i_heightMap)
+        newPointPos.y = (float)i_heightMap->getHeight(newPointPos.x, newPointPos.z);
+      d_points.push_back(VertexPos3NormText::pos(std::move(newPointPos)));
+      newInd = (int)d_points.size() - 1;
+    }
 
     i_tri->leftChild = std::make_shared<Tri>(newInd, i_tri->ind1, i_tri->ind2);
     i_tri->rightChild = std::make_shared<Tri>(newInd, i_tri->ind3, i_tri->ind1);
@@ -228,7 +242,7 @@ namespace Dx
     calc(*d_root->baseNeighbor);
 
     for (int i = 0; i < (int)d_points.size(); ++i)
-      d_points[i].normal = addedNormals[i] / addedNormalsNum[i];
+      d_points[i].normal = Sdk::normalize(addedNormals[i]);
   }
 
   void Roam::collectInds()
