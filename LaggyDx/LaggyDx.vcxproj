@@ -190,6 +190,7 @@
     <ClInclude Include="IOceanShader.h" />
     <ClInclude Include="ISimpleShader.h" />
     <ClInclude Include="ISkydomeShader.h" />
+    <ClInclude Include="ITerrainShader.h" />
     <ClInclude Include="MouseMode.h" />
     <ClInclude Include="Obb.h" />
     <ClInclude Include="Button.h" />
@@ -225,6 +226,7 @@
     <ClInclude Include="ShaderWrapper.h" />
     <ClInclude Include="Shape3dUtils.h" />
     <ClInclude Include="SimpleShader.h" />
+    <ClInclude Include="TerrainShader.h" />
     <ClInclude Include="SkydomeShader.h" />
     <ClInclude Include="Slider.h" />
     <ClInclude Include="SpriteShader.h" />
@@ -358,6 +360,7 @@
     <ClCompile Include="IShape3d_spheroids.cpp" />
     <ClCompile Include="ISimpleRenderer.cpp" />
     <ClCompile Include="ISimpleShader.cpp" />
+    <ClCompile Include="ITerrainShader.cpp" />
     <ClCompile Include="ISkydomeShader.cpp" />
     <ClCompile Include="Layout.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -377,6 +380,7 @@
     <ClCompile Include="Shape3d.cpp" />
     <ClCompile Include="Shape3dUtils.cpp" />
     <ClCompile Include="SimpleShader.cpp" />
+    <ClCompile Include="TerrainShader.cpp" />
     <ClCompile Include="SkydomeShader.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="SpriteShader.cpp" />
@@ -477,6 +481,18 @@
       <ShaderModel>5.0</ShaderModel>
       <VariableName>g_simpleVs</VariableName>
       <HeaderFileOutput>Generated/Simple.gen.vs.h</HeaderFileOutput>
+    </FxCompile>
+    <FxCompile Include="TerrainShader.ps.hlsl">
+      <ShaderType>Pixel</ShaderType>
+      <VariableName>g_terrainPs</VariableName>
+      <HeaderFileOutput>Generated/Terrain.gen.ps.h</HeaderFileOutput>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="TerrainShader.vs.hlsl">
+      <ShaderType>Vertex</ShaderType>
+      <VariableName>g_terrainVs</VariableName>
+      <HeaderFileOutput>Generated/Terrain.gen.vs.h</HeaderFileOutput>
+      <ShaderModel>5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="SkydomeShader.ps.hlsl">
       <ShaderType>Pixel</ShaderType>

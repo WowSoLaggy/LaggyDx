@@ -17,6 +17,7 @@ namespace Dx
     Roam(const HeightMap& i_heightMap, HeightPredicate i_pred);
 
     const std::vector<VertexPos3NormText>& getPoints() const;
+    std::vector<VertexPos3NormText>& getPoints();
     const std::vector<int>& getInds() const;
 
     void tesselate(DividerPredicate i_pred);

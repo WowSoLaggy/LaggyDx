@@ -275,6 +275,11 @@ namespace Dx
     return d_points;
   }
 
+  std::vector<VertexPos3NormText>& Roam::getPoints()
+  {
+    return d_points;
+  }
+
   const std::vector<int>& Roam::getInds() const
   {
     return d_inds;
