@@ -21,11 +21,10 @@ namespace Dx
   private:
     const ICamera3& d_camera;
 
-    // Four terrain layers blended by height + slope in the pixel shader,
-    // bound to registers t0..t3 respectively.
+    // Three terrain layers blended by the shore mask + slope in the pixel shader,
+    // bound to registers t0..t2 respectively.
     const ITexture& d_sandTexture;
     const ITexture& d_grassTexture;
-    const ITexture& d_rockTexture;
     const ITexture& d_cliffTexture;
 
     LightDesc d_lightDesc;

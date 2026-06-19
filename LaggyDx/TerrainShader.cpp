@@ -25,7 +25,6 @@ namespace Dx
     , d_camera(i_camera)
     , d_sandTexture(getResourceController().getTexture("sand.png"))
     , d_grassTexture(getResourceController().getTexture("grass.png"))
-    , d_rockTexture(getResourceController().getTexture("rock.png"))
     , d_cliffTexture(getResourceController().getTexture("cliff.png"))
   {
     getShaders().initVs(g_terrainVs, sizeof(g_terrainVs), getVertexLayoutPos3NormText());
@@ -143,15 +142,14 @@ namespace Dx
 
   void TerrainShader::setTextures() const
   {
-    ID3D11ShaderResourceView* srvs[4] =
+    ID3D11ShaderResourceView* srvs[3] =
     {
       d_sandTexture.getTexturePtr(),
       d_grassTexture.getTexturePtr(),
-      d_rockTexture.getTexturePtr(),
       d_cliffTexture.getTexturePtr(),
     };
 
-    getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 4, srvs);
+    getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 3, srvs);
   }
 
   void TerrainShader::setMaterial(const Material& i_material) const
