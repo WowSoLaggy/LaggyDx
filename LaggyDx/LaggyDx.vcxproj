@@ -189,6 +189,7 @@
     <ClInclude Include="InputEvents.h" />
     <ClInclude Include="IOceanShader.h" />
     <ClInclude Include="ISimpleShader.h" />
+    <ClInclude Include="IRoadShader.h" />
     <ClInclude Include="ISkydomeShader.h" />
     <ClInclude Include="ITerrainShader.h" />
     <ClInclude Include="MouseMode.h" />
@@ -219,6 +220,7 @@
     <ClInclude Include="AnimationController3d.h" />
     <ClInclude Include="RadioButton.h" />
     <ClInclude Include="RadioGroup.h" />
+    <ClInclude Include="RoadShader.h" />
     <ClInclude Include="ShaderBase.h" />
     <ClInclude Include="Shader2d.h" />
     <ClInclude Include="Shader3d.h" />
@@ -373,8 +375,10 @@
     <ClCompile Include="ofbx.cpp" />
     <ClCompile Include="OfbxSceneWrapper.cpp" />
     <ClCompile Include="PsHlslResource.cpp" />
+    <ClCompile Include="IRoadShader.cpp" />
     <ClCompile Include="RadioButton.cpp" />
     <ClCompile Include="RadioGroup.cpp" />
+    <ClCompile Include="RoadShader.cpp" />
     <ClCompile Include="ShaderBase.cpp" />
     <ClCompile Include="ShaderWrapper.cpp" />
     <ClCompile Include="Shape3d.cpp" />
@@ -481,6 +485,18 @@
       <ShaderModel>5.0</ShaderModel>
       <VariableName>g_simpleVs</VariableName>
       <HeaderFileOutput>Generated/Simple.gen.vs.h</HeaderFileOutput>
+    </FxCompile>
+    <FxCompile Include="RoadShader.ps.hlsl">
+      <ShaderType>Pixel</ShaderType>
+      <VariableName>g_roadPs</VariableName>
+      <HeaderFileOutput>Generated/Road.gen.ps.h</HeaderFileOutput>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="RoadShader.vs.hlsl">
+      <ShaderType>Vertex</ShaderType>
+      <VariableName>g_roadVs</VariableName>
+      <HeaderFileOutput>Generated/Road.gen.vs.h</HeaderFileOutput>
+      <ShaderModel>5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="TerrainShader.ps.hlsl">
       <ShaderType>Pixel</ShaderType>

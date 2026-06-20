@@ -6,20 +6,26 @@ namespace Dx
 {
   namespace
   {
-    Sdk::RayF rotateRayZ(const Sdk::RayF& i_ray, float i_zRotation)
+    // Rotates a ray into the box's local frame. Handles yaw (Y) and roll (Z):
+    // roads lie in the XZ plane and are oriented by their Y rotation, while the
+    // original 2D-sprite users only set Z. Pitch (X) is not modeled.
+    Sdk::RayF rotateRay(const Sdk::RayF& i_ray, float i_yRotation, float i_zRotation)
     {
       auto getVector = [](XMFLOAT3 i_vector)
       {
         return XMLoadFloat3(&i_vector);
       };
+      static const auto yVector = getVector({ 0, 1, 0 });
       static const auto zVector = getVector({ 0, 0, 1 });
 
-      const auto qRotationZ = XMQuaternionRotationAxis(zVector, i_zRotation);
-      
+      const auto qRotation = XMQuaternionMultiply(
+        XMQuaternionRotationAxis(zVector, i_zRotation),
+        XMQuaternionRotationAxis(yVector, i_yRotation));
+
       XMFLOAT3 point{ i_ray.getPoint().x, i_ray.getPoint().y, i_ray.getPoint().z };
       XMFLOAT3 dir{ i_ray.getDir().x, i_ray.getDir().y, i_ray.getDir().z };
-      XMStoreFloat3(&point, XMVector3Rotate(XMLoadFloat3(&point), qRotationZ));
-      XMStoreFloat3(&dir, XMVector3Rotate(XMLoadFloat3(&dir), qRotationZ));
+      XMStoreFloat3(&point, XMVector3Rotate(XMLoadFloat3(&point), qRotation));
+      XMStoreFloat3(&dir, XMVector3Rotate(XMLoadFloat3(&dir), qRotation));
 
       return Sdk::RayF::createFromPointAndDir({ point.x, point.y, point.z }, { dir.x, dir.y, dir.z });
     }
@@ -64,7 +70,7 @@ namespace Dx
   std::optional<double> Obb::intersect(Sdk::RayF i_ray) const
   {
     i_ray.translate(-d_translation);
-    return d_aabb.intersect(rotateRayZ(i_ray, -d_rotation.z));
+    return d_aabb.intersect(rotateRay(i_ray, -d_rotation.y, -d_rotation.z));
   }
 
 } // ns Dx
