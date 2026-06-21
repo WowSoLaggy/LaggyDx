@@ -12,6 +12,8 @@ namespace Dx
   public:
     RoadShader(const ICamera3& i_camera);
 
+    virtual void setRoadTexture(const std::string& i_textureName) override;
+
     virtual void setLightDirection(Sdk::Vector3D i_direction) override;
     virtual void setLightColor(const Sdk::Vector4D& i_color) override;
     virtual void setAmbientStrength(double i_strength) override;
@@ -21,9 +23,9 @@ namespace Dx
   private:
     const ICamera3& d_camera;
 
-    // The default road surface (road.png), bound to t0 unless the object carries
-    // its own texture (e.g. a crossroad patch).
-    const ITexture& d_roadTexture;
+    // The default road surface, bound to t0 unless the object carries its own
+    // texture (e.g. a crossroad patch). Set externally via setRoadTexture.
+    const ITexture* d_roadTexture = nullptr;
 
     LightDesc d_lightDesc;
 

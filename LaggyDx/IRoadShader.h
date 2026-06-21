@@ -20,6 +20,10 @@ namespace Dx
     static std::shared_ptr<IRoadShader> create(const ICamera3& i_camera);
 
   public:
+    // The default surface texture, sampled for objects that don't carry their own.
+    // Must be set before drawing; there is no built-in default.
+    virtual void setRoadTexture(const std::string& i_textureName) = 0;
+
     virtual void setLightDirection(Sdk::Vector3D i_direction) = 0;
     virtual void setLightColor(const Sdk::Vector4D& i_color) = 0;
     virtual void setAmbientStrength(double i_strength) = 0;

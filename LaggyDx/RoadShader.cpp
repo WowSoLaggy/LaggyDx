@@ -23,11 +23,16 @@ namespace Dx
     , d_cameraBuffer(getRenderDevice(), sizeof(CameraDesc))
     , d_lightBuffer(getRenderDevice(), sizeof(LightDesc))
     , d_camera(i_camera)
-    , d_roadTexture(getResourceController().getTexture("road.png"))
   {
     getShaders().initVs(g_roadVs, sizeof(g_roadVs), getVertexLayoutPos3NormText());
     getShaders().initPs(g_roadPs, sizeof(g_roadPs));
     getShaders().addSampler(true);
+  }
+
+
+  void RoadShader::setRoadTexture(const std::string& i_textureName)
+  {
+    d_roadTexture = &getResourceController().getTexture(i_textureName);
   }
 
 
@@ -140,10 +145,12 @@ namespace Dx
 
   void RoadShader::setTextures(const IObject3& i_object) const
   {
-    // Crossroad patches carry their own texture; roads fall back to the default.
+    // Crossroad patches carry their own texture; roads fall back to the default,
+    // which must have been set via setRoadTexture before drawing.
     const ITexture* texture = i_object.getTexture();
-    ID3D11ShaderResourceView* srv =
-      texture ? texture->getTexturePtr() : d_roadTexture.getTexturePtr();
+    if (!texture)
+      texture = d_roadTexture;
+    ID3D11ShaderResourceView* srv = SAFE_DEREF(texture).getTexturePtr();
 
     getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 1, &srv);
   }
