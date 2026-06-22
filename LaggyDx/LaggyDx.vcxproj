@@ -167,6 +167,7 @@
     <ClInclude Include="Grid.h" />
     <ClInclude Include="GridItem.h" />
     <ClInclude Include="HeightMap.h" />
+    <ClInclude Include="HeightMapUtils.h" />
     <ClInclude Include="IBitmap.h" />
     <ClInclude Include="ICamera2.h" />
     <ClInclude Include="IGltfResource.h" />
@@ -345,6 +346,7 @@
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="GridItem.cpp" />
     <ClCompile Include="HeightMap.cpp" />
+    <ClCompile Include="HeightMapUtils.cpp" />
     <ClCompile Include="ICamera2.cpp" />
     <ClCompile Include="ISpriteShader.cpp" />
     <ClCompile Include="IThdObject.cpp" />

@@ -15,12 +15,15 @@ namespace Dx
     Obb(Aabb i_aabb, Sdk::Vector3F i_translation, Sdk::Vector3F i_rotation);
 
     const Aabb& getAabb() const;
+    const Sdk::Vector3F& getTranslation() const;
     const Sdk::Vector3F& getRotation() const;
 
     void setAabb(Aabb i_aabb);
+    void setTranslation(Sdk::Vector3F i_translation);
     void setRotation(Sdk::Vector3F i_rotation);
 
     std::optional<double> intersect(Sdk::RayF i_ray) const;
+    bool intersect(const Obb& i_other) const;
 
   private:
     Aabb d_aabb;
