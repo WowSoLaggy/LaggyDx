@@ -136,8 +136,12 @@ namespace Dx
   {
     const auto worldMatrix = XMMatrixIdentity();
 
+    // The ViewportMinZ/MaxZ args are the depth-buffer range (D3D11_VIEWPORT
+    // MinDepth/MaxDepth = 0..1), NOT the camera near/far clip planes - those are
+    // already baked into the projection matrix. Passing the clip planes here
+    // (0.1 / 1000) remaps depth wrongly and collapses the unprojected ray.
     auto res = XMVector3Project(toXmVector(i_point), 0.0f, 0.0f,
-      (float)d_viewportResolution.x, (float)d_viewportResolution.y, getViewportMinZ(), getViewportMaxZ(),
+      (float)d_viewportResolution.x, (float)d_viewportResolution.y, 0.0f, 1.0f,
       getProjectionMatrix(), getViewMatrix(), worldMatrix);
 
     XMFLOAT3 tempVector;
@@ -149,11 +153,16 @@ namespace Dx
   {
     const auto worldMatrix = XMMatrixIdentity();
 
+    // The ViewportMinZ/MaxZ args are the depth-buffer range (D3D11_VIEWPORT
+    // MinDepth/MaxDepth = 0..1), NOT the camera near/far clip planes - those are
+    // already baked into the projection matrix. Passing the clip planes here
+    // (0.1 / 1000) remapped both the near (z=0) and far (z=1) samples to almost
+    // the same depth, collapsing the ray into noise.
     const auto resNear = XMVector3Unproject(toXmVector(i_point, 0.0f), 0.0f, 0.0f,
-      (float)d_viewportResolution.x, (float)d_viewportResolution.y, getViewportMinZ(), getViewportMaxZ(),
+      (float)d_viewportResolution.x, (float)d_viewportResolution.y, 0.0f, 1.0f,
       getProjectionMatrix(), getViewMatrix(), worldMatrix);
     const auto resFar = XMVector3Unproject(toXmVector(i_point, 1.0f), 0.0f, 0.0f,
-      (float)d_viewportResolution.x, (float)d_viewportResolution.y, getViewportMinZ(), getViewportMaxZ(),
+      (float)d_viewportResolution.x, (float)d_viewportResolution.y, 0.0f, 1.0f,
       getProjectionMatrix(), getViewMatrix(), worldMatrix);
 
     XMFLOAT3 tempVectorNear;
