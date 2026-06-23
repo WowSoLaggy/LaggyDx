@@ -96,7 +96,7 @@ The input device is also connected into the SDK event graph (`connectTo(*d_input
 
 ### Collision
 
-`ICollider` is the base, with concrete `StaticCollider`, `DynamicCollider`, `KinematicCollider`. `CollisionManager` coordinates checks. Shapes split 2D/3D: `IShape2d` (with `Shape2d`) and `IShape3d` (with `Shape3d`, plus per-shape-family cpp files `IShape3d_planes.cpp`, `IShape3d_cuboids.cpp`, `IShape3d_spheroids.cpp`). `Aabb`, `Obb`, `Tri` are geometric primitives. `CollShapeMover` integrates motion against shapes; `CollisionFunctor`/`CollisionInfo`/`CollisionPointNormal` are the callback/result types.
+`ICollider` is the base, with concrete `StaticCollider`, `DynamicCollider`, `KinematicCollider`. `CollisionManager` coordinates checks. Shapes split 2D/3D: `IShape2d` (with `Shape2d`) and `IShape3d` (with `Shape3d`, plus per-shape-family cpp files `IShape3d_planes.cpp`, `IShape3d_cuboids.cpp`, `IShape3d_spheroids.cpp`, `IShape3d_cylinders.cpp` — the last adds `IShape3d::cylinder(radius, height, slices, …)`, a Y-axis cylinder base-anchored at `y=0`). `Aabb`, `Obb`, `Tri` are geometric primitives. `CollShapeMover` integrates motion against shapes; `CollisionFunctor`/`CollisionInfo`/`CollisionPointNormal` are the callback/result types.
 
 ### Cameras
 

@@ -47,6 +47,15 @@ namespace Dx
       float i_radius, int i_stackCount, int i_sliceCount, float i_textureCoeff = 1.0f);
 
 
+    /// Cylinder aligned to the Y axis, base ring at y = 0 and top ring at y = i_height
+    /// (base-anchored on the ground, like cube). Side wall plus flat top/bottom caps.
+    /// \param i_radius - radius
+    /// \param i_height - height along Y
+    /// \param i_sliceCount - number of segments around the axis
+    static std::unique_ptr<IShape3d> cylinder(
+      float i_radius, float i_height, int i_sliceCount, float i_textureCoeff = 1.0f);
+
+
     static std::unique_ptr<IShape3d> fromRoam(const Roam& i_roam);
 
   public:

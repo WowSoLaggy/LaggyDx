@@ -361,6 +361,7 @@
     <ClCompile Include="IShape3d.cpp" />
     <ClCompile Include="IShape3d_planes.cpp" />
     <ClCompile Include="IShape3d_cuboids.cpp" />
+    <ClCompile Include="IShape3d_cylinders.cpp" />
     <ClCompile Include="IShape3d_spheroids.cpp" />
     <ClCompile Include="ISimpleRenderer.cpp" />
     <ClCompile Include="ISimpleShader.cpp" />

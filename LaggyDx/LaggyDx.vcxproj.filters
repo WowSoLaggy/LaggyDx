@@ -968,6 +968,9 @@
     <ClCompile Include="IShape3d_spheroids.cpp">
       <Filter>src\Shapes\3d</Filter>
     </ClCompile>
+    <ClCompile Include="IShape3d_cylinders.cpp">
+      <Filter>src\Shapes\3d</Filter>
+    </ClCompile>
     <ClCompile Include="IShape3d_cuboids.cpp">
       <Filter>src\Shapes\3d</Filter>
     </ClCompile>
