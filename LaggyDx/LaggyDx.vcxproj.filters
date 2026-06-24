@@ -169,9 +169,6 @@
     <Filter Include="libs\ofbx">
       <UniqueIdentifier>{fd872562-ed2f-4b27-81a9-ab209f4bf813}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Shaders\RoadShader">
-      <UniqueIdentifier>{c05e05d8-d563-4092-8153-5e138454b264}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Shaders\TerrainShader">
       <UniqueIdentifier>{27fa27f3-a7b6-4cdf-8bce-4cc52babd946}</UniqueIdentifier>
     </Filter>
@@ -699,12 +696,6 @@
     <ClInclude Include="MemoryTexture.h">
       <Filter>src\Resources\Textures</Filter>
     </ClInclude>
-    <ClInclude Include="IRoadShader.h">
-      <Filter>src\Shaders\RoadShader</Filter>
-    </ClInclude>
-    <ClInclude Include="RoadShader.h">
-      <Filter>src\Shaders\RoadShader</Filter>
-    </ClInclude>
     <ClInclude Include="ITerrainShader.h">
       <Filter>src\Shaders\TerrainShader</Filter>
     </ClInclude>
@@ -1091,12 +1082,6 @@
     <ClCompile Include="MemoryTexture.cpp">
       <Filter>src\Resources\Textures</Filter>
     </ClCompile>
-    <ClCompile Include="IRoadShader.cpp">
-      <Filter>src\Shaders\RoadShader</Filter>
-    </ClCompile>
-    <ClCompile Include="RoadShader.cpp">
-      <Filter>src\Shaders\RoadShader</Filter>
-    </ClCompile>
     <ClCompile Include="ITerrainShader.cpp">
       <Filter>src\Shaders\TerrainShader</Filter>
     </ClCompile>
@@ -1131,12 +1116,6 @@
     </FxCompile>
     <FxCompile Include="SpriteShader.vs.hlsl">
       <Filter>src\Shaders\SpriteShader</Filter>
-    </FxCompile>
-    <FxCompile Include="RoadShader.ps.hlsl">
-      <Filter>src\Shaders\RoadShader</Filter>
-    </FxCompile>
-    <FxCompile Include="RoadShader.vs.hlsl">
-      <Filter>src\Shaders\RoadShader</Filter>
     </FxCompile>
     <FxCompile Include="TerrainShader.ps.hlsl">
       <Filter>src\Shaders\TerrainShader</Filter>
