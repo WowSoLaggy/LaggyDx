@@ -113,8 +113,10 @@ namespace Dx
 
   struct RefreshRate;
 
+  class IOceanShader;
   class ISpriteShader;
   class ISimpleShader;
+  class ITerrainShader;
 
   using Color = Sdk::Vector4F;
   using Action = std::function<void()>;
