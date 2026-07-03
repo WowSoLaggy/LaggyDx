@@ -39,6 +39,17 @@ namespace Dx
   }
 
 
+  bool ShaderBase::isEnabled() const
+  {
+    return d_enabled;
+  }
+
+  void ShaderBase::setEnabled(const bool i_enabled)
+  {
+    d_enabled = i_enabled;
+  }
+
+
   void ShaderBase::setRenderStates() const
   {
     getRenderDevice().resetState();

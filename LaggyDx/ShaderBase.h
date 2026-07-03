@@ -15,6 +15,9 @@ namespace Dx
     bool getFillMode() const;
     void setFillMode(bool i_solid);
 
+    bool isEnabled() const;
+    void setEnabled(bool i_enabled);
+
   protected:
     virtual void setRenderStates() const;
     RenderDevice& getRenderDevice() const;
@@ -36,6 +39,7 @@ namespace Dx
   private:
     bool d_solidFillMode = true;
     bool d_enableDepthBuffer = true;
+    bool d_enabled = true;
     ShaderWrapper d_shaders;
   };
 

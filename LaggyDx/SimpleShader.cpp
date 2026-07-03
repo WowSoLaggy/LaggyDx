@@ -50,6 +50,9 @@ namespace Dx
 
   void SimpleShader::draw(const IObject3& i_object) const
   {
+    if (!isEnabled())
+      return;
+
     if (!i_object.getVisible())
       return;
 
