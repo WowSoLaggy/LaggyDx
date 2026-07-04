@@ -1,16 +1,13 @@
-// Terrain pixel shader: blends three textures by a baked shore mask and surface
-// slope.
+// Terrain pixel shader: blends three textures by world height and surface slope.
 //
-//   sand  - shorelines (ocean shore, lake edges, river banks), via a baked mask
+//   sand  - anything below flat land level (the underwater shore slope)
 //   grass - all other land (flats and raised plateau tiers alike)
 //   cliff - steep faces (overrides everything wherever the ground is steep)
 //
-// Sand is driven by a per-vertex "shore factor" baked into input.tex.x by the
-// terrain generator (1 = beach, 0 = inland). Height alone can't tell a shore from
-// inland flat land - both sit at the same world Y - so proximity to water is
-// resolved on the CPU and interpolated here. Cliff comes from the surface normal
-// (slope). Each texture is tiled by world XZ, so the vertex UV is reused only for
-// the mask.
+// Sand is driven straight from world height (worldPos.y): only the shore slopes
+// dip below flat-land level (PlaneHeight), so height alone identifies them. This
+// means sand stops at the waterline and does not lap onto the flat land above it.
+// Cliff comes from the surface normal (slope). Each texture is tiled by world XZ.
 
 Texture2D sandTexture : register(t0);
 Texture2D grassTexture : register(t1);
@@ -51,10 +48,10 @@ static const float SandTile = 12.0;
 static const float GrassTile = 16.0;
 static const float CliffTile = 18.0;
 
-// Shore mask (input.tex.x, baked by the generator): how strongly the sand layer
-// shows. The crossfade keeps the beach edge soft.
-static const float SandMaskStart = 0.15; // below this -> no sand
-static const float SandMaskFull = 0.55;  // above this -> full sand
+// Sand by world height: flat land sits at Y = 5 (PlaneHeight), only shore slopes
+// go below it. Full sand below SandHeightFull, fading out up to SandHeightStart.
+static const float SandHeightStart = 4.9; // above this -> no sand
+static const float SandHeightFull = 1.0;  // below this -> full sand
 
 // Slope (0 = flat, 1 = vertical wall). Above CliffStart the cliff texture takes
 // over; CliffBlend is the crossfade width below it.
@@ -80,10 +77,9 @@ float4 main(PixelInputType input) : SV_TARGET
   // Grass covers all land that isn't shore or cliff.
   float3 land = grass;
 
-  // Shore override: paint sand where the baked mask says so. This is independent
-  // of height, so a beach laps onto flat land near water without turning distant
-  // flats (at the same height) into sand.
-  float sandAmount = smoothstep(SandMaskStart, SandMaskFull, input.tex.x);
+  // Shore override: paint sand on ground that dips below flat-land level. Only the
+  // shore slopes go there, so distant flats (at PlaneHeight) stay grass.
+  float sandAmount = 1.0 - smoothstep(SandHeightFull, SandHeightStart, input.worldPos.y);
   float3 byHeight = lerp(land, sand, sandAmount);
 
   // Slope override: steep ground reads as cliff regardless of layer underneath.
