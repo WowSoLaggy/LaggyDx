@@ -80,11 +80,14 @@ namespace Dx
   }
 
 
-  void HeightMap::resize(const int i_width, const int i_height)
+  void HeightMap::resize(const int i_width, const int i_height, const double i_defaultHeight)
   {
     d_width = i_width;
     d_height = i_height;
-    d_heights.resize(d_width * d_height);
+    d_heights.assign(static_cast<size_t>(d_width) * d_height, i_defaultHeight);
+
+    d_minHeight = i_defaultHeight;
+    d_maxHeight = i_defaultHeight;
   }
 
 

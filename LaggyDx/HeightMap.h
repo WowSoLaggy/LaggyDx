@@ -20,7 +20,7 @@ namespace Dx
     void setHeight(int i_x, int i_y, double i_height);
     double getHeight(double i_x, double i_y) const;
 
-    void resize(int i_width, int i_height);
+    void resize(int i_width, int i_height, double i_defaultHeight = 0);
 
     /// Scales all heigths to the [i_minHeight, i_maxHeight] interval
     void normalize(double i_minHeight, double i_maxHeight);
