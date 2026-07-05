@@ -13,11 +13,13 @@ namespace Dx
   public:
     int getWidth() const;
     int getHeight() const;
+    const Sdk::Vector2I& getSize() const;
     
     double getMinHeight() const;
     double getMaxHeight() const;
 
     void setHeight(int i_x, int i_y, double i_height);
+    void addHeight(int i_x, int i_y, double i_height);
     double getHeight(double i_x, double i_y) const;
 
     void resize(int i_width, int i_height, double i_defaultHeight = 0);
@@ -26,8 +28,7 @@ namespace Dx
     void normalize(double i_minHeight, double i_maxHeight);
 
   private:
-    int d_width = 0;
-    int d_height = 0;
+    Sdk::Vector2I d_size;
     std::vector<double> d_heights;
 
     double d_minHeight = 0;
@@ -37,8 +38,8 @@ namespace Dx
     bool coordsAreValid(const T i_x, const T i_y) const
     {
       return
-        0 <= i_x && i_x <= d_width - 1 &&
-        0 <= i_y && i_y <= d_height - 1;
+        0 <= i_x && i_x <= d_size.x - 1 &&
+        0 <= i_y && i_y <= d_size.y - 1;
     }
     int getIndex(int i_x, int i_y) const;
 

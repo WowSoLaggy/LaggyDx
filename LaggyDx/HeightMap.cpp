@@ -32,8 +32,9 @@ namespace Dx
   }
 
 
-  int HeightMap::getWidth() const { return d_width; }
-  int HeightMap::getHeight() const { return d_height; }
+  int HeightMap::getWidth() const { return d_size.x; }
+  int HeightMap::getHeight() const { return d_size.y; }
+  const Sdk::Vector2I& HeightMap::getSize() const { return d_size; }
 
   double HeightMap::getMinHeight() const { return d_minHeight; }
   double HeightMap::getMaxHeight() const { return d_maxHeight; }
@@ -42,9 +43,19 @@ namespace Dx
   void HeightMap::setHeight(const int i_x, const int i_y, const double i_height)
   {
     CONTRACT_EXPECT(coordsAreValid(i_x, i_y));
-    d_heights.at(getIndex(i_x, i_y)) = i_height;
+    d_heights[getIndex(i_x, i_y)] = i_height;
 
     updateMinMaxHeights(i_height);
+  }
+
+  void HeightMap::addHeight(const int i_x, const int i_y, const double i_height)
+  {
+    CONTRACT_EXPECT(coordsAreValid(i_x, i_y));
+
+    const double newHeight = d_heights[getIndex(i_x, i_y)] + i_height;
+    d_heights[getIndex(i_x, i_y)] = newHeight;
+
+    updateMinMaxHeights(newHeight);
   }
 
   double HeightMap::getHeight(const double i_x, const double i_y) const
@@ -54,8 +65,8 @@ namespace Dx
     const int xBase = (int)std::floor(i_x);
     const int yBase = (int)std::floor(i_y);
 
-    const bool xBorder = xBase == d_width - 1;
-    const bool yBorder = yBase == d_height - 1;
+    const bool xBorder = xBase == d_size.x - 1;
+    const bool yBorder = yBase == d_size.y - 1;
 
     const int x0 = xBorder ? xBase - 1 : xBase;
     const int x1 = x0 + 1;
@@ -63,10 +74,10 @@ namespace Dx
     const int y0 = yBorder ? yBase - 1 : yBase;
     const int y1 = y0 + 1;
 
-    const double f00 = d_heights.at(getIndex(x0, y0));
-    const double f10 = d_heights.at(getIndex(x1, y0));
-    const double f11 = d_heights.at(getIndex(x1, y1));
-    const double f01 = d_heights.at(getIndex(x0, y1));
+    const double f00 = d_heights[getIndex(x0, y0)];
+    const double f10 = d_heights[getIndex(x1, y0)];
+    const double f11 = d_heights[getIndex(x1, y1)];
+    const double f01 = d_heights[getIndex(x0, y1)];
 
     const double xRatio = (i_x - x0) / (x1 - x0);
     const double yRatio = (i_y - y0) / (y1 - y0);
@@ -82,9 +93,8 @@ namespace Dx
 
   void HeightMap::resize(const int i_width, const int i_height, const double i_defaultHeight)
   {
-    d_width = i_width;
-    d_height = i_height;
-    d_heights.assign(static_cast<size_t>(d_width) * d_height, i_defaultHeight);
+    d_size = { i_width, i_height };
+    d_heights.assign(static_cast<size_t>(i_width) * i_height, i_defaultHeight);
 
     d_minHeight = i_defaultHeight;
     d_maxHeight = i_defaultHeight;
@@ -110,7 +120,7 @@ namespace Dx
 
   int HeightMap::getIndex(const int i_x, const int i_y) const
   {
-    return i_x + i_y * d_width;
+    return i_x + i_y * d_size.x;
   }
 
 
