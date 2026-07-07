@@ -33,6 +33,9 @@ namespace Dx
 
     static std::unique_ptr<IShape3d> cubeInverted(float i_size);
 
+    /// Axis-aligned box anchored at origin, spanning [0, i_sizeX/Y/Z] in each axis (base-anchored, like cube)
+    static std::unique_ptr<IShape3d> cuboid(float i_sizeX, float i_sizeY, float i_sizeZ);
+
 
     /// \param i_radius - radius
     /// \param i_stackCount - number of divisions by latitude (from north to south)
