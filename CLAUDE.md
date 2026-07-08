@@ -28,7 +28,7 @@ These repos must exist at `..\LaggySdk` and `..\DirectXTK` relative to this one 
 
 ### HLSL shader compilation
 
-Six HLSL shader pairs (`OceanShader`, `SimpleShader`, `SkydomeShader`, `SpriteShader` — each `.vs.hlsl` + `.ps.hlsl`) are compiled by MSBuild's `FxCompile` step into C arrays in `LaggyDx/Generated/*.gen.{vs,ps}.h` (e.g. `g_simpleVs`, `g_oceanPs`). Those generated headers are then `#include`d by the corresponding `*Shader.cpp`. The `Generated/` directory is build output — don't edit it. If you add a new shader, declare it under `<FxCompile>` in `LaggyDx.vcxproj` with `ShaderType`, `VariableName`, `HeaderFileOutput`, and `ShaderModel` (currently 5.0).
+The HLSL shaders (`OceanShader`, `SimpleShader`, `SkydomeShader`, `SpriteShader`, `TerrainShader` — each `.vs.hlsl` + `.ps.hlsl` — plus `InstancedShader.vs.hlsl`, which has no pixel shader of its own and reuses `g_simplePs`) are compiled by MSBuild's `FxCompile` step into C arrays in `LaggyDx/Generated/*.gen.{vs,ps}.h` (e.g. `g_simpleVs`, `g_oceanPs`). Those generated headers are then `#include`d by the corresponding `*Shader.cpp`. The `Generated/` directory is build output — don't edit it. If you add a new shader, declare it under `<FxCompile>` in `LaggyDx.vcxproj` with `ShaderType`, `VariableName`, `HeaderFileOutput`, and `ShaderModel` (currently 5.0).
 
 ## Architecture
 
@@ -74,7 +74,9 @@ Two parallel pipelines:
 - **2D**: `IRenderer2d` wraps DirectXTK `SpriteBatch` + primitive batches. `beginScene(...)` overloads accept translation/rotation/scale; `renderSprite`, `renderLine`, `renderRect`, `renderText` are the primary ops. `Renderer2dGuard` is a RAII begin/end pair — use it instead of manual `beginScene`/`endScene` where possible (the engine itself uses it for `renderGui`).
 - **3D**: `IRenderer3d` (created with an `ICamera3&`) renders objects given either a `VertexBuffer`+`IndexBuffer`+`MaterialSpan`s, or a `IMeshResourceCmo` plus optional animation controller. `ISimpleRenderer` is a lower-level alternative.
 
-Per-shader wrappers (`SimpleShader`, `SkydomeShader`, `SpriteShader`, `OceanShader`) bind the generated VS/PS blobs plus constant buffers from `ShaderBuffers.h`. `ShaderBase` is the common base; `ShaderWrapper` and `_ShaderUtils.h` hold helpers.
+Per-shader wrappers (`SimpleShader`, `InstancedShader`, `SkydomeShader`, `SpriteShader`, `OceanShader`) bind the generated VS/PS blobs plus constant buffers from `ShaderBuffers.h`. `ShaderBase` is the common base; `ShaderWrapper` and `_ShaderUtils.h` hold helpers.
+
+**Hardware instancing**: `IInstancedShader` draws one model N times per call (`draw(object, instanceBuffer)`, `DrawIndexedInstanced`). Per-instance transforms (`InstancePosRotScale` in `InstanceTypes.h`: position + Y-rotation + uniform scale) live in an `IInstanceBuffer` bound to vertex-buffer slot 1 via `getVertexLayoutPos3NormTextInstanced()`. The instanced VS applies the per-instance transform instead of the world matrix and outputs the same struct as `SimpleShader.ps.hlsl`, which it reuses as its pixel stage — keep the two in sync. Instance buffers are immutable; recreate to change the instance set.
 
 The render device's `begin`/`end` and `Sdk::Locker`/`Sdk::ScopeGuard` integration come from `Sdk::ILockable` — `IRenderDevice` inherits it so the `App::mainloop` render block can wrap rendering in a single RAII scope.
 

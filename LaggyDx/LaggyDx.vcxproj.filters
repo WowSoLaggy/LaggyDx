@@ -97,6 +97,9 @@
     <Filter Include="src\Shaders\SimpleShader">
       <UniqueIdentifier>{fada97ef-76ea-44c4-b6c0-75d90eff8c1d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Shaders\InstancedShader">
+      <UniqueIdentifier>{f0b30798-ffe1-46d1-ac99-008a23c8ac4a}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Shaders\SkydomeShader">
       <UniqueIdentifier>{3a3cbfb5-d121-455e-82a3-67fd23241634}</UniqueIdentifier>
     </Filter>
@@ -494,6 +497,21 @@
     </ClInclude>
     <ClInclude Include="ISimpleShader.h">
       <Filter>src\Shaders\SimpleShader</Filter>
+    </ClInclude>
+    <ClInclude Include="InstancedShader.h">
+      <Filter>src\Shaders\InstancedShader</Filter>
+    </ClInclude>
+    <ClInclude Include="IInstancedShader.h">
+      <Filter>src\Shaders\InstancedShader</Filter>
+    </ClInclude>
+    <ClInclude Include="InstanceBuffer.h">
+      <Filter>src\Shaders\InstancedShader</Filter>
+    </ClInclude>
+    <ClInclude Include="IInstanceBuffer.h">
+      <Filter>src\Shaders\InstancedShader</Filter>
+    </ClInclude>
+    <ClInclude Include="InstanceTypes.h">
+      <Filter>src\Shaders\InstancedShader</Filter>
     </ClInclude>
     <ClInclude Include="ShaderBuffers.h">
       <Filter>src\Shaders</Filter>
@@ -935,6 +953,18 @@
     <ClCompile Include="ISimpleShader.cpp">
       <Filter>src\Shaders\SimpleShader</Filter>
     </ClCompile>
+    <ClCompile Include="InstancedShader.cpp">
+      <Filter>src\Shaders\InstancedShader</Filter>
+    </ClCompile>
+    <ClCompile Include="IInstancedShader.cpp">
+      <Filter>src\Shaders\InstancedShader</Filter>
+    </ClCompile>
+    <ClCompile Include="InstanceBuffer.cpp">
+      <Filter>src\Shaders\InstancedShader</Filter>
+    </ClCompile>
+    <ClCompile Include="IInstanceBuffer.cpp">
+      <Filter>src\Shaders\InstancedShader</Filter>
+    </ClCompile>
     <ClCompile Include="SkydomeShader.cpp">
       <Filter>src\Shaders\SkydomeShader</Filter>
     </ClCompile>
@@ -1101,6 +1131,9 @@
     </FxCompile>
     <FxCompile Include="SimpleShader.ps.hlsl">
       <Filter>src\Shaders\SimpleShader</Filter>
+    </FxCompile>
+    <FxCompile Include="InstancedShader.vs.hlsl">
+      <Filter>src\Shaders\InstancedShader</Filter>
     </FxCompile>
     <FxCompile Include="SimpleShader.vs.hlsl">
       <Filter>src\Shaders\SimpleShader</Filter>

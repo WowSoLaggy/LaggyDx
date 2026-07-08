@@ -37,6 +37,9 @@ namespace Dx
 
   class VertexBuffer;
   class IndexBuffer;
+  class IInstanceBuffer;
+  class InstanceBuffer;
+  struct InstancePosRotScale;
 
   class VertexLayout;
 
@@ -116,6 +119,7 @@ namespace Dx
   class IOceanShader;
   class ISpriteShader;
   class ISimpleShader;
+  class IInstancedShader;
   class ITerrainShader;
 
   using Color = Sdk::Vector4F;

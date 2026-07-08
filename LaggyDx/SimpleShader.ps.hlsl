@@ -33,6 +33,9 @@ float4 main(PixelInputType input) : SV_TARGET
   float4 textureColor = shaderTexture.Sample(SampleType, input.tex);
   textureColor *= diffuseColor;
 
+  // Alpha test: discard transparent pixels so they don't write depth and punch holes into objects behind
+  clip(textureColor.a - 0.5f);
+
   // DIFFUSE
 
   float lightAmount = saturate(dot(N, -lightDirection));

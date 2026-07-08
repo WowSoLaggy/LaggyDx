@@ -10,6 +10,7 @@ namespace Dx
   };
 
   const VertexLayout& getVertexLayoutPos3NormText();
+  const VertexLayout& getVertexLayoutPos3NormTextInstanced();
   const VertexLayout& getVertexLayoutPos2Text();
 
 } // ns Dx

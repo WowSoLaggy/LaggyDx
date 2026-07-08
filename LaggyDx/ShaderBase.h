@@ -32,6 +32,7 @@ namespace Dx
     void resetPsResources(int i_numSlots) const;
     
     void drawIndexed(int i_indexCount, int i_startIndex) const;
+    void drawIndexedInstanced(int i_indexCount, int i_startIndex, int i_instanceCount) const;
 
     void enableDepthBuffer();
     void disableDepthBuffer();

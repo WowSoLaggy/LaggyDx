@@ -15,6 +15,12 @@ namespace Dx
     XMMATRIX projection;
   };
 
+  struct ViewProj
+  {
+    XMMATRIX view;
+    XMMATRIX projection;
+  };
+
   struct TimeDesc
   {
     float time{ 0 };

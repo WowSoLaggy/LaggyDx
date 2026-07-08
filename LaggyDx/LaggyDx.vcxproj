@@ -188,6 +188,11 @@
     <ClInclude Include="IInputController.h" />
     <ClInclude Include="IMesh.h" />
     <ClInclude Include="InputEvents.h" />
+    <ClInclude Include="IInstanceBuffer.h" />
+    <ClInclude Include="IInstancedShader.h" />
+    <ClInclude Include="InstanceBuffer.h" />
+    <ClInclude Include="InstancedShader.h" />
+    <ClInclude Include="InstanceTypes.h" />
     <ClInclude Include="IOceanShader.h" />
     <ClInclude Include="ISimpleShader.h" />
     <ClInclude Include="ISkydomeShader.h" />
@@ -361,6 +366,10 @@
     <ClCompile Include="IShape3d_cuboids.cpp" />
     <ClCompile Include="IShape3d_cylinders.cpp" />
     <ClCompile Include="IShape3d_spheroids.cpp" />
+    <ClCompile Include="IInstanceBuffer.cpp" />
+    <ClCompile Include="IInstancedShader.cpp" />
+    <ClCompile Include="InstanceBuffer.cpp" />
+    <ClCompile Include="InstancedShader.cpp" />
     <ClCompile Include="ISimpleRenderer.cpp" />
     <ClCompile Include="ISimpleShader.cpp" />
     <ClCompile Include="ITerrainShader.cpp" />
@@ -471,6 +480,12 @@
       <ShaderType>Vertex</ShaderType>
       <VariableName>g_oceanVs</VariableName>
       <HeaderFileOutput>Generated/Ocean.gen.vs.h</HeaderFileOutput>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="InstancedShader.vs.hlsl">
+      <ShaderType>Vertex</ShaderType>
+      <VariableName>g_instancedVs</VariableName>
+      <HeaderFileOutput>Generated/Instanced.gen.vs.h</HeaderFileOutput>
       <ShaderModel>5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="SimpleShader.ps.hlsl">

@@ -99,6 +99,13 @@ namespace Dx
     getRenderDevice().getDeviceContextPtr()->DrawIndexed(i_indexCount, i_startIndex, 0);
   }
 
+  void ShaderBase::drawIndexedInstanced(
+    const int i_indexCount, const int i_startIndex, const int i_instanceCount) const
+  {
+    getRenderDevice().getDeviceContextPtr()->DrawIndexedInstanced(
+      i_indexCount, i_instanceCount, i_startIndex, 0, 0);
+  }
+
 
   void ShaderBase::enableDepthBuffer()
   {

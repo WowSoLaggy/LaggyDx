@@ -1,0 +1,38 @@
+#pragma once
+
+#include "CBuffer.h"
+#include "IInstancedShader.h"
+#include "ShaderBuffers.h"
+
+
+namespace Dx
+{
+  class InstancedShader : public IInstancedShader
+  {
+  public:
+    InstancedShader(const ICamera3& i_camera);
+
+    virtual void setLightDirection(Sdk::Vector3D i_direction) override;
+    virtual void setLightColor(const Sdk::Vector4D& i_color) override;
+    virtual void setAmbientStrength(double i_strength) override;
+
+    virtual void draw(const IObject3& i_object, const IInstanceBuffer& i_instances) const override;
+
+  private:
+    const ICamera3& d_camera;
+    const ITexture& d_emptyTexture;
+
+    LightDesc d_lightDesc;
+
+    CBuffer d_matrixBuffer;
+    CBuffer d_cameraBuffer;
+    CBuffer d_lightBuffer;
+
+    void setGeometryBuffers(const IMesh& i_mesh, const InstanceBuffer& i_instances) const;
+    void setXfmMatrices() const;
+    void setCBuffers() const;
+    void setTexture(const Material& i_material) const;
+    void setMaterial(const Material& i_material) const;
+  };
+
+} // ns Dx
