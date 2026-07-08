@@ -42,31 +42,39 @@ namespace Dx
       float halfExtent[3];     // half-size along each axis
     };
 
-    BoxFrame makeFrame(const Aabb& i_aabb, const Sdk::Vector3F& i_translation, const Sdk::Vector3F& i_rotation)
+    // local -> world rotation (inverse of the world -> local rotation in rotateRay): yaw (Y) then roll (Z).
+    Sdk::Vector3F rotateLocalToWorld(const Sdk::Vector3F& i_v, const Sdk::Vector3F& i_rotation)
     {
       static const XMVECTOR yVector = XMVectorSet(0, 1, 0, 0);
       static const XMVECTOR zVector = XMVectorSet(0, 0, 1, 0);
 
-      // local -> world: inverse of the world -> local rotation in rotateRay.
       const XMVECTOR qRotation = XMQuaternionMultiply(
         XMQuaternionRotationAxis(yVector, i_rotation.y),
         XMQuaternionRotationAxis(zVector, i_rotation.z));
 
-      auto rotate = [&](const Sdk::Vector3F& i_v)
-      {
-        XMFLOAT3 v{ i_v.x, i_v.y, i_v.z };
-        XMStoreFloat3(&v, XMVector3Rotate(XMLoadFloat3(&v), qRotation));
-        return Sdk::Vector3F{ v.x, v.y, v.z };
-      };
+      XMFLOAT3 v{ i_v.x, i_v.y, i_v.z };
+      XMStoreFloat3(&v, XMVector3Rotate(XMLoadFloat3(&v), qRotation));
+      return Sdk::Vector3F{ v.x, v.y, v.z };
+    }
 
-      // The local box may be off-origin: its centre is the midpoint of its bounds.
-      const Sdk::Vector3F localCenter{
+    // The local box may be off-origin: its centre is the midpoint of its bounds.
+    Sdk::Vector3F localCenter(const Aabb& i_aabb)
+    {
+      return {
         (i_aabb.getMinX() + i_aabb.getMaxX()) * 0.5f,
         (i_aabb.getMinY() + i_aabb.getMaxY()) * 0.5f,
         (i_aabb.getMinZ() + i_aabb.getMaxZ()) * 0.5f };
+    }
+
+    BoxFrame makeFrame(const Aabb& i_aabb, const Sdk::Vector3F& i_translation, const Sdk::Vector3F& i_rotation)
+    {
+      auto rotate = [&](const Sdk::Vector3F& i_v)
+      {
+        return rotateLocalToWorld(i_v, i_rotation);
+      };
 
       BoxFrame frame;
-      frame.center = i_translation + rotate(localCenter);
+      frame.center = i_translation + rotate(localCenter(i_aabb));
       frame.axis[0] = rotate({ 1, 0, 0 });
       frame.axis[1] = rotate({ 0, 1, 0 });
       frame.axis[2] = rotate({ 0, 0, 1 });
@@ -153,6 +161,11 @@ namespace Dx
     return d_rotation;
   }
 
+  Sdk::Vector3F Obb::getCenter() const
+  {
+    return d_translation + rotateLocalToWorld(localCenter(d_aabb), d_rotation);
+  }
+
 
   void Obb::setAabb(Aabb i_aabb)
   {
@@ -167,6 +180,11 @@ namespace Dx
   void Obb::setRotation(Sdk::Vector3F i_rotation)
   {
     d_rotation = std::move(i_rotation);
+  }
+
+  void Obb::setCenter(const Sdk::Vector3F& i_center)
+  {
+    d_translation = i_center - rotateLocalToWorld(localCenter(d_aabb), d_rotation);
   }
 
 
