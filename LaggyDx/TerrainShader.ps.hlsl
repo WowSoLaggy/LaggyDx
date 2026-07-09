@@ -44,9 +44,9 @@ struct PixelInputType
 
 // Per-texture tiling: world units covered by one texture repeat. Larger = the
 // texture stretches over more ground (coarser); smaller = it repeats more often.
-static const float SandTile = 12.0;
-static const float GrassTile = 16.0;
-static const float CliffTile = 18.0;
+static const float SandTile = 8.0;
+static const float GrassTile = 4.0;
+static const float CliffTile = 8.0;
 
 // Sand by world height: flat land sits at Y = 5 (PlaneHeight), only shore slopes
 // go below it. Full sand below SandHeightFull, fading out up to SandHeightStart.
