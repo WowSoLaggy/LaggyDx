@@ -16,6 +16,9 @@ namespace Dx
     virtual void setLightColor(const Sdk::Vector4D& i_color) override;
     virtual void setAmbientStrength(double i_strength) override;
 
+    virtual void setShadowMap(const ITexture& i_shadowMap) override;
+    virtual void setShadowCamera(const ShadowCamera& i_shadowCamera) override;
+
     virtual void draw(const IObject3& i_object) const override;
 
   private:
@@ -27,15 +30,21 @@ namespace Dx
     const ITexture& d_grassTexture;
     const ITexture& d_cliffTexture;
 
+    // Shadow map at t3; defaults to white.png so receivers stay lit until one is set
+    const ITexture* d_shadowMapTexture;
+    const ShadowCamera* d_shadowCamera = nullptr;
+
     LightDesc d_lightDesc;
 
     CBuffer d_matrixBuffer;
     CBuffer d_cameraBuffer;
     CBuffer d_lightBuffer;
+    CBuffer d_shadowMatrixBuffer;
 
     void setGeometryBuffers(const IMesh& i_mesh) const;
     void setXfmMatrices(const IObject3& i_object) const;
     void setCBuffers() const;
+    void setShadowCBuffer() const;
     void setTextures() const;
     void setMaterial(const Material& i_material) const;
   };

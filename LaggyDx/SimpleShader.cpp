@@ -9,6 +9,7 @@
 #include "Model.h"
 #include "RenderDevice.h"
 #include "ShadersUtils.h"
+#include "ShadowCamera.h"
 #include "Texture.h"
 #include "VertexBuffer.h"
 #include "VertexLayout.h"
@@ -23,12 +24,15 @@ namespace Dx
     : d_matrixBuffer(getRenderDevice(), sizeof(WorldViewProj))
     , d_cameraBuffer(getRenderDevice(), sizeof(CameraDesc))
     , d_lightBuffer(getRenderDevice(), sizeof(LightDesc))
+    , d_shadowMatrixBuffer(getRenderDevice(), sizeof(LightViewProj))
     , d_camera(i_camera)
     , d_emptyTexture(getResourceController().getTexture("white.png"))
+    , d_shadowMapTexture(&d_emptyTexture)
   {
     getShaders().initVs(g_simpleVs, sizeof(g_simpleVs), getVertexLayoutPos3NormText());
     getShaders().initPs(g_simplePs, sizeof(g_simplePs));
     getShaders().addSampler(true);
+    getShaders().addComparisonSampler();
   }
 
 
@@ -47,6 +51,16 @@ namespace Dx
     d_lightDesc.ambientStrength = (float)i_strength;
   }
 
+  void SimpleShader::setShadowMap(const ITexture& i_shadowMap)
+  {
+    d_shadowMapTexture = &i_shadowMap;
+  }
+
+  void SimpleShader::setShadowCamera(const ShadowCamera& i_shadowCamera)
+  {
+    d_shadowCamera = &i_shadowCamera;
+  }
+
 
   void SimpleShader::draw(const IObject3& i_object) const
   {
@@ -60,6 +74,8 @@ namespace Dx
     setShaders();
     setXfmMatrices(i_object);
     setCBuffers();
+    setShadowCBuffer();
+    setShadowTexture();
     setTexture(i_object);
 
     auto drawMesh = [&](const auto& i_mesh)
@@ -141,6 +157,29 @@ namespace Dx
       getRenderDevice().getDeviceContextPtr()->Unmap(d_cameraBuffer.get(), 0);
       getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(1, 1, d_cameraBuffer.getPp());
     }
+  }
+
+  void SimpleShader::setShadowCBuffer() const
+  {
+    // Identity fallback keeps receivers fully lit until a shadow camera is set
+    const auto lightViewProj = d_shadowCamera
+      ? XMMatrixTranspose(d_shadowCamera->getViewMatrix() * d_shadowCamera->getProjectionMatrix())
+      : XMMatrixIdentity();
+
+    D3D11_MAPPED_SUBRESOURCE mappedResource;
+    getRenderDevice().getDeviceContextPtr()->Map(d_shadowMatrixBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+    auto* dataPtr = (LightViewProj*)mappedResource.pData;
+    dataPtr->lightViewProj = lightViewProj;
+
+    getRenderDevice().getDeviceContextPtr()->Unmap(d_shadowMatrixBuffer.get(), 0);
+    getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(2, 1, d_shadowMatrixBuffer.getPp());
+  }
+
+  void SimpleShader::setShadowTexture() const
+  {
+    auto* texturePtr = d_shadowMapTexture->getTexturePtr();
+    getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(1, 1, &texturePtr);
   }
 
   void SimpleShader::setTexture(const IObject3& i_object) const

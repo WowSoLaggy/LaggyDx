@@ -127,6 +127,15 @@
     <Filter Include="src\Shaders\ShaderWrapper">
       <UniqueIdentifier>{2241df8e-c23b-4f22-8381-907fd07c6493}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Shadows">
+      <UniqueIdentifier>{7c1e5b9a-4f2d-48a3-b6e1-92d305c7f814}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Shaders\DepthShader">
+      <UniqueIdentifier>{b3f8d2c1-6a95-4e07-9c48-51e7a20d63f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Shaders\InstancedDepthShader">
+      <UniqueIdentifier>{e94a7f06-2d13-4b58-8a76-c40b19e58d27}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Resources\Models">
       <UniqueIdentifier>{1191deec-7391-498d-bb5b-16a5b100621b}</UniqueIdentifier>
     </Filter>
@@ -491,6 +500,27 @@
     </ClInclude>
     <ClInclude Include="Geometry.h">
       <Filter>src\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowCamera.h">
+      <Filter>src\Shadows</Filter>
+    </ClInclude>
+    <ClInclude Include="IDepthShader.h">
+      <Filter>src\Shaders\DepthShader</Filter>
+    </ClInclude>
+    <ClInclude Include="DepthShader.h">
+      <Filter>src\Shaders\DepthShader</Filter>
+    </ClInclude>
+    <ClInclude Include="IInstancedDepthShader.h">
+      <Filter>src\Shaders\InstancedDepthShader</Filter>
+    </ClInclude>
+    <ClInclude Include="InstancedDepthShader.h">
+      <Filter>src\Shaders\InstancedDepthShader</Filter>
+    </ClInclude>
+    <ClInclude Include="IShadowMap.h">
+      <Filter>src\Shadows</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowMap.h">
+      <Filter>src\Shadows</Filter>
     </ClInclude>
     <ClInclude Include="SimpleShader.h">
       <Filter>src\Shaders\SimpleShader</Filter>
@@ -947,6 +977,27 @@
     <ClCompile Include="Geometry.cpp">
       <Filter>src\Geometry</Filter>
     </ClCompile>
+    <ClCompile Include="ShadowCamera.cpp">
+      <Filter>src\Shadows</Filter>
+    </ClCompile>
+    <ClCompile Include="IDepthShader.cpp">
+      <Filter>src\Shaders\DepthShader</Filter>
+    </ClCompile>
+    <ClCompile Include="DepthShader.cpp">
+      <Filter>src\Shaders\DepthShader</Filter>
+    </ClCompile>
+    <ClCompile Include="IInstancedDepthShader.cpp">
+      <Filter>src\Shaders\InstancedDepthShader</Filter>
+    </ClCompile>
+    <ClCompile Include="InstancedDepthShader.cpp">
+      <Filter>src\Shaders\InstancedDepthShader</Filter>
+    </ClCompile>
+    <ClCompile Include="IShadowMap.cpp">
+      <Filter>src\Shadows</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowMap.cpp">
+      <Filter>src\Shadows</Filter>
+    </ClCompile>
     <ClCompile Include="SimpleShader.cpp">
       <Filter>src\Shaders\SimpleShader</Filter>
     </ClCompile>
@@ -1123,6 +1174,15 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="DepthShader.vs.hlsl">
+      <Filter>src\Shaders\DepthShader</Filter>
+    </FxCompile>
+    <FxCompile Include="DepthShader.ps.hlsl">
+      <Filter>src\Shaders\DepthShader</Filter>
+    </FxCompile>
+    <FxCompile Include="InstancedDepthShader.vs.hlsl">
+      <Filter>src\Shaders\InstancedDepthShader</Filter>
+    </FxCompile>
     <FxCompile Include="OceanShader.ps.hlsl">
       <Filter>src\Shaders\OceanShader</Filter>
     </FxCompile>

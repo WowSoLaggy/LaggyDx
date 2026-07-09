@@ -1,5 +1,7 @@
 Texture2D shaderTexture;
+Texture2D shadowMap : register(t1);
 SamplerState SampleType;
+SamplerComparisonState ShadowSampler : register(s1);
 
 
 cbuffer LightingCBuffer
@@ -14,13 +16,42 @@ cbuffer LightingCBuffer
 };
 
 
+// Must match PixelInputType of SimpleShader.vs.hlsl and InstancedShader.vs.hlsl - both feed this shader
 struct PixelInputType
 {
   float4 position : SV_POSITION;
   float4 normal : NORMAL;
   float2 tex : TEXCOORD0;
   float3 viewDirection : TEXCOORD1;
+  float4 shadowPos : TEXCOORD2;
 };
+
+
+// 3x3 PCF shadow-map lookup: 1 = fully lit, 0 = fully shadowed
+float getShadowFactor(float4 i_shadowPos)
+{
+  float3 p = i_shadowPos.xyz / i_shadowPos.w;
+  float2 uv = float2(p.x * 0.5 + 0.5, p.y * -0.5 + 0.5);
+
+  // Outside the light's ortho box -> fully lit
+  float result = 1.0;
+
+  if (all(saturate(uv) == uv) && p.z >= 0.0 && p.z <= 1.0)
+  {
+    float w, h;
+    shadowMap.GetDimensions(w, h);
+    const float2 texel = float2(1.0 / w, 1.0 / h);
+
+    float sum = 0.0;
+    [unroll] for (int y = -1; y <= 1; ++y)
+      [unroll] for (int x = -1; x <= 1; ++x)
+        sum += shadowMap.SampleCmpLevelZero(ShadowSampler, uv + float2(x, y) * texel, p.z);
+
+    result = sum / 9.0;
+  }
+
+  return result;
+}
 
 
 float4 main(PixelInputType input) : SV_TARGET
@@ -38,7 +69,8 @@ float4 main(PixelInputType input) : SV_TARGET
 
   // DIFFUSE
 
-  float lightAmount = saturate(dot(N, -lightDirection));
+  float shadow = getShadowFactor(input.shadowPos);
+  float lightAmount = saturate(dot(N, -lightDirection)) * shadow;
   lightAmount = max(lightAmount, ambientStrength);
   textureColor.rgb *= lightAmount;
 
@@ -48,7 +80,7 @@ float4 main(PixelInputType input) : SV_TARGET
   float dotProduct = saturate(dot(reflection, input.viewDirection));
   float specularValue = pow(dotProduct, specularPower);
   float4 specular = float4(specularValue, specularValue, specularValue, 1.0);
-  textureColor.rgb = saturate(textureColor.rgb + specular.rgb * specularIntensity);
-  
+  textureColor.rgb = saturate(textureColor.rgb + specular.rgb * specularIntensity * shadow);
+
   return textureColor;
 }

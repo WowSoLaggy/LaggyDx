@@ -8,6 +8,7 @@
 #include "Model.h"
 #include "RenderDevice.h"
 #include "ShadersUtils.h"
+#include "ShadowCamera.h"
 #include "Texture.h"
 #include "VertexBuffer.h"
 #include "VertexLayout.h"
@@ -22,14 +23,17 @@ namespace Dx
     : d_matrixBuffer(getRenderDevice(), sizeof(WorldViewProj))
     , d_cameraBuffer(getRenderDevice(), sizeof(CameraDesc))
     , d_lightBuffer(getRenderDevice(), sizeof(LightDesc))
+    , d_shadowMatrixBuffer(getRenderDevice(), sizeof(LightViewProj))
     , d_camera(i_camera)
     , d_sandTexture(getResourceController().getTexture("sand.png"))
     , d_grassTexture(getResourceController().getTexture("grass.png"))
     , d_cliffTexture(getResourceController().getTexture("cliff.png"))
+    , d_shadowMapTexture(&getResourceController().getTexture("white.png"))
   {
     getShaders().initVs(g_terrainVs, sizeof(g_terrainVs), getVertexLayoutPos3NormText());
     getShaders().initPs(g_terrainPs, sizeof(g_terrainPs));
     getShaders().addSampler(true);
+    getShaders().addComparisonSampler();
   }
 
 
@@ -48,6 +52,16 @@ namespace Dx
     d_lightDesc.ambientStrength = (float)i_strength;
   }
 
+  void TerrainShader::setShadowMap(const ITexture& i_shadowMap)
+  {
+    d_shadowMapTexture = &i_shadowMap;
+  }
+
+  void TerrainShader::setShadowCamera(const ShadowCamera& i_shadowCamera)
+  {
+    d_shadowCamera = &i_shadowCamera;
+  }
+
 
   void TerrainShader::draw(const IObject3& i_object) const
   {
@@ -61,6 +75,7 @@ namespace Dx
     setShaders();
     setXfmMatrices(i_object);
     setCBuffers();
+    setShadowCBuffer();
     setTextures();
 
     auto drawMesh = [&](const auto& i_mesh)
@@ -143,16 +158,34 @@ namespace Dx
     }
   }
 
+  void TerrainShader::setShadowCBuffer() const
+  {
+    // Identity fallback keeps receivers fully lit until a shadow camera is set
+    const auto lightViewProj = d_shadowCamera
+      ? XMMatrixTranspose(d_shadowCamera->getViewMatrix() * d_shadowCamera->getProjectionMatrix())
+      : XMMatrixIdentity();
+
+    D3D11_MAPPED_SUBRESOURCE mappedResource;
+    getRenderDevice().getDeviceContextPtr()->Map(d_shadowMatrixBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+    auto* dataPtr = (LightViewProj*)mappedResource.pData;
+    dataPtr->lightViewProj = lightViewProj;
+
+    getRenderDevice().getDeviceContextPtr()->Unmap(d_shadowMatrixBuffer.get(), 0);
+    getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(2, 1, d_shadowMatrixBuffer.getPp());
+  }
+
   void TerrainShader::setTextures() const
   {
-    ID3D11ShaderResourceView* srvs[3] =
+    ID3D11ShaderResourceView* srvs[4] =
     {
       d_sandTexture.getTexturePtr(),
       d_grassTexture.getTexturePtr(),
       d_cliffTexture.getTexturePtr(),
+      d_shadowMapTexture->getTexturePtr(),
     };
 
-    getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 3, srvs);
+    getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 4, srvs);
   }
 
   void TerrainShader::setMaterial(const Material& i_material) const

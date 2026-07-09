@@ -11,6 +11,12 @@ cbuffer CameraCBuffer
   float _reserved1;
 };
 
+// Explicit register: the cbuffers above rely on implicit b0/b1 slot assignment
+cbuffer ShadowCBuffer : register(b2)
+{
+  matrix lightViewProj;
+};
+
 
 struct VertexInputType
 {
@@ -26,6 +32,7 @@ struct PixelInputType
   float2 tex : TEXCOORD0;
   float3 viewDirection : TEXCOORD1;
   float3 worldPos : TEXCOORD2;
+  float4 shadowPos : TEXCOORD3;
 };
 
 
@@ -52,6 +59,9 @@ PixelInputType main(VertexInputType input)
   // VIEW DIRECTION
 
   output.viewDirection = normalize(cameraPos - worldPosition.xyz);
+
+  // Light-space position for shadow-map lookup in the pixel shader
+  output.shadowPos = mul(worldPosition, lightViewProj);
 
   return output;
 }

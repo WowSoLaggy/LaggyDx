@@ -36,6 +36,8 @@ namespace Dx
     void setDepthStencilState(D3D11_DEPTH_STENCIL_DESC i_state);
     void setBlendState(D3D11_BLEND_DESC i_state);
 
+    void attachViewport();
+
   private:
     Sdk::Vector2I d_resolution;
     float d_clearColor[4] = { 0.396f, 0.612f, 0.937f, 1.0f };
@@ -70,7 +72,6 @@ namespace Dx
     void createDeviceAndSwapChain(const int i_refreshRate, bool i_debugMode);
     void createRenderTargetView();
     void createDepthBuffer();
-    void attachViewport();
   };
 
 } // ns Dx

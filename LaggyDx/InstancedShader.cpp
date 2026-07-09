@@ -10,6 +10,7 @@
 #include "Model.h"
 #include "RenderDevice.h"
 #include "ShadersUtils.h"
+#include "ShadowCamera.h"
 #include "Texture.h"
 #include "VertexBuffer.h"
 #include "VertexLayout.h"
@@ -24,12 +25,15 @@ namespace Dx
     : d_matrixBuffer(getRenderDevice(), sizeof(ViewProj))
     , d_cameraBuffer(getRenderDevice(), sizeof(CameraDesc))
     , d_lightBuffer(getRenderDevice(), sizeof(LightDesc))
+    , d_shadowMatrixBuffer(getRenderDevice(), sizeof(LightViewProj))
     , d_camera(i_camera)
     , d_emptyTexture(getResourceController().getTexture("white.png"))
+    , d_shadowMapTexture(&d_emptyTexture)
   {
     getShaders().initVs(g_instancedVs, sizeof(g_instancedVs), getVertexLayoutPos3NormTextInstanced());
     getShaders().initPs(g_simplePs, sizeof(g_simplePs));
     getShaders().addSampler(true);
+    getShaders().addComparisonSampler();
   }
 
 
@@ -46,6 +50,16 @@ namespace Dx
   void InstancedShader::setAmbientStrength(const double i_strength)
   {
     d_lightDesc.ambientStrength = (float)i_strength;
+  }
+
+  void InstancedShader::setShadowMap(const ITexture& i_shadowMap)
+  {
+    d_shadowMapTexture = &i_shadowMap;
+  }
+
+  void InstancedShader::setShadowCamera(const ShadowCamera& i_shadowCamera)
+  {
+    d_shadowCamera = &i_shadowCamera;
   }
 
 
@@ -65,6 +79,8 @@ namespace Dx
     setShaders();
     setXfmMatrices();
     setCBuffers();
+    setShadowCBuffer();
+    setShadowTexture();
 
     auto drawMesh = [&](const auto& i_mesh)
     {
@@ -126,6 +142,29 @@ namespace Dx
 
     getRenderDevice().getDeviceContextPtr()->Unmap(d_cameraBuffer.get(), 0);
     getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(1, 1, d_cameraBuffer.getPp());
+  }
+
+  void InstancedShader::setShadowCBuffer() const
+  {
+    // Identity fallback keeps receivers fully lit until a shadow camera is set
+    const auto lightViewProj = d_shadowCamera
+      ? XMMatrixTranspose(d_shadowCamera->getViewMatrix() * d_shadowCamera->getProjectionMatrix())
+      : XMMatrixIdentity();
+
+    D3D11_MAPPED_SUBRESOURCE mappedResource;
+    getRenderDevice().getDeviceContextPtr()->Map(d_shadowMatrixBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+    auto* dataPtr = (LightViewProj*)mappedResource.pData;
+    dataPtr->lightViewProj = lightViewProj;
+
+    getRenderDevice().getDeviceContextPtr()->Unmap(d_shadowMatrixBuffer.get(), 0);
+    getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(2, 1, d_shadowMatrixBuffer.getPp());
+  }
+
+  void InstancedShader::setShadowTexture() const
+  {
+    auto* texturePtr = d_shadowMapTexture->getTexturePtr();
+    getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(1, 1, &texturePtr);
   }
 
   void InstancedShader::setTexture(const Material& i_material) const

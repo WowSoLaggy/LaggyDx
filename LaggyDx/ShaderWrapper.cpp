@@ -88,4 +88,30 @@ namespace Dx
     d_samplers.push_back(sampler);
   }
 
+  void ShaderWrapper::addComparisonSampler()
+  {
+    // Comparison sampler for shadow-map PCF: linear filter gives hardware 2x2 tap averaging
+    D3D11_SAMPLER_DESC samplerDesc{};
+    samplerDesc.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_LINEAR_MIP_POINT;
+    samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;
+    samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_BORDER;
+    samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_BORDER;
+    samplerDesc.MipLODBias = 0.0f;
+    samplerDesc.MaxAnisotropy = 1;
+    samplerDesc.ComparisonFunc = D3D11_COMPARISON_LESS_EQUAL;
+    samplerDesc.BorderColor[0] = 1.0f;
+    samplerDesc.BorderColor[1] = 1.0f;
+    samplerDesc.BorderColor[2] = 1.0f;
+    samplerDesc.BorderColor[3] = 1.0f;
+    samplerDesc.MinLOD = 0;
+    samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+    ID3D11SamplerState* sampler = nullptr;
+    const HRESULT hRes = d_renderDevice.getDevicePtr()->CreateSamplerState(&samplerDesc, &sampler);
+    CONTRACT_ASSERT(!FAILED(hRes));
+    CONTRACT_ASSERT(sampler != nullptr);
+
+    d_samplers.push_back(sampler);
+  }
+
 } // ns Dx

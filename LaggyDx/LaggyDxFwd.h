@@ -122,6 +122,14 @@ namespace Dx
   class IInstancedShader;
   class ITerrainShader;
 
+  class ShadowCamera;
+  class IShadowMap;
+  class ShadowMap;
+  class IDepthShader;
+  class DepthShader;
+  class IInstancedDepthShader;
+  class InstancedDepthShader;
+
   using Color = Sdk::Vector4F;
   using Action = std::function<void()>;
 

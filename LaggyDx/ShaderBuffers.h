@@ -21,6 +21,11 @@ namespace Dx
     XMMATRIX projection;
   };
 
+  struct LightViewProj
+  {
+    XMMATRIX lightViewProj;
+  };
+
   struct TimeDesc
   {
     float time{ 0 };

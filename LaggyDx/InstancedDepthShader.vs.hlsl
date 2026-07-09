@@ -4,18 +4,6 @@ cbuffer MatrixBuffer
   matrix projectionMatrix;
 };
 
-cbuffer CameraCBuffer
-{
-  float3 cameraPos;
-  float _reserved1;
-};
-
-// Explicit register: the cbuffers above rely on implicit b0/b1 slot assignment
-cbuffer ShadowCBuffer : register(b2)
-{
-  matrix lightViewProj;
-};
-
 
 struct VertexInputType
 {
@@ -26,14 +14,10 @@ struct VertexInputType
   float instScale : TEXCOORD2;   // Per-instance: uniform scale
 };
 
-// Must match PixelInputType of SimpleShader.ps.hlsl - the pixel shader is shared
 struct PixelInputType
 {
   float4 position : SV_POSITION;
-  float4 normal : NORMAL;
   float2 tex : TEXCOORD0;
-  float3 viewDirection : TEXCOORD1;
-  float4 shadowPos : TEXCOORD2;
 };
 
 
@@ -44,6 +28,7 @@ float3 rotateY(float3 v, float s, float c)
 }
 
 
+// Depth-only pass: light view/projection ride in the view/proj slots
 PixelInputType main(VertexInputType input)
 {
   PixelInputType output;
@@ -56,13 +41,6 @@ PixelInputType main(VertexInputType input)
 
   output.position = mul(float4(worldPosition, 1.0f), viewMatrix);
   output.position = mul(output.position, projectionMatrix);
-
-  output.normal = float4(normalize(rotateY(input.normal.xyz, s, c)), 0.0f);
-
-  output.viewDirection = normalize(cameraPos - worldPosition);
-
-  // Light-space position for shadow-map lookup in the pixel shader
-  output.shadowPos = mul(float4(worldPosition, 1.0f), lightViewProj);
 
   return output;
 }

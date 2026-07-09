@@ -230,6 +230,13 @@
     <ClInclude Include="Shader3d.h" />
     <ClInclude Include="ShadersUtils.h" />
     <ClInclude Include="ShaderWrapper.h" />
+    <ClInclude Include="ShadowCamera.h" />
+    <ClInclude Include="IShadowMap.h" />
+    <ClInclude Include="ShadowMap.h" />
+    <ClInclude Include="IDepthShader.h" />
+    <ClInclude Include="DepthShader.h" />
+    <ClInclude Include="IInstancedDepthShader.h" />
+    <ClInclude Include="InstancedDepthShader.h" />
     <ClInclude Include="Shape3dUtils.h" />
     <ClInclude Include="SimpleShader.h" />
     <ClInclude Include="TerrainShader.h" />
@@ -389,6 +396,13 @@
     <ClCompile Include="RadioGroup.cpp" />
     <ClCompile Include="ShaderBase.cpp" />
     <ClCompile Include="ShaderWrapper.cpp" />
+    <ClCompile Include="ShadowCamera.cpp" />
+    <ClCompile Include="IShadowMap.cpp" />
+    <ClCompile Include="ShadowMap.cpp" />
+    <ClCompile Include="IDepthShader.cpp" />
+    <ClCompile Include="DepthShader.cpp" />
+    <ClCompile Include="IInstancedDepthShader.cpp" />
+    <ClCompile Include="InstancedDepthShader.cpp" />
     <ClCompile Include="Shape3d.cpp" />
     <ClCompile Include="Shape3dUtils.cpp" />
     <ClCompile Include="SimpleShader.cpp" />
@@ -486,6 +500,24 @@
       <ShaderType>Vertex</ShaderType>
       <VariableName>g_instancedVs</VariableName>
       <HeaderFileOutput>Generated/Instanced.gen.vs.h</HeaderFileOutput>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="DepthShader.vs.hlsl">
+      <ShaderType>Vertex</ShaderType>
+      <VariableName>g_depthVs</VariableName>
+      <HeaderFileOutput>Generated/Depth.gen.vs.h</HeaderFileOutput>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="DepthShader.ps.hlsl">
+      <ShaderType>Pixel</ShaderType>
+      <VariableName>g_depthPs</VariableName>
+      <HeaderFileOutput>Generated/Depth.gen.ps.h</HeaderFileOutput>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="InstancedDepthShader.vs.hlsl">
+      <ShaderType>Vertex</ShaderType>
+      <VariableName>g_instancedDepthVs</VariableName>
+      <HeaderFileOutput>Generated/InstancedDepth.gen.vs.h</HeaderFileOutput>
       <ShaderModel>5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="SimpleShader.ps.hlsl">

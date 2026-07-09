@@ -28,7 +28,7 @@ These repos must exist at `..\LaggySdk` and `..\DirectXTK` relative to this one 
 
 ### HLSL shader compilation
 
-The HLSL shaders (`OceanShader`, `SimpleShader`, `SkydomeShader`, `SpriteShader`, `TerrainShader` — each `.vs.hlsl` + `.ps.hlsl` — plus `InstancedShader.vs.hlsl`, which has no pixel shader of its own and reuses `g_simplePs`) are compiled by MSBuild's `FxCompile` step into C arrays in `LaggyDx/Generated/*.gen.{vs,ps}.h` (e.g. `g_simpleVs`, `g_oceanPs`). Those generated headers are then `#include`d by the corresponding `*Shader.cpp`. The `Generated/` directory is build output — don't edit it. If you add a new shader, declare it under `<FxCompile>` in `LaggyDx.vcxproj` with `ShaderType`, `VariableName`, `HeaderFileOutput`, and `ShaderModel` (currently 5.0).
+The HLSL shaders (`OceanShader`, `SimpleShader`, `SkydomeShader`, `SpriteShader`, `TerrainShader` — each `.vs.hlsl` + `.ps.hlsl` — plus `InstancedShader.vs.hlsl` and `InstancedDepthShader.vs.hlsl`, which have no pixel shader of their own and reuse `g_simplePs` / `g_depthPs` respectively, and `DepthShader.{vs,ps}.hlsl` for the shadow-map pass) are compiled by MSBuild's `FxCompile` step into C arrays in `LaggyDx/Generated/*.gen.{vs,ps}.h` (e.g. `g_simpleVs`, `g_oceanPs`). Those generated headers are then `#include`d by the corresponding `*Shader.cpp`. The `Generated/` directory is build output — don't edit it. If you add a new shader, declare it under `<FxCompile>` in `LaggyDx.vcxproj` with `ShaderType`, `VariableName`, `HeaderFileOutput`, and `ShaderModel` (currently 5.0).
 
 ## Architecture
 
@@ -79,6 +79,8 @@ Per-shader wrappers (`SimpleShader`, `InstancedShader`, `SkydomeShader`, `Sprite
 **Hardware instancing**: `IInstancedShader` draws one model N times per call (`draw(object, instanceBuffer)`, `DrawIndexedInstanced`). Per-instance transforms (`InstancePosRotScale` in `InstanceTypes.h`: position + Y-rotation + uniform scale) live in an `IInstanceBuffer` bound to vertex-buffer slot 1 via `getVertexLayoutPos3NormTextInstanced()`. The instanced VS applies the per-instance transform instead of the world matrix and outputs the same struct as `SimpleShader.ps.hlsl`, which it reuses as its pixel stage — keep the two in sync. Instance buffers are immutable; recreate to change the instance set.
 
 The render device's `begin`/`end` and `Sdk::Locker`/`Sdk::ScopeGuard` integration come from `Sdk::ILockable` — `IRenderDevice` inherits it so the `App::mainloop` render block can wrap rendering in a single RAII scope.
+
+**Shadow mapping**: `ShadowCamera` (plain value class) holds the directional light's view + texel-snapped orthographic projection around a focus point; `IShadowMap` / `ShadowMap` is the offscreen non-MSAA depth target (`bind()` redirects rendering into it, `unbind()` restores the backbuffer). `IDepthShader` / `IInstancedDepthShader` render `IObject3`s / instanced models into it depth-only (shared alpha-clip PS so cutout textures cast cutout shadows; rasterizer depth-bias constants at the top of `DepthShader.cpp` / `InstancedDepthShader.cpp` are the acne knobs). `TerrainShader`, `SimpleShader`, and `InstancedShader` receive shadows: `setShadowMap(...)` + `setShadowCamera(...)` bind the map (terrain t3, simple/instanced t1; comparison sampler at s1, light matrix cbuffer at b2) and the PS applies 3x3 PCF; they default to `white.png` (fully lit) until wired. The game drives the pass: update the `ShadowCamera` focus, `shadowMap.bind()`, draw casters with the depth shaders, `unbind()`, then render normally.
 
 ### GUI: retained-mode control tree
 
