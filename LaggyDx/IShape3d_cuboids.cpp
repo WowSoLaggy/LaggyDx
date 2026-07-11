@@ -165,4 +165,19 @@ namespace Dx
     return std::make_unique<Shape3d>(std::move(verts), std::move(inds));
   }
 
+
+  std::unique_ptr<IShape3d> IShape3d::cuboidCentered(
+    const float i_sizeX, const float i_sizeY, const float i_sizeZ)
+  {
+    auto verts = generateCubeVerts(i_sizeX, i_sizeY, i_sizeZ);
+    for (auto& vert : verts)
+    {
+      vert.position.x -= i_sizeX / 2.0f;
+      vert.position.z -= i_sizeZ / 2.0f;
+    }
+
+    auto inds = generateCubeInds();
+    return std::make_unique<Shape3d>(std::move(verts), std::move(inds));
+  }
+
 } // ns Dx

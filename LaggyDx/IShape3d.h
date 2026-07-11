@@ -36,6 +36,9 @@ namespace Dx
     /// Axis-aligned box anchored at origin, spanning [0, i_sizeX/Y/Z] in each axis (base-anchored, like cube)
     static std::unique_ptr<IShape3d> cuboid(float i_sizeX, float i_sizeY, float i_sizeZ);
 
+    /// Axis-aligned box centered on the origin in XZ, spanning [0, i_sizeY] in Y (base-anchored footprint centre)
+    static std::unique_ptr<IShape3d> cuboidCentered(float i_sizeX, float i_sizeY, float i_sizeZ);
+
 
     /// \param i_radius - radius
     /// \param i_stackCount - number of divisions by latitude (from north to south)
