@@ -56,6 +56,12 @@ namespace Dx
     XMFLOAT2 _reserved{ 0, 0 };
   };
 
+  struct GridDesc
+  {
+    float cellSize{ 0 };
+    XMFLOAT3 _reserved{ 0, 0, 0 };
+  };
+
   struct DepthFogDesc
   {
     float depthStart{ 0 };

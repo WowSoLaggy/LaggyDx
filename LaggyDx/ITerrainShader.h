@@ -20,6 +20,9 @@ namespace Dx
 
     virtual void setShadowMap(const ITexture& i_shadowMap) = 0;
     virtual void setShadowCamera(const ShadowCamera& i_shadowCamera) = 0;
+
+    // World-space grid overlay with the given cell size; 0 or less hides it
+    virtual void setGridCellSize(double i_cellSize) = 0;
   };
 
 } // ns Dx

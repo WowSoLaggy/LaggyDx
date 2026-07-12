@@ -24,6 +24,7 @@ namespace Dx
     , d_cameraBuffer(getRenderDevice(), sizeof(CameraDesc))
     , d_lightBuffer(getRenderDevice(), sizeof(LightDesc))
     , d_shadowMatrixBuffer(getRenderDevice(), sizeof(LightViewProj))
+    , d_gridBuffer(getRenderDevice(), sizeof(GridDesc))
     , d_camera(i_camera)
     , d_sandTexture(getResourceController().getTexture("sand.png"))
     , d_grassTexture(getResourceController().getTexture("grass.png"))
@@ -62,6 +63,11 @@ namespace Dx
     d_shadowCamera = &i_shadowCamera;
   }
 
+  void TerrainShader::setGridCellSize(const double i_cellSize)
+  {
+    d_gridCellSize = (float)i_cellSize;
+  }
+
 
   void TerrainShader::draw(const IObject3& i_object) const
   {
@@ -76,6 +82,7 @@ namespace Dx
     setXfmMatrices(i_object);
     setCBuffers();
     setShadowCBuffer();
+    setGridCBuffer();
     setTextures();
 
     auto drawMesh = [&](const auto& i_mesh)
@@ -173,6 +180,18 @@ namespace Dx
 
     getRenderDevice().getDeviceContextPtr()->Unmap(d_shadowMatrixBuffer.get(), 0);
     getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(2, 1, d_shadowMatrixBuffer.getPp());
+  }
+
+  void TerrainShader::setGridCBuffer() const
+  {
+    D3D11_MAPPED_SUBRESOURCE mappedResource;
+    getRenderDevice().getDeviceContextPtr()->Map(d_gridBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+    auto* dataPtr = (GridDesc*)mappedResource.pData;
+    dataPtr->cellSize = d_gridCellSize;
+
+    getRenderDevice().getDeviceContextPtr()->Unmap(d_gridBuffer.get(), 0);
+    getRenderDevice().getDeviceContextPtr()->PSSetConstantBuffers(1, 1, d_gridBuffer.getPp());
   }
 
   void TerrainShader::setTextures() const

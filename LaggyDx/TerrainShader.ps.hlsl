@@ -17,7 +17,7 @@ SamplerState SampleType;
 SamplerComparisonState ShadowSampler : register(s1);
 
 
-cbuffer LightingCBuffer
+cbuffer LightingCBuffer : register(b0)
 {
   float4 diffuseColor;
   float4 lightColor;
@@ -26,6 +26,12 @@ cbuffer LightingCBuffer
   float specularIntensity;
   float specularPower;
   float2 _reserved;
+};
+
+cbuffer GridCBuffer : register(b1)
+{
+  float gridCellSize; // world units per grid cell; 0 or less hides the grid
+  float3 _gridReserved;
 };
 
 
@@ -88,6 +94,23 @@ static const float SandHeightFull = 1.0;  // below this -> full sand
 static const float CliffStart = 0.55;
 static const float CliffBlend = 0.20;
 
+// Grid overlay: world-space lines every gridCellSize units (cell size set from C++).
+static const float GridLineHalfWidth = 0.08; // world units from a line's center to its edge
+static const float3 GridLineColor = float3(0.05, 0.05, 0.05);
+static const float GridLineOpacity = 0.5;
+
+
+// Anti-aliased grid-line mask at a world XZ: 1 on a line, 0 between lines.
+float getGridFactor(float2 i_worldXz)
+{
+  // Clamp keeps the division NaN-free when the grid is off; the result is discarded then.
+  const float cellSize = max(gridCellSize, 0.001);
+  const float2 dist = abs(frac(i_worldXz / cellSize + 0.5) - 0.5) * cellSize;
+  const float2 aa = fwidth(i_worldXz) + 0.0001; // ~one pixel in world units, for smooth distant lines
+  const float2 lineMask = 1.0 - smoothstep(GridLineHalfWidth, GridLineHalfWidth + aa, dist);
+  return max(lineMask.x, lineMask.y);
+}
+
 
 float4 main(PixelInputType input) : SV_TARGET
 {
@@ -133,6 +156,11 @@ float4 main(PixelInputType input) : SV_TARGET
   float specularValue = pow(dotProduct, specularPower);
   float4 specular = float4(specularValue, specularValue, specularValue, 1.0);
   textureColor.rgb = saturate(textureColor.rgb + specular.rgb * specularIntensity * shadow);
+
+  // GRID (applied after lighting so the lines stay readable in shadow)
+
+  const float gridAmount = getGridFactor(input.worldPos.xz) * (gridCellSize > 0.0 ? GridLineOpacity : 0.0);
+  textureColor.rgb = lerp(textureColor.rgb, GridLineColor, gridAmount);
 
   return textureColor;
 }
