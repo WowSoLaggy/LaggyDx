@@ -46,8 +46,12 @@ namespace Dx
 
     DxResourceWrapper<ID3D11Device> d_device;
     DxResourceWrapper<ID3D11DeviceContext> d_deviceContext;
-    DxResourceWrapper<IDXGISwapChain> d_swapChain;
+    DxResourceWrapper<IDXGISwapChain1> d_swapChain;
 
+    // Single-sample flip-model back buffer - only a resolve destination, never drawn into directly.
+    DxResourceWrapper<ID3D11Texture2D> d_backBufferTexture2D;
+    // Offscreen MSAA color target the scene is rendered into, resolved to the back buffer before present.
+    DxResourceWrapper<ID3D11Texture2D> d_msaaColorTexture2D;
     DxResourceWrapper<ID3D11RenderTargetView> d_renderTargetView;
 
     DxResourceWrapper<ID3D11Texture2D> d_depthBufferTexture2D;

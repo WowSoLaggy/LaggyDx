@@ -4,6 +4,8 @@
 #include "RefreshRate.h"
 #include "TextureView.h"
 
+#include <dxgi1_2.h>
+
 
 namespace Dx
 {
@@ -117,9 +119,13 @@ namespace Dx
 
   void RenderDevice::end()
   {
-    // Present the back buffer to the screen since rendering is complete
-    unsigned int nominator = c_vSyncEnabled ? 1 : 0;
-    d_swapChain->Present(nominator, 0);
+    // Resolve the offscreen MSAA color into the single-sample back buffer before presenting.
+    d_deviceContext->ResolveSubresource(
+      d_backBufferTexture2D.get(), 0, d_msaaColorTexture2D.get(), 0, DXGI_FORMAT_R8G8B8A8_UNORM);
+
+    // Present the back buffer; with the flip model Present(1,...) paces the loop to the refresh rate.
+    unsigned int syncInterval = c_vSyncEnabled ? 1 : 0;
+    d_swapChain->Present(syncInterval, 0);
   }
 
 
@@ -237,78 +243,84 @@ namespace Dx
 
   void RenderDevice::createDeviceAndSwapChain(const int i_refreshRate, const bool i_debugMode)
   {
-    DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
-
-    // Set to a single back buffer
-    swapChainDesc.BufferCount = 1;
-
-    // Set the width and height of the back buffer
-    swapChainDesc.BufferDesc.Width = d_resolution.x;
-    swapChainDesc.BufferDesc.Height = d_resolution.y;
-
-    // Set regular 32-bit surface for the back buffer
-    swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-
-    // Set the refresh rate of the back buffer
-    swapChainDesc.BufferDesc.RefreshRate.Numerator = c_vSyncEnabled ? i_refreshRate : 0;
-    swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
-
-    // Set the usage of the back buffer
-    swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-
-    // Set the handle for the window to render to
-    swapChainDesc.OutputWindow = d_hWnd;
-
-    // Set to full screen or windowed mode
-    swapChainDesc.Windowed = !c_fullScreen;
-
-    // Set the scan line ordering and scaling to unspecified
-    swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-    swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-
-    // Discard the back buffer contents after presenting
-    swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-
-    // Don't set the advanced flags
-    swapChainDesc.Flags = 0;
-
-    // MSAA settings
-    swapChainDesc.SampleDesc.Count = static_cast<int>(c_msaaMode);
-    swapChainDesc.SampleDesc.Quality = 0;
-
-
-    // Set the feature level to DirectX 11
+    // Flip-model back buffers must be single-sample; MSAA is done on an offscreen target and resolved before present.
     D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_1;
 
-
-    // Set debug mode if required
     UINT flags = 0;
     if (i_debugMode)
       flags |= D3D11_CREATE_DEVICE_DEBUG;
 
-
-    // Create the swap chain, Direct3D device, and Direct3D device context
-    HRESULT hRes = D3D11CreateDeviceAndSwapChain(
+    HRESULT hRes = D3D11CreateDevice(
       NULL, D3D_DRIVER_TYPE_HARDWARE, NULL,
       flags, &featureLevel, 1,
-      D3D11_SDK_VERSION, &swapChainDesc, d_swapChain.getPp(),
-      d_device.getPp(), NULL, d_deviceContext.getPp());
+      D3D11_SDK_VERSION, d_device.getPp(), NULL, d_deviceContext.getPp());
     CONTRACT_ASSERT(!FAILED(hRes));
     CONTRACT_ASSERT(d_device.isNotNullptr());
     CONTRACT_ASSERT(d_deviceContext.isNotNullptr());
+
+    // Reach the DXGI factory through the device to create a flip-model swap chain for the window.
+    DxResourceWrapper<IDXGIDevice> dxgiDevice;
+    hRes = d_device->QueryInterface(__uuidof(IDXGIDevice), (void**)dxgiDevice.getPp());
+    CONTRACT_ASSERT(!FAILED(hRes));
+
+    DxResourceWrapper<IDXGIAdapter> dxgiAdapter;
+    hRes = dxgiDevice->GetAdapter(dxgiAdapter.getPp());
+    CONTRACT_ASSERT(!FAILED(hRes));
+
+    DxResourceWrapper<IDXGIFactory2> dxgiFactory;
+    hRes = dxgiAdapter->GetParent(__uuidof(IDXGIFactory2), (void**)dxgiFactory.getPp());
+    CONTRACT_ASSERT(!FAILED(hRes));
+
+    DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
+    swapChainDesc.Width = d_resolution.x;
+    swapChainDesc.Height = d_resolution.y;
+    swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    swapChainDesc.SampleDesc.Count = 1;
+    swapChainDesc.SampleDesc.Quality = 0;
+    swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+    // Flip model needs at least two buffers; the present queue is what paces the loop to the refresh rate.
+    swapChainDesc.BufferCount = 2;
+    swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
+    swapChainDesc.Scaling = DXGI_SCALING_STRETCH;
+    swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_IGNORE;
+    swapChainDesc.Flags = 0;
+
+    DXGI_SWAP_CHAIN_FULLSCREEN_DESC fullscreenDesc = {};
+    fullscreenDesc.RefreshRate.Numerator = i_refreshRate;
+    fullscreenDesc.RefreshRate.Denominator = 1;
+    fullscreenDesc.Windowed = !c_fullScreen;
+
+    hRes = dxgiFactory->CreateSwapChainForHwnd(
+      d_device.get(), d_hWnd, &swapChainDesc, &fullscreenDesc, nullptr, d_swapChain.getPp());
+    CONTRACT_ASSERT(!FAILED(hRes));
     CONTRACT_ASSERT(d_swapChain.isNotNullptr());
   }
 
   void RenderDevice::createRenderTargetView()
   {
-    // Get the pointer to the back buffer
-    DxResourceWrapper<ID3D11Texture2D> backBuffer;
-    HRESULT hRes = d_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)backBuffer.getPp());
+    // Keep a handle to the single-sample back buffer - it is only ever the resolve destination.
+    HRESULT hRes = d_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)d_backBufferTexture2D.getPp());
     CONTRACT_ASSERT(!FAILED(hRes));
-    CONTRACT_ASSERT(backBuffer.isNotNullptr());
+    CONTRACT_ASSERT(d_backBufferTexture2D.isNotNullptr());
 
-    // Create the render target view with the back buffer pointer
-    hRes = d_device->CreateRenderTargetView(backBuffer.get(), NULL, d_renderTargetView.getPp());
+    // The scene renders into an offscreen MSAA color target matching the back buffer's format and size.
+    D3D11_TEXTURE2D_DESC colorDesc = {};
+    colorDesc.Width = d_resolution.x;
+    colorDesc.Height = d_resolution.y;
+    colorDesc.MipLevels = 1;
+    colorDesc.ArraySize = 1;
+    colorDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    colorDesc.SampleDesc.Count = static_cast<int>(c_msaaMode);
+    colorDesc.SampleDesc.Quality = 0;
+    colorDesc.Usage = D3D11_USAGE_DEFAULT;
+    colorDesc.BindFlags = D3D11_BIND_RENDER_TARGET;
+
+    hRes = d_device->CreateTexture2D(&colorDesc, NULL, d_msaaColorTexture2D.getPp());
+    CONTRACT_ASSERT(!FAILED(hRes));
+    CONTRACT_ASSERT(d_msaaColorTexture2D.isNotNullptr());
+
+    // The render target view targets the offscreen MSAA color, not the back buffer.
+    hRes = d_device->CreateRenderTargetView(d_msaaColorTexture2D.get(), NULL, d_renderTargetView.getPp());
     CONTRACT_ASSERT(!FAILED(hRes));
     CONTRACT_ASSERT(d_renderTargetView.isNotNullptr());
   }
