@@ -100,14 +100,17 @@ static const float GrassCoarseMix = 0.45; // 0 = detail only, 1 = coarse only
 static const float DirtTileCoarse = 41.0;
 static const float DirtCoarseMix = 0.5;
 
-// Dirt patches: value noise thresholded into ragged bare-ground blotches.
+// Dirt patches: value noise thresholded into ragged worn-ground blotches. The
+// blend stays partial (DryStrength) so grass always shows through, and the dirt
+// is tinted darker/greener to sit under the grass tone instead of popping out.
 static const float DirtTile = 9.0;         // world units per dirt texture repeat
-static const float DryPatchScale = 26.0;   // world units per noise feature
-static const float DryEdgeLo = 0.58;       // noise below this -> fully grass
-static const float DryEdgeHi = 0.74;       // noise above this -> fully dirt
-static const float DryStrength = 0.85;     // max dirt blend even inside a patch
+static const float3 DirtTint = float3(0.72, 0.76, 0.60);
+static const float DryPatchScale = 65.0;   // world units per noise feature
+static const float DryEdgeLo = 0.60;       // noise below this -> fully grass
+static const float DryEdgeHi = 0.80;       // noise above this -> max dirt
+static const float DryStrength = 0.55;     // max dirt blend even inside a patch
 static const float DryBreakupScale = 5.0;  // world units per interior grass speckle
-static const float DryBreakupAmount = 0.45; // 0 = solid patches, 1 = fully mottled
+static const float DryBreakupAmount = 0.4; // 0 = solid patches, 1 = fully mottled
 
 // Macro variation: low-frequency brightness modulation over every layer.
 static const float MacroScale = 90.0;      // world units per light/dark region
@@ -193,7 +196,7 @@ float3 sampleTwoScale(Texture2D i_texture, float2 i_worldXz, float i_tile, float
 float3 getGrassColor(float2 i_worldXz)
 {
   const float3 grass = sampleTwoScale(grassTexture, i_worldXz, GrassTile, GrassTileCoarse, GrassCoarseMix);
-  const float3 dirt = sampleTwoScale(dirtTexture, i_worldXz, DirtTile, DirtTileCoarse, DirtCoarseMix);
+  const float3 dirt = sampleTwoScale(dirtTexture, i_worldXz, DirtTile, DirtTileCoarse, DirtCoarseMix) * DirtTint;
 
   // Bare patches: crossfade to dirt inside ragged noise blotches, with a fine
   // speckle keeping some grass alive in the interiors so they don't read as solid.
