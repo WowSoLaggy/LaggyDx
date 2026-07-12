@@ -23,6 +23,8 @@ namespace Dx
     void setShadowMapResolution(int i_resolution);
 
     void setFocusPoint(const Sdk::Vector3F& i_focus);
+    // Fits the ortho box to the light-space bounds of the given world points
+    void setFocusArea(std::vector<Sdk::Vector3F> i_worldPoints);
 
     const DirectX::XMMATRIX& getViewMatrix() const { return d_viewMatrix; }
     const DirectX::XMMATRIX& getProjectionMatrix() const { return d_projectionMatrix; }
@@ -33,10 +35,13 @@ namespace Dx
     float d_depthRange = 100.0f;
     int d_resolution = 1024;
     Sdk::Vector3F d_focus;
+    std::vector<Sdk::Vector3F> d_focusArea;
 
     DirectX::XMMATRIX d_viewMatrix;
     DirectX::XMMATRIX d_projectionMatrix;
 
+    void getFocusPointBox(DirectX::XMFLOAT3& o_min, DirectX::XMFLOAT3& o_max) const;
+    void getFocusAreaBox(DirectX::XMFLOAT3& o_min, DirectX::XMFLOAT3& o_max) const;
     void updateMatrices();
   };
 
