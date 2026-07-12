@@ -26,11 +26,12 @@ namespace Dx
   private:
     const ICamera3& d_camera;
 
-    // Three terrain layers blended by the shore mask + slope in the pixel shader,
-    // bound to registers t0..t2 respectively.
+    // Four terrain layers blended by the shore mask + slope + dry-patch noise in
+    // the pixel shader: sand/grass/cliff at t0..t2, dirt at t4 (t3 is the shadow map).
     const ITexture& d_sandTexture;
     const ITexture& d_grassTexture;
     const ITexture& d_cliffTexture;
+    const ITexture& d_dirtTexture;
 
     // Shadow map at t3; defaults to white.png so receivers stay lit until one is set
     const ITexture* d_shadowMapTexture;

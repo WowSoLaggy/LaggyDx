@@ -1,18 +1,26 @@
-// Terrain pixel shader: blends three textures by world height and surface slope.
+// Terrain pixel shader: blends four textures by world height, slope, and noise.
 //
 //   sand  - anything below flat land level (the underwater shore slope)
 //   grass - all other land (flats and raised plateau tiers alike)
+//   dirt  - noise-driven bare patches carved out of the grass
 //   cliff - steep faces (overrides everything wherever the ground is steep)
 //
 // Sand is driven straight from world height (worldPos.y): only the shore slopes
 // dip below flat-land level (PlaneHeight), so height alone identifies them. This
 // means sand stops at the waterline and does not lap onto the flat land above it.
-// Cliff comes from the surface normal (slope). Each texture is tiled by world XZ.
+// Cliff comes from the surface normal (slope) and is sampled triplanar so steep
+// faces don't smear. Sand, grass, and dirt are tiled by world XZ.
+//
+// Anti-repetition: grass mixes two tilings of the same texture (their repeat
+// periods interfere, so no tile boundary survives), value noise blends dirt
+// patches into the grass, and a low-frequency brightness modulation over all
+// layers breaks the "wallpaper" uniformity at distance.
 
 Texture2D sandTexture : register(t0);
 Texture2D grassTexture : register(t1);
 Texture2D cliffTexture : register(t2);
 Texture2D shadowMap : register(t3);
+Texture2D dirtTexture : register(t4);
 SamplerState SampleType;
 SamplerComparisonState ShadowSampler : register(s1);
 
@@ -84,20 +92,115 @@ static const float SandTile = 8.0;
 static const float GrassTile = 4.0;
 static const float CliffTile = 8.0;
 
-// Sand by world height: flat land sits at Y = 5 (PlaneHeight), only shore slopes
-// go below it. Full sand below SandHeightFull, fading out up to SandHeightStart.
-static const float SandHeightStart = 4.9; // above this -> no sand
-static const float SandHeightFull = 1.0;  // below this -> full sand
+// Anti-tiling second scale: a coarser, rotated sample of the same texture mixed
+// in so the two repeat periods interfere and features change orientation.
+// Non-integer ratios to the detail tile keep the periods unaligned.
+static const float GrassTileCoarse = 23.0;
+static const float GrassCoarseMix = 0.45; // 0 = detail only, 1 = coarse only
+static const float DirtTileCoarse = 41.0;
+static const float DirtCoarseMix = 0.5;
+
+// Dirt patches: value noise thresholded into ragged bare-ground blotches.
+static const float DirtTile = 9.0;         // world units per dirt texture repeat
+static const float DryPatchScale = 26.0;   // world units per noise feature
+static const float DryEdgeLo = 0.58;       // noise below this -> fully grass
+static const float DryEdgeHi = 0.74;       // noise above this -> fully dirt
+static const float DryStrength = 0.85;     // max dirt blend even inside a patch
+static const float DryBreakupScale = 5.0;  // world units per interior grass speckle
+static const float DryBreakupAmount = 0.45; // 0 = solid patches, 1 = fully mottled
+
+// Macro variation: low-frequency brightness modulation over every layer.
+static const float MacroScale = 90.0;      // world units per light/dark region
+static const float MacroVariation = 0.13;  // +/- relative brightness swing
 
 // Slope (0 = flat, 1 = vertical wall). Above CliffStart the cliff texture takes
 // over; CliffBlend is the crossfade width below it.
 static const float CliffStart = 0.55;
 static const float CliffBlend = 0.20;
+static const float TriplanarSharpness = 4.0; // higher = tighter blend zone between projection planes
+
+// Sand by world height: flat land sits at Y = 5 (PlaneHeight), only shore slopes
+// go below it. Full sand below SandHeightFull, fading out up to SandHeightStart.
+static const float SandHeightStart = 4.9; // above this -> no sand
+static const float SandHeightFull = 1.0;  // below this -> full sand
 
 // Grid overlay: world-space lines every gridCellSize units (cell size set from C++).
 static const float GridLineHalfWidth = 0.08; // world units from a line's center to its edge
 static const float3 GridLineColor = float3(0.05, 0.05, 0.05);
 static const float GridLineOpacity = 0.5;
+
+
+// Cheap 2D hash: white noise in [0, 1)
+float hash21(float2 i_p)
+{
+  float2 p = frac(i_p * float2(123.34, 345.45));
+  p += dot(p, p + 34.345);
+  return frac(p.x * p.y);
+}
+
+// Bilinearly-smoothed value noise in [0, 1)
+float valueNoise(float2 i_p)
+{
+  const float2 cell = floor(i_p);
+  const float2 f = frac(i_p);
+  const float2 u = f * f * (3.0 - 2.0 * f);
+
+  const float a = hash21(cell);
+  const float b = hash21(cell + float2(1.0, 0.0));
+  const float c = hash21(cell + float2(0.0, 1.0));
+  const float d = hash21(cell + float2(1.0, 1.0));
+
+  return lerp(lerp(a, b, u.x), lerp(c, d, u.x), u.y);
+}
+
+// Two-octave value noise: enough irregularity for slow brightness drift
+float fbm(float2 i_p)
+{
+  return valueNoise(i_p) * 0.65 + valueNoise(i_p * 2.63 + 17.17) * 0.35;
+}
+
+// Three-octave value noise: ragged enough for patch boundaries
+float fbm3(float2 i_p)
+{
+  return valueNoise(i_p) * 0.55 + valueNoise(i_p * 2.63 + 17.17) * 0.28 + valueNoise(i_p * 6.71 + 47.3) * 0.17;
+}
+
+// Triplanar sample: projects along all three axes and blends by the normal, so
+// near-vertical faces get a proper projection instead of a stretched XZ one.
+float3 sampleTriplanar(Texture2D i_texture, float3 i_worldPos, float3 i_normal, float i_tile)
+{
+  float3 w = pow(abs(i_normal), TriplanarSharpness);
+  w /= w.x + w.y + w.z;
+
+  const float3 alongX = i_texture.Sample(SampleType, i_worldPos.zy / i_tile).rgb;
+  const float3 alongY = i_texture.Sample(SampleType, i_worldPos.xz / i_tile).rgb;
+  const float3 alongZ = i_texture.Sample(SampleType, i_worldPos.xy / i_tile).rgb;
+
+  return alongX * w.x + alongY * w.y + alongZ * w.z;
+}
+
+// Anti-tiling sample: mixes a detail tiling with a coarser rotated one so the
+// repeat periods interfere and the features' orientation decorrelates too.
+float3 sampleTwoScale(Texture2D i_texture, float2 i_worldXz, float i_tile, float i_tileCoarse, float i_coarseMix)
+{
+  const float3 detail = i_texture.Sample(SampleType, i_worldXz / i_tile).rgb;
+  const float2x2 rot = float2x2(0.8253, -0.5646, 0.5646, 0.8253); // fixed ~34 deg
+  const float3 coarse = i_texture.Sample(SampleType, mul(rot, i_worldXz) / i_tileCoarse).rgb;
+  return lerp(detail, coarse, i_coarseMix);
+}
+
+// Grass albedo at a world XZ: two-scale mix with noise-driven dirt patches
+float3 getGrassColor(float2 i_worldXz)
+{
+  const float3 grass = sampleTwoScale(grassTexture, i_worldXz, GrassTile, GrassTileCoarse, GrassCoarseMix);
+  const float3 dirt = sampleTwoScale(dirtTexture, i_worldXz, DirtTile, DirtTileCoarse, DirtCoarseMix);
+
+  // Bare patches: crossfade to dirt inside ragged noise blotches, with a fine
+  // speckle keeping some grass alive in the interiors so they don't read as solid.
+  float dryMask = smoothstep(DryEdgeLo, DryEdgeHi, fbm3(i_worldXz / DryPatchScale)) * DryStrength;
+  dryMask *= 1.0 - DryBreakupAmount * valueNoise(i_worldXz / DryBreakupScale);
+  return lerp(grass, dirt, dryMask);
+}
 
 
 // Anti-aliased grid-line mask at a world XZ: 1 on a line, 0 between lines.
@@ -122,10 +225,10 @@ float4 main(PixelInputType input) : SV_TARGET
   // Slope: 0 on flat ground, 1 on a vertical face.
   float slope = 1.0 - saturate(dot(N, float3(0.0, 1.0, 0.0)));
 
-  // Sample each layer at its own tiling.
+  // Sample each layer: sand planar, grass two-scale with dry patches, cliff triplanar.
   float3 sand = sandTexture.Sample(SampleType, input.worldPos.xz / SandTile).rgb;
-  float3 grass = grassTexture.Sample(SampleType, input.worldPos.xz / GrassTile).rgb;
-  float3 cliff = cliffTexture.Sample(SampleType, input.worldPos.xz / CliffTile).rgb;
+  float3 grass = getGrassColor(input.worldPos.xz);
+  float3 cliff = sampleTriplanar(cliffTexture, input.worldPos, N, CliffTile);
 
   // Grass covers all land that isn't shore or cliff.
   float3 land = grass;
@@ -138,6 +241,10 @@ float4 main(PixelInputType input) : SV_TARGET
   // Slope override: steep ground reads as cliff regardless of layer underneath.
   float cliffAmount = smoothstep(CliffStart - CliffBlend, CliffStart + CliffBlend, slope);
   float3 albedo = lerp(byHeight, cliff, cliffAmount);
+
+  // Macro variation: slow brightness drift so distant ground isn't uniform.
+  const float macro = fbm(input.worldPos.xz / MacroScale);
+  albedo *= 1.0 + (macro - 0.5) * 2.0 * MacroVariation;
 
   float4 textureColor = float4(albedo, 1.0);
   textureColor *= diffuseColor;
