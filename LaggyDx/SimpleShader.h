@@ -16,8 +16,7 @@ namespace Dx
     virtual void setLightColor(const Sdk::Vector4D& i_color) override;
     virtual void setAmbientStrength(double i_strength) override;
 
-    virtual void setShadowMap(const ITexture& i_shadowMap) override;
-    virtual void setShadowCamera(const ShadowCamera& i_shadowCamera) override;
+    virtual void setShadowCascade(int i_cascade, const ShadowCamera& i_camera, const ITexture& i_map) override;
 
     virtual void draw(const IObject3& i_object) const override;
 
@@ -25,9 +24,9 @@ namespace Dx
     const ICamera3& d_camera;
     const ITexture& d_emptyTexture;
 
-    // Shadow map at t1; defaults to white.png so receivers stay lit until one is set
-    const ITexture* d_shadowMapTexture;
-    const ShadowCamera* d_shadowCamera = nullptr;
+    // Cascade maps at t1..t3; default to white.png so receivers stay lit until wired
+    const ITexture* d_shadowMapTextures[c_shadowCascadesCount];
+    const ShadowCamera* d_shadowCameras[c_shadowCascadesCount] = {};
 
     LightDesc d_lightDesc;
 

@@ -11,10 +11,13 @@ cbuffer CameraCBuffer
   float _reserved1;
 };
 
+// Must match Dx::c_shadowCascadesCount
+#define CascadesCount 3
+
 // Explicit register: the cbuffers above rely on implicit b0/b1 slot assignment
 cbuffer ShadowCBuffer : register(b2)
 {
-  matrix lightViewProj;
+  matrix lightViewProj[CascadesCount];
 };
 
 
@@ -32,7 +35,7 @@ struct PixelInputType
   float4 normal : NORMAL;
   float2 tex : TEXCOORD0;
   float3 viewDirection : TEXCOORD1;
-  float4 shadowPos : TEXCOORD2;
+  float4 shadowPos[CascadesCount] : TEXCOORD2;
 };
 
 
@@ -53,8 +56,9 @@ PixelInputType main(VertexInputType input)
   float4 worldPosition = mul(input.position, worldMatrix);
   output.viewDirection = normalize(cameraPos - worldPosition.xyz);
 
-  // Light-space position for shadow-map lookup in the pixel shader
-  output.shadowPos = mul(worldPosition, lightViewProj);
+  // Light-space position per cascade for the shadow-map lookup in the pixel shader
+  [unroll] for (int i = 0; i < CascadesCount; ++i)
+    output.shadowPos[i] = mul(worldPosition, lightViewProj[i]);
 
   return output;
 }

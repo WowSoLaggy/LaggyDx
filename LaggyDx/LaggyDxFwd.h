@@ -130,6 +130,9 @@ namespace Dx
   class IInstancedDepthShader;
   class InstancedDepthShader;
 
+  // Shadow cascade count of the lit shaders - must match CascadesCount in the HLSL sources
+  constexpr int c_shadowCascadesCount = 3;
+
   using Color = Sdk::Vector4F;
   using Action = std::function<void()>;
 

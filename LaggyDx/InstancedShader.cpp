@@ -25,11 +25,12 @@ namespace Dx
     : d_matrixBuffer(getRenderDevice(), sizeof(ViewProj))
     , d_cameraBuffer(getRenderDevice(), sizeof(CameraDesc))
     , d_lightBuffer(getRenderDevice(), sizeof(LightDesc))
-    , d_shadowMatrixBuffer(getRenderDevice(), sizeof(LightViewProj))
+    , d_shadowMatrixBuffer(getRenderDevice(), sizeof(ShadowCascadesDesc))
     , d_camera(i_camera)
     , d_emptyTexture(getResourceController().getTexture("white.png"))
-    , d_shadowMapTexture(&d_emptyTexture)
   {
+    std::fill(std::begin(d_shadowMapTextures), std::end(d_shadowMapTextures), &d_emptyTexture);
+
     getShaders().initVs(g_instancedVs, sizeof(g_instancedVs), getVertexLayoutPos3NormTextInstanced());
     getShaders().initPs(g_simplePs, sizeof(g_simplePs));
     getShaders().addSampler(true);
@@ -52,14 +53,11 @@ namespace Dx
     d_lightDesc.ambientStrength = (float)i_strength;
   }
 
-  void InstancedShader::setShadowMap(const ITexture& i_shadowMap)
+  void InstancedShader::setShadowCascade(const int i_cascade, const ShadowCamera& i_camera, const ITexture& i_map)
   {
-    d_shadowMapTexture = &i_shadowMap;
-  }
-
-  void InstancedShader::setShadowCamera(const ShadowCamera& i_shadowCamera)
-  {
-    d_shadowCamera = &i_shadowCamera;
+    CONTRACT_EXPECT(i_cascade >= 0 && i_cascade < c_shadowCascadesCount);
+    d_shadowCameras[i_cascade] = &i_camera;
+    d_shadowMapTextures[i_cascade] = &i_map;
   }
 
 
@@ -146,16 +144,17 @@ namespace Dx
 
   void InstancedShader::setShadowCBuffer() const
   {
-    // Identity fallback keeps receivers fully lit until a shadow camera is set
-    const auto lightViewProj = d_shadowCamera
-      ? XMMatrixTranspose(d_shadowCamera->getViewMatrix() * d_shadowCamera->getProjectionMatrix())
-      : XMMatrixIdentity();
-
     D3D11_MAPPED_SUBRESOURCE mappedResource;
     getRenderDevice().getDeviceContextPtr()->Map(d_shadowMatrixBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-    auto* dataPtr = (LightViewProj*)mappedResource.pData;
-    dataPtr->lightViewProj = lightViewProj;
+    auto* dataPtr = (ShadowCascadesDesc*)mappedResource.pData;
+    for (int i = 0; i < c_shadowCascadesCount; ++i)
+    {
+      // Identity fallback keeps receivers fully lit until a cascade is wired
+      dataPtr->lightViewProj[i] = d_shadowCameras[i]
+        ? XMMatrixTranspose(d_shadowCameras[i]->getViewMatrix() * d_shadowCameras[i]->getProjectionMatrix())
+        : XMMatrixIdentity();
+    }
 
     getRenderDevice().getDeviceContextPtr()->Unmap(d_shadowMatrixBuffer.get(), 0);
     getRenderDevice().getDeviceContextPtr()->VSSetConstantBuffers(2, 1, d_shadowMatrixBuffer.getPp());
@@ -163,8 +162,11 @@ namespace Dx
 
   void InstancedShader::setShadowTexture() const
   {
-    auto* texturePtr = d_shadowMapTexture->getTexturePtr();
-    getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(1, 1, &texturePtr);
+    ID3D11ShaderResourceView* srvs[c_shadowCascadesCount];
+    for (int i = 0; i < c_shadowCascadesCount; ++i)
+      srvs[i] = d_shadowMapTextures[i]->getTexturePtr();
+
+    getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(1, c_shadowCascadesCount, srvs);
   }
 
   void InstancedShader::setTexture(const Material& i_material) const

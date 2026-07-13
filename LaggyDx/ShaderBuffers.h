@@ -1,5 +1,7 @@
 #pragma once
 
+#include "LaggyDxFwd.h"
+
 
 namespace Dx
 {
@@ -21,9 +23,9 @@ namespace Dx
     XMMATRIX projection;
   };
 
-  struct LightViewProj
+  struct ShadowCascadesDesc
   {
-    XMMATRIX lightViewProj;
+    XMMATRIX lightViewProj[c_shadowCascadesCount];
   };
 
   struct TimeDesc

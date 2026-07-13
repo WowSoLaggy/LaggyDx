@@ -19,8 +19,8 @@ namespace Dx
     virtual void setLightColor(const Sdk::Vector4D& i_color) = 0;
     virtual void setAmbientStrength(double i_strength) = 0;
 
-    virtual void setShadowMap(const ITexture& i_shadowMap) = 0;
-    virtual void setShadowCamera(const ShadowCamera& i_shadowCamera) = 0;
+    // Wires one shadow cascade (0 = nearest); the PS samples the first cascade containing the pixel
+    virtual void setShadowCascade(int i_cascade, const ShadowCamera& i_camera, const ITexture& i_map) = 0;
 
     virtual void draw(const IObject3& i_object, const IInstanceBuffer& i_instances) const = 0;
   };

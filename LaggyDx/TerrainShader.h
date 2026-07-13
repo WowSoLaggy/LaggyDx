@@ -16,8 +16,7 @@ namespace Dx
     virtual void setLightColor(const Sdk::Vector4D& i_color) override;
     virtual void setAmbientStrength(double i_strength) override;
 
-    virtual void setShadowMap(const ITexture& i_shadowMap) override;
-    virtual void setShadowCamera(const ShadowCamera& i_shadowCamera) override;
+    virtual void setShadowCascade(int i_cascade, const ShadowCamera& i_camera, const ITexture& i_map) override;
 
     virtual void setGridCellSize(double i_cellSize) override;
 
@@ -27,15 +26,15 @@ namespace Dx
     const ICamera3& d_camera;
 
     // Four terrain layers blended by the shore mask + slope + dry-patch noise in
-    // the pixel shader: sand/grass/cliff at t0..t2, dirt at t4 (t3 is the shadow map).
+    // the pixel shader: sand/grass/cliff at t0..t2, dirt at t4 (t3, t5, t6 are the shadow cascades).
     const ITexture& d_sandTexture;
     const ITexture& d_grassTexture;
     const ITexture& d_cliffTexture;
     const ITexture& d_dirtTexture;
 
-    // Shadow map at t3; defaults to white.png so receivers stay lit until one is set
-    const ITexture* d_shadowMapTexture;
-    const ShadowCamera* d_shadowCamera = nullptr;
+    // Cascade maps at t3, t5, t6; default to white.png so receivers stay lit until wired
+    const ITexture* d_shadowMapTextures[c_shadowCascadesCount];
+    const ShadowCamera* d_shadowCameras[c_shadowCascadesCount] = {};
 
     LightDesc d_lightDesc;
     float d_gridCellSize = 0.0f;
