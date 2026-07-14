@@ -174,6 +174,7 @@ struct ID3D11SamplerState;
 struct ID3D11VertexShader;
 struct ID3D11InputLayout;
 struct ID3D11ShaderResourceView;
+struct ID3D11Texture2D;
 
 struct D3D11_TEXTURE2D_DESC;
 

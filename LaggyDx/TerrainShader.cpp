@@ -30,9 +30,11 @@ namespace Dx
     , d_grassTexture(getResourceController().getTexture("grass.png"))
     , d_cliffTexture(getResourceController().getTexture("cliff.png"))
     , d_dirtTexture(getResourceController().getTexture("dirt.png"))
+    , d_forestBedTexture(getResourceController().getTexture("forest_bed.png"))
   {
     std::fill(std::begin(d_shadowMapTextures), std::end(d_shadowMapTextures),
       &getResourceController().getTexture("white.png"));
+    d_forestMaskTexture = &getResourceController().getTexture("white.png");
 
     getShaders().initVs(g_terrainVs, sizeof(g_terrainVs), getVertexLayoutPos3NormText());
     getShaders().initPs(g_terrainPs, sizeof(g_terrainPs));
@@ -66,6 +68,13 @@ namespace Dx
   void TerrainShader::setGridCellSize(const double i_cellSize)
   {
     d_gridCellSize = (float)i_cellSize;
+  }
+
+  void TerrainShader::setForestMask(const ITexture& i_mask, const Sdk::Vector2D& i_mapWorldSize)
+  {
+    CONTRACT_EXPECT(i_mapWorldSize.x > 0 && i_mapWorldSize.y > 0);
+    d_forestMaskTexture = &i_mask;
+    d_invMapSize = { (float)(1.0 / i_mapWorldSize.x), (float)(1.0 / i_mapWorldSize.y) };
   }
 
 
@@ -190,6 +199,7 @@ namespace Dx
 
     auto* dataPtr = (GridDesc*)mappedResource.pData;
     dataPtr->cellSize = d_gridCellSize;
+    dataPtr->invMapSize = d_invMapSize;
 
     getRenderDevice().getDeviceContextPtr()->Unmap(d_gridBuffer.get(), 0);
     getRenderDevice().getDeviceContextPtr()->PSSetConstantBuffers(1, 1, d_gridBuffer.getPp());
@@ -197,7 +207,7 @@ namespace Dx
 
   void TerrainShader::setTextures() const
   {
-    ID3D11ShaderResourceView* srvs[7] =
+    ID3D11ShaderResourceView* srvs[9] =
     {
       d_sandTexture.getTexturePtr(),
       d_grassTexture.getTexturePtr(),
@@ -206,9 +216,11 @@ namespace Dx
       d_dirtTexture.getTexturePtr(),
       d_shadowMapTextures[1]->getTexturePtr(),
       d_shadowMapTextures[2]->getTexturePtr(),
+      d_forestBedTexture.getTexturePtr(),
+      d_forestMaskTexture->getTexturePtr(),
     };
 
-    getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 7, srvs);
+    getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 9, srvs);
   }
 
   void TerrainShader::setMaterial(const Material& i_material) const

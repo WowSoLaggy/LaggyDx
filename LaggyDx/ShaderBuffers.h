@@ -61,7 +61,8 @@ namespace Dx
   struct GridDesc
   {
     float cellSize{ 0 };
-    XMFLOAT3 _reserved{ 0, 0, 0 };
+    XMFLOAT2 invMapSize{ 0, 0 }; // 1 / map world size, maps worldPos.xz to forest-mask UVs; 0 disables the mask
+    float _reserved{ 0 };
   };
 
   struct DepthFogDesc

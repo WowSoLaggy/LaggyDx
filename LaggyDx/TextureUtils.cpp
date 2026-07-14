@@ -27,7 +27,7 @@ namespace Dx
     {
       std::vector<unsigned char> rgbaData;
 
-      // If the image is RGB, convert to RGBA
+      // If the image is RGB, convert to RGBA; RGBA is uploaded as-is
       if (i_channels == GlChannels::RGB)
       {
         rgbaData.resize(i_width * i_height * 4);
@@ -39,14 +39,7 @@ namespace Dx
           rgbaData[i * 4 + 3] = 255;
         }
       }
-      else if (i_channels == GlChannels::RGBA)
-      {
-        rgbaData.assign(i_imageData, i_imageData + i_width * i_height * 4);
-        // For debug purposes assign 255 to all elements:
-        for (auto& byte : rgbaData)
-          byte = 255;
-      }
-      else
+      else if (i_channels != GlChannels::RGBA)
       {
         CONTRACT_THROW("Not Implemented");
       }
@@ -62,7 +55,7 @@ namespace Dx
       desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 
       D3D11_SUBRESOURCE_DATA initData = {};
-      initData.pSysMem = i_imageData;
+      initData.pSysMem = rgbaData.empty() ? i_imageData : rgbaData.data();
       initData.SysMemPitch = i_width * 4;
 
       DxResourceWrapper<ID3D11Texture2D> texture;

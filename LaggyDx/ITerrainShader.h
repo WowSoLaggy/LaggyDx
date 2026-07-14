@@ -23,6 +23,9 @@ namespace Dx
 
     // World-space grid overlay with the given cell size; 0 or less hides it
     virtual void setGridCellSize(double i_cellSize) = 0;
+
+    // Map-covering tree-cover mask; forest_bed.png is blended over grass by its red channel
+    virtual void setForestMask(const ITexture& i_mask, const Sdk::Vector2D& i_mapWorldSize) = 0;
   };
 
 } // ns Dx

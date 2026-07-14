@@ -1,9 +1,10 @@
-// Terrain pixel shader: blends four textures by world height, slope, and noise.
+// Terrain pixel shader: blends five textures by world height, slope, noise, and a baked mask.
 //
-//   sand  - anything below flat land level (the underwater shore slope)
-//   grass - all other land (flats and raised plateau tiers alike)
-//   dirt  - noise-driven bare patches carved out of the grass
-//   cliff - steep faces (overrides everything wherever the ground is steep)
+//   sand       - anything below flat land level (the underwater shore slope)
+//   grass      - all other land (flats and raised plateau tiers alike)
+//   dirt       - noise-driven bare patches carved out of the grass
+//   forest bed - leaf litter under tree cover, driven by a CPU-baked map-covering mask
+//   cliff      - steep faces (overrides everything wherever the ground is steep)
 //
 // Sand is driven straight from world height (worldPos.y): only the shore slopes
 // dip below flat-land level (PlaneHeight), so height alone identifies them. This
@@ -26,6 +27,8 @@ Texture2D shadowMap0 : register(t3);
 Texture2D dirtTexture : register(t4);
 Texture2D shadowMap1 : register(t5);
 Texture2D shadowMap2 : register(t6);
+Texture2D forestBedTexture : register(t7);
+Texture2D forestMaskTexture : register(t8);
 SamplerState SampleType;
 SamplerComparisonState ShadowSampler : register(s1);
 
@@ -44,7 +47,8 @@ cbuffer LightingCBuffer : register(b0)
 cbuffer GridCBuffer : register(b1)
 {
   float gridCellSize; // world units per grid cell; 0 or less hides the grid
-  float3 _gridReserved;
+  float2 invMapSize;  // 1 / map world size, maps worldPos.xz to forest-mask UVs; 0 disables the mask
+  float _gridReserved;
 };
 
 
@@ -118,6 +122,11 @@ static const float GrassTileCoarse = 23.0;
 static const float GrassCoarseMix = 0.45; // 0 = detail only, 1 = coarse only
 static const float DirtTileCoarse = 41.0;
 static const float DirtCoarseMix = 0.5;
+
+// Forest bed: leaf litter crossfaded over the grass by the baked tree-cover mask.
+static const float ForestBedTile = 2.5;
+static const float ForestBedTileCoarse = 8.0;
+static const float ForestBedCoarseMix = 0.45;
 
 // Dirt patches: value noise thresholded into ragged worn-ground blotches. The
 // blend stays partial (DryStrength) so grass always shows through, and the dirt
@@ -252,8 +261,12 @@ float4 main(PixelInputType input) : SV_TARGET
   float3 grass = getGrassColor(input.worldPos.xz);
   float3 cliff = sampleTriplanar(cliffTexture, input.worldPos, N, CliffTile);
 
-  // Grass covers all land that isn't shore or cliff.
-  float3 land = grass;
+  // Forest bed: crossfade leaf litter over the grass under baked tree cover.
+  float forestAmount = invMapSize.x > 0.0
+    ? forestMaskTexture.Sample(SampleType, input.worldPos.xz * invMapSize).r
+    : 0.0;
+  float3 forestBed = sampleTwoScale(forestBedTexture, input.worldPos.xz, ForestBedTile, ForestBedTileCoarse, ForestBedCoarseMix);
+  float3 land = lerp(grass, forestBed, forestAmount);
 
   // Shore override: paint sand on ground that dips below flat-land level. Only the
   // shore slopes go there, so distant flats (at PlaneHeight) stay grass.
