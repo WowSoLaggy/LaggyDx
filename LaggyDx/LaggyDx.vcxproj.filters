@@ -184,6 +184,9 @@
     <Filter Include="src\Shaders\TerrainShader">
       <UniqueIdentifier>{27fa27f3-a7b6-4cdf-8bce-4cc52babd946}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Terrain">
+      <UniqueIdentifier>{986c4868-25cc-4cc0-a721-451eccc5a147}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -753,6 +756,15 @@
     <ClInclude Include="HeightMapUtils.h">
       <Filter>src\HeightMap</Filter>
     </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>src\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainChunk.h">
+      <Filter>src\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainMipMap.h">
+      <Filter>src\Terrain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1171,6 +1183,15 @@
     </ClCompile>
     <ClCompile Include="HeightMapUtils.cpp">
       <Filter>src\HeightMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>src\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="TerrainChunk.cpp">
+      <Filter>src\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="TerrainMipMap.cpp">
+      <Filter>src\Terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

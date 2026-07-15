@@ -178,6 +178,9 @@
     <ClInclude Include="ITileCollection.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="MemoryTexture.h" />
+    <ClInclude Include="Terrain.h" />
+    <ClInclude Include="TerrainChunk.h" />
+    <ClInclude Include="TerrainMipMap.h" />
     <ClInclude Include="TextureView.h" />
     <ClInclude Include="RefreshRate.h" />
     <ClInclude Include="Roam.h" />
@@ -361,6 +364,9 @@
     <ClCompile Include="ISpriteShader.cpp" />
     <ClCompile Include="IThdObject.cpp" />
     <ClCompile Include="MemoryTexture.cpp" />
+    <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="TerrainChunk.cpp" />
+    <ClCompile Include="TerrainMipMap.cpp" />
     <ClCompile Include="TextureView.cpp" />
     <ClCompile Include="Roam.cpp" />
     <ClCompile Include="FbxResource.cpp" />

@@ -114,6 +114,10 @@ namespace Dx
 
   class HeightMap;
 
+  class Terrain;
+  class TerrainChunk;
+  class TerrainMipMap;
+
   struct RefreshRate;
 
   class IOceanShader;
