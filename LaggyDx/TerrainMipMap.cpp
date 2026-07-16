@@ -93,18 +93,16 @@ namespace Dx
 
 
   TerrainMipMap::TerrainMipMap(
-    const HeightMap& i_heightMap, const IRenderDevice& i_renderDevice,
-    const Sdk::Vector2I& i_origin, const Sdk::Vector2I& i_cells, const int i_step)
+    const HeightMap& i_heightMap, const Sdk::Vector2I& i_origin, const Sdk::Vector2I& i_cells, const int i_step)
     : d_step(i_step)
   {
     CONTRACT_EXPECT(i_step >= 1);
-    build(i_heightMap, i_renderDevice, i_origin, i_cells);
+    build(i_heightMap, i_origin, i_cells);
   }
 
 
   void TerrainMipMap::build(
-    const HeightMap& i_heightMap, const IRenderDevice& i_renderDevice,
-    const Sdk::Vector2I& i_origin, const Sdk::Vector2I& i_cells)
+    const HeightMap& i_heightMap, const Sdk::Vector2I& i_origin, const Sdk::Vector2I& i_cells)
   {
     const auto xs = axisCoords(i_origin.x, i_cells.x, d_step);
     const auto ys = axisCoords(i_origin.y, i_cells.y, d_step);
@@ -114,7 +112,7 @@ namespace Dx
     calculateNormals(verts, inds);
 
     const Shape3d shape(std::move(verts), std::move(inds));
-    d_object = createObjectFromShape(shape, i_renderDevice, true);
+    d_object = createObjectFromShape(shape, true);
   }
 
 } // ns Dx

@@ -10,6 +10,6 @@ namespace Dx
   public:
     PsHlslResource(fs::path i_shaderFilePath);
 
-    virtual void load(IRenderDevice& i_renderDevice) override;
+    virtual void load() override;
   };
 } // ns Dx

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "DefaultMeshes.h"
 
-#include "App.h"
 #include "IndexBuffer.h"
 #include "Mesh.h"
 #include "VertexBuffer.h"
@@ -22,8 +21,8 @@ namespace Dx
     const std::vector<int> inds{ 0, 2, 1, 0, 3, 2 };
 
     auto mesh = std::make_unique<Mesh>();
-    mesh->setVertexBuffer(std::make_unique<VertexBuffer>(App::get().getRenderDevice(), points));
-    mesh->setIndexBuffer(std::make_unique<IndexBuffer>(App::get().getRenderDevice(), inds));
+    mesh->setVertexBuffer(std::make_unique<VertexBuffer>(points));
+    mesh->setIndexBuffer(std::make_unique<IndexBuffer>(inds));
     return mesh;
   }
 

@@ -41,9 +41,9 @@ namespace Dx
       d_aabb.mergeWith(mesh->getAabb());
   }
 
-  void Model::createAabbMesh(IRenderDevice& i_renderDevice)
+  void Model::createAabbMesh()
   {
-    d_aabbMesh = createMeshFromAabb(d_aabb, i_renderDevice);
+    d_aabbMesh = createMeshFromAabb(d_aabb);
   }
 
 } // ns Dx

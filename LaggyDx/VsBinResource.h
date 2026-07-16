@@ -10,6 +10,6 @@ namespace Dx
   public:
     VsBinResource(fs::path i_shaderFilePath);
 
-    virtual void load(IRenderDevice& i_renderDevice) override;
+    virtual void load() override;
   };
 } // ns Dx

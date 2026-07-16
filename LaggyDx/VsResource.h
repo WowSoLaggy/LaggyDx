@@ -17,7 +17,7 @@ namespace Dx
 
   protected:
     const fs::path d_shaderFilePath;
-    void loadFromBuffer(IRenderDevice& i_renderDevice, ID3D10Blob* i_psBuffer);
+    void loadFromBuffer(ID3D10Blob* i_psBuffer);
 
   private:
     ID3D11VertexShader* d_vertexShader = nullptr;

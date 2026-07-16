@@ -52,7 +52,7 @@ namespace Dx
   }
 
 
-  void TextureView::load(IRenderDevice& i_renderDevice)
+  void TextureView::load()
   {
   }
 

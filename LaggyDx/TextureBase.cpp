@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "TextureBase.h"
 
+#include "App.h"
 #include "Bitmap.h"
 #include "RenderDevice.h"
 
@@ -9,13 +10,13 @@
 
 namespace Dx
 {
-  const std::shared_ptr<IBitmap> TextureBase::getBitmap(IRenderDevice& i_renderDevice) const
+  const std::shared_ptr<IBitmap> TextureBase::getBitmap() const
   {
     auto* texture = getTexturePtr();
     if (!texture)
       return nullptr;
 
-    auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
+    auto& renderDevice = dynamic_cast<RenderDevice&>(App::get().getRenderDevice());
 
     D3D11_TEXTURE2D_DESC readTexDesc = getTextureDesc();
     readTexDesc.BindFlags = 0; //No bind flags allowed for staging

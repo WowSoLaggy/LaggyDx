@@ -11,13 +11,13 @@ namespace Dx
     unloadIfNeeded();
   }
 
-  void LoadableResource::loadIfNeeded(IRenderDevice& i_renderDevice)
+  void LoadableResource::loadIfNeeded()
   {
     Sdk::Locker scopeLocker(*this);
 
     if (!d_isLoaded)
     {
-      load(i_renderDevice);
+      load();
       d_isLoaded = true;
     }
   }

@@ -22,7 +22,7 @@ namespace Dx
     virtual ID3D11ShaderResourceView* getTexturePtr() const override;
     virtual const D3D11_TEXTURE2D_DESC& getTextureDesc() const override;
 
-    virtual void load(IRenderDevice& i_renderDevice) override;
+    virtual void load() override;
     virtual void unload() override;
 
   private:

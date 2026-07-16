@@ -8,8 +8,7 @@ namespace Dx
   class IResourceController
   {
   public:
-    static std::unique_ptr<IResourceController> create(IRenderDevice& i_renderDevice,
-                                                       fs::path i_resourcesFolder);
+    static std::unique_ptr<IResourceController> create(fs::path i_resourcesFolder);
 
   public:
     virtual ~IResourceController() = default;

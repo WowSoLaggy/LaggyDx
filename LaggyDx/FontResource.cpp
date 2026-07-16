@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "FontResource.h"
 
+#include "App.h"
 #include "RenderDevice.h"
 
 #include <LaggySdk/Contracts.h>
@@ -15,9 +16,9 @@ namespace Dx
   }
 
 
-  void FontResource::load(IRenderDevice& i_renderDevice)
+  void FontResource::load()
   {
-    auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
+    auto& renderDevice = dynamic_cast<RenderDevice&>(App::get().getRenderDevice());
 
     d_spriteFont = std::make_shared<SpriteFont>(renderDevice.getDevicePtr(), d_fontFilePath.wstring().c_str());
     d_spriteFont->SetPixelAlignment(true);

@@ -11,7 +11,7 @@ namespace Dx
   class ResourceController : public IResourceController
   {
   public:
-    ResourceController(IRenderDevice& i_renderDevice, fs::path i_resourcesFolder);
+    ResourceController(fs::path i_resourcesFolder);
     virtual ~ResourceController() override;
 
     virtual bool hasResource(const fs::path& i_name) const override;
@@ -28,8 +28,6 @@ namespace Dx
     virtual void unloadResources() const override;
 
   private:
-    IRenderDevice& d_renderDevice;
-
     fs::path d_resourceFolder;
 
     ResourcesMap d_resources;

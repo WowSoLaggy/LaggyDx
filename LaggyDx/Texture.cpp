@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Texture.h"
 
+#include "App.h"
 #include "RenderDevice.h"
 
 #include <LaggySdk/Contracts.h>
@@ -16,12 +17,12 @@ namespace Dx
   }
 
 
-  void Texture::load(IRenderDevice& i_renderDevice)
+  void Texture::load()
   {
-    loadTexture(i_renderDevice);
+    loadTexture();
     setSizeFromTexture();
     loadAnnotation();
-    fillAlphaMask(i_renderDevice);
+    fillAlphaMask();
   }
 
   void Texture::unload()
@@ -34,9 +35,9 @@ namespace Dx
   }
 
 
-  void Texture::loadTexture(IRenderDevice& i_renderDevice)
+  void Texture::loadTexture()
   {
-    auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
+    auto& renderDevice = dynamic_cast<RenderDevice&>(App::get().getRenderDevice());
 
     HRESULT hRes = 1;
     if (d_textureFilePath.extension() == ".dds")
@@ -108,12 +109,12 @@ namespace Dx
     }
   }
 
-  void Texture::fillAlphaMask(IRenderDevice& i_renderDevice)
+  void Texture::fillAlphaMask()
   {
     if (!d_description.alpha)
       return;
 
-    auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
+    auto& renderDevice = dynamic_cast<RenderDevice&>(App::get().getRenderDevice());
 
     D3D11_TEXTURE2D_DESC readTexDesc = d_textureDesc;
     readTexDesc.BindFlags = 0; //No bind flags allowed for staging

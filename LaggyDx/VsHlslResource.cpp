@@ -12,12 +12,12 @@ namespace Dx
   }
 
 
-  void VsHlslResource::load(IRenderDevice& i_renderDevice)
+  void VsHlslResource::load()
   {
     ID3D10Blob* vsBuffer = nullptr;
     compileShader(d_shaderFilePath, &vsBuffer, "vs", "vs_5_0");
 
-    loadFromBuffer(i_renderDevice, vsBuffer);
+    loadFromBuffer(vsBuffer);
 
     vsBuffer->Release();
   }

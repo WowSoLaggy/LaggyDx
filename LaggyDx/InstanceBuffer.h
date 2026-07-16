@@ -9,7 +9,7 @@ namespace Dx
   class InstanceBuffer : public IInstanceBuffer
   {
   public:
-    InstanceBuffer(const IRenderDevice& i_renderDevice, const std::vector<InstancePosRotScale>& i_instances);
+    InstanceBuffer(const std::vector<InstancePosRotScale>& i_instances);
 
     virtual int getInstanceCount() const override;
 

@@ -14,12 +14,12 @@ namespace Dx
   }
 
 
-  void PsBinResource::load(IRenderDevice& i_renderDevice)
+  void PsBinResource::load()
   {
     ID3D10Blob* psBuffer = nullptr;
     D3DReadFileToBlob(d_shaderFilePath.wstring().c_str(), &psBuffer);
 
-    loadFromBuffer(i_renderDevice, psBuffer);
+    loadFromBuffer(psBuffer);
 
     psBuffer->Release();
   }

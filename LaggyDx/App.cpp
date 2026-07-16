@@ -45,7 +45,7 @@ namespace Dx
     d_renderDevice = IRenderDevice::create(d_window->getHWnd(), resolution, getSettings().refreshRate, getSettings().debugMode);
     CONTRACT_ENSURE(d_renderDevice);
 
-    d_resourceController = IResourceController::create(*d_renderDevice, getSettings().assetsFolder);
+    d_resourceController = IResourceController::create(getSettings().assetsFolder);
     CONTRACT_ENSURE(d_resourceController);
 
     d_renderer2d = IRenderer2d::create(*d_renderDevice, resolution);

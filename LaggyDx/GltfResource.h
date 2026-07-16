@@ -13,7 +13,7 @@ namespace Dx
   public:
     GltfResource(fs::path i_filePath);
 
-    virtual void load(IRenderDevice& i_renderDevice) override;
+    virtual void load() override;
     virtual void unload() override;
 
     virtual std::shared_ptr<IModel> getModel() const override;

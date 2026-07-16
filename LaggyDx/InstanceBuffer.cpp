@@ -4,9 +4,8 @@
 
 namespace Dx
 {
-  InstanceBuffer::InstanceBuffer(
-    const IRenderDevice& i_renderDevice, const std::vector<InstancePosRotScale>& i_instances)
-    : d_buffer(i_renderDevice, i_instances)
+  InstanceBuffer::InstanceBuffer(const std::vector<InstancePosRotScale>& i_instances)
+    : d_buffer(i_instances)
   {
   }
 

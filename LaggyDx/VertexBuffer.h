@@ -1,5 +1,6 @@
 #pragma once
 
+#include "App.h"
 #include "LaggyDxFwd.h"
 #include "RenderDevice.h"
 #include "VertexTypes.h"
@@ -11,9 +12,9 @@ namespace Dx
   {
   public:
     template <typename T>
-    VertexBuffer(const IRenderDevice& i_renderDevice, const std::vector<T>& i_vertices)
+    VertexBuffer(const std::vector<T>& i_vertices)
     {
-      auto& renderDevice = dynamic_cast<const RenderDevice&>(i_renderDevice);
+      auto& renderDevice = dynamic_cast<const RenderDevice&>(App::get().getRenderDevice());
 
       d_stride = sizeof(T);
       d_verticeCount = (int)i_vertices.size();

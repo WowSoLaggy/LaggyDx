@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MeshResourceCmo.h"
 
+#include "App.h"
 #include "RenderDevice.h"
 
 #include <LaggySdk/StringUtils.h>
@@ -14,9 +15,9 @@ namespace Dx
   }
 
 
-  void MeshResourceCmo::load(IRenderDevice& i_renderDevice)
+  void MeshResourceCmo::load()
   {
-    auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
+    auto& renderDevice = dynamic_cast<RenderDevice&>(App::get().getRenderDevice());
 
     DGSLEffectFactory dgslEffectFactory(renderDevice.getDevicePtr());
     dgslEffectFactory.SetDirectory(L".\\Data");

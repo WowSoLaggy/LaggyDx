@@ -15,8 +15,7 @@ namespace Dx
     // \param i_cells - chunk's size in grid cells (mesh spans i_cells + 1 points per axis at full res)
     // \param i_step - LOD stride in grid points (1 = full res, 2 = half, 4 = quarter, ...)
     TerrainMipMap(
-      const HeightMap& i_heightMap, const IRenderDevice& i_renderDevice,
-      const Sdk::Vector2I& i_origin, const Sdk::Vector2I& i_cells, int i_step);
+      const HeightMap& i_heightMap, const Sdk::Vector2I& i_origin, const Sdk::Vector2I& i_cells, int i_step);
 
     int getStep() const { return d_step; }
     const std::shared_ptr<IObject3>& getObject() const { return d_object; }
@@ -26,8 +25,7 @@ namespace Dx
     std::shared_ptr<IObject3> d_object;
 
     void build(
-      const HeightMap& i_heightMap, const IRenderDevice& i_renderDevice,
-      const Sdk::Vector2I& i_origin, const Sdk::Vector2I& i_cells);
+      const HeightMap& i_heightMap, const Sdk::Vector2I& i_origin, const Sdk::Vector2I& i_cells);
   };
 
 } // ns Dx

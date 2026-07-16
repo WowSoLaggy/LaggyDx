@@ -22,7 +22,7 @@ namespace Dx
   }
 
 
-  void MemoryTexture::load(IRenderDevice& i_renderDevice)
+  void MemoryTexture::load()
   {
     // Managed by the owner, no-op
   }
@@ -51,7 +51,7 @@ namespace Dx
     CONTRACT_THROW("Not Implemented");
   }
 
-  const std::shared_ptr<IBitmap> MemoryTexture::getBitmap(IRenderDevice& i_renderDevice) const
+  const std::shared_ptr<IBitmap> MemoryTexture::getBitmap() const
   {
     CONTRACT_THROW("Not Implemented");
   }

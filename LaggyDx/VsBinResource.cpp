@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "VsBinResource.h"
 
-#include "RenderDevice.h"
-
 #include <LaggySdk/StringUtils.h>
 
 
@@ -14,12 +12,12 @@ namespace Dx
   }
 
 
-  void VsBinResource::load(IRenderDevice& i_renderDevice)
+  void VsBinResource::load()
   {
     ID3D10Blob* vsBuffer = nullptr;
     D3DReadFileToBlob(d_shaderFilePath.wstring().c_str(), &vsBuffer);
 
-    loadFromBuffer(i_renderDevice, vsBuffer);
+    loadFromBuffer(vsBuffer);
 
     vsBuffer->Release();
   }

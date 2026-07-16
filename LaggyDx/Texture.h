@@ -13,7 +13,7 @@ namespace Dx
   public:
     Texture(fs::path i_textureFilePath);
 
-    virtual void load(IRenderDevice& i_renderDevice) override;
+    virtual void load() override;
     virtual void unload() override;
 
     virtual fs::path getFilename() const override;
@@ -38,9 +38,9 @@ namespace Dx
     bool d_solidAlpha = true;
     std::vector<bool> d_alphaMask;
 
-    void loadTexture(IRenderDevice& i_renderDevice);
+    void loadTexture();
     void setSizeFromTexture();
     void loadAnnotation();
-    void fillAlphaMask(IRenderDevice& i_renderDevice);
+    void fillAlphaMask();
   };
 } // ns Dx

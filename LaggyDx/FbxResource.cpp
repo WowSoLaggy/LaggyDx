@@ -109,7 +109,7 @@ namespace Dx
     return d_model;
   }
 
-  void FbxResource::load(IRenderDevice& i_renderDevice)
+  void FbxResource::load()
   {
     OfbxSceneWrapper scene(d_filePath);
 
@@ -124,14 +124,14 @@ namespace Dx
       CONTRACT_ASSERT(geometry);
 
       const auto shape = getShape(*geometry);
-      auto mesh = createMeshFromShape(shape, i_renderDevice, false);
+      auto mesh = createMeshFromShape(shape, false);
       mesh->getMaterials().push_back(getMaterialsFromMesh(*fbxMesh));
 
       model.addMesh(std::move(mesh));
     }
 
     model.setAnimations(importAnimationsFromFbx(*scene));
-    model.createAabbMesh(i_renderDevice);
+    model.createAabbMesh();
 
     d_model = std::make_unique<Model>(std::move(model));
   }

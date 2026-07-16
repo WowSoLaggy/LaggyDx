@@ -17,7 +17,7 @@ namespace Dx
     void addMesh(std::shared_ptr<IMesh> i_mesh);
     void setAnimations(AnimationsMap i_animations);
 
-    void createAabbMesh(IRenderDevice& i_renderDevice);
+    void createAabbMesh();
 
   private:
     std::vector<std::shared_ptr<IMesh>> d_meshes;

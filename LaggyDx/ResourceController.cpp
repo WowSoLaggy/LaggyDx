@@ -37,8 +37,7 @@ namespace Dx
   } // anonymous NS
 
 
-  ResourceController::ResourceController(IRenderDevice& i_renderDevice, fs::path i_resourcesFolder)
-    : d_renderDevice(i_renderDevice)
+  ResourceController::ResourceController(fs::path i_resourcesFolder)
   {
     d_resourceFolder = Sdk::getExeFolder() / i_resourcesFolder;
     indexResourcesInDir(d_resourceFolder);
@@ -109,7 +108,7 @@ namespace Dx
 
   void ResourceController::loadResource(ILoadableResource& i_resource) const
   {
-    i_resource.loadIfNeeded(d_renderDevice);
+    i_resource.loadIfNeeded();
   }
 
   void ResourceController::loadResources() const

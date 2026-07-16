@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PsResource.h"
 
+#include "App.h"
 #include "RenderDevice.h"
 
 #include <LaggySdk/StringUtils.h>
@@ -14,9 +15,9 @@ namespace Dx
   }
 
 
-  void PsResource::loadFromBuffer(IRenderDevice& i_renderDevice, ID3D10Blob* i_psBuffer)
+  void PsResource::loadFromBuffer(ID3D10Blob* i_psBuffer)
   {
-    auto& renderDevice = dynamic_cast<RenderDevice&>(i_renderDevice);
+    auto& renderDevice = dynamic_cast<RenderDevice&>(App::get().getRenderDevice());
 
     renderDevice.getDevicePtr()->CreatePixelShader(i_psBuffer->GetBufferPointer(),
       i_psBuffer->GetBufferSize(), NULL, &d_pixelShader);

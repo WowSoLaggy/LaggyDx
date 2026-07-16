@@ -166,8 +166,7 @@ namespace Dx
       return vertices;
     }
 
-    std::shared_ptr<MemoryTexture> extractTexture(const IRenderDevice& i_renderDevice,
-      const tinygltf::Model& gltfModel, const tinygltf::Primitive& primitive)
+    std::shared_ptr<MemoryTexture> extractTexture(const tinygltf::Model& gltfModel, const tinygltf::Primitive& primitive)
     {
       if (primitive.material >= 0 && primitive.material < gltfModel.materials.size())
       {
@@ -196,7 +195,6 @@ namespace Dx
                 // gltfImage.image: std::vector<unsigned char>
                 // gltfImage.width, gltfImage.height, gltfImage.component
                 return TextureUtils::createMemoryTexture(
-                  i_renderDevice,
                   gltfImage.image.data(),
                   static_cast<int>(gltfImage.width),
                   static_cast<int>(gltfImage.height),
@@ -261,7 +259,7 @@ namespace Dx
     return d_model;
   }
 
-  void GltfResource::load(IRenderDevice& i_renderDevice)
+  void GltfResource::load()
   {
     CONTRACT_EXPECT(d_model == nullptr, "Model already loaded");
 
@@ -281,11 +279,11 @@ namespace Dx
         const auto normals = extractNormals(gltfModel, primitive);
         const auto texcoords = extractTexcoords(gltfModel, primitive);
         const auto vertices = getVertices(positions, normals, texcoords);
-        const auto vertexBuffer = std::make_shared<VertexBuffer>(i_renderDevice, vertices);
+        const auto vertexBuffer = std::make_shared<VertexBuffer>(vertices);
 
         // IB
         const auto indices = extractIndices(gltfModel, primitive);
-        const auto indexBuffer = std::make_shared<IndexBuffer>(i_renderDevice, indices);
+        const auto indexBuffer = std::make_shared<IndexBuffer>(indices);
 
         // Create mesh and add to model
         auto mesh = std::make_shared<Mesh>();
@@ -297,7 +295,7 @@ namespace Dx
         MaterialSpan matSpan;
         matSpan.startIndex = 0;
         matSpan.count = indexBuffer->getIndexCount();
-        matSpan.material.texture = extractTexture(i_renderDevice, gltfModel, primitive);
+        matSpan.material.texture = extractTexture(gltfModel, primitive);
         mesh->getMaterials().push_back(std::move(matSpan));
 
         model->addMesh(mesh);

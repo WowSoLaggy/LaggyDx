@@ -19,7 +19,6 @@ namespace Dx
 
 
     std::shared_ptr<MemoryTexture> createMemoryTexture(
-      const IRenderDevice& i_renderDevice,
       const unsigned char* i_imageData,
       const int i_width,
       const int i_height,
@@ -59,7 +58,7 @@ namespace Dx
       initData.SysMemPitch = i_width * 4;
 
       DxResourceWrapper<ID3D11Texture2D> texture;
-      const auto& renderDevice = dynamic_cast<const RenderDevice&>(i_renderDevice);
+      const auto& renderDevice = dynamic_cast<const RenderDevice&>(Dx::App::get().getRenderDevice());
       auto hResult = renderDevice.getDevicePtr()->CreateTexture2D(&desc, &initData, texture.getPp());
       CONTRACT_ASSERT(SUCCEEDED(hResult), "Failed to create texture from memory");
 

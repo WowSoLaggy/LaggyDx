@@ -10,7 +10,7 @@ namespace Dx
   public:
     FontResource(fs::path i_fontFilePath);
 
-    virtual void load(IRenderDevice& i_renderDevice) override;
+    virtual void load() override;
     virtual void unload() override;
 
     virtual Sdk::RectI getStringRect(const std::string& i_string) const override;

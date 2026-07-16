@@ -9,11 +9,10 @@
 
 namespace Dx
 {
-  Terrain::Terrain(
-    const HeightMap& i_heightMap, const IRenderDevice& i_renderDevice, const int i_chunkSize)
+  Terrain::Terrain(const HeightMap& i_heightMap, const int i_chunkSize)
   {
     CONTRACT_EXPECT(i_chunkSize > 0);
-    build(i_heightMap, i_renderDevice, i_chunkSize);
+    build(i_heightMap, i_chunkSize);
   }
 
 
@@ -25,8 +24,7 @@ namespace Dx
   }
 
 
-  void Terrain::build(
-    const HeightMap& i_heightMap, const IRenderDevice& i_renderDevice, const int i_chunkSize)
+  void Terrain::build(const HeightMap& i_heightMap, const int i_chunkSize)
   {
     // A W x H point grid holds (W - 1) x (H - 1) cells to split into chunks.
     const Sdk::Vector2I cells{ i_heightMap.getWidth() - 1, i_heightMap.getHeight() - 1 };
@@ -47,8 +45,7 @@ namespace Dx
           std::min(i_chunkSize, cells.x - origin.x),
           std::min(i_chunkSize, cells.y - origin.y) };
 
-        d_chunks.push_back(std::make_unique<TerrainChunk>(
-          i_heightMap, i_renderDevice, origin, chunkCells));
+        d_chunks.push_back(std::make_unique<TerrainChunk>(i_heightMap, origin, chunkCells));
       }
     }
   }

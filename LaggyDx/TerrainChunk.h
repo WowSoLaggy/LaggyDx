@@ -15,8 +15,7 @@ namespace Dx
     // \param i_origin - chunk's top-left corner in height map grid coords
     // \param i_cells - chunk's size in grid cells
     TerrainChunk(
-      const HeightMap& i_heightMap, const IRenderDevice& i_renderDevice,
-      const Sdk::Vector2I& i_origin, const Sdk::Vector2I& i_cells);
+      const HeightMap& i_heightMap, const Sdk::Vector2I& i_origin, const Sdk::Vector2I& i_cells);
 
     const Sdk::Vector2I& getOrigin() const { return d_origin; }
     const Sdk::Vector2I& getCells() const { return d_cells; }
@@ -30,7 +29,7 @@ namespace Dx
 
     std::vector<TerrainMipMap> d_mipMaps;
 
-    void build(const HeightMap& i_heightMap, const IRenderDevice& i_renderDevice);
+    void build(const HeightMap& i_heightMap);
   };
 
 } // ns Dx

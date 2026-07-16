@@ -13,22 +13,20 @@
 
 namespace Dx
 {
-  std::shared_ptr<IMesh> createMeshFromShape(
-    const IShape2d& i_shape, const IRenderDevice& i_renderDevice)
+  std::shared_ptr<IMesh> createMeshFromShape(const IShape2d& i_shape)
   {
     auto mesh = std::make_shared<Mesh>();
-    mesh->setVertexBuffer(std::make_shared<VertexBuffer>(i_renderDevice, i_shape.getVerts()));
-    mesh->setIndexBuffer(std::make_shared<IndexBuffer>(i_renderDevice, i_shape.getInds()));
+    mesh->setVertexBuffer(std::make_shared<VertexBuffer>(i_shape.getVerts()));
+    mesh->setIndexBuffer(std::make_shared<IndexBuffer>(i_shape.getInds()));
 
     return mesh;
   }
 
-  std::shared_ptr<IMesh> createMeshFromShape(
-    const IShape3d& i_shape, const IRenderDevice& i_renderDevice, const bool i_addDefaultMaterial)
+  std::shared_ptr<IMesh> createMeshFromShape(const IShape3d& i_shape, const bool i_addDefaultMaterial)
   {
     auto mesh = std::make_shared<Mesh>();
-    mesh->setVertexBuffer(std::make_shared<VertexBuffer>(i_renderDevice, i_shape.getVerts()));
-    mesh->setIndexBuffer(std::make_shared<IndexBuffer>(i_renderDevice, i_shape.getInds()));
+    mesh->setVertexBuffer(std::make_shared<VertexBuffer>(i_shape.getVerts()));
+    mesh->setIndexBuffer(std::make_shared<IndexBuffer>(i_shape.getInds()));
     mesh->setAabb(i_shape.getAabb());
 
     if (i_addDefaultMaterial)
@@ -43,7 +41,7 @@ namespace Dx
     return mesh;
   }
 
-  std::shared_ptr<IMesh> createMeshFromAabb(const Aabb& i_aabb, const IRenderDevice& i_renderDevice)
+  std::shared_ptr<IMesh> createMeshFromAabb(const Aabb& i_aabb)
   {
     auto mesh = std::make_shared<Mesh>();
 
@@ -81,8 +79,8 @@ namespace Dx
 
     // misc
 
-    mesh->setVertexBuffer(std::make_shared<VertexBuffer>(i_renderDevice, verts));
-    mesh->setIndexBuffer(std::make_shared<IndexBuffer>(i_renderDevice, inds));
+    mesh->setVertexBuffer(std::make_shared<VertexBuffer>(verts));
+    mesh->setIndexBuffer(std::make_shared<IndexBuffer>(inds));
     mesh->setAabb(i_aabb);
 
     MaterialSpan matSpan;
@@ -107,9 +105,9 @@ namespace Dx
 
 
   std::shared_ptr<IObject3> createObjectFromShape(
-    const IShape3d& i_shape, const IRenderDevice& i_renderDevice, bool i_addDefaultMaterial)
+    const IShape3d& i_shape, bool i_addDefaultMaterial)
   {
-    auto mesh = createMeshFromShape(i_shape, i_renderDevice, i_addDefaultMaterial);
+    auto mesh = createMeshFromShape(i_shape, i_addDefaultMaterial);
     return createObjectFromMesh(std::move(mesh));
   }
 

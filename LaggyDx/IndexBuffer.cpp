@@ -1,14 +1,15 @@
 #include "stdafx.h"
 #include "IndexBuffer.h"
 
+#include "App.h"
 #include "RenderDevice.h"
 
 
 namespace Dx
 {
-  IndexBuffer::IndexBuffer(const IRenderDevice& i_renderDevice, const std::vector<int>& i_indices)
+  IndexBuffer::IndexBuffer(const std::vector<int>& i_indices)
   {
-    auto& renderDevice = dynamic_cast<const RenderDevice&>(i_renderDevice);
+    auto& renderDevice = dynamic_cast<const RenderDevice&>(App::get().getRenderDevice());
 
     d_indexCount = (int)i_indices.size();
 

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "LaggyDxFwd.h"
-
 
 namespace Dx
 {
@@ -10,7 +8,7 @@ namespace Dx
   public:
     virtual ~ILoadableResource() = default;
 
-    virtual void loadIfNeeded(IRenderDevice& i_renderDevice) = 0;
+    virtual void loadIfNeeded() = 0;
     virtual void unloadIfNeeded() = 0;
   };
 } // ns Dx

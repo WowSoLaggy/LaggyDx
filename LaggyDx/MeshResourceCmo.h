@@ -10,7 +10,7 @@ namespace Dx
   public:
     MeshResourceCmo(fs::path i_meshFilePath);
 
-    virtual void load(IRenderDevice& i_renderDevice) override;
+    virtual void load() override;
     virtual void unload() override;
 
     DirectX::Model& getModel() const { return *d_model; }
