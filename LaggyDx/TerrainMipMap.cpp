@@ -93,19 +93,18 @@ namespace Dx
 
 
   TerrainMipMap::TerrainMipMap(
-    const HeightMap& i_heightMap, const Sdk::Vector2I& i_origin, const Sdk::Vector2I& i_cells, const int i_step)
-    : d_step(i_step)
+    const HeightMap& i_heightMap, const Sdk::Vector2I& i_origin, const int i_cells, const int i_step)
   {
     CONTRACT_EXPECT(i_step >= 1);
-    build(i_heightMap, i_origin, i_cells);
+    build(i_heightMap, i_origin, i_cells, i_step);
   }
 
 
   void TerrainMipMap::build(
-    const HeightMap& i_heightMap, const Sdk::Vector2I& i_origin, const Sdk::Vector2I& i_cells)
+    const HeightMap& i_heightMap, const Sdk::Vector2I& i_origin, const int i_cells, const int i_step)
   {
-    const auto xs = axisCoords(i_origin.x, i_cells.x, d_step);
-    const auto ys = axisCoords(i_origin.y, i_cells.y, d_step);
+    const auto xs = axisCoords(i_origin.x, i_cells, i_step);
+    const auto ys = axisCoords(i_origin.y, i_cells, i_step);
 
     auto verts = buildVerts(i_heightMap, xs, ys);
     auto inds = buildInds((int)xs.size(), (int)ys.size());
