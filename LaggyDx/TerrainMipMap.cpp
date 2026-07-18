@@ -13,27 +13,19 @@ namespace Dx
 {
   namespace
   {
-    // Grid point coords of this LOD along one axis - stride-spaced, last point pinned to the chunk edge.
-    std::vector<int> axisCoords(const int i_origin, const int i_cells, const int i_step)
-    {
-      std::vector<int> coords;
-      for (int c = 0; c < i_cells; c += i_step)
-        coords.push_back(i_origin + c);
-      coords.push_back(i_origin + i_cells);
-      return coords;
-    }
-
     std::vector<VertexPos3NormText> buildVerts(
-      const HeightMap& i_heightMap,
-      const std::vector<int>& i_xs, const std::vector<int>& i_ys)
+      const HeightMap& i_heightMap, const Sdk::Vector2I& i_origin, const int i_pointCount, const int i_step)
     {
-      std::vector<VertexPos3NormText> verts(i_xs.size() * i_ys.size());
+      std::vector<VertexPos3NormText> verts(i_pointCount * i_pointCount);
 
       int ind = 0;
-      for (const int y : i_ys)
+      for (int yi = 0; yi < i_pointCount; ++yi)
       {
-        for (const int x : i_xs)
+        const int y = i_origin.y + yi * i_step;
+        for (int xi = 0; xi < i_pointCount; ++xi)
         {
+          const int x = i_origin.x + xi * i_step;
+
           VertexPos3NormText p;
           p.position = { (float)x, (float)i_heightMap.getHeight(x, y), (float)y };
           p.normal = { 0.0f, 1.0f, 0.0f };
@@ -45,19 +37,19 @@ namespace Dx
       return verts;
     }
 
-    std::vector<int> buildInds(const int i_xCount, const int i_yCount)
+    std::vector<int> buildInds(const int i_pointCount)
     {
       std::vector<int> inds;
-      inds.reserve((i_xCount - 1) * (i_yCount - 1) * 6);
+      inds.reserve((i_pointCount - 1) * (i_pointCount - 1) * 6);
 
-      for (int y = 0; y < i_yCount - 1; ++y)
+      for (int y = 0; y < i_pointCount - 1; ++y)
       {
-        for (int x = 0; x < i_xCount - 1; ++x)
+        for (int x = 0; x < i_pointCount - 1; ++x)
         {
-          const int i00 = x + y * i_xCount;
-          const int i10 = (x + 1) + y * i_xCount;
-          const int i01 = x + (y + 1) * i_xCount;
-          const int i11 = (x + 1) + (y + 1) * i_xCount;
+          const int i00 = x + y * i_pointCount;
+          const int i10 = (x + 1) + y * i_pointCount;
+          const int i01 = x + (y + 1) * i_pointCount;
+          const int i11 = (x + 1) + (y + 1) * i_pointCount;
 
           inds.push_back(i00); inds.push_back(i01); inds.push_back(i10);
           inds.push_back(i10); inds.push_back(i01); inds.push_back(i11);
@@ -93,21 +85,27 @@ namespace Dx
 
 
   TerrainMipMap::TerrainMipMap(
-    const HeightMap& i_heightMap, const Sdk::Vector2I& i_origin, const int i_cells, const int i_step)
+    const HeightMap& i_heightMap, const Sdk::Vector2I& i_origin, const int i_sizeInCells, const int i_step)
   {
-    CONTRACT_EXPECT(i_step >= 1);
-    build(i_heightMap, i_origin, i_cells, i_step);
+    build(i_heightMap, i_origin, i_sizeInCells, i_step);
   }
 
 
   void TerrainMipMap::build(
-    const HeightMap& i_heightMap, const Sdk::Vector2I& i_origin, const int i_cells, const int i_step)
+    const HeightMap& i_heightMap, const Sdk::Vector2I& i_origin, const int i_sizeInCells, const int i_step)
   {
-    const auto xs = axisCoords(i_origin.x, i_cells, i_step);
-    const auto ys = axisCoords(i_origin.y, i_cells, i_step);
+    // Check that we generate a valid square mesh -
+    // i_sizeInCells must be a power of 2, and i_step must evenly divide it.
+    CONTRACT_EXPECT(i_step >= 1);
+    CONTRACT_EXPECT(i_sizeInCells >= 1);
+    CONTRACT_EXPECT((i_sizeInCells & (i_sizeInCells - 1)) == 0); // power of 2
+    CONTRACT_EXPECT(i_sizeInCells % i_step == 0);
 
-    auto verts = buildVerts(i_heightMap, xs, ys);
-    auto inds = buildInds((int)xs.size(), (int)ys.size());
+    // Regular stride-spaced grid, edge-inclusive - relies on i_step evenly dividing i_sizeInCells.
+    const int pointCount = i_sizeInCells / i_step + 1;
+
+    auto verts = buildVerts(i_heightMap, i_origin, pointCount, i_step);
+    auto inds = buildInds(pointCount);
     calculateNormals(verts, inds);
 
     const Shape3d shape(std::move(verts), std::move(inds));
