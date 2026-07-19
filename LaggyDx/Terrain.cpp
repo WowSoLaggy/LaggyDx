@@ -9,7 +9,7 @@
 
 namespace Dx
 {
-  Terrain::Terrain(const HeightMap& i_heightMap, const int i_chunkSize, const int i_lodsCount)
+  Terrain::Terrain(const HeightMap& i_heightMap, const int i_lodsCount, const int i_chunkSize)
     : d_chunkSize(i_chunkSize)
   {
     build(i_heightMap, i_lodsCount);
