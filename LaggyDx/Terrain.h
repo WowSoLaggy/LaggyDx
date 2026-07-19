@@ -22,10 +22,12 @@ namespace Dx
     const TerrainChunk& getChunk(int i_x, int i_y) const;
 
   private:
+    const int d_chunkSize;
+
     Sdk::Vector2I d_chunksCount;
     std::vector<std::shared_ptr<TerrainChunk>> d_chunks;
 
-    void build(const HeightMap& i_heightMap, int i_chunkSize);
+    void build(const HeightMap& i_heightMap);
   };
 
 } // ns Dx

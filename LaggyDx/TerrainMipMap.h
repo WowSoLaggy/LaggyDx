@@ -20,10 +20,13 @@ namespace Dx
     const std::shared_ptr<IObject3>& getObject() const { return d_object; }
 
   private:
+    const Sdk::Vector2I d_origin;
+    const int d_sizeInCells;
+    const int d_step;
+
     std::shared_ptr<IObject3> d_object;
 
-    void build(
-      const HeightMap& i_heightMap, const Sdk::Vector2I& i_origin, int i_sizeInCells, int i_step);
+    void build(const HeightMap& i_heightMap);
   };
 
 } // ns Dx

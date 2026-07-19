@@ -24,8 +24,8 @@ namespace Dx
     const TerrainMipMap& getMipMap(int i_lod) const;
 
   private:
-    Sdk::Vector2I d_origin;
-    int d_cells;
+    const Sdk::Vector2I d_origin;
+    const int d_cells;
 
     std::vector<TerrainMipMap> d_mipMaps;
 

@@ -10,8 +10,9 @@
 namespace Dx
 {
   Terrain::Terrain(const HeightMap& i_heightMap, const int i_chunkSize)
+    : d_chunkSize(i_chunkSize)
   {
-    build(i_heightMap, i_chunkSize);
+    build(i_heightMap);
   }
 
 
@@ -23,18 +24,18 @@ namespace Dx
   }
 
 
-  void Terrain::build(const HeightMap& i_heightMap, const int i_chunkSize)
+  void Terrain::build(const HeightMap& i_heightMap)
   {
-    CONTRACT_EXPECT(i_chunkSize > 0);
+    CONTRACT_EXPECT(d_chunkSize > 0);
 
     // A W x H point grid holds (W - 1) x (H - 1) cells to split into chunks.
     const Sdk::Vector2I cells{ i_heightMap.getWidth() - 1, i_heightMap.getHeight() - 1 };
     CONTRACT_EXPECT(cells.x > 0 && cells.y > 0);
-    CONTRACT_EXPECT(cells.x % i_chunkSize == 0 && cells.y % i_chunkSize == 0);
+    CONTRACT_EXPECT(cells.x % d_chunkSize == 0 && cells.y % d_chunkSize == 0);
 
     d_chunksCount = {
-      (cells.x + i_chunkSize - 1) / i_chunkSize,
-      (cells.y + i_chunkSize - 1) / i_chunkSize };
+      (cells.x + d_chunkSize - 1) / d_chunkSize,
+      (cells.y + d_chunkSize - 1) / d_chunkSize };
 
     d_chunks.reserve(d_chunksCount.x * d_chunksCount.y);
 
@@ -42,9 +43,9 @@ namespace Dx
     {
       for (int cx = 0; cx < d_chunksCount.x; ++cx)
       {
-        const Sdk::Vector2I origin{ cx * i_chunkSize, cy * i_chunkSize };
+        const Sdk::Vector2I origin{ cx * d_chunkSize, cy * d_chunkSize };
 
-        d_chunks.push_back(std::make_shared<TerrainChunk>(i_heightMap, origin, i_chunkSize));
+        d_chunks.push_back(std::make_shared<TerrainChunk>(i_heightMap, origin, d_chunkSize));
       }
     }
   }

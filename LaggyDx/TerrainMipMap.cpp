@@ -13,22 +13,40 @@ namespace Dx
 {
   namespace
   {
+    // Height-field normal from central differences of the 4 neighbors, sampled at mesh resolution.
+    // Neighbor coords are clamped to the map, so map borders get a one-sided difference.
+    Sdk::Vector3F heightMapNormal(const HeightMap& i_heightMap, const int i_x, const int i_y, const int i_step)
+    {
+      const Sdk::Vector2I& size = i_heightMap.getSize();
+      const auto sampleX = [&](const int i_c) { return std::clamp(i_c, 0, size.x - 1); };
+      const auto sampleY = [&](const int i_c) { return std::clamp(i_c, 0, size.y - 1); };
+
+      const float hL = (float)i_heightMap.getHeight(sampleX(i_x - i_step), i_y);
+      const float hR = (float)i_heightMap.getHeight(sampleX(i_x + i_step), i_y);
+      const float hD = (float)i_heightMap.getHeight(i_x, sampleY(i_y - i_step));
+      const float hU = (float)i_heightMap.getHeight(i_x, sampleY(i_y + i_step));
+
+      Sdk::Vector3F normal{ hL - hR, 2.0f * (float)i_step, hD - hU };
+      normal.normalize();
+      return normal;
+    }
+
     std::vector<VertexPos3NormText> buildVerts(
       const HeightMap& i_heightMap, const Sdk::Vector2I& i_origin, const int i_pointCount, const int i_step)
     {
       std::vector<VertexPos3NormText> verts(i_pointCount * i_pointCount);
 
-      int ind = 0;
-      for (int yi = 0; yi < i_pointCount; ++yi)
-      {
-        const int y = i_origin.y + yi * i_step;
-        for (int xi = 0; xi < i_pointCount; ++xi)
-        {
-          const int x = i_origin.x + xi * i_step;
+      const int xEnd = i_origin.x + i_pointCount * i_step;
+      const int yEnd = i_origin.y + i_pointCount * i_step;
 
+      int ind = 0;
+      for (int y = i_origin.y; y < yEnd; y += i_step)
+      {
+        for (int x = i_origin.x; x < xEnd; x += i_step)
+        {
           VertexPos3NormText p;
           p.position = { (float)x, (float)i_heightMap.getHeight(x, y), (float)y };
-          p.normal = { 0.0f, 1.0f, 0.0f };
+          p.normal = heightMapNormal(i_heightMap, x, y, i_step);
           p.texture = { (float)x, (float)y };
           verts[ind++] = std::move(p);
         }
@@ -59,54 +77,33 @@ namespace Dx
       return inds;
     }
 
-    void calculateNormals(
-      std::vector<VertexPos3NormText>& io_verts, const std::vector<int>& i_inds)
-    {
-      for (auto& v : io_verts)
-        v.normal = { 0.0f, 0.0f, 0.0f };
-
-      for (size_t i = 0; i + 2 < i_inds.size(); i += 3)
-      {
-        auto& v0 = io_verts[i_inds[i]];
-        auto& v1 = io_verts[i_inds[i + 1]];
-        auto& v2 = io_verts[i_inds[i + 2]];
-
-        const auto faceNormal = (v1.position - v0.position).cross(v2.position - v0.position);
-        v0.normal += faceNormal;
-        v1.normal += faceNormal;
-        v2.normal += faceNormal;
-      }
-
-      for (auto& v : io_verts)
-        v.normal.normalize();
-    }
-
   } // anonym NS
 
 
   TerrainMipMap::TerrainMipMap(
     const HeightMap& i_heightMap, const Sdk::Vector2I& i_origin, const int i_sizeInCells, const int i_step)
+    : d_origin(i_origin)
+    , d_sizeInCells(i_sizeInCells)
+    , d_step(i_step)
   {
-    build(i_heightMap, i_origin, i_sizeInCells, i_step);
+    build(i_heightMap);
   }
 
 
-  void TerrainMipMap::build(
-    const HeightMap& i_heightMap, const Sdk::Vector2I& i_origin, const int i_sizeInCells, const int i_step)
+  void TerrainMipMap::build(const HeightMap& i_heightMap)
   {
     // Check that we generate a valid square mesh -
-    // i_sizeInCells must be a power of 2, and i_step must evenly divide it.
-    CONTRACT_EXPECT(i_step >= 1);
-    CONTRACT_EXPECT(i_sizeInCells >= 1);
-    CONTRACT_EXPECT((i_sizeInCells & (i_sizeInCells - 1)) == 0); // power of 2
-    CONTRACT_EXPECT(i_sizeInCells % i_step == 0);
+    // d_sizeInCells must be a power of 2, and d_step must evenly divide it.
+    CONTRACT_EXPECT(d_step >= 1);
+    CONTRACT_EXPECT(d_sizeInCells >= 1);
+    CONTRACT_EXPECT((d_sizeInCells & (d_sizeInCells - 1)) == 0); // power of 2
+    CONTRACT_EXPECT(d_sizeInCells % d_step == 0);
 
-    // Regular stride-spaced grid, edge-inclusive - relies on i_step evenly dividing i_sizeInCells.
-    const int pointCount = i_sizeInCells / i_step + 1;
+    // Regular stride-spaced grid, edge-inclusive - relies on d_step evenly dividing d_sizeInCells.
+    const int pointCount = d_sizeInCells / d_step + 1;
 
-    auto verts = buildVerts(i_heightMap, i_origin, pointCount, i_step);
+    auto verts = buildVerts(i_heightMap, d_origin, pointCount, d_step);
     auto inds = buildInds(pointCount);
-    calculateNormals(verts, inds);
 
     const Shape3d shape(std::move(verts), std::move(inds));
     d_object = createObjectFromShape(shape, true);
