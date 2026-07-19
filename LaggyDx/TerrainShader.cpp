@@ -25,16 +25,12 @@ namespace Dx
     , d_lightBuffer(getRenderDevice(), sizeof(LightDesc))
     , d_shadowMatrixBuffer(getRenderDevice(), sizeof(ShadowCascadesDesc))
     , d_gridBuffer(getRenderDevice(), sizeof(GridDesc))
+    , d_paintBuffer(getRenderDevice(), sizeof(TerrainPaintDesc))
     , d_camera(i_camera)
-    , d_sandTexture(getResourceController().getTexture("sand.png"))
     , d_grassTexture(getResourceController().getTexture("grass.png"))
-    , d_cliffTexture(getResourceController().getTexture("cliff.png"))
-    , d_dirtTexture(getResourceController().getTexture("dirt.png"))
-    , d_forestBedTexture(getResourceController().getTexture("forest_bed.png"))
+    , d_defaultTexture(getResourceController().getTexture("white.png"))
   {
-    std::fill(std::begin(d_shadowMapTextures), std::end(d_shadowMapTextures),
-      &getResourceController().getTexture("white.png"));
-    d_forestMaskTexture = &getResourceController().getTexture("white.png");
+    std::fill(std::begin(d_shadowMapTextures), std::end(d_shadowMapTextures), &d_defaultTexture);
 
     getShaders().initVs(g_terrainVs, sizeof(g_terrainVs), getVertexLayoutPos3NormText());
     getShaders().initPs(g_terrainPs, sizeof(g_terrainPs));
@@ -70,10 +66,23 @@ namespace Dx
     d_gridCellSize = (float)i_cellSize;
   }
 
-  void TerrainShader::setForestMask(const ITexture& i_mask, const Sdk::Vector2D& i_mapWorldSize)
+  void TerrainShader::setPaintLayers(const std::vector<TerrainPaintLayer>& i_layers,
+    const std::vector<const ITexture*>& i_masks, const Sdk::Vector2D& i_mapWorldSize)
   {
+    const int layersCount = static_cast<int>(i_layers.size());
+    CONTRACT_EXPECT(layersCount <= c_maxTerrainPaintLayers);
+    CONTRACT_EXPECT(static_cast<int>(i_masks.size()) == (layersCount + 3) / 4);
     CONTRACT_EXPECT(i_mapWorldSize.x > 0 && i_mapWorldSize.y > 0);
-    d_forestMaskTexture = &i_mask;
+    for (const auto& layer : i_layers)
+      CONTRACT_EXPECT(layer.texture && layer.tile > 0);
+    for (const auto* maskPtr : i_masks)
+      CONTRACT_EXPECT(maskPtr);
+
+    std::fill(std::begin(d_paintLayers), std::end(d_paintLayers), TerrainPaintLayer{});
+    std::copy(i_layers.cbegin(), i_layers.cend(), std::begin(d_paintLayers));
+    std::fill(std::begin(d_paintMaskTextures), std::end(d_paintMaskTextures), nullptr);
+    std::copy(i_masks.cbegin(), i_masks.cend(), std::begin(d_paintMaskTextures));
+
     d_invMapSize = { (float)(1.0 / i_mapWorldSize.x), (float)(1.0 / i_mapWorldSize.y) };
   }
 
@@ -92,6 +101,7 @@ namespace Dx
     setCBuffers();
     setShadowCBuffer();
     setGridCBuffer();
+    setPaintCBuffer();
     setTextures();
 
     auto drawMesh = [&](const auto& i_mesh)
@@ -199,28 +209,53 @@ namespace Dx
 
     auto* dataPtr = (GridDesc*)mappedResource.pData;
     dataPtr->cellSize = d_gridCellSize;
-    dataPtr->invMapSize = d_invMapSize;
 
     getRenderDevice().getDeviceContextPtr()->Unmap(d_gridBuffer.get(), 0);
     getRenderDevice().getDeviceContextPtr()->PSSetConstantBuffers(1, 1, d_gridBuffer.getPp());
   }
 
+  void TerrainShader::setPaintCBuffer() const
+  {
+    D3D11_MAPPED_SUBRESOURCE mappedResource;
+    getRenderDevice().getDeviceContextPtr()->Map(d_paintBuffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+    auto* dataPtr = (TerrainPaintDesc*)mappedResource.pData;
+    dataPtr->invMapSize = d_invMapSize;
+    dataPtr->_reserved = { 0.0f, 0.0f };
+
+    for (int i = 0; i < c_maxTerrainPaintLayers; ++i)
+    {
+      const auto& layer = d_paintLayers[i];
+      auto& desc = dataPtr->layers[i];
+      desc.tile = layer.texture ? (float)layer.tile : 1.0f;
+      // Coarse tile falls back to the detail tile so the always-executed coarse sample's UVs stay finite
+      desc.tileCoarse = layer.tileCoarse > 0 ? (float)layer.tileCoarse : desc.tile;
+      desc.coarseMix = layer.tileCoarse > 0 ? (float)layer.coarseMix : 0.0f;
+      desc.triplanar = layer.triplanar ? 1.0f : 0.0f;
+      desc.tint = { (float)layer.tint.x, (float)layer.tint.y, (float)layer.tint.z };
+      desc.enabled = layer.texture ? 1.0f : 0.0f;
+    }
+
+    getRenderDevice().getDeviceContextPtr()->Unmap(d_paintBuffer.get(), 0);
+    getRenderDevice().getDeviceContextPtr()->PSSetConstantBuffers(2, 1, d_paintBuffer.getPp());
+  }
+
   void TerrainShader::setTextures() const
   {
-    ID3D11ShaderResourceView* srvs[9] =
-    {
-      d_sandTexture.getTexturePtr(),
-      d_grassTexture.getTexturePtr(),
-      d_cliffTexture.getTexturePtr(),
-      d_shadowMapTextures[0]->getTexturePtr(),
-      d_dirtTexture.getTexturePtr(),
-      d_shadowMapTextures[1]->getTexturePtr(),
-      d_shadowMapTextures[2]->getTexturePtr(),
-      d_forestBedTexture.getTexturePtr(),
-      d_forestMaskTexture->getTexturePtr(),
-    };
+    constexpr int paintSlot = 1 + c_shadowCascadesCount;
+    constexpr int maskSlot = paintSlot + c_maxTerrainPaintLayers;
+    constexpr int srvsCount = maskSlot + c_terrainPaintMasksCount;
 
-    getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 9, srvs);
+    ID3D11ShaderResourceView* srvs[srvsCount] = {};
+    srvs[0] = d_grassTexture.getTexturePtr();
+    for (int i = 0; i < c_shadowCascadesCount; ++i)
+      srvs[1 + i] = d_shadowMapTextures[i]->getTexturePtr();
+    for (int i = 0; i < c_maxTerrainPaintLayers; ++i)
+      srvs[paintSlot + i] = (d_paintLayers[i].texture ? *d_paintLayers[i].texture : d_defaultTexture).getTexturePtr();
+    for (int i = 0; i < c_terrainPaintMasksCount; ++i)
+      srvs[maskSlot + i] = (d_paintMaskTextures[i] ? *d_paintMaskTextures[i] : d_defaultTexture).getTexturePtr();
+
+    getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, srvsCount, srvs);
   }
 
   void TerrainShader::setMaterial(const Material& i_material) const

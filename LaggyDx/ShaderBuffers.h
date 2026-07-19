@@ -61,8 +61,24 @@ namespace Dx
   struct GridDesc
   {
     float cellSize{ 0 };
-    XMFLOAT2 invMapSize{ 0, 0 }; // 1 / map world size, maps worldPos.xz to forest-mask UVs; 0 disables the mask
-    float _reserved{ 0 };
+    XMFLOAT3 _reserved{ 0, 0, 0 };
+  };
+
+  struct TerrainPaintLayerDesc
+  {
+    float tile{ 1 };
+    float tileCoarse{ 1 };
+    float coarseMix{ 0 };
+    float triplanar{ 0 }; // > 0.5 = triplanar sampling
+    XMFLOAT3 tint{ 1, 1, 1 };
+    float enabled{ 0 };   // 0 mutes the layer regardless of its mask
+  };
+
+  struct TerrainPaintDesc
+  {
+    XMFLOAT2 invMapSize{ 0, 0 }; // 1 / map world size, maps worldPos.xz to paint-mask UVs
+    XMFLOAT2 _reserved{ 0, 0 };
+    TerrainPaintLayerDesc layers[c_maxTerrainPaintLayers];
   };
 
   struct DepthFogDesc

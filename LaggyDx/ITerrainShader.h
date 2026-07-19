@@ -2,6 +2,7 @@
 
 #include "Shader3d.h"
 #include "LaggyDxFwd.h"
+#include "TerrainPaintLayer.h"
 
 #include <LaggySdk/Vector.h>
 
@@ -24,8 +25,10 @@ namespace Dx
     // World-space grid overlay with the given cell size; 0 or less hides it
     virtual void setGridCellSize(double i_cellSize) = 0;
 
-    // Map-covering tree-cover mask; forest_bed.png is blended over grass by its red channel
-    virtual void setForestMask(const ITexture& i_mask, const Sdk::Vector2D& i_mapWorldSize) = 0;
+    // Replaces all paint layers; layer i is masked by channel i%4 of map-covering RGBA mask i/4.
+    // Requires masks.size() == (layers.size() + 3) / 4; textures are borrowed - the caller keeps them alive
+    virtual void setPaintLayers(const std::vector<TerrainPaintLayer>& i_layers,
+      const std::vector<const ITexture*>& i_masks, const Sdk::Vector2D& i_mapWorldSize) = 0;
   };
 
 } // ns Dx

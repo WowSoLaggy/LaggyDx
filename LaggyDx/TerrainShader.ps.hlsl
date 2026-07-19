@@ -1,34 +1,31 @@
-// Terrain pixel shader: blends five textures by world height, slope, noise, and a baked mask.
+// Terrain pixel shader: a grass base plus a stack of generic externally-authored paint layers.
 //
-//   sand       - anything below flat land level (the underwater shore slope)
-//   grass      - all other land (flats and raised plateau tiers alike)
-//   dirt       - noise-driven bare patches carved out of the grass
-//   forest bed - leaf litter under tree cover, driven by a CPU-baked map-covering mask
-//   cliff      - steep faces (overrides everything wherever the ground is steep)
+// Each paint layer is a texture crossfaded over the result by its own mask
+// channel: layer i reads channel i%4 of RGBA mask texture i/4. Masks are baked
+// CPU-side and cover the whole map (worldPos.xz * paintInvMapSize). What a
+// layer represents (sand, cliff, dirt, ...) is unknown here - the app owns the
+// meaning, the bake, and the per-layer sampling params in PaintCBuffer:
+// tiling, optional two-scale anti-tiling mix, tint, planar-XZ vs triplanar
+// projection. Layers blend in slot order, so later slots win on overlap.
 //
-// Sand is driven straight from world height (worldPos.y): only the shore slopes
-// dip below flat-land level (PlaneHeight), so height alone identifies them. This
-// means sand stops at the waterline and does not lap onto the flat land above it.
-// Cliff comes from the surface normal (slope) and is sampled triplanar so steep
-// faces don't smear. Sand, grass, and dirt are tiled by world XZ.
-//
-// Anti-repetition: grass mixes two tilings of the same texture (their repeat
-// periods interfere, so no tile boundary survives), value noise blends dirt
-// patches into the grass, and a low-frequency brightness modulation over all
-// layers breaks the "wallpaper" uniformity at distance.
+// Kept in-shader: the grass base (two tilings of the same texture whose repeat
+// periods interfere, so no tile boundary survives), a low-frequency brightness
+// modulation over all layers that breaks the "wallpaper" uniformity at
+// distance, and the build-mode grid overlay.
 
 // Must match Dx::c_shadowCascadesCount
 #define CascadesCount 3
+// Must match Dx::c_maxTerrainPaintLayers
+#define MaxPaintLayers 8
+// One RGBA mask texture carries 4 layer channels - must match Dx::c_terrainPaintMasksCount
+#define PaintMasksCount ((MaxPaintLayers + 3) / 4)
 
-Texture2D sandTexture : register(t0);
-Texture2D grassTexture : register(t1);
-Texture2D cliffTexture : register(t2);
-Texture2D shadowMap0 : register(t3);
-Texture2D dirtTexture : register(t4);
-Texture2D shadowMap1 : register(t5);
-Texture2D shadowMap2 : register(t6);
-Texture2D forestBedTexture : register(t7);
-Texture2D forestMaskTexture : register(t8);
+Texture2D grassTexture : register(t0);
+Texture2D shadowMap0 : register(t1);
+Texture2D shadowMap1 : register(t2);
+Texture2D shadowMap2 : register(t3);
+Texture2D paintTextures[MaxPaintLayers] : register(t4); // t4..t11
+Texture2D paintMasks[PaintMasksCount] : register(t12);  // t12..t13
 SamplerState SampleType;
 SamplerComparisonState ShadowSampler : register(s1);
 
@@ -47,8 +44,20 @@ cbuffer LightingCBuffer : register(b0)
 cbuffer GridCBuffer : register(b1)
 {
   float gridCellSize; // world units per grid cell; 0 or less hides the grid
-  float2 invMapSize;  // 1 / map world size, maps worldPos.xz to forest-mask UVs; 0 disables the mask
-  float _gridReserved;
+  float3 _gridReserved;
+};
+
+struct PaintLayer
+{
+  float4 params; // x = tile, y = coarse tile, z = coarse mix, w = triplanar flag
+  float4 tint;   // rgb = albedo tint, a = enabled (0 mutes the layer)
+};
+
+cbuffer PaintCBuffer : register(b2)
+{
+  float2 paintInvMapSize; // 1 / map world size, maps worldPos.xz to paint-mask UVs
+  float2 _paintReserved;
+  PaintLayer paintLayers[MaxPaintLayers];
 };
 
 
@@ -105,55 +114,20 @@ float getShadowFactor(float4 i_shadowPos[CascadesCount])
 
 
 // ----- Tunables ------------------------------------------------------------
-// Height thresholds are in world units, keyed to the terrain generator:
-// sea level is Y = 0, flat land sits at Y = 5 (PlaneHeight), and plateaus step
-// up by 5 per tier (PlateauStep). Adjust these to taste and rebuild.
 
-// Per-texture tiling: world units covered by one texture repeat. Larger = the
-// texture stretches over more ground (coarser); smaller = it repeats more often.
-static const float SandTile = 8.0;
+// Grass tiling: world units covered by one texture repeat, plus a coarser,
+// rotated sample of the same texture mixed in so the two repeat periods
+// interfere and features change orientation. Non-integer ratio keeps the
+// periods unaligned.
 static const float GrassTile = 4.0;
-static const float CliffTile = 8.0;
-
-// Anti-tiling second scale: a coarser, rotated sample of the same texture mixed
-// in so the two repeat periods interfere and features change orientation.
-// Non-integer ratios to the detail tile keep the periods unaligned.
 static const float GrassTileCoarse = 23.0;
 static const float GrassCoarseMix = 0.45; // 0 = detail only, 1 = coarse only
-static const float DirtTileCoarse = 41.0;
-static const float DirtCoarseMix = 0.5;
-
-// Forest bed: leaf litter crossfaded over the grass by the baked tree-cover mask.
-static const float ForestBedTile = 2.5;
-static const float ForestBedTileCoarse = 8.0;
-static const float ForestBedCoarseMix = 0.45;
-
-// Dirt patches: value noise thresholded into ragged worn-ground blotches. The
-// blend stays partial (DryStrength) so grass always shows through, and the dirt
-// is tinted darker/greener to sit under the grass tone instead of popping out.
-static const float DirtTile = 9.0;         // world units per dirt texture repeat
-static const float3 DirtTint = float3(0.72, 0.76, 0.60);
-static const float DryPatchScale = 65.0;   // world units per noise feature
-static const float DryEdgeLo = 0.60;       // noise below this -> fully grass
-static const float DryEdgeHi = 0.80;       // noise above this -> max dirt
-static const float DryStrength = 0.55;     // max dirt blend even inside a patch
-static const float DryBreakupScale = 5.0;  // world units per interior grass speckle
-static const float DryBreakupAmount = 0.4; // 0 = solid patches, 1 = fully mottled
 
 // Macro variation: low-frequency brightness modulation over every layer.
-static const float MacroScale = 90.0;      // world units per light/dark region
-static const float MacroVariation = 0.13;  // +/- relative brightness swing
+static const float MacroScale = 90.0;     // world units per light/dark region
+static const float MacroVariation = 0.13; // +/- relative brightness swing
 
-// Slope (0 = flat, 1 = vertical wall). Above CliffStart the cliff texture takes
-// over; CliffBlend is the crossfade width below it.
-static const float CliffStart = 0.55;
-static const float CliffBlend = 0.20;
 static const float TriplanarSharpness = 4.0; // higher = tighter blend zone between projection planes
-
-// Sand by world height: flat land sits at Y = 5 (PlaneHeight), only shore slopes
-// go below it. Full sand below SandHeightFull, fading out up to SandHeightStart.
-static const float SandHeightStart = 4.9; // above this -> no sand
-static const float SandHeightFull = 1.0;  // below this -> full sand
 
 // Grid overlay: world-space lines every gridCellSize units (cell size set from C++).
 static const float GridLineHalfWidth = 0.08; // world units from a line's center to its edge
@@ -190,12 +164,6 @@ float fbm(float2 i_p)
   return valueNoise(i_p) * 0.65 + valueNoise(i_p * 2.63 + 17.17) * 0.35;
 }
 
-// Three-octave value noise: ragged enough for patch boundaries
-float fbm3(float2 i_p)
-{
-  return valueNoise(i_p) * 0.55 + valueNoise(i_p * 2.63 + 17.17) * 0.28 + valueNoise(i_p * 6.71 + 47.3) * 0.17;
-}
-
 // Triplanar sample: projects along all three axes and blends by the normal, so
 // near-vertical faces get a proper projection instead of a stretched XZ one.
 float3 sampleTriplanar(Texture2D i_texture, float3 i_worldPos, float3 i_normal, float i_tile)
@@ -220,19 +188,6 @@ float3 sampleTwoScale(Texture2D i_texture, float2 i_worldXz, float i_tile, float
   return lerp(detail, coarse, i_coarseMix);
 }
 
-// Grass albedo at a world XZ: two-scale mix with noise-driven dirt patches
-float3 getGrassColor(float2 i_worldXz)
-{
-  const float3 grass = sampleTwoScale(grassTexture, i_worldXz, GrassTile, GrassTileCoarse, GrassCoarseMix);
-  const float3 dirt = sampleTwoScale(dirtTexture, i_worldXz, DirtTile, DirtTileCoarse, DirtCoarseMix) * DirtTint;
-
-  // Bare patches: crossfade to dirt inside ragged noise blotches, with a fine
-  // speckle keeping some grass alive in the interiors so they don't read as solid.
-  float dryMask = smoothstep(DryEdgeLo, DryEdgeHi, fbm3(i_worldXz / DryPatchScale)) * DryStrength;
-  dryMask *= 1.0 - DryBreakupAmount * valueNoise(i_worldXz / DryBreakupScale);
-  return lerp(grass, dirt, dryMask);
-}
-
 
 // Anti-aliased grid-line mask at a world XZ: 1 on a line, 0 between lines.
 float getGridFactor(float2 i_worldXz)
@@ -249,33 +204,37 @@ float getGridFactor(float2 i_worldXz)
 float4 main(PixelInputType input) : SV_TARGET
 {
   // The VS normal is unit-length at each vertex, but linear interpolation across
-  // the triangle shortens it - re-normalize per pixel so lighting and the slope
-  // term don't wobble toward triangle centers.
+  // the triangle shortens it - re-normalize per pixel so lighting and the
+  // triplanar weights don't wobble toward triangle centers.
   float3 N = normalize(input.normal.xyz);
 
-  // Slope: 0 on flat ground, 1 on a vertical face.
-  float slope = 1.0 - saturate(dot(N, float3(0.0, 1.0, 0.0)));
+  // Grass base: two-scale mix so no tile boundary survives.
+  float3 albedo = sampleTwoScale(grassTexture, input.worldPos.xz, GrassTile, GrassTileCoarse, GrassCoarseMix);
 
-  // Sample each layer: sand planar, grass two-scale with dry patches, cliff triplanar.
-  float3 sand = sandTexture.Sample(SampleType, input.worldPos.xz / SandTile).rgb;
-  float3 grass = getGrassColor(input.worldPos.xz);
-  float3 cliff = sampleTriplanar(cliffTexture, input.worldPos, N, CliffTile);
+  // Fan the baked mask channels out to one weight per layer.
+  const float2 maskUv = input.worldPos.xz * paintInvMapSize;
+  float maskValues[MaxPaintLayers];
+  [unroll]
+  for (int m = 0; m < PaintMasksCount; ++m)
+  {
+    const float4 mask = paintMasks[m].Sample(SampleType, maskUv);
+    maskValues[m * 4 + 0] = mask.r;
+    maskValues[m * 4 + 1] = mask.g;
+    maskValues[m * 4 + 2] = mask.b;
+    maskValues[m * 4 + 3] = mask.a;
+  }
 
-  // Forest bed: crossfade leaf litter over the grass under baked tree cover.
-  float forestAmount = invMapSize.x > 0.0
-    ? forestMaskTexture.Sample(SampleType, input.worldPos.xz * invMapSize).r
-    : 0.0;
-  float3 forestBed = sampleTwoScale(forestBedTexture, input.worldPos.xz, ForestBedTile, ForestBedTileCoarse, ForestBedCoarseMix);
-  float3 land = lerp(grass, forestBed, forestAmount);
-
-  // Shore override: paint sand on ground that dips below flat-land level. Only the
-  // shore slopes go there, so distant flats (at PlaneHeight) stay grass.
-  float sandAmount = 1.0 - smoothstep(SandHeightFull, SandHeightStart, input.worldPos.y);
-  float3 byHeight = lerp(land, sand, sandAmount);
-
-  // Slope override: steep ground reads as cliff regardless of layer underneath.
-  float cliffAmount = smoothstep(CliffStart - CliffBlend, CliffStart + CliffBlend, slope);
-  float3 albedo = lerp(byHeight, cliff, cliffAmount);
+  // Paint layers: crossfade each over the result by its mask, in slot order.
+  // The loop must stay [unroll]: SM 5.0 only allows literal indices into texture arrays.
+  [unroll]
+  for (int i = 0; i < MaxPaintLayers; ++i)
+  {
+    const float4 params = paintLayers[i].params;
+    const float3 planar = sampleTwoScale(paintTextures[i], input.worldPos.xz, params.x, params.y, params.z);
+    const float3 projected = sampleTriplanar(paintTextures[i], input.worldPos, N, params.x);
+    const float3 color = (params.w > 0.5 ? projected : planar) * paintLayers[i].tint.rgb;
+    albedo = lerp(albedo, color, maskValues[i] * paintLayers[i].tint.a);
+  }
 
   // Macro variation: slow brightness drift so distant ground isn't uniform.
   const float macro = fbm(input.worldPos.xz / MacroScale);

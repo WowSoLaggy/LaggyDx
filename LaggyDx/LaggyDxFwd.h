@@ -137,6 +137,13 @@ namespace Dx
   // Shadow cascade count of the lit shaders - must match CascadesCount in the HLSL sources
   constexpr int c_shadowCascadesCount = 3;
 
+  struct TerrainPaintLayer;
+
+  // Max terrain paint layers - must match MaxPaintLayers in TerrainShader.ps.hlsl
+  constexpr int c_maxTerrainPaintLayers = 8;
+  // Baked paint masks carry 4 layer channels each (RGBA)
+  constexpr int c_terrainPaintMasksCount = (c_maxTerrainPaintLayers + 3) / 4;
+
   using Color = Sdk::Vector4F;
   using Action = std::function<void()>;
 
