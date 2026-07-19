@@ -14,7 +14,8 @@ namespace Dx
     static constexpr int DefaultChunkSize = 64;
 
     // \param i_chunkSize - chunk edge length in grid cells
-    Terrain(const HeightMap& i_heightMap, int i_chunkSize = DefaultChunkSize);
+    // \param i_lodsCount - number of LODs to build per chunk (1 = finest only)
+    Terrain(const HeightMap& i_heightMap, int i_chunkSize = DefaultChunkSize, int i_lodsCount = 1);
 
     const Sdk::Vector2I& getChunksCount() const { return d_chunksCount; }
 
@@ -27,7 +28,7 @@ namespace Dx
     Sdk::Vector2I d_chunksCount;
     std::vector<std::shared_ptr<TerrainChunk>> d_chunks;
 
-    void build(const HeightMap& i_heightMap);
+    void build(const HeightMap& i_heightMap, int i_lodsCount);
   };
 
 } // ns Dx

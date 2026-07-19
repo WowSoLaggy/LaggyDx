@@ -13,9 +13,10 @@ namespace Dx
   {
   public:
     // \param i_origin - chunk's top-left corner in height map grid coords
-    // \param i_cells - chunk's side length in grid cells (chunks are always square)
+    // \param i_cells - chunk's side length in grid cells (chunks are always square; at least 2)
+    // \param i_lodsCount - max number of LODs to build (finest first), capped by the chunk size
     TerrainChunk(
-      const HeightMap& i_heightMap, const Sdk::Vector2I& i_origin, int i_cells);
+      const HeightMap& i_heightMap, const Sdk::Vector2I& i_origin, int i_cells, int i_lodsCount);
 
     const Sdk::Vector2I& getOrigin() const { return d_origin; }
     int getCells() const { return d_cells; }
@@ -29,7 +30,7 @@ namespace Dx
 
     std::vector<TerrainMipMap> d_mipMaps;
 
-    void build(const HeightMap& i_heightMap);
+    void build(const HeightMap& i_heightMap, int i_lodsCount);
   };
 
 } // ns Dx
