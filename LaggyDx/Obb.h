@@ -2,6 +2,7 @@
 
 #include "Aabb.h"
 
+#include <LaggySdk/OrientedRect.h>
 #include <LaggySdk/Ray.h>
 #include <LaggySdk/Vector.h>
 
@@ -20,6 +21,9 @@ namespace Dx
 
     // World-space centre of the box (translation plus the rotated AABB midpoint).
     Sdk::Vector3F getCenter() const;
+
+    // The box projected onto the XZ plane as a 2D oriented rect, using the yaw (Y) rotation.
+    Sdk::OrientedRectF getFootprintOrientedRectXz() const;
 
     void setAabb(Aabb i_aabb);
     void setTranslation(Sdk::Vector3F i_translation);

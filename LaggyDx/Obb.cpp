@@ -166,6 +166,12 @@ namespace Dx
     return d_translation + rotateLocalToWorld(localCenter(d_aabb), d_rotation);
   }
 
+  Sdk::OrientedRectF Obb::getFootprintOrientedRectXz() const
+  {
+    // Yaw about +Y sends local +X toward -Z (see rotateLocalToWorld), the opposite of Vector2::rotate, hence the negated angle.
+    return Sdk::OrientedRectF(d_aabb.getFootprintRectXz(), d_translation.xz(), -d_rotation.y);
+  }
+
 
   void Obb::setAabb(Aabb i_aabb)
   {

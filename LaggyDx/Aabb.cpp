@@ -36,6 +36,22 @@ namespace Dx
   float Aabb::getLengthZ() const { return d_zMax - d_zMin; }
 
 
+  Sdk::RectF Aabb::getFootprintRectXz() const
+  {
+    return Sdk::RectF(d_xMin, d_xMax, d_zMin, d_zMax);
+  }
+
+  Sdk::RectF Aabb::getFootprintRectXy() const
+  {
+    return Sdk::RectF(d_xMin, d_xMax, d_yMin, d_yMax);
+  }
+
+  Sdk::RectF Aabb::getFootprintRectZy() const
+  {
+    return Sdk::RectF(d_zMin, d_zMax, d_yMin, d_yMax);
+  }
+
+
   void Aabb::mergeWith(const Aabb& i_other)
   {
     d_xMin = std::min(d_xMin, i_other.d_xMin);

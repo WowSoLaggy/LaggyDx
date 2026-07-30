@@ -1,6 +1,7 @@
 #pragma once
 
 #include <LaggySdk/Ray.h>
+#include <LaggySdk/Rect.h>
 #include <LaggySdk/Vector.h>
 
 
@@ -25,6 +26,11 @@ namespace Dx
     float getLengthX() const;
     float getLengthY() const;
     float getLengthZ() const;
+
+    // The box's projection onto an axis-aligned plane, dropping the third axis.
+    Sdk::RectF getFootprintRectXz() const;
+    Sdk::RectF getFootprintRectXy() const;
+    Sdk::RectF getFootprintRectZy() const;
 
     void mergeWith(const Aabb& i_other);
     std::optional<double> intersect(const Sdk::RayF& i_ray) const;
