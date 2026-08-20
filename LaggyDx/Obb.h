@@ -37,8 +37,8 @@ namespace Dx
 
   private:
     Aabb d_aabb;
-    Sdk::Vector3F d_rotation;
     Sdk::Vector3F d_translation;
+    Sdk::Vector3F d_rotation;
   };
 
 } // ns Dx
