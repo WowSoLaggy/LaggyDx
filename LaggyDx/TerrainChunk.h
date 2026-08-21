@@ -18,6 +18,9 @@ namespace Dx
     TerrainChunk(
       const HeightMap& i_heightMap, const Sdk::Vector2I& i_origin, int i_cells, int i_lodsCount);
 
+    // Rebuilds every LOD from the height map's current state, keeping the LOD count built so far.
+    void rebuild(const HeightMap& i_heightMap);
+
     const Sdk::Vector2I& getOrigin() const { return d_origin; }
     int getCells() const { return d_cells; }
 

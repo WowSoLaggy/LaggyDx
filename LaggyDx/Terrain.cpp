@@ -16,6 +16,12 @@ namespace Dx
   }
 
 
+  TerrainChunk& Terrain::getChunk(const int i_x, const int i_y)
+  {
+    return const_cast<TerrainChunk&>(std::as_const(*this).getChunk(i_x, i_y));
+  }
+
+
   const TerrainChunk& Terrain::getChunk(const int i_x, const int i_y) const
   {
     CONTRACT_EXPECT(0 <= i_x && i_x < d_chunksCount.x);

@@ -15,6 +15,14 @@ namespace Dx
   }
 
 
+  void TerrainChunk::rebuild(const HeightMap& i_heightMap)
+  {
+    const int lodsCount = (int)d_mipMaps.size();
+    d_mipMaps.clear();
+    build(i_heightMap, lodsCount);
+  }
+
+
   const TerrainMipMap& TerrainChunk::getMipMap(const int i_lod) const
   {
     CONTRACT_EXPECT(0 <= i_lod && i_lod < (int)d_mipMaps.size());

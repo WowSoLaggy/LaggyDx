@@ -18,8 +18,10 @@ namespace Dx
     Terrain(const HeightMap& i_heightMap, int i_lodsCount = 1, int i_chunkSize = DefaultChunkSize);
 
     const Sdk::Vector2I& getChunksCount() const { return d_chunksCount; }
+    int getChunkSize() const { return d_chunkSize; }
 
     int getChunksSize() const { return (int)d_chunks.size(); }
+    TerrainChunk& getChunk(int i_x, int i_y);
     const TerrainChunk& getChunk(int i_x, int i_y) const;
 
   private:
