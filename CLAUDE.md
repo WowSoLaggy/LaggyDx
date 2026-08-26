@@ -120,7 +120,7 @@ The input device is also connected into the SDK event graph (`connectTo(*d_input
 
 ### Terrain / heightmap / ROAM
 
-`HeightMap`, `Roam` (real-time optimally-adapting meshes), and `Tri` together implement an LOD'd terrain mesher. `Terrain` splits a `HeightMap` into a grid of square `TerrainChunk`s, each holding a `TerrainMipMap` (an `IObject3` mesh sampled at a doubling grid stride) per LOD, finest first — the caller picks which LOD to draw per chunk. `TerrainChunk::rebuild` re-meshes one chunk's LODs after the heightmap changes, so callers can refresh an edited area without recreating the whole `Terrain`. `DefaultMeshes` provides built-in primitives (cube, plane, sphere). `Geometry.h` has free math helpers.
+`HeightMap` (bilinear `getHeight`, plus `getNormal` giving that same surface's unit normal), `Roam` (real-time optimally-adapting meshes), and `Tri` together implement an LOD'd terrain mesher. `Terrain` splits a `HeightMap` into a grid of square `TerrainChunk`s, each holding a `TerrainMipMap` (an `IObject3` mesh sampled at a doubling grid stride) per LOD, finest first — the caller picks which LOD to draw per chunk. `TerrainChunk::rebuild` re-meshes one chunk's LODs after the heightmap changes, so callers can refresh an edited area without recreating the whole `Terrain`. `DefaultMeshes` provides built-in primitives (cube, plane, sphere). `Geometry.h` has free math helpers.
 
 ### `Dx::thd`: thermodynamic tile simulation
 

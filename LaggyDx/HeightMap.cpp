@@ -60,34 +60,31 @@ namespace Dx
 
   double HeightMap::getHeight(const double i_x, const double i_y) const
   {
-    CONTRACT_EXPECT(coordsAreValid(i_x, i_y));
+    const Cell cell = getCell(i_x, i_y);
 
-    const int xBase = (int)std::floor(i_x);
-    const int yBase = (int)std::floor(i_y);
+    const double f0 = cell.f00 + cell.yRatio * (cell.f01 - cell.f00);
+    const double f1 = cell.f10 + cell.yRatio * (cell.f11 - cell.f10);
 
-    const bool xBorder = xBase == d_size.x - 1;
-    const bool yBorder = yBase == d_size.y - 1;
-
-    const int x0 = xBorder ? xBase - 1 : xBase;
-    const int x1 = x0 + 1;
-
-    const int y0 = yBorder ? yBase - 1 : yBase;
-    const int y1 = y0 + 1;
-
-    const double f00 = d_heights[getIndex(x0, y0)];
-    const double f10 = d_heights[getIndex(x1, y0)];
-    const double f11 = d_heights[getIndex(x1, y1)];
-    const double f01 = d_heights[getIndex(x0, y1)];
-
-    const double xRatio = (i_x - x0) / (x1 - x0);
-    const double yRatio = (i_y - y0) / (y1 - y0);
-
-    const double f0 = f00 + yRatio * (f01 - f00);
-    const double f1 = f10 + yRatio * (f11 - f10);
-
-    const double f = f0 + xRatio * (f1 - f0);
+    const double f = f0 + cell.xRatio * (f1 - f0);
 
     return f;
+  }
+
+  Sdk::Vector3F HeightMap::getNormal(const double i_x, const double i_y) const
+  {
+    const Cell cell = getCell(i_x, i_y);
+
+    // Partial derivatives of the bilinear patch getHeight interpolates, so the normal
+    // matches the surface height queries actually report. The grid step is 1 in both axes.
+    const double dhdx =
+      (cell.f10 - cell.f00) + cell.yRatio * (cell.f11 - cell.f01 - cell.f10 + cell.f00);
+    const double dhdy =
+      (cell.f01 - cell.f00) + cell.xRatio * (cell.f11 - cell.f01 - cell.f10 + cell.f00);
+
+    // Map y is world z; the slope-vs-up ratio matches the mesh normals TerrainMipMap builds.
+    Sdk::Vector3F normal{ (float)-dhdx, 1.0f, (float)-dhdy };
+    normal.normalize();
+    return normal;
   }
 
 
@@ -121,6 +118,32 @@ namespace Dx
   int HeightMap::getIndex(const int i_x, const int i_y) const
   {
     return i_x + i_y * d_size.x;
+  }
+
+
+  HeightMap::Cell HeightMap::getCell(const double i_x, const double i_y) const
+  {
+    CONTRACT_EXPECT(coordsAreValid(i_x, i_y));
+
+    const int xBase = (int)std::floor(i_x);
+    const int yBase = (int)std::floor(i_y);
+
+    // The far border has no cell of its own, so it is served by the last one before it.
+    const bool xBorder = xBase == d_size.x - 1;
+    const bool yBorder = yBase == d_size.y - 1;
+
+    const int x0 = xBorder ? xBase - 1 : xBase;
+    const int y0 = yBorder ? yBase - 1 : yBase;
+
+    Cell cell;
+    cell.f00 = d_heights[getIndex(x0, y0)];
+    cell.f10 = d_heights[getIndex(x0 + 1, y0)];
+    cell.f11 = d_heights[getIndex(x0 + 1, y0 + 1)];
+    cell.f01 = d_heights[getIndex(x0, y0 + 1)];
+    cell.xRatio = i_x - x0;
+    cell.yRatio = i_y - y0;
+
+    return cell;
   }
 
 

@@ -21,6 +21,8 @@ namespace Dx
     void setHeight(int i_x, int i_y, double i_height);
     void addHeight(int i_x, int i_y, double i_height);
     double getHeight(double i_x, double i_y) const;
+    /// Unit surface normal of the interpolated height field at the given point
+    Sdk::Vector3F getNormal(double i_x, double i_y) const;
 
     void resize(int i_width, int i_height, double i_defaultHeight = 0);
 
@@ -42,6 +44,14 @@ namespace Dx
         0 <= i_y && i_y <= d_size.y - 1;
     }
     int getIndex(int i_x, int i_y) const;
+
+    // The 4 grid heights around (i_x, i_y) and the fractional position within that cell.
+    struct Cell
+    {
+      double f00 = 0, f10 = 0, f11 = 0, f01 = 0;
+      double xRatio = 0, yRatio = 0;
+    };
+    Cell getCell(double i_x, double i_y) const;
 
     void updateMinMaxHeights(double i_height);
   };
