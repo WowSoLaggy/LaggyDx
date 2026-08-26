@@ -65,6 +65,8 @@ This means: never `#include "RenderDevice.h"` from a client header — include `
 
 `IResourceController` is the asset cache. Construction scans `AppSettings::assetsFolder` and indexes files into a `std::unordered_map<std::string, std::shared_ptr<ILoadableResource>>`. Concrete resource types (`MeshResourceCmo`, `Texture`, `PsBinResource`/`PsHlslResource`/`PsResource`, `VsBinResource`/`VsHlslResource`/`VsResource`, `FontResource`, `FbxResource`, `GltfResource`) all implement `ILoadableResource` (`loadIfNeeded`/`unloadIfNeeded`). Callers fetch by path: `getTexture("name")`, `getMeshCmo(...)`, `getPs(...)`, etc. Use `hasResource(...)` to probe.
 
+`GltfResource` (`.glb`/`.gltf`) bakes each mesh's scene-graph node transform into its vertices at load, and keeps the CPU-side vertex data so `makeTransformedModel(ModelTransform)` can hand out a privately-owned copy — callers needing their own orientation or scale, or wanting to mutate materials without affecting other users of the same asset, should use that rather than `getModel()`.
+
 Format support: `.cmo` (DirectXTK Compiled Mesh Object) via `MeshResourceCmo` + `MeshLoader`; FBX via the bundled `ofbx.cpp/h` + `OfbxSceneWrapper`; glTF via bundled `tiny_gltf.h`; image loading via bundled `stb_image.h` / `stb_image_write.h`; ZIP via bundled `miniz.cpp/h`; JSON via bundled `json.hpp`. These bundled third-party single-file libraries are vendored — don't reformat them.
 
 ### Rendering

@@ -141,18 +141,15 @@ namespace Dx
 
   void DepthShader::setTexture(const Material& i_material) const
   {
-    if (!i_material.textureName.empty())
-    {
-      const auto& texture = getResourceController().getTexture(i_material.textureName);
-      auto* texturePtr = texture.getTexturePtr();
+    // An untextured material still has to bind - otherwise the previous span's texture stays on the slot.
+    auto* texturePtr = d_emptyTexture.getTexturePtr();
 
-      getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 1, &texturePtr);
-    }
+    if (!i_material.textureName.empty())
+      texturePtr = getResourceController().getTexture(i_material.textureName).getTexturePtr();
     else if (i_material.texture)
-    {
-      auto* texturePtr = i_material.texture->getTexturePtr();
-      getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 1, &texturePtr);
-    }
+      texturePtr = i_material.texture->getTexturePtr();
+
+    getRenderDevice().getDeviceContextPtr()->PSSetShaderResources(0, 1, &texturePtr);
   }
 
 } // ns Dx
