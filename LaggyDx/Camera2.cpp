@@ -19,4 +19,16 @@ namespace Dx
     d_offset += i_offset;
   }
 
+
+  float Camera2::getZoom() const
+  {
+    return d_zoom;
+  }
+
+  void Camera2::setZoom(const float i_zoom)
+  {
+    CONTRACT_EXPECT(i_zoom > 0);
+    d_zoom = i_zoom;
+  }
+
 } // ns Dx

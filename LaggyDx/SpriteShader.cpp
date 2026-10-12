@@ -136,7 +136,8 @@ namespace Dx
         return d_defaultViewMatrix;
 
       const auto& offset = -d_camera->getOffset();
-      const auto viewMatrix = XMMatrixTranslation((float)offset.x, (float)offset.y, 0);
+      const float zoom = d_camera->getZoom();
+      const auto viewMatrix = XMMatrixTranslation((float)offset.x, (float)offset.y, 0) * XMMatrixScaling(zoom, zoom, 1);
       return XMMatrixTranspose(viewMatrix);
     };
 

@@ -108,7 +108,7 @@ The input device is also connected into the SDK event graph (`connectTo(*d_input
 
 ### Cameras
 
-`ICamera2` (2D) and `ICamera3` (3D) interfaces, plus concrete `Camera2`, `Camera3Base`, `FirstPersonCamera`, `ThirdPersonCamera`, and free-fly controllers `FreeCamera2Controller` / `FreeCamera3Controller`. `Projector.h` projects between world and screen.
+`ICamera2` (2D: offset plus zoom, both applied by `SpriteShader`'s view matrix) and `ICamera3` (3D) interfaces, plus concrete `Camera2`, `Camera3Base`, `FirstPersonCamera`, `ThirdPersonCamera`, and free-fly controllers `FreeCamera2Controller` / `FreeCamera3Controller`. `Projector.h` projects between world and screen.
 
 ### Object hierarchies
 
