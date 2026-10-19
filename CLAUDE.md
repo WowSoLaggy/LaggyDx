@@ -96,7 +96,7 @@ The render device's `begin`/`end` and `Sdk::Locker`/`Sdk::ScopeGuard` integratio
 
 ### Input
 
-`IInputDevice` polls the keyboard/mouse and produces `KeyboardState` / `MouseState`. Keys are the `KeyboardKey` enum (`KeyboardKeys.h`) and `MouseKey` (`MouseKeys.h`); `KeyUtils.h` has helpers. `MouseMode` toggles between absolute and relative — in relative mode the app re-centers the cursor each frame (`resetRelativeMouseState`).
+`IInputDevice` polls the keyboard/mouse and produces `KeyboardState` / `MouseState`. Each input message also latches the keys / buttons held, so a tap shorter than a frame still reports a press and a release (`MouseButtonState::Clicked` for the mouse). Keys are the `KeyboardKey` enum (`KeyboardKeys.h`) and `MouseKey` (`MouseKeys.h`); `KeyUtils.h` has helpers. `MouseMode` toggles between absolute and relative — in relative mode the app re-centers the cursor each frame (`resetRelativeMouseState`).
 
 `ActionsMap` (`ActionsMap.h`) maps `(KeyboardKey, ActionType)` and `(MouseKey, ActionType)` pairs to `Action` (i.e. `std::function<void()>`) callbacks. `ActionType` is `OnPress` / `OnRelease` / `Continuous`. `App::onKeyPressed`/`onKeyReleased`/`onKeyCurrent` (and the mouse equivalents) both `notify(...)` an event AND look up an action in the map. Set the map via `App::setActionsMap(...)`.
 

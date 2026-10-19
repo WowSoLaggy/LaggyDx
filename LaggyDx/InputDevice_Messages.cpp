@@ -41,6 +41,7 @@ namespace Dx
         static_cast<UINT>(i_inputMessage.message),
         static_cast<WPARAM>(i_inputMessage.wParam),
         static_cast<LPARAM>(i_inputMessage.lParam));
+      latchMouse();
       return Sdk::HandleResult::DispatchFurther;
 
     case WM_KEYDOWN:
@@ -51,6 +52,7 @@ namespace Dx
         static_cast<UINT>(i_inputMessage.message),
         static_cast<WPARAM>(i_inputMessage.wParam),
         static_cast<LPARAM>(i_inputMessage.lParam));
+      latchKeyboard();
       return Sdk::HandleResult::DispatchFurther;
     }
 

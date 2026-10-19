@@ -15,6 +15,7 @@ namespace Dx
     Held      = 1,  // Button is held down
     Released  = 2,  // Button was just released
     Pressed   = 3,  // Buton was just pressed
+    Clicked   = 4,  // Button was pressed and released since the last update
   };
 
   class MouseState
@@ -36,6 +37,8 @@ namespace Dx
     int getWheelPosition() const { return d_wheelPosition; }
     int getWheelPositionChange() const { return d_wheelPositionChange; }
 
+    // Remembers buttons down between updates, so clicks shorter than a frame aren't lost
+    void latch(const MouseKeysState& i_state);
     void update(const MouseKeysState& i_state);
     void reset();
 
@@ -56,6 +59,7 @@ namespace Dx
     MouseMode d_mode = MouseMode::Absolute;
 
     MouseKeysState d_currentState;
+    MouseKeysState d_latchedState;
   };
 
 } // ns Dx

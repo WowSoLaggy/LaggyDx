@@ -6,6 +6,25 @@
 
 namespace Dx
 {
+  namespace
+  {
+    KeyboardKeysState toKeyboardKeys(const Keyboard::State& i_state)
+    {
+      KeyboardKeysState keys;
+      memcpy(&keys, &i_state, sizeof(keys));
+      return keys;
+    }
+
+    MouseKeysState toMouseKeys(const Mouse::State& i_state)
+    {
+      MouseKeysState keys;
+      memcpy(&keys, &i_state, sizeof(keys));
+      return keys;
+    }
+
+  } // anonym NS
+
+
   InputDevice::InputDevice(HWND i_hWnd)
   {
     d_mouse = std::make_unique<Mouse>();
@@ -25,27 +44,27 @@ namespace Dx
 
   const KeyboardState& InputDevice::checkKeyboard()
   {
-    const auto state = d_keyboard->GetState();
-
-    KeyboardKeysState keys;
-    memcpy(&keys, &state, sizeof(keys));
-
-    d_keyboardState.update(keys);
-
+    d_keyboardState.update(toKeyboardKeys(d_keyboard->GetState()));
     return d_keyboardState;
   }
 
   const MouseState& InputDevice::checkMouse()
   {
     const auto state = d_mouse->GetState();
-
-    MouseKeysState keys;
-    memcpy(&keys, &state, sizeof(keys));
-
-    d_mouseState.update(keys);
+    d_mouseState.update(toMouseKeys(state));
     d_mouseState.setMode(static_cast<MouseMode>(state.positionMode));
-
     return d_mouseState;
+  }
+
+
+  void InputDevice::latchKeyboard()
+  {
+    d_keyboardState.latch(toKeyboardKeys(d_keyboard->GetState()));
+  }
+
+  void InputDevice::latchMouse()
+  {
+    d_mouseState.latch(toMouseKeys(d_mouse->GetState()));
   }
 
 

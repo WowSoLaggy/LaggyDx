@@ -39,6 +39,10 @@ namespace Dx
 
     std::unique_ptr<Keyboard> d_keyboard;
     KeyboardState d_keyboardState;
+
+    // Called after each input message, so presses released before the next check still register
+    void latchKeyboard();
+    void latchMouse();
   };
 
 } // ns Dx

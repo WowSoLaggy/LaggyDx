@@ -215,9 +215,9 @@ namespace Dx
     for (const auto key : { MouseKey::Left, MouseKey::Right, MouseKey::Middle, MouseKey::X1, MouseKey::X2 })
     {
       const auto state = i_mouseState.getButtonState(key);
-      if (state == MouseButtonState::Pressed)
+      if (state == MouseButtonState::Pressed || state == MouseButtonState::Clicked)
         onMouseClick(key);
-      else if (state == MouseButtonState::Released)
+      if (state == MouseButtonState::Released || state == MouseButtonState::Clicked)
         onMouseRelease(key);
     }
 
