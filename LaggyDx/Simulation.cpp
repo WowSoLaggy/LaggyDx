@@ -160,17 +160,26 @@ namespace Dx
         auto& objSrc = p1 > p2 ? i_obj1 : i_obj2;
         auto& objDst = p1 > p2 ? i_obj2 : i_obj1;
 
-        const double g2 = gasDst.getGasAmount();
-        const double t2 = objDst.getTemperature();
+        const bool dstHadGas = gasDst.hasGas();
+        const double heatCapacityBefore = objDst.getHeatCapacity();
 
         const auto gasesToFlow = gasSrc.removeAmountOfGases(gasAmountToFlow);
         gasDst.addGases(gasesToFlow);
 
-        const double dG = gasDst.getGasAmount() - g2;
-        const double t1 = objSrc.getTemperature();
-
-        const double tNew = (g2 * t2 + dG * t1) / (g2 + dG);
-        objDst.setTemperatureIntermediate(tNew);
+        if (!dstHadGas)
+        {
+          // Nothing to mix with. Empty gas doesn't exchange heat, so there is nothing accumulated to keep either
+          objDst.setTemperatureIntermediate(objSrc.getTemperature());
+        }
+        else
+        {
+          // The arrived gas brings its heat. Transferring it (instead of setting the mixed temperature)
+          // keeps the heat accumulated by other exchanges during this step.
+          // transferHeat() divides by the current heat capacity that already includes the arrived gas,
+          // so the result is the heat-capacity-weighted mix of both temperatures
+          const double heatCapacityArrived = objDst.getHeatCapacity() - heatCapacityBefore;
+          objDst.transferHeat(heatCapacityArrived * (objSrc.getTemperature() - objDst.getTemperature()));
+        }
       }
       else
       {
