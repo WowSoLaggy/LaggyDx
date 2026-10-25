@@ -60,25 +60,31 @@ namespace Dx
       const auto tile = d_tiles->getTile(i_coords);
       CONTRACT_ASSERT(tile);
 
+      // Inside the tile everything exchanges with everything
       const auto& thdObjects = tile->getThdObjectsAll();
       for (int j = 0; j < thdObjects.size(); ++j)
       {
         for (int i = j + 1; i < thdObjects.size(); ++i)
           exchangeHeat(SAFE_DEREF(thdObjects[j]), SAFE_DEREF(thdObjects[i]));
+      }
 
-        for (const auto& coords : getCoordsToExchange(i_coords))
+      // Between tiles only external objects exchange, so internal ones get heat only via their own tile's external objects
+      const auto& thdObjectsExternal = tile->getThdObjectsExternal();
+      for (const auto& coords : getCoordsToExchange(i_coords))
+      {
+        const auto tileNeighbor = d_tiles->getTile(coords);
+        if (!tileNeighbor)
+          continue; // Skip if the neighbor is out of the area
+
+        const auto& thdObjectsNeighbor = tileNeighbor->getThdObjectsExternal();
+        for (const auto& thdObject : thdObjectsExternal)
         {
-          const auto tileNeighbor = d_tiles->getTile(coords);
-          if (!tileNeighbor)
-            continue; // Skip if the neighbor is out of the area
-
-          const auto& thdObjectsNeighbor = tileNeighbor->getThdObjectsExternal();
           for (const auto& thdObjectNeighbor : thdObjectsNeighbor)
           {
-            exchangeHeat(SAFE_DEREF(thdObjects[j]), SAFE_DEREF(thdObjectNeighbor));
+            exchangeHeat(SAFE_DEREF(thdObject), SAFE_DEREF(thdObjectNeighbor));
 
-            if (thdObjects[j]->isGas() && thdObjectNeighbor->isGas())
-              exchangeGas(SAFE_DEREF(thdObjects[j]), SAFE_DEREF(thdObjectNeighbor));
+            if (thdObject->isGas() && thdObjectNeighbor->isGas())
+              exchangeGas(SAFE_DEREF(thdObject), SAFE_DEREF(thdObjectNeighbor));
           }
         }
       }
