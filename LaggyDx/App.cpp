@@ -91,6 +91,8 @@ namespace Dx
   double App::getGlobalTime() const { return d_globalTime; }
   const Sdk::FpsCounter& App::getFpsCounter() const { return d_fpsCounter; }
 
+  void App::resetFrameTime() { d_timer.restart(); }
+
   const MouseState& App::getMouseState() const { return d_mouseState; }
 
 

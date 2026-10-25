@@ -53,6 +53,10 @@ namespace Dx
     [[nodiscard]] double getGlobalTime() const;
     [[nodiscard]] const Sdk::FpsCounter& getFpsCounter() const;
 
+    // Restarts the frame timer, so the next frame's dt doesn't include the time spent until now
+    // (e.g. a long synchronous load that shouldn't count as elapsed time)
+    void resetFrameTime();
+
     [[nodiscard]] const MouseState& getMouseState() const;
 
   protected:
