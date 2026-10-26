@@ -109,7 +109,7 @@ namespace Dx
             exchangeHeat(SAFE_DEREF(thdObject), SAFE_DEREF(thdObjectNeighbor));
 
             if (thdObject->isGas() && thdObjectNeighbor->isGas())
-              exchangeGas(SAFE_DEREF(thdObject), SAFE_DEREF(thdObjectNeighbor));
+              exchangeGas(SAFE_DEREF(thdObject), SAFE_DEREF(thdObjectNeighbor), d_dt);
           }
         }
       }
@@ -155,7 +155,7 @@ namespace Dx
       i_obj2.transferHeat(-heatTransfer);
     }
 
-    void Simulation::exchangeGas(IThdObject& i_obj1, IThdObject& i_obj2)
+    void Simulation::exchangeGas(IThdObject& i_obj1, IThdObject& i_obj2, const double i_dt)
     {
       auto& gas1 = SAFE_DEREF(i_obj1.getGasUnit());
       auto& gas2 = SAFE_DEREF(i_obj2.getGasUnit());
@@ -189,7 +189,7 @@ namespace Dx
           const double vSrc = gasSrc.getVolume();
           const double vDst = gasDst.getVolume();
           const double amountToEqualize = (gasSrc.getGasAmount() * vDst - gasDst.getGasAmount() * vSrc) / (vSrc + vDst);
-          gasAmountToFlow = (int)std::min(std::ceil(Permeability * pDiff * d_dt), std::floor(amountToEqualize));
+          gasAmountToFlow = (int)std::min(std::ceil(Permeability * pDiff * i_dt), std::floor(amountToEqualize));
           if (gasAmountToFlow <= 0)
             return;
         }
@@ -220,7 +220,7 @@ namespace Dx
 
           // Amount that makes both concentrations equal
           const double amountToEqualize = std::abs(amount1 * volume2 - amount2 * volume1) / (volume1 + volume2);
-          const double amountExact = std::abs(DiffusionCoefficient * concentrationDiff * d_dt);
+          const double amountExact = std::abs(DiffusionCoefficient * concentrationDiff * i_dt);
 
           // Round the magnitude up so small differences still diffuse (the same way in both directions),
           // but never move past equal concentrations to avoid oscillation
