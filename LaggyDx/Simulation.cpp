@@ -176,14 +176,23 @@ namespace Dx
         // Significant pressure difference -> gases flow dominant
 
         const double Permeability = 2; // Size of the hole to transfer gases apprx in m^2
-        const int gasAmountToFlow = hasTrappedGas ?
-          std::numeric_limits<int>::max() :
-          (int)std::ceil(Permeability * pDiff * d_dt);
 
         auto& gasSrc = p1 > p2 ? gas1 : gas2;
         auto& gasDst = p1 > p2 ? gas2 : gas1;
         auto& objSrc = p1 > p2 ? i_obj1 : i_obj2;
         auto& objDst = p1 > p2 ? i_obj2 : i_obj1;
+
+        int gasAmountToFlow = std::numeric_limits<int>::max();
+        if (!hasTrappedGas)
+        {
+          // Never flow past equal pressures, otherwise small volumes (e.g. a closing door) make it oscillate
+          const double vSrc = gasSrc.getVolume();
+          const double vDst = gasDst.getVolume();
+          const double amountToEqualize = (gasSrc.getGasAmount() * vDst - gasDst.getGasAmount() * vSrc) / (vSrc + vDst);
+          gasAmountToFlow = (int)std::min(std::ceil(Permeability * pDiff * d_dt), std::floor(amountToEqualize));
+          if (gasAmountToFlow <= 0)
+            return;
+        }
 
         const auto gasesToFlow = gasSrc.removeAmountOfGases(gasAmountToFlow);
         addGasesWithHeat(objSrc, objDst, gasesToFlow);
