@@ -37,8 +37,13 @@ namespace Dx
 
     void IThdObject::applyTemperature()
     {
-      if (d_temperatureIntermediate)
-        setTemperature(*d_temperatureIntermediate);
+      if (!d_temperatureIntermediate)
+        return;
+
+      setTemperature(*d_temperatureIntermediate);
+
+      // The next step must start from the actual temperature, which may be changed outside of the simulation
+      d_temperatureIntermediate.reset();
     }
 
   } // ns thd
