@@ -50,7 +50,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -483,7 +483,7 @@
     <ClCompile Include="_ShaderUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DirectXTK\DirectXTK_Desktop_2022_Win10.vcxproj">
+    <ProjectReference Include="..\..\DirectXTK\DirectXTK_Desktop_2026.vcxproj">
       <Project>{e0b52ae7-e160-4d32-bf3f-910b785e5a8e}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\LaggySdk\LaggySdk\LaggySdk.vcxproj">
