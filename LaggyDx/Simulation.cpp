@@ -30,6 +30,31 @@ namespace Dx
         return Sdk::mergeVectorsToSet(gases1, gases2);
       }
 
+      // Adds the gases (already removed from the source) to the destination together with their heat
+      void addGasesWithHeat(const IThdObject& i_src, IThdObject& io_dst, const GasesMap& i_gases)
+      {
+        auto& gasDst = SAFE_DEREF(io_dst.getGasUnit());
+
+        const bool dstHadGas = gasDst.hasGas();
+        const double heatCapacityBefore = io_dst.getHeatCapacity();
+
+        gasDst.addGases(i_gases);
+
+        if (!dstHadGas)
+        {
+          // Nothing to mix with. Empty gas doesn't exchange heat, so there is nothing accumulated to keep either
+          io_dst.setTemperatureIntermediate(i_src.getTemperature());
+          return;
+        }
+
+        // The arrived gas brings its heat. Transferring it (instead of setting the mixed temperature)
+        // keeps the heat accumulated by other exchanges during this step.
+        // transferHeat() divides by the current heat capacity that already includes the arrived gas,
+        // so the result is the heat-capacity-weighted mix of both temperatures
+        const double heatCapacityArrived = io_dst.getHeatCapacity() - heatCapacityBefore;
+        io_dst.transferHeat(heatCapacityArrived * (i_src.getTemperature() - io_dst.getTemperature()));
+      }
+
     } // anonym ns
 
 
@@ -160,26 +185,8 @@ namespace Dx
         auto& objSrc = p1 > p2 ? i_obj1 : i_obj2;
         auto& objDst = p1 > p2 ? i_obj2 : i_obj1;
 
-        const bool dstHadGas = gasDst.hasGas();
-        const double heatCapacityBefore = objDst.getHeatCapacity();
-
         const auto gasesToFlow = gasSrc.removeAmountOfGases(gasAmountToFlow);
-        gasDst.addGases(gasesToFlow);
-
-        if (!dstHadGas)
-        {
-          // Nothing to mix with. Empty gas doesn't exchange heat, so there is nothing accumulated to keep either
-          objDst.setTemperatureIntermediate(objSrc.getTemperature());
-        }
-        else
-        {
-          // The arrived gas brings its heat. Transferring it (instead of setting the mixed temperature)
-          // keeps the heat accumulated by other exchanges during this step.
-          // transferHeat() divides by the current heat capacity that already includes the arrived gas,
-          // so the result is the heat-capacity-weighted mix of both temperatures
-          const double heatCapacityArrived = objDst.getHeatCapacity() - heatCapacityBefore;
-          objDst.transferHeat(heatCapacityArrived * (objSrc.getTemperature() - objDst.getTemperature()));
-        }
+        addGasesWithHeat(objSrc, objDst, gasesToFlow);
       }
       else
       {
@@ -191,17 +198,33 @@ namespace Dx
         if (gasesForDiffusion.size() < 2)
           return;
 
+        // Both volumes are positive here: a unit with no volume either doesn't participate or has trapped gas (flow)
+        const double volume1 = gas1.getVolume();
+        const double volume2 = gas2.getVolume();
+
         for (const auto gasId : gasesForDiffusion)
         {
-          // Get gas concentration or zero if no gas
+          // Get gas amount or zero if no gas
           const double amount1 = gas1.getGases().count(gasId) ? gas1.getGases().at(gasId) : 0;
           const double amount2 = gas2.getGases().count(gasId) ? gas2.getGases().at(gasId) : 0;
-          const double concentrationDiff = amount1 - amount2;
+          const double concentrationDiff = amount1 / volume1 - amount2 / volume2;
 
-          const int gasAmountToExchange = (int)std::ceil(DiffusionCoefficient * concentrationDiff * d_dt);
+          // Amount that makes both concentrations equal
+          const double amountToEqualize = std::abs(amount1 * volume2 - amount2 * volume1) / (volume1 + volume2);
+          const double amountExact = std::abs(DiffusionCoefficient * concentrationDiff * d_dt);
 
-          const int actualAmountRemoved = gas1.removeGas(gasId, gasAmountToExchange);
-          gas2.addGas(gasId, actualAmountRemoved);
+          // Round the magnitude up so small differences still diffuse (the same way in both directions),
+          // but never move past equal concentrations to avoid oscillation
+          const int amountToMove = std::min((int)std::ceil(amountExact), (int)amountToEqualize);
+          if (amountToMove <= 0)
+            continue;
+
+          auto& gasSrc = concentrationDiff > 0 ? gas1 : gas2;
+          auto& objSrc = concentrationDiff > 0 ? i_obj1 : i_obj2;
+          auto& objDst = concentrationDiff > 0 ? i_obj2 : i_obj1;
+
+          const int amountRemoved = gasSrc.removeGas(gasId, amountToMove);
+          addGasesWithHeat(objSrc, objDst, { { gasId, amountRemoved } });
         }
       }
     }
