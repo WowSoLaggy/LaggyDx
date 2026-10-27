@@ -168,7 +168,7 @@ namespace Dx
     fontResource.getSpriteFont()->DrawString(
       &d_spriteBatch,
       Sdk::s2ws(i_text).c_str(),
-      XMFLOAT2(i_translation.x, i_translation.y),
+      XMFLOAT2(std::round(i_translation.x), std::round(i_translation.y)),
       { i_color.x, i_color.y, i_color.z, i_color.w },
       0,
       { 0, 0 },

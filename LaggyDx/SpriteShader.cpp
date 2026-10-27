@@ -95,9 +95,14 @@ namespace Dx
 
   void SpriteShader::setXfmMatrices(const ISprite& i_sprite, bool i_disableCameraView) const
   {
+    // Everything lands on whole screen pixels: both the camera and the sprite are snapped to them
+    // (in the world units, scaled by the zoom), so pixel art doesn't blur at fractional positions
+    const float zoom = !i_disableCameraView && d_camera ? d_camera->getZoom() : 1.0f;
+    const auto snap = [&](const float i_value) { return std::round(i_value * zoom) / zoom; };
+
     auto getWorldMatrixTransposed = [&]()
       {
-        const auto& position = i_sprite.getPosition();
+        const Sdk::Vector2F position{ snap(i_sprite.getPosition().x), snap(i_sprite.getPosition().y) };
         const float rotation = (float)i_sprite.getRotation();
         const float scale = (float)i_sprite.getScale();
         const float xSize = (float)i_sprite.getSize().x;
@@ -135,8 +140,7 @@ namespace Dx
       if (i_disableCameraView || !d_camera)
         return d_defaultViewMatrix;
 
-      const auto& offset = -d_camera->getOffset();
-      const float zoom = d_camera->getZoom();
+      const Sdk::Vector2F offset{ -snap(d_camera->getOffset().x), -snap(d_camera->getOffset().y) };
       const auto viewMatrix = XMMatrixTranslation((float)offset.x, (float)offset.y, 0) * XMMatrixScaling(zoom, zoom, 1);
       return XMMatrixTranspose(viewMatrix);
     };
