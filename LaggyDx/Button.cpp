@@ -213,6 +213,14 @@ namespace Dx
       d_textOffset = { (float)getSize().x - textSize.x - d_borderTextOffset, (float)((float)getSize().y - textSize.y) / 2 };
       break;
     }
+
+    d_textOffset += d_textShift;
+  }
+
+  void Button::setTextShift(const Sdk::Vector2F i_shift)
+  {
+    d_textShift = i_shift;
+    updateTextOffset();
   }
 
   void Button::setState(ButtonState i_state)

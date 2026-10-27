@@ -45,6 +45,8 @@ namespace Dx
 
     void setTextAlignment(TextAlignment i_alignment);
     void setBorderTextOffset(int i_offset);
+    // Moves the text from where the alignment puts it (e.g. a font with room for descenders looks too high)
+    void setTextShift(Sdk::Vector2F i_shift);
 
     void setTextScale(float i_scale);
     float getTextScale() const;
@@ -66,6 +68,7 @@ namespace Dx
 
     Sdk::Vector2F d_textOffset;
     int d_borderTextOffset = 10;
+    Sdk::Vector2F d_textShift;
     TextAlignment d_textAlignment = TextAlignment::Center;
 
     std::function<void()> d_onPress;
