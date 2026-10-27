@@ -21,13 +21,20 @@ namespace Dx
     if (!d_animation)
       return;
 
-    d_animationTime += i_dt;
-    d_timeSinceLastFrame += i_dt;
+    const double dt = i_dt * d_speed;
+    d_animationTime += dt;
+    d_timeSinceLastFrame += dt;
     while (d_animation && (d_timeSinceLastFrame > d_animation->frameTime))
       advanceFrame();
 
     if (d_animation)
       notify(AnimationTimeUpdatedEvent(d_animationTime, d_animation->frameTime * d_animation->getFrameCount()));
+  }
+
+
+  void Animation2Player::setSpeed(const double i_speed)
+  {
+    d_speed = i_speed;
   }
 
 

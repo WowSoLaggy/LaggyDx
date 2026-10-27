@@ -18,6 +18,9 @@ namespace Dx
     void playAnimation(const ImageAnimation* i_animation, std::optional<int> i_times, bool i_resetTime = true);
     void stopAnimation();
 
+    // 1 - normal, 0 - stopped (not saved)
+    void setSpeed(double i_speed);
+
     int getCurrentFrame() const;
     bool isPlaying() const;
 
@@ -32,6 +35,7 @@ namespace Dx
     int d_curFrame = 0;
     bool d_isForwardAnimation = true;
     std::optional<int> d_timesLeftToPlay;
+    double d_speed = 1;
 
     void setFrame(int i_frame);
     void advanceFrame();
