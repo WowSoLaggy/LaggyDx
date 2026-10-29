@@ -167,15 +167,17 @@ namespace Dx
       const double p2 = gas2.getPressure();
       const double pDiff = std::abs(p2 - p1);
 
-      const double PressureThresholdForFlow = 2;
-
       const bool hasTrappedGas = gas1.hasTrappedGas() || gas2.hasTrappedGas();
 
+      // Pressure difference -> the gas flows as a whole. Fast: the hole between two tiles is their whole side, and devices
+      // (vents, scrubbers) put / take a lot on one tile, which shall spread before it builds up a difference
+      // (not for a few Pa: a flow takes at least a unit of each gas, more than that would even out)
+      const double PressureThresholdForFlow = 2;
       if (hasTrappedGas || pDiff > PressureThresholdForFlow)
       {
-        // Significant pressure difference -> gases flow dominant
-
-        const double Permeability = 2; // Size of the hole to transfer gases apprx in m^2
+        // Size of the hole to transfer gases apprx in m^2. A pair of 1 m3 tiles gets 2 * 20 / 60 of their difference evened
+        // out a step (no more: a tile exchanges with 4 neighbors in a row)
+        const double Permeability = 20;
 
         auto& gasSrc = p1 > p2 ? gas1 : gas2;
         auto& gasDst = p1 > p2 ? gas2 : gas1;
@@ -190,51 +192,53 @@ namespace Dx
           const double vDst = gasDst.getVolume();
           const double amountToEqualize = (gasSrc.getGasAmount() * vDst - gasDst.getGasAmount() * vSrc) / (vSrc + vDst);
           gasAmountToFlow = (int)std::min(std::ceil(Permeability * pDiff * i_dt), std::floor(amountToEqualize));
-          if (gasAmountToFlow <= 0)
-            return;
         }
 
-        const auto gasesToFlow = gasSrc.removeAmountOfGases(gasAmountToFlow);
-        addGasesWithHeat(objSrc, objDst, gasesToFlow);
-      }
-      else
-      {
-        // Minimal pressure difference -> diffusion dominates
-
-        const double DiffusionCoefficient = 0.1; // Diffusion coefficient
-
-        const auto gasesForDiffusion = collectGasesForDiffusion(gas1, gas2);
-        if (gasesForDiffusion.size() < 2)
-          return;
-
-        // Both volumes are positive here: a unit with no volume either doesn't participate or has trapped gas (flow)
-        const double volume1 = gas1.getVolume();
-        const double volume2 = gas2.getVolume();
-
-        for (const auto gasId : gasesForDiffusion)
+        if (gasAmountToFlow > 0)
         {
-          // Get gas amount or zero if no gas
-          const double amount1 = gas1.getGases().count(gasId) ? gas1.getGases().at(gasId) : 0;
-          const double amount2 = gas2.getGases().count(gasId) ? gas2.getGases().at(gasId) : 0;
-          const double concentrationDiff = amount1 / volume1 - amount2 / volume2;
-
-          // Amount that makes both concentrations equal
-          const double amountToEqualize = std::abs(amount1 * volume2 - amount2 * volume1) / (volume1 + volume2);
-          const double amountExact = std::abs(DiffusionCoefficient * concentrationDiff * i_dt);
-
-          // Round the magnitude up so small differences still diffuse (the same way in both directions),
-          // but never move past equal concentrations to avoid oscillation
-          const int amountToMove = std::min((int)std::ceil(amountExact), (int)amountToEqualize);
-          if (amountToMove <= 0)
-            continue;
-
-          auto& gasSrc = concentrationDiff > 0 ? gas1 : gas2;
-          auto& objSrc = concentrationDiff > 0 ? i_obj1 : i_obj2;
-          auto& objDst = concentrationDiff > 0 ? i_obj2 : i_obj1;
-
-          const int amountRemoved = gasSrc.removeGas(gasId, amountToMove);
-          addGasesWithHeat(objSrc, objDst, { { gasId, amountRemoved } });
+          const auto gasesToFlow = gasSrc.removeAmountOfGases(gasAmountToFlow);
+          addGasesWithHeat(objSrc, objDst, gasesToFlow);
         }
+      }
+
+      // Different mixes -> each gas diffuses by its own concentration, whether the gas flows or not (a flow alone carries
+      // the mix it has and never evens out the mixes)
+      if (hasTrappedGas)
+        return;
+
+      const double DiffusionCoefficient = 2;
+
+      const auto gasesForDiffusion = collectGasesForDiffusion(gas1, gas2);
+      if (gasesForDiffusion.size() < 2)
+        return;
+
+      // Both volumes are positive here: a unit with no volume either doesn't participate or has trapped gas
+      const double volume1 = gas1.getVolume();
+      const double volume2 = gas2.getVolume();
+
+      for (const auto gasId : gasesForDiffusion)
+      {
+        // Get gas amount or zero if no gas
+        const double amount1 = gas1.getGases().count(gasId) ? gas1.getGases().at(gasId) : 0;
+        const double amount2 = gas2.getGases().count(gasId) ? gas2.getGases().at(gasId) : 0;
+        const double concentrationDiff = amount1 / volume1 - amount2 / volume2;
+
+        // Amount that makes both concentrations equal
+        const double amountToEqualize = std::abs(amount1 * volume2 - amount2 * volume1) / (volume1 + volume2);
+        const double amountExact = std::abs(DiffusionCoefficient * concentrationDiff * i_dt);
+
+        // Round the magnitude up so small differences still diffuse (the same way in both directions),
+        // but never move past equal concentrations to avoid oscillation
+        const int amountToMove = std::min((int)std::ceil(amountExact), (int)amountToEqualize);
+        if (amountToMove <= 0)
+          continue;
+
+        auto& gasSrc = concentrationDiff > 0 ? gas1 : gas2;
+        auto& objSrc = concentrationDiff > 0 ? i_obj1 : i_obj2;
+        auto& objDst = concentrationDiff > 0 ? i_obj2 : i_obj1;
+
+        const int amountRemoved = gasSrc.removeGas(gasId, amountToMove);
+        addGasesWithHeat(objSrc, objDst, { { gasId, amountRemoved } });
       }
     }
 
