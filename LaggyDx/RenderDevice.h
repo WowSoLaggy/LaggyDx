@@ -59,9 +59,16 @@ namespace Dx
     DxResourceWrapper<ID3D11DepthStencilView> d_depthStencilView;
     DxResourceWrapper<ID3D11ShaderResourceView> d_depthStencilTextureView;
 
-    DxResourceWrapper<ID3D11DepthStencilState> d_depthStencilState;
-    DxResourceWrapper<ID3D11RasterizerState> d_rasterState;
-    DxResourceWrapper<ID3D11BlendState> d_blendState;
+    // Shaders ask for the states before every draw and there are only a few different ones, so each is created once
+    template <typename TDesc, typename TState>
+    struct CachedState
+    {
+      TDesc desc = {};
+      DxResourceWrapper<TState> state;
+    };
+    std::deque<CachedState<D3D11_DEPTH_STENCIL_DESC, ID3D11DepthStencilState>> d_depthStencilStates;
+    std::deque<CachedState<D3D11_RASTERIZER_DESC, ID3D11RasterizerState>> d_rasterStates;
+    std::deque<CachedState<D3D11_BLEND_DESC, ID3D11BlendState>> d_blendStates;
 
     D3D11_RASTERIZER_DESC d_rasterizerDescription = {};
     D3D11_DEPTH_STENCIL_DESC d_depthStencilDescription = {};

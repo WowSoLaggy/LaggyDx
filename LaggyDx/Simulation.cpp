@@ -5,9 +5,6 @@
 #include "ITile.h"
 #include "ITileCollection.h"
 
-#include <LaggySdk/MapUtils.h>
-#include <LaggySdk/Shuffle.h>
-#include <LaggySdk/VectorUtils.h>
 
 
 namespace Dx
@@ -16,18 +13,47 @@ namespace Dx
   {
     namespace
     {
-      const std::vector<Sdk::Vector2I> getCoordsToExchange(const Sdk::Vector2I& i_coords)
+      constexpr int MaxGasesInExchange = 16;
+
+      struct GasIds
       {
-        return { i_coords + Sdk::Vector2I{ 1, 0 },
-                 i_coords + Sdk::Vector2I{ 0, 1 } };
+        std::array<GasId, MaxGasesInExchange> ids;
+        int count = 0;
+      };
+
+      // Both maps are sorted, so are the ids
+      GasIds collectGasesForDiffusion(const GasUnit& i_gas1, const GasUnit& i_gas2)
+      {
+        GasIds res;
+
+        auto it1 = i_gas1.getGases().begin();
+        auto it2 = i_gas2.getGases().begin();
+        const auto end1 = i_gas1.getGases().end();
+        const auto end2 = i_gas2.getGases().end();
+
+        while (it1 != end1 || it2 != end2)
+        {
+          CONTRACT_ASSERT(res.count < MaxGasesInExchange);
+
+          if (it2 == end2 || (it1 != end1 && it1->first < it2->first))
+            res.ids[res.count++] = (it1++)->first;
+          else if (it1 == end1 || it2->first < it1->first)
+            res.ids[res.count++] = (it2++)->first;
+          else
+          {
+            res.ids[res.count++] = it1->first;
+            ++it1;
+            ++it2;
+          }
+        }
+
+        return res;
       }
 
-      const std::set<GasId> collectGasesForDiffusion(const GasUnit& i_gas1, const GasUnit& i_gas2)
+      int getGasAmount(const GasUnit& i_gas, const GasId i_gasId)
       {
-        const auto gases1 = Sdk::keys(i_gas1.getGases());
-        const auto gases2 = Sdk::keys(i_gas2.getGases());
-
-        return Sdk::mergeVectorsToSet(gases1, gases2);
+        const auto it = i_gas.getGases().find(i_gasId);
+        return it != i_gas.getGases().end() ? it->second : 0;
       }
 
       // Adds the gases (already removed from the source) to the destination together with their heat
@@ -63,76 +89,89 @@ namespace Dx
       d_dt = i_dt;
       d_tiles = &i_tiles;
 
+      collectCells();
       updateAllTiles();
       applyNewState();
     }
 
 
-    void Simulation::updateAllTiles()
+    void Simulation::collectCells()
     {
       CONTRACT_EXPECT(d_tiles);
 
       const auto& rect = d_tiles->getRect();
+      d_width = rect.width() + 1;
+      d_cells.resize((size_t)d_width * (rect.height() + 1));
+
+      int index = 0;
       for (int y = rect.top(); y <= rect.bottom(); ++y)
       {
         for (int x = rect.left(); x <= rect.right(); ++x)
-          updateTile({ x, y });
+        {
+          const auto tile = d_tiles->getTile({ x, y });
+          CONTRACT_ASSERT(tile);
+
+          auto& cell = d_cells[index++];
+          cell.tile = tile.get();
+          cell.all.clear();
+          cell.external.clear();
+          cell.tile->collectThdObjects(cell.all, cell.external);
+        }
       }
     }
 
-    void Simulation::updateTile(const Sdk::Vector2I& i_coords)
+    void Simulation::updateAllTiles()
     {
-      const auto tile = d_tiles->getTile(i_coords);
-      CONTRACT_ASSERT(tile);
+      for (int index = 0; index < (int)d_cells.size(); ++index)
+        updateCell(index);
+    }
+
+    void Simulation::updateCell(const int i_index)
+    {
+      const auto& cell = d_cells[i_index];
+      cell.tile->beforeExchange();
 
       // Inside the tile everything exchanges with everything
-      const auto& thdObjects = tile->getThdObjectsAll();
-      for (int j = 0; j < thdObjects.size(); ++j)
+      for (int j = 0; j < (int)cell.all.size(); ++j)
       {
-        for (int i = j + 1; i < thdObjects.size(); ++i)
-          exchangeHeat(SAFE_DEREF(thdObjects[j]), SAFE_DEREF(thdObjects[i]));
+        for (int i = j + 1; i < (int)cell.all.size(); ++i)
+          exchangeHeat(SAFE_DEREF(cell.all[j]), SAFE_DEREF(cell.all[i]));
       }
 
+      // Those at the border of the area have no neighbors to that side
+      if ((i_index + 1) % d_width != 0)
+        exchangeWithNeighbor(cell, d_cells[i_index + 1]);
+      if (i_index + d_width < (int)d_cells.size())
+        exchangeWithNeighbor(cell, d_cells[i_index + d_width]);
+    }
+
+    void Simulation::exchangeWithNeighbor(const Cell& i_cell, const Cell& i_neighbor)
+    {
+      // Empty space around has nothing to exchange
+      if (i_cell.tile == i_neighbor.tile)
+        return;
+
+      i_neighbor.tile->beforeExchange();
+
       // Between tiles only external objects exchange, so internal ones get heat only via their own tile's external objects
-      const auto& thdObjectsExternal = tile->getThdObjectsExternal();
-      for (const auto& coords : getCoordsToExchange(i_coords))
+      for (auto* thdObject : i_cell.external)
       {
-        const auto tileNeighbor = d_tiles->getTile(coords);
-        if (!tileNeighbor)
-          continue; // Skip if the neighbor is out of the area
-
-        const auto& thdObjectsNeighbor = tileNeighbor->getThdObjectsExternal();
-        for (const auto& thdObject : thdObjectsExternal)
+        for (auto* thdObjectNeighbor : i_neighbor.external)
         {
-          for (const auto& thdObjectNeighbor : thdObjectsNeighbor)
-          {
-            exchangeHeat(SAFE_DEREF(thdObject), SAFE_DEREF(thdObjectNeighbor));
+          exchangeHeat(SAFE_DEREF(thdObject), SAFE_DEREF(thdObjectNeighbor));
 
-            if (thdObject->isGas() && thdObjectNeighbor->isGas())
-              exchangeGas(SAFE_DEREF(thdObject), SAFE_DEREF(thdObjectNeighbor), d_dt);
-          }
+          if (thdObject->isGas() && thdObjectNeighbor->isGas())
+            exchangeGas(SAFE_DEREF(thdObject), SAFE_DEREF(thdObjectNeighbor), d_dt);
         }
       }
     }
 
     void Simulation::applyNewState()
     {
-      CONTRACT_EXPECT(d_tiles);
-
-      const auto& rect = d_tiles->getRect();
-      for (int y = rect.top(); y <= rect.bottom(); ++y)
+      for (const auto& cell : d_cells)
       {
-        for (int x = rect.left(); x <= rect.right(); ++x)
-        {
-          auto tile = d_tiles->getTile({ x, y });
-          CONTRACT_ASSERT(tile);
-
-          for (const auto& thdObject : tile->getThdObjectsAll())
-          {
-            CONTRACT_ASSERT(thdObject);
-            thdObject->applyTemperature();
-          }
-        }
+        for (auto* thdObject : cell.all)
+          SAFE_DEREF(thdObject).applyTemperature();
       }
     }
 
@@ -147,6 +186,8 @@ namespace Dx
       const double t1 = i_obj1.getTemperature();
       const double t2 = i_obj2.getTemperature();
       const double tDiff = t2 - t1;
+      if (tDiff == 0)
+        return;
 
       const double thermalConductivity = std::min(i_obj1.getThermalConductivity(), i_obj2.getThermalConductivity());
 
@@ -209,18 +250,20 @@ namespace Dx
       const double DiffusionCoefficient = 2;
 
       const auto gasesForDiffusion = collectGasesForDiffusion(gas1, gas2);
-      if (gasesForDiffusion.size() < 2)
+      if (gasesForDiffusion.count < 2)
         return;
 
       // Both volumes are positive here: a unit with no volume either doesn't participate or has trapped gas
       const double volume1 = gas1.getVolume();
       const double volume2 = gas2.getVolume();
 
-      for (const auto gasId : gasesForDiffusion)
+      for (int i = 0; i < gasesForDiffusion.count; ++i)
       {
+        const auto gasId = gasesForDiffusion.ids[i];
+
         // Get gas amount or zero if no gas
-        const double amount1 = gas1.getGases().count(gasId) ? gas1.getGases().at(gasId) : 0;
-        const double amount2 = gas2.getGases().count(gasId) ? gas2.getGases().at(gasId) : 0;
+        const double amount1 = getGasAmount(gas1, gasId);
+        const double amount2 = getGasAmount(gas2, gasId);
         const double concentrationDiff = amount1 / volume1 - amount2 / volume2;
 
         // Amount that makes both concentrations equal

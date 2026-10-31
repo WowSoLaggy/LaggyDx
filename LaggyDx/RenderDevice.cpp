@@ -84,6 +84,25 @@ namespace Dx
       return blendDescription;
     }
 
+    template <typename TState, typename TCache, typename TDesc, typename TCreate>
+    TState* getOrCreateState(TCache& io_cache, const TDesc& i_desc, const TCreate& i_create)
+    {
+      for (const auto& cached : io_cache)
+      {
+        if (std::memcmp(&cached.desc, &i_desc, sizeof(TDesc)) == 0)
+          return cached.state.get();
+      }
+
+      auto& cached = io_cache.emplace_back();
+      cached.desc = i_desc;
+
+      const HRESULT result = i_create(cached.state.getPp());
+      CONTRACT_ASSERT(!FAILED(result));
+      CONTRACT_ASSERT(cached.state.isNotNullptr());
+
+      return cached.state.get();
+    }
+
   } // anonym NS
 
 
@@ -179,29 +198,20 @@ namespace Dx
 
   void RenderDevice::applyRasterizerState()
   {
-    HRESULT result = d_device->CreateRasterizerState(&d_rasterizerDescription, d_rasterState.getPp());
-    CONTRACT_ASSERT(!FAILED(result));
-    CONTRACT_ASSERT(d_rasterState.isNotNullptr());
-
-    d_deviceContext->RSSetState(d_rasterState.get());
+    d_deviceContext->RSSetState(getOrCreateState<ID3D11RasterizerState>(d_rasterStates, d_rasterizerDescription,
+      [&](ID3D11RasterizerState** o_state) { return d_device->CreateRasterizerState(&d_rasterizerDescription, o_state); }));
   }
 
   void RenderDevice::applyDepthStencilState()
   {
-    HRESULT result = d_device->CreateDepthStencilState(&d_depthStencilDescription, d_depthStencilState.getPp());
-    CONTRACT_ASSERT(!FAILED(result));
-    CONTRACT_ASSERT(d_depthStencilState.isNotNullptr());
-
-    d_deviceContext->OMSetDepthStencilState(d_depthStencilState.get(), 1);
+    d_deviceContext->OMSetDepthStencilState(getOrCreateState<ID3D11DepthStencilState>(d_depthStencilStates, d_depthStencilDescription,
+      [&](ID3D11DepthStencilState** o_state) { return d_device->CreateDepthStencilState(&d_depthStencilDescription, o_state); }), 1);
   }
 
   void RenderDevice::applyBlendState()
   {
-    HRESULT result = d_device->CreateBlendState(&d_blendDescription, d_blendState.getPp());
-    CONTRACT_ASSERT(!FAILED(result));
-    CONTRACT_ASSERT(d_blendState.isNotNullptr());
-
-    d_deviceContext->OMSetBlendState(d_blendState.get(), nullptr, 0xffffffff);
+    d_deviceContext->OMSetBlendState(getOrCreateState<ID3D11BlendState>(d_blendStates, d_blendDescription,
+      [&](ID3D11BlendState** o_state) { return d_device->CreateBlendState(&d_blendDescription, o_state); }), nullptr, 0xffffffff);
   }
 
 

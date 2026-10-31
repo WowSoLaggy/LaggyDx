@@ -19,11 +19,24 @@ namespace Dx
       static void exchangeGas(IThdObject& i_obj1, IThdObject& i_obj2, double i_dt);
 
     private:
+      struct Cell
+      {
+        const ITile* tile = nullptr;
+        std::vector<IThdObject*> all;
+        std::vector<IThdObject*> external;
+      };
+
       double d_dt = 0;
       const ITileCollection* d_tiles = nullptr;
 
+      // The tiles of the area by rows, valid during a step. Kept between the steps not to allocate them anew
+      std::vector<Cell> d_cells;
+      int d_width = 0;
+
+      void collectCells();
       void updateAllTiles();
-      void updateTile(const Sdk::Vector2I& i_coords);
+      void updateCell(int i_index);
+      void exchangeWithNeighbor(const Cell& i_cell, const Cell& i_neighbor);
 
       void applyNewState();
 
