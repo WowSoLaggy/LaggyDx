@@ -2,7 +2,7 @@
 
 #include "Control.h"
 #include "LaggyDxFwd.h"
-#include "Sprite.h"
+#include "AnimatedSprite.h"
 
 
 namespace Dx
@@ -15,13 +15,15 @@ namespace Dx
     void setColor(Sdk::Vector4F i_color);
     void setRotation(float i_rotation);
     void setRotationOrigin(Sdk::Vector2F i_rotationOrigin);
+    // Of a texture with several frames, the one shown
+    void setFrame(int i_frame);
     
     virtual void setSize(Sdk::Vector2F i_size) override;
 
     virtual void render(IRenderer2d& i_renderer) const override;
 
   private:
-    Sprite d_sprite;
+    AnimatedSprite d_sprite;
   };
 
 } // ns Dx

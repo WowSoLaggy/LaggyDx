@@ -30,6 +30,11 @@ namespace Dx
     d_sprite.setRotationOrigin(std::move(i_rotationOrigin));
   }
 
+  void Panel::setFrame(const int i_frame)
+  {
+    d_sprite.setCurrentFrame(i_frame);
+  }
+
 
   void Panel::setSize(Sdk::Vector2F i_size)
   {
