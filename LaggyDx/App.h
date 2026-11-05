@@ -59,6 +59,9 @@ namespace Dx
 
     [[nodiscard]] const MouseState& getMouseState() const;
 
+    // Draws a frame at once and lets the window handle its messages: for a long synchronous job (e.g. showing its progress)
+    void renderNow();
+
   protected:
     virtual void onStart();
     virtual void onEnd();
@@ -102,6 +105,7 @@ namespace Dx
     std::unique_ptr<IControl> d_form;
 
     void mainloop();
+    void renderFrame();
     void handleKeyboard(const KeyboardState& i_keyboardState);
     void handleMouse(MouseState i_mouseState);
     void resetRelativeMouseState();

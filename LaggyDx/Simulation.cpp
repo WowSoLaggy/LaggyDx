@@ -87,6 +87,8 @@ namespace Dx
     void Simulation::update(const double i_dt, const ITileCollection& i_tiles)
     {
       d_dt = i_dt;
+      d_heatDt = i_dt * HeatEveryNSteps;
+      d_step = (d_step + 1) % HeatEveryNSteps;
       d_tiles = &i_tiles;
 
       collectCells();
@@ -115,7 +117,13 @@ namespace Dx
           cell.tile = tile.get();
           cell.all.clear();
           cell.external.clear();
+          cell.externalGas.clear();
           cell.tile->collectThdObjects(cell.all, cell.external);
+          for (auto* thdObject : cell.external)
+          {
+            if (SAFE_DEREF(thdObject).isGas())
+              cell.externalGas.push_back(thdObject);
+          }
         }
       }
     }
@@ -123,29 +131,32 @@ namespace Dx
     void Simulation::updateAllTiles()
     {
       for (int index = 0; index < (int)d_cells.size(); ++index)
-        updateCell(index);
+        updateCell(index, index % HeatEveryNSteps == d_step);
     }
 
-    void Simulation::updateCell(const int i_index)
+    void Simulation::updateCell(const int i_index, const bool i_heat)
     {
       const auto& cell = d_cells[i_index];
       cell.tile->beforeExchange();
 
       // Inside the tile everything exchanges with everything
-      for (int j = 0; j < (int)cell.all.size(); ++j)
+      if (i_heat)
       {
-        for (int i = j + 1; i < (int)cell.all.size(); ++i)
-          exchangeHeat(SAFE_DEREF(cell.all[j]), SAFE_DEREF(cell.all[i]));
+        for (int j = 0; j < (int)cell.all.size(); ++j)
+        {
+          for (int i = j + 1; i < (int)cell.all.size(); ++i)
+            exchangeHeat(SAFE_DEREF(cell.all[j]), SAFE_DEREF(cell.all[i]));
+        }
       }
 
       // Those at the border of the area have no neighbors to that side
       if ((i_index + 1) % d_width != 0)
-        exchangeWithNeighbor(cell, d_cells[i_index + 1]);
+        exchangeWithNeighbor(cell, d_cells[i_index + 1], i_heat);
       if (i_index + d_width < (int)d_cells.size())
-        exchangeWithNeighbor(cell, d_cells[i_index + d_width]);
+        exchangeWithNeighbor(cell, d_cells[i_index + d_width], i_heat);
     }
 
-    void Simulation::exchangeWithNeighbor(const Cell& i_cell, const Cell& i_neighbor)
+    void Simulation::exchangeWithNeighbor(const Cell& i_cell, const Cell& i_neighbor, const bool i_heat)
     {
       // Empty space around has nothing to exchange
       if (i_cell.tile == i_neighbor.tile)
@@ -154,15 +165,19 @@ namespace Dx
       i_neighbor.tile->beforeExchange();
 
       // Between tiles only external objects exchange, so internal ones get heat only via their own tile's external objects
-      for (auto* thdObject : i_cell.external)
+      if (i_heat)
       {
-        for (auto* thdObjectNeighbor : i_neighbor.external)
+        for (auto* thdObject : i_cell.external)
         {
-          exchangeHeat(SAFE_DEREF(thdObject), SAFE_DEREF(thdObjectNeighbor));
-
-          if (thdObject->isGas() && thdObjectNeighbor->isGas())
-            exchangeGas(SAFE_DEREF(thdObject), SAFE_DEREF(thdObjectNeighbor), d_dt);
+          for (auto* thdObjectNeighbor : i_neighbor.external)
+            exchangeHeat(SAFE_DEREF(thdObject), SAFE_DEREF(thdObjectNeighbor));
         }
+      }
+
+      for (auto* thdObject : i_cell.externalGas)
+      {
+        for (auto* thdObjectNeighbor : i_neighbor.externalGas)
+          exchangeGas(SAFE_DEREF(thdObject), SAFE_DEREF(thdObjectNeighbor), d_dt);
       }
     }
 
@@ -191,7 +206,13 @@ namespace Dx
 
       const double thermalConductivity = std::min(i_obj1.getThermalConductivity(), i_obj2.getThermalConductivity());
 
-      const double heatTransfer = thermalConductivity * tDiff * d_dt;
+      double heatTransfer = thermalConductivity * tDiff * d_heatDt;
+
+      // A long step never carries a light object past the temperature of the other (it would swing wider every time)
+      const double heatCapacity1 = i_obj1.getHeatCapacity();
+      const double heatCapacity2 = i_obj2.getHeatCapacity();
+      const double maxTransfer = 0.5 * std::abs(tDiff) * heatCapacity1 * heatCapacity2 / (heatCapacity1 + heatCapacity2);
+      heatTransfer = std::clamp(heatTransfer, -maxTransfer, maxTransfer);
       i_obj1.transferHeat(heatTransfer);
       i_obj2.transferHeat(-heatTransfer);
     }

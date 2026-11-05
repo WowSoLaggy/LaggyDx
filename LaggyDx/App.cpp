@@ -160,14 +160,26 @@ namespace Dx
     update(dt);
     updateGui(dt);
 
-    {
-      CONTRACT_ASSERT(d_renderDevice);
-      const Sdk::Locker scopeLocker(*d_renderDevice);
-      Sdk::ScopeGuard scopeGuardRenderDevice(*d_renderDevice);
+    renderFrame();
+  }
 
-      render();
-      renderGui();
-    }
+  void App::renderFrame()
+  {
+    CONTRACT_ASSERT(d_renderDevice);
+    const Sdk::Locker scopeLocker(*d_renderDevice);
+    Sdk::ScopeGuard scopeGuardRenderDevice(*d_renderDevice);
+
+    render();
+    renderGui();
+  }
+
+  void App::renderNow()
+  {
+    // Not to look hung; if it was asked to quit, the job ends first
+    if (!continueLoop())
+      stop();
+
+    renderFrame();
   }
 
 
